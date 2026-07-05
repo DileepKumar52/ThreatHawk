@@ -1,0 +1,75 @@
+<body>
+
+<nav>
+    <h1>ThreatHawk</h1>
+</nav>
+
+<section class="dashboard">
+
+    <div class="upload-box">
+        <input type="file" id="logFile">
+        <button id="uploadBtn">Upload Log</button>
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total Events</h3>
+            <p id="totalEvents">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Critical Alerts</h3>
+            <p id="criticalAlerts">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Suspicious IPs</h3>
+            <p id="suspiciousIPs">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Failed Logins</h3>
+            <p id="failedLogins">0</p>
+        </div>
+
+    </div>
+
+    <div class="panels">
+
+        <div class="chart-panel">
+            Chart goes here
+        </div>
+
+        <div class="alert-panel">
+            No alerts yet.
+        </div>
+
+    </div>
+
+    <div class="table-panel">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Severity</th>
+                    <th>Event</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+
+            <tbody id="eventTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<script src="js/app.js"></script>
+
+</body>
