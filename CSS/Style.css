@@ -1,6 +1,64 @@
-background: #050b18;
-card: #101826;
-primary: #00d4ff;
-danger: #ff4444;
-warning: #f39c12;
-success: #2ecc71;
+body {
+    background: #050b18;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    padding: 20px;
+    background: #101826;
+    color: #00d4ff;
+}
+
+.dashboard {
+    padding: 30px;
+}
+
+.upload-box,
+.card,
+.chart-panel,
+.alert-panel,
+.table-panel {
+    background: #101826;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card p {
+    font-size: 28px;
+    color: #00d4ff;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #1f2937;
+}
+
+button {
+    padding: 10px 16px;
+    background: #00d4ff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
