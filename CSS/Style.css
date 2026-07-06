@@ -1,3 +1,4 @@
+
 body {
     background: #050b18;
     color: white;
@@ -61,4 +62,40 @@ button {
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+}
+
+input[type="file"] {
+    color: #fff;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.table-panel {
+    overflow-x: auto;
+}
+
+.alert-item {
+    background: rgba(255, 68, 68, 0.12);
+    border-left: 4px solid #ff4444;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #ffb4b4;
+}
+
+td:nth-child(2) {
+    font-weight: bold;
+}
+
+td:nth-child(2):contains("Warning") {
+    color: #f39c12;
 }
