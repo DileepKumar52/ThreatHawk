@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreatHawk</title>
     <link rel="stylesheet" href="CSS/Style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -16,8 +17,17 @@
 <section class="dashboard">
 
     <div class="upload-box">
+
+        <label for="logFile" class="file-label">
+        📁 Choose Log File
+        </label>
+
         <input type="file" id="logFile" accept=".txt,.log,.csv">
-        <button id="uploadBtn">Upload Log</button>
+
+        <span id="fileName">No file selected</span>
+
+        <button id="uploadBtn">Analyze Log</button>
+
     </div>
 
     <div class="stats">
@@ -47,7 +57,7 @@
     <div class="panels">
 
         <div class="chart-panel">
-            Chart goes here
+            <canvas id="eventChart"></canvas>
         </div>
 
         <div class="alert-panel" id="alertPanel">
@@ -57,6 +67,21 @@
     </div>
 
     <div class="table-panel">
+        <div class="table-controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search events..."
+            >
+
+            <select id="severityFilter">
+                <option value="All">All Severities</option>
+                <option value="Info">Info</option>
+                <option value="Warning">Warning</option>
+            </select>
+
+        </div>
 
         <table>
 

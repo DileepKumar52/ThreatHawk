@@ -15,7 +15,6 @@ nav {
     padding: 30px;
 }
 
-.upload-box,
 .card,
 .chart-panel,
 .alert-panel,
@@ -96,6 +95,76 @@ td:nth-child(2) {
     font-weight: bold;
 }
 
-td:nth-child(2):contains("Warning") {
-    color: #f39c12;
+.warning-row {
+    background: rgba(255, 165, 0, 0.08);
+}
+
+.warning-row td:nth-child(2) {
+    color: #ffb347;
+    font-weight: bold;
+}
+
+.warning-text {
+    color: #ffb347;
+    font-weight: 700;
+}
+
+.info-text {
+    color: #22d3ee;
+    font-weight: 700;
+}
+
+.chart-panel {
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#eventChart {
+    max-height: 300px;
+}
+
+.table-controls input,
+.table-controls select {
+    background: #0f172a;
+    color: white;
+    border: 1px solid #1e293b;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.upload-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+#logFile {
+    display: none;
+}
+
+.file-label {
+    background: #0f172a;
+    color: #00d4ff;
+    border: 1px solid #00d4ff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.file-label:hover {
+    background: rgba(0, 212, 255, 0.12);
+}
+
+#fileName {
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+#uploadBtn {
+    margin-left: auto;
 }

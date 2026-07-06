@@ -9,6 +9,46 @@ const failedLogins = document.getElementById("failedLogins");
 const eventTable = document.getElementById("eventTable");
 const alertPanel = document.getElementById("alertPanel");
 
+const searchInput = document.getElementById("searchInput");
+const severityFilter = document.getElementById("severityFilter");
+let eventChart;
+
+severityFilter.addEventListener("change", filterTable);
+searchInput.addEventListener("input", filterTable);
+
+logFile.addEventListener("change", function () {
+    const file = logFile.files[0];
+    const fileName = document.getElementById("fileName");
+
+    fileName.textContent = file ? file.name : "No file selected";
+});
+
+function filterTable() {
+    const searchText = searchInput.value.toLowerCase();
+    const selectedSeverity = severityFilter.value;
+
+    const rows = document.querySelectorAll("#eventTable tr");
+
+    rows.forEach(row => {
+        const rowText = row.textContent.toLowerCase();
+        const severity =
+            row.cells[1].textContent.trim();
+
+        const matchesSearch =
+            rowText.includes(searchText);
+
+        const matchesSeverity =
+            selectedSeverity === "All" ||
+            severity === selectedSeverity;
+
+        if (matchesSearch && matchesSeverity) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
 uploadBtn.addEventListener("click", function () {
     const file = logFile.files[0];
 
@@ -59,6 +99,8 @@ function isFailedLogin(line) {
 function analyzeLogs(logLines) {
     let failedCount = 0;
     let criticalCount = 0;
+    let infoCount = 0;
+    let warningCount = 0;
 
     const ipCounts = {};
     const alerts = [];
@@ -79,12 +121,26 @@ function analyzeLogs(logLines) {
             failedCount++;
             severity = "Warning";
         }
+        if (severity === "Warning") {
+            warningCount++;
+        } 
+        else {
+            infoCount++;
+        }       
 
         const row = document.createElement("tr");
 
+        let rowClass = "";
+
+        if (severity === "Warning") {
+        rowClass = "warning-row";
+        }
+
+        row.className = rowClass;
+
         row.innerHTML = `
             <td>${time}</td>
-            <td>${severity}</td>
+            <td class="${severity === "Warning" ? "warning-text" : "info-text"}">${severity}</td>
             <td>${line}</td>
             <td>${ip}</td>
         `;
@@ -110,6 +166,8 @@ function analyzeLogs(logLines) {
     suspiciousIPs.textContent = suspiciousCount;
     criticalAlerts.textContent = criticalCount;
 
+    updateChart(infoCount, warningCount);
+
     if (alerts.length === 0) {
         alertPanel.innerHTML = "No alerts yet.";
     } else {
@@ -117,4 +175,36 @@ function analyzeLogs(logLines) {
             .map(alert => `<div class="alert-item">${alert}</div>`)
             .join("");
     }
+}
+
+function updateChart(infoCount, warningCount) {
+    const ctx = document.getElementById("eventChart");
+
+    if (eventChart) {
+        eventChart.destroy();
+    }
+
+    eventChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Info", "Warning"],
+            datasets: [{
+                data: [infoCount, warningCount],
+                backgroundColor: [
+                    "#00d4ff",
+                    "#ffb347"
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#ffffff"
+                    }
+                }
+            }
+        }
+    });
 }
