@@ -13,6 +13,15 @@ const searchInput = document.getElementById("searchInput");
 const severityFilter = document.getElementById("severityFilter");
 let eventChart;
 
+const threatScore = document.getElementById("threatScore");
+const iocList = document.getElementById("iocList");
+
+const knownMaliciousIPs = [
+    "45.227.255.206",
+    "185.143.223.11",
+    "103.88.12.45"
+];
+
 severityFilter.addEventListener("change", filterTable);
 searchInput.addEventListener("input", filterTable);
 
@@ -105,12 +114,19 @@ function analyzeLogs(logLines) {
     const ipCounts = {};
     const failedLoginCounts = {};
     const alerts = [];
+    const detectedIOCs = new Set();
+    let score = 0;
 
     eventTable.innerHTML = "";
 
     logLines.forEach(line => {
         const ip = extractIP(line);
         const time = extractTime(line);
+
+        if (knownMaliciousIPs.includes(ip)) {
+            detectedIOCs.add(ip);
+            score += 10;
+        }
 
         let severity = "Info";
 
@@ -146,7 +162,7 @@ function analyzeLogs(logLines) {
             <td>${time}</td>
             <td class="${severity === "Warning" ? "warning-text" : "info-text"}">${severity}</td>
             <td>${line}</td>
-            <td>${ip}</td>
+            <td class="${knownMaliciousIPs.includes(ip) ? "malicious-ip" : ""}">${ip}</td>
         `;
 
         eventTable.appendChild(row);
@@ -182,6 +198,38 @@ function analyzeLogs(logLines) {
     } else {
         alertPanel.innerHTML = alerts
             .map(alert => `<div class="alert-item">${alert}</div>`)
+            .join("");
+    }
+    score += criticalCount * 20;
+    score += suspiciousCount * 10;
+
+    if (score > 100) {
+        score = 100;
+    }
+
+    let threatLevel = "Low";
+
+    if (score >= 80) {
+        threatLevel = "Critical";
+    }
+    else if (score >= 50) {
+        threatLevel = "High";
+    }
+    else if (score >= 20) {
+        threatLevel = "Medium";
+    }
+
+    threatScore.innerHTML = `
+        ${score}
+        <div class="threat-level">${threatLevel}</div>
+    `;
+
+    if (detectedIOCs.size === 0) {
+        iocList.innerHTML = "No IOCs detected.";
+    } 
+    else {
+        iocList.innerHTML = Array.from(detectedIOCs)
+            .map(ip => `<div class="ioc-item">🚨 Known malicious IP detected: ${ip}</div>`)
             .join("");
     }
 }
