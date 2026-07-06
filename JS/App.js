@@ -103,6 +103,7 @@ function analyzeLogs(logLines) {
     let warningCount = 0;
 
     const ipCounts = {};
+    const failedLoginCounts = {};
     const alerts = [];
 
     eventTable.innerHTML = "";
@@ -120,6 +121,9 @@ function analyzeLogs(logLines) {
         if (isFailedLogin(line)) {
             failedCount++;
             severity = "Warning";
+            if (ip !== "-") {
+                failedLoginCounts[ip] = (failedLoginCounts[ip] || 0) + 1;
+            }
         }
         if (severity === "Warning") {
             warningCount++;
@@ -148,18 +152,23 @@ function analyzeLogs(logLines) {
         eventTable.appendChild(row);
     });
 
-    Object.keys(ipCounts).forEach(ip => {
-        if (ipCounts[ip] >= 5) {
-            alerts.push(`⚠ Suspicious activity from ${ip} (${ipCounts[ip]} events)`);
+    Object.keys(failedLoginCounts).forEach(ip => {
+        if (failedLoginCounts[ip] >= 10) {
+            alerts.push(`⚠ Suspicious failed logins from ${ip} (${failedLoginCounts[ip]} attempts)`);
         }
     });
 
-    const suspiciousCount = Object.values(ipCounts).filter(count => count >= 5).length;
+    const suspiciousCount = Object.values(failedLoginCounts).filter(count => count >= 10).length;
 
-    if (failedCount >= 5) {
-        criticalCount++;
-        alerts.push(`🚨 Possible brute force activity detected: ${failedCount} failed logins`);
-    }
+    Object.keys(failedLoginCounts).forEach(ip => {
+        if (failedLoginCounts[ip] >= 20) {
+            criticalCount++;
+
+            alerts.push(
+                `🚨 Brute force attack detected from ${ip} (${failedLoginCounts[ip]} failed attempts)`
+            );
+        }
+    });
 
     totalEvents.textContent = logLines.length;
     failedLogins.textContent = failedCount;
