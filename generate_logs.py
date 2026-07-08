@@ -21,7 +21,7 @@ ports = [22, 80, 443, 8080, 3306]
 start = datetime(2026, 7, 6, 10, 0, 0)
 
 with open("big_ssh_logs.txt", "w") as f:
-    for i in range(5000):
+    for i in range(500):
         timestamp = start + timedelta(seconds=i)
 
         event_type = random.randint(1, 100)
