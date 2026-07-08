@@ -463,6 +463,49 @@ td:nth-child(2) {
         padding: 28px 24px;
     }
 
+    .hero h2 {
+        font-size: 42px;
+        line-height: 1.12;
+    }
+
+    .hero {
+        padding: 42px 24px;
+    }
+
+    .hero-actions {
+        gap: 14px;
+    }
+
+    .primary-link,
+    .secondary-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-heading h2 {
+        font-size: 36px;
+        line-height: 1.15;
+    }
+
+    .card,
+    .feature-card,
+    .chart-panel,
+    .alert-panel,
+    .ioc-panel,
+    .summary-panel,
+    .table-panel {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table-panel {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 720px;
+    }
+
     .upload-box {
         flex-direction: column;
         align-items: stretch;
