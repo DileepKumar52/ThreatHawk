@@ -10,11 +10,51 @@
 
 <body>
 
-<nav>
+<nav class="top-nav">
     <h1>ThreatHawk</h1>
+
+    <div class="nav-links">
+        <a href="#tool">Analyzer</a>
+        <a href="#features">Features</a>
+        <a href="#summary">Report</a>
+        <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank">GitHub</a>
+    </div>
 </nav>
 
-<section class="dashboard">
+<header class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">Cybersecurity Log Analysis Tool</p>
+        <h2>Detect brute-force attacks, suspicious IPs, failed logins, and IOCs in seconds.</h2>
+        <p class="hero-text">
+            ThreatHawk helps analysts review SSH and authentication logs, highlight suspicious activity,
+            calculate a threat score, and export a quick incident report.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#tool" class="primary-link">Start Analyzing</a>
+            <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" class="secondary-link">View Source</a>
+        </div>
+    </div>
+</header>
+
+<section class="features" id="features">
+    <div class="feature-card">
+        <h3>IOC Detection</h3>
+        <p>Flags known malicious IP addresses found inside uploaded logs.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Brute-Force Detection</h3>
+        <p>Identifies repeated failed login attempts from suspicious sources.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Threat Scoring</h3>
+        <p>Generates a simple score and level to summarize incident severity.</p>
+    </div>
+</section>
+
+<section class="dashboard" id="tool">
 
     <div class="upload-box">
 
@@ -72,6 +112,13 @@
     <div class="ioc-panel">
         <h2>Detected IOCs</h2>
         <div id="iocList">No IOCs detected.</div>
+    </div>
+
+    <div class="summary-panel">
+        <h2>Incident Summary</h2>
+        <div id="incidentSummary">No incident summary generated.</div>
+        <div id="recommendations"></div>
+        <button id="exportReportBtn">Export Report</button>
     </div>
 
     <div class="table-panel">

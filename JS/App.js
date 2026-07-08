@@ -16,6 +16,13 @@ let eventChart;
 const threatScore = document.getElementById("threatScore");
 const iocList = document.getElementById("iocList");
 
+const incidentSummary = document.getElementById("incidentSummary");
+const exportReportBtn = document.getElementById("exportReportBtn");
+
+let latestReport = "";
+
+const recommendations = document.getElementById("recommendations");
+
 const knownMaliciousIPs = [
     "45.227.255.206",
     "185.143.223.11",
@@ -232,6 +239,77 @@ function analyzeLogs(logLines) {
             .map(ip => `<div class="ioc-item">🚨 Known malicious IP detected: ${ip}</div>`)
             .join("");
     }
+
+    latestReport = `
+    ThreatHawk Incident Report
+    --------------------------
+
+    Threat Score: ${score}
+    Threat Level: ${threatLevel}
+
+    Total Events: ${logLines.length}
+    Failed Logins: ${failedCount}
+    Suspicious IPs: ${suspiciousCount}
+    Critical Alerts: ${criticalCount}
+
+    Detected IOCs:
+    ${detectedIOCs.size === 0 ? "None" : Array.from(detectedIOCs).join(", ")}
+
+    Summary:
+    ${criticalCount > 0 ? "Possible brute-force activity detected." : "No critical brute-force activity detected."}
+    ${detectedIOCs.size > 0 ? "Known malicious IP addresses were found in the logs." : "No known malicious IPs were found."}
+    `;
+
+    let threatClass = "threat-low";
+
+    if (threatLevel === "Critical") {
+        threatClass = "threat-critical";
+    }
+    else if (threatLevel === "High") {
+        threatClass = "threat-high";
+    }
+    else if (threatLevel === "Medium") {
+        threatClass = "threat-medium";
+    }
+
+    incidentSummary.innerHTML = `
+    <p>
+    <strong>Threat Level:</strong>
+    <span class="${threatClass}">
+    ${threatLevel}
+    </span>
+    </p>
+
+    <p><strong>Threat Score:</strong> ${score}</p>
+    <p><strong>Total Events:</strong> ${logLines.length}</p>
+    <p><strong>Failed Logins:</strong> ${failedCount}</p>
+    <p><strong>Suspicious IPs:</strong> ${suspiciousCount}</p>
+    <p><strong>Critical Alerts:</strong> ${criticalCount}</p>
+    `;
+
+    let recommendationText = "";
+
+    if (threatLevel === "Critical") {
+        recommendationText =
+            "Immediately block malicious IPs and investigate compromised accounts.";
+    }
+    else if (threatLevel === "High") {
+        recommendationText =
+            "Review authentication logs and monitor affected systems.";
+    }
+    else if (threatLevel === "Medium") {
+        recommendationText =
+            "Increase monitoring and verify suspicious activities.";
+    }
+    else {
+        recommendationText =
+            "No immediate action required.";
+    }
+
+    recommendations.innerHTML =
+        `<p><strong>Recommendation:</strong>
+         ${recommendationText}</p>`;
+
 }
 
 function updateChart(infoCount, warningCount) {
@@ -265,3 +343,21 @@ function updateChart(infoCount, warningCount) {
         }
     });
 }
+
+exportReportBtn.addEventListener("click", function () {
+    if (!latestReport) {
+        alert("Please analyze a log file first.");
+        return;
+    }
+
+    const blob = new Blob([latestReport], {
+        type: "text/plain"
+    });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "threathawk-incident-report.txt";
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+});

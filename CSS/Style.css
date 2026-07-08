@@ -5,6 +5,118 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.top-nav {
+    background: #101826;
+    padding: 28px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1f2b3d;
+}
+
+.top-nav h1 {
+    color: #00d9ff;
+    font-size: 34px;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #00d9ff;
+}
+
+.hero {
+    padding: 70px 36px;
+    background:
+        radial-gradient(circle at top right, rgba(0, 217, 255, 0.18), transparent 35%),
+        #08111f;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.eyebrow {
+    color: #00d9ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+.hero h2 {
+    color: #ffffff;
+    font-size: 52px;
+    line-height: 1.08;
+    margin: 0 0 20px;
+}
+
+.hero-text {
+    color: #b7c3d4;
+    font-size: 18px;
+    max-width: 760px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.primary-link,
+.secondary-link {
+    padding: 14px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.primary-link {
+    background: #00d9ff;
+    color: #020617;
+}
+
+.secondary-link {
+    border: 1px solid #00d9ff;
+    color: #00d9ff;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    padding: 32px 36px;
+    background: #020617;
+}
+
+.feature-card {
+    background: #111827;
+    border: 1px solid #1f2b3d;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.feature-card h3 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #aebbd0;
+    line-height: 1.6;
+}
+
 nav {
     padding: 20px;
     background: #101826;
@@ -199,4 +311,60 @@ td:nth-child(2) {
     font-size: 16px;
     color: #94a3b8;
     font-weight: 600;
+}
+
+.summary-panel {
+    background: #101826;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+#incidentSummary {
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+#exportReportBtn {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+
+.threat-critical {
+    color: #ef4444;
+}
+
+.threat-high {
+    color: #f97316;
+}
+
+.threat-medium {
+    color: #eab308;
+}
+
+.threat-low {
+    color: #22c55e;
+}
+
+@media (max-width: 900px) {
+    .top-nav {
+        flex-direction: column;
+        gap: 18px;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .hero h2 {
+        font-size: 34px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
 }
