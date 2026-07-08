@@ -118,7 +118,6 @@ function analyzeLogs(logLines) {
     let infoCount = 0;
     let warningCount = 0;
 
-    const ipCounts = {};
     const failedLoginCounts = {};
     const alerts = [];
     const detectedIOCs = new Set();
@@ -137,9 +136,6 @@ function analyzeLogs(logLines) {
 
         let severity = "Info";
 
-        if (ip !== "-") {
-            ipCounts[ip] = (ipCounts[ip] || 0) + 1;
-        }
 
         if (isFailedLogin(line)) {
             failedCount++;
