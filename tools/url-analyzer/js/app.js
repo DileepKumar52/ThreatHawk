@@ -662,7 +662,27 @@ function renderFindings(findings) {
         .join("");
 }
 
-function analyzeURL() {
+async function checkSafeBrowsing(url) {
+    const response = await fetch("/api/safe-browsing", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ url })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.error || "Safe Browsing request failed."
+        );
+    }
+
+    return data;
+}
+
+async function analyzeURL() {
 
     let input = urlInput.value.trim();
 
@@ -748,10 +768,60 @@ function analyzeURL() {
                 input
             );
 
-            updateRiskMeter(riskAnalysis.score);
-            renderFindings(riskAnalysis.findings);
+            let finalScore = riskAnalysis.score;
+            const finalFindings = [...riskAnalysis.findings];
 
-    }
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = "Checking Reputation...";
+
+            try {
+                const reputationResult =
+                await checkSafeBrowsing(input);
+
+                if (
+                    reputationResult.checked &&
+                    reputationResult.safe === false
+                ) {
+                    const threatNames =
+                    reputationResult.threats
+                    ?.map(item => item.threatType)
+                    .filter(Boolean) || [];
+
+                    const uniqueThreats =
+                    [...new Set(threatNames)];
+
+                    addFinding(
+                        finalFindings,
+                        100,
+                        "Google Safe Browsing threat detected",
+                        uniqueThreats.length
+                        ? `Google classified this URL as: ${uniqueThreats.join(", ")}.`
+                        : "Google Safe Browsing identified this URL as unsafe."
+                    );
+
+                    finalScore = 100;
+                }
+            } catch (error) {
+                console.error(
+                        "Safe Browsing check failed:",
+                    error
+                );
+
+                addFinding(
+                    finalFindings,
+                    0,
+                        "Reputation check unavailable",
+                        "The local analysis completed, but Google Safe Browsing could not be reached."
+                );
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = "Analyze URL";
+            }
+
+            updateRiskMeter(finalScore);
+            renderFindings(finalFindings);
+
+        }
 
     catch {
 
