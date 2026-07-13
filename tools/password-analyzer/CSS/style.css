@@ -1,0 +1,391 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0b0f19;
+    color:white;
+    font-family:Segoe UI, sans-serif;
+}
+
+.navbar{
+    padding:20px 50px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:#00e5ff;
+}
+
+.hero{
+    height:80vh;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+.hero h1{
+    font-size:64px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    width:700px;
+    max-width:90%;
+
+    color:#a0a0a0;
+
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+.hero-btn{
+    padding:15px 35px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#00e5ff;
+    color:black;
+
+    font-size:18px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+#passwordInput {
+    width: 420px;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #1e293b;
+    background: #111827;
+    color: white;
+    transition: all 0.5s ease;
+}
+
+#analyzeBtn {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    background: #00e5ff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#suggestions{
+    margin-top:30px;
+    background:rgba(255,255,255,0.03);
+    border-radius:20px;
+    padding:30px;
+    color: #cbd5e1;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+#suggestions ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+#suggestions li {
+    margin-bottom: 8px;
+    color: #cbd5e1;
+}
+
+#suggestions ul {
+    width: fit-content;
+    margin: 10px auto;
+    text-align: left;
+}
+
+#analyzeBtn {
+    transition: all 0.3s ease;
+}
+
+#analyzeBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0,229,255,0.4);
+}
+
+#result,
+#suggestions {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#requirements{
+    width: fit-content;
+    margin:20px auto;
+    text-align:left;
+    line-height:2;
+    color:#cbd5e1;
+    font-size:15px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 20px 30px;
+    border-radius: 15px;
+}
+
+#requirements div{
+    transition:0.3s ease;
+}
+
+.valid{
+    color:#22c55e;
+    transform: scale(1.05);
+}
+
+.invalid{
+    color:#ef4444;
+}
+
+body.light-mode #requirements{
+    color:#334155;
+}
+
+#result {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 25px;
+    max-width: 650px;
+    width: 100%;
+    min-height:220px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+
+#suggestions strong {
+    color: #00e5ff;
+}
+
+#themeToggle {
+    padding: 10px 18px;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    background: #111827;
+    color: #cbd5e1;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.light-mode {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+body.light-mode .hero p {
+    color: #475569;
+}
+
+body.light-mode #passwordInput,
+body.light-mode #togglePassword {
+    background: #ffffff;
+    color: #080a10;
+    border: 1px solid #cbd5e1;
+}
+
+body.light-mode #result {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+body.light-mode #suggestions {
+    color: #0c0e11;
+}
+
+body.light-mode #themeToggle {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+body,
+#result,
+#passwordInput,
+#themeToggle,
+#suggestions {
+    transition: all 0.3s ease;
+}
+
+body.light-mode #suggestions li {
+    color: #334155;
+}
+
+#generatePassword {
+    padding: 14px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#generatePassword:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(34,197,94,0.4);
+}
+
+#togglePassword,
+#copyPassword {
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#togglePassword:hover,
+#copyPassword:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0,229,255,0.25);
+}
+
+body.light-mode #togglePassword,
+body.light-mode #copyPassword {
+    background: white;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+}
+
+.dashboard-layout {
+    width: 92%;
+    max-width: 1250px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 45px;
+    align-items: center;
+}
+
+.main-panel {
+    width: 100%;
+    text-align: center;
+}
+
+.meter-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.meter-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+#strengthPercent {
+    font-size: 36px;
+    font-weight: bold;
+    color: #00e5ff;
+}
+
+#strengthText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00e5ff;
+    margin-bottom: 20px;
+}
+
+.strength-meter {
+    width: 48px;
+    height: 330px;
+    background: #1e293b;
+    background: linear-gradient(
+        to top,
+        #ef4444,
+        #f97316,
+        #eab308,
+        #3b82f6,
+        #22c55e
+    );
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 30px;
+    padding: 5px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+#strengthLevel {
+    width: 100%;
+    height: 0%;
+    background: #ef4444;
+    border-radius: 25px;
+    transition: height 0.4s ease, background 0.4s ease;
+    box-shadow: 0 0 18px currentColor;
+}
+
+.info-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+@media(max-width:900px){
+    .info-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+.strength-meter{
+    position: relative;
+    overflow: hidden;
+}
+
+.strength-meter::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            to top,
+            transparent 0px,
+            transparent 14px,
+            rgba(0,0,0,0.4) 14px,
+            rgba(0,0,0,0.4) 18px
+        );
+    pointer-events:none;
+}
+
+body.light-mode #requirements,
+body.light-mode #result,
+body.light-mode #suggestions {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatHawk</title>
+    <link rel="stylesheet" href="CSS/Style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<nav class="top-nav">
+    <h1>ThreatHawk</h1>
+
+    <div class="nav-links">
+        <a href="#tool">Analyzer</a>
+        <a href="#features">Features</a>
+        <a href="#incidentSummary">Report</a>
+        <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank">GitHub</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">Cybersecurity Log Analysis Tool</p>
+        <h2>Detect brute-force attacks, suspicious IPs, failed logins, and IOCs in seconds.</h2>
+        <p class="hero-text">
+            ThreatHawk helps analysts review SSH and authentication logs, highlight suspicious activity,
+            calculate a threat score, and export a quick incident report.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#tool" class="primary-link">Start Analyzing</a>
+            <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" class="secondary-link">View Source</a>
+        </div>
+    </div>
+</header>
+
+<section class="features" id="features">
+    <div class="feature-card">
+        <h3>IOC Detection</h3>
+        <p>Flags known malicious IP addresses found inside uploaded logs.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Brute-Force Detection</h3>
+        <p>Identifies repeated failed login attempts from suspicious sources.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Threat Scoring</h3>
+        <p>Generates a simple score and level to summarize incident severity.</p>
+    </div>
+</section>
+
+<section class="dashboard" id="tool">
+    
+    <div class="section-heading">
+        <p class="eyebrow">Live Analyzer</p>
+        <h2>Upload a log file to begin threat analysis.</h2>
+        <p>
+            ThreatHawk reviews your logs for suspicious IP activity, failed login patterns,
+            known IOCs, brute-force attempts, and overall incident severity.
+        </p>
+    </div>
+
+    <div class="upload-box">
+
+        <label for="logFile" class="file-label">
+        📁 Choose Log File
+        </label>
+
+        <input type="file" id="logFile" accept=".txt,.log,.csv">
+
+        <span id="fileName">No file selected</span>
+
+        <button id="uploadBtn">Analyze Log</button>
+        
+        <p id="loadingMessage" class="loading-message"></p>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total Events</h3>
+            <p id="totalEvents">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Critical Alerts</h3>
+            <p id="criticalAlerts">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Suspicious IPs</h3>
+            <p id="suspiciousIPs">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Failed Logins</h3>
+            <p id="failedLogins">0</p>
+        </div>
+        <div class="card">
+            <h3>Threat Score</h3>
+            <p id="threatScore">0</p>
+        </div>
+    </div>
+
+    <div class="panels">
+
+        <div class="chart-panel">
+            <canvas id="eventChart"></canvas>
+        </div>
+
+        <div class="alert-panel" id="alertPanel">
+            No alerts yet.
+        </div>
+
+    </div>
+
+    <div class="ioc-panel">
+        <h2>Detected IOCs</h2>
+        <div id="iocList">No IOCs detected.</div>
+    </div>
+
+    <div class="summary-panel">
+        <h2>Incident Summary</h2>
+        <div id="incidentSummary">No incident summary generated.</div>
+        <div id="recommendations"></div>
+        <button id="exportReportBtn">Export Report</button>
+    </div>
+
+    <div class="table-panel">
+        <div class="table-controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search events..."
+            >
+
+            <select id="severityFilter">
+                <option value="All">All Severities</option>
+                <option value="Info">Info</option>
+                <option value="Warning">Warning</option>
+            </select>
+
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Severity</th>
+                    <th>Event</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+
+            <tbody id="eventTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<script src="JS/App.js"></script>
+
+<footer class="footer">
+    <h3>ThreatHawk</h3>
+    <p>Cybersecurity Log Analyzer built for SOC practice, portfolio building, and incident review.</p>
+    <p>Built by Dileep Kumar • HTML • CSS • JavaScript • GitHub Pages</p>
+</footer>
+
+</body>
+</html>

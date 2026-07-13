@@ -3,180 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatHawk</title>
-    <link rel="stylesheet" href="CSS/Style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>ThreatHawk | Browser-Based Cybersecurity Platform</title>
+
+    <meta name="description" content="ThreatHawk is a browser-based cybersecurity platform offering password analysis, URL inspection, hash analysis and security log investigation.">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<nav class="top-nav">
-    <h1>ThreatHawk</h1>
+    <!-- ===================== -->
+    <!-- Navigation -->
+    <!-- ===================== -->
 
-    <div class="nav-links">
-        <a href="#tool">Analyzer</a>
-        <a href="#features">Features</a>
-        <a href="#incidentSummary">Report</a>
-        <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank">GitHub</a>
-    </div>
-</nav>
+    <header class="navbar">
 
-<header class="hero">
-    <div class="hero-content">
-        <p class="eyebrow">Cybersecurity Log Analysis Tool</p>
-        <h2>Detect brute-force attacks, suspicious IPs, failed logins, and IOCs in seconds.</h2>
-        <p class="hero-text">
-            ThreatHawk helps analysts review SSH and authentication logs, highlight suspicious activity,
-            calculate a threat score, and export a quick incident report.
-        </p>
+        <div class="logo">
 
-        <div class="hero-actions">
-            <a href="#tool" class="primary-link">Start Analyzing</a>
-            <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" class="secondary-link">View Source</a>
+            <h2>ThreatHawk</h2>
+
         </div>
-    </div>
-</header>
 
-<section class="features" id="features">
-    <div class="feature-card">
-        <h3>IOC Detection</h3>
-        <p>Flags known malicious IP addresses found inside uploaded logs.</p>
-    </div>
+        <nav>
 
-    <div class="feature-card">
-        <h3>Brute-Force Detection</h3>
-        <p>Identifies repeated failed login attempts from suspicious sources.</p>
-    </div>
+            <ul>
 
-    <div class="feature-card">
-        <h3>Threat Scoring</h3>
-        <p>Generates a simple score and level to summarize incident severity.</p>
-    </div>
-</section>
+                <li><a href="#home">Home</a></li>
 
-<section class="dashboard" id="tool">
-    
-    <div class="section-heading">
-        <p class="eyebrow">Live Analyzer</p>
-        <h2>Upload a log file to begin threat analysis.</h2>
+                <li><a href="#modules">Modules</a></li>
+
+                <li><a href="#capabilities">Capabilities</a></li>
+
+                <li><a href="#roadmap">Roadmap</a></li>
+
+                <li><a href="#about">About</a></li>
+
+            </ul>
+
+        </nav>
+
+        <div class="version">
+
+            Version 1.0
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ===================== -->
+    <!-- Hero -->
+    <!-- ===================== -->
+
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-tag">
+
+                THREATHAWK PLATFORM
+
+            </p>
+
+            <h1>
+
+                Browser-Based Cybersecurity Platform
+
+            </h1>
+
+            <p class="hero-description">
+
+                Analyze passwords, URLs, hashes and security logs through one unified browser-based security platform.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#modules" class="primary-btn">
+
+                    Explore Modules
+
+                </a>
+
+                <a href="https://github.com/" target="_blank" class="secondary-btn">
+
+                    GitHub
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- Modules -->
+    <!-- ===================== -->
+
+    <section id="modules" class="modules-section">
+
+        <div class="section-heading">
+
+            <h2>
+
+                Trusted Security Modules
+
+            </h2>
+
+            <p>
+
+                Purpose-built browser-based modules for security analysis, investigation and threat detection.
+
+            </p>
+
+        </div>
+
+        <div class="module-grid">
+
+            <article class="module-card">
+
+                <div class="module-icon" aria-hidden="true">
+
+                    <svg viewBox="0 0 24 24">
+                        <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+                        <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                        <path d="M12 14v2"></path>
+                    </svg>
+
+                </div>
+
+                <h3>
+
+                    Password Intelligence
+
+                </h3>
+
+                <p>
+
+                    Evaluate password strength, estimate crack time, identify weaknesses and generate secure passwords.
+
+                </p>
+
+                <a href="tools/password-intelligence/" class="module-button">
+
+                    Launch Module
+
+                </a>
+
+            </article>
+
+
+
+            <article class="module-card">
+
+                <div class="module-icon" aria-hidden="true">
+
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M3 12h18"></path>
+                        <path d="M12 3a14 14 0 0 1 0 18"></path>
+                        <path d="M12 3a14 14 0 0 0 0 18"></path>
+                    </svg>
+
+                </div>
+
+                <h3>
+
+                    URL Analyzer
+
+                </h3>
+
+                <p>
+
+                    Detect suspicious URLs through structural analysis, phishing indicators and live reputation intelligence.
+
+                </p>
+
+                <a href="tools/url-analyzer/" class="module-button">
+
+                    Launch Module
+
+                </a>
+
+            </article>
+
+
+
+            <article class="module-card">
+
+                <div class="module-icon" aria-hidden="true">
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 3 8 21"></path>
+                        <path d="m16 3-2 18"></path>
+                        <path d="M4 9h16"></path>
+                        <path d="M3 15h16"></path>
+                    </svg>
+
+                </div>
+
+                <h3>
+
+                    Hash Analyzer
+
+                </h3>
+
+                <p>
+
+                    Identify cryptographic hashes, analyze multiple hashes and simplify malware investigation workflows.
+
+                </p>
+
+                <a href="tools/hash-analyzer/" class="module-button">
+
+                    Launch Module
+
+                </a>
+
+            </article>
+
+
+
+            <article class="module-card">
+
+                <div class="module-icon" aria-hidden="true">
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 3h9l3 3v15H6z"></path>
+                        <path d="M14 3v4h4"></path>
+                        <path d="M9 12h6"></path>
+                        <path d="M9 16h6"></path>
+                    </svg>
+
+                </div>
+
+                <h3>
+
+                    Log Analysis
+
+                </h3>
+
+                <p>
+
+                    Upload security logs, extract indicators of compromise and generate investigation reports.
+
+                </p>
+
+                <a href="tools/log-analysis/" class="module-button">
+
+                    Launch Module
+
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- Capabilities -->
+    <!-- ===================== -->
+
+    <section id="capabilities" class="capabilities">
+
+        <div class="section-heading">
+
+            <h2>
+
+                Platform Capabilities
+
+            </h2>
+
+        </div>
+
+        <div class="capability-grid">
+
+            <div class="capability-card">
+
+                <h3>Browser-Based Analysis</h3>
+
+                <p>
+                    Use ThreatHawk directly from the browser without installing
+                    additional software or configuring a local environment.
+                </p>
+
+            </div>
+
+            <div class="capability-card">
+
+                <h3>Privacy-Focused Processing</h3>
+
+                <p>
+                    Most analysis is performed locally in the browser, helping reduce
+                    unnecessary exposure of sensitive security data.
+                </p>
+
+            </div>
+
+            <div class="capability-card">
+
+                <h3>Live Threat Intelligence</h3>
+
+                <p>
+                    Verify suspicious indicators using external reputation services
+                    and current threat intelligence sources.
+                </p>
+
+            </div>
+
+            <div class="capability-card">
+
+                <h3>Exportable Security Reports</h3>
+
+                <p>
+                    Generate structured reports for investigation, documentation,
+                    evidence collection and incident review.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- Architecture -->
+    <!-- ===================== -->
+
+    <section class="architecture">
+
+        <div class="section-heading">
+
+            <h2>
+
+                ThreatHawk Architecture
+
+            </h2>
+
+        </div>
+
+        <div class="architecture-diagram">
+
+            <div class="architecture-box">
+
+                ThreatHawk Core
+
+            </div>
+
+            <div class="architecture-row">
+
+                <div>Password Intelligence</div>
+
+                <div>URL Analyzer</div>
+
+                <div>Hash Analyzer</div>
+
+                <div>Log Analysis</div>
+
+            </div>
+
+            <div class="architecture-box">
+
+                Analysis Engine
+
+            </div>
+
+            <div class="architecture-box">
+
+                Threat Intelligence Layer
+
+            </div>
+
+            <div class="architecture-box">
+
+                Security Report
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- Roadmap -->
+    <!-- ===================== -->
+
+    <section id="roadmap" class="roadmap">
+
+        <div class="section-heading">
+
+            <h2>
+
+                Platform Roadmap
+
+            </h2>
+
+        </div>
+
+        <div class="roadmap-wrapper">
+
+            <div class="current">
+
+                <h3>
+
+                    Current Modules
+
+                </h3>
+
+                <ul>
+
+                    <li>✔ Password Intelligence</li>
+                    <li>✔ URL Analyzer</li>
+                    <li>✔ Hash Analyzer</li>
+                    <li>✔ Log Analysis</li>
+
+                </ul>
+
+            </div>
+
+            <div class="future">
+
+                <h3>
+
+                    Planned Modules
+
+                </h3>
+
+                <ul>
+
+                    <li>WHOIS Intelligence</li>
+                    <li>DNS Intelligence</li>
+                    <li>IP Reputation</li>
+                    <li>IOC Lookup</li>
+                    <li>Malware Sandbox</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- About -->
+    <!-- ===================== -->
+
+    <section id="about" class="about">
+
+        <div class="section-heading">
+
+            <h2>
+
+                About ThreatHawk
+
+            </h2>
+
+        </div>
+
         <p>
-            ThreatHawk reviews your logs for suspicious IP activity, failed login patterns,
-            known IOCs, brute-force attempts, and overall incident severity.
+
+            ThreatHawk is a browser-based cybersecurity platform designed to simplify security analysis through modern, accessible and privacy-focused tools.
+
         </p>
-    </div>
 
-    <div class="upload-box">
+        <div class="mission">
 
-        <label for="logFile" class="file-label">
-        📁 Choose Log File
-        </label>
+            <h3>Mission</h3>
 
-        <input type="file" id="logFile" accept=".txt,.log,.csv">
-
-        <span id="fileName">No file selected</span>
-
-        <button id="uploadBtn">Analyze Log</button>
-        
-        <p id="loadingMessage" class="loading-message"></p>
-
-    </div>
-
-    <div class="stats">
-
-        <div class="card">
-            <h3>Total Events</h3>
-            <p id="totalEvents">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Critical Alerts</h3>
-            <p id="criticalAlerts">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Suspicious IPs</h3>
-            <p id="suspiciousIPs">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Failed Logins</h3>
-            <p id="failedLogins">0</p>
-        </div>
-        <div class="card">
-            <h3>Threat Score</h3>
-            <p id="threatScore">0</p>
-        </div>
-    </div>
-
-    <div class="panels">
-
-        <div class="chart-panel">
-            <canvas id="eventChart"></canvas>
-        </div>
-
-        <div class="alert-panel" id="alertPanel">
-            No alerts yet.
-        </div>
-
-    </div>
-
-    <div class="ioc-panel">
-        <h2>Detected IOCs</h2>
-        <div id="iocList">No IOCs detected.</div>
-    </div>
-
-    <div class="summary-panel">
-        <h2>Incident Summary</h2>
-        <div id="incidentSummary">No incident summary generated.</div>
-        <div id="recommendations"></div>
-        <button id="exportReportBtn">Export Report</button>
-    </div>
-
-    <div class="table-panel">
-        <div class="table-controls">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search events..."
-            >
-
-            <select id="severityFilter">
-                <option value="All">All Severities</option>
-                <option value="Info">Info</option>
-                <option value="Warning">Warning</option>
-            </select>
+            <p>
+                ThreatHawk aims to make practical cybersecurity analysis more
+                accessible by providing clear, browser-based tools that support
+                learning, investigation and threat detection.
+            </p>
 
         </div>
 
-        <table>
+        <h3>
 
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Severity</th>
-                    <th>Event</th>
-                    <th>IP</th>
-                </tr>
-            </thead>
+            Built by
 
-            <tbody id="eventTable">
+        </h3>
 
-            </tbody>
+        <p>
 
-        </table>
+            Dileep Kumar
 
-    </div>
+        </p>
 
-</section>
+    </section>
 
-<script src="JS/App.js"></script>
 
-<footer class="footer">
-    <h3>ThreatHawk</h3>
-    <p>Cybersecurity Log Analyzer built for SOC practice, portfolio building, and incident review.</p>
-    <p>Built by Dileep Kumar • HTML • CSS • JavaScript • GitHub Pages</p>
-</footer>
+
+    <!-- ===================== -->
+    <!-- Footer -->
+    <!-- ===================== -->
+
+    <footer>
+
+        <h2>
+
+            ThreatHawk
+
+        </h2>
+
+        <p>
+
+            Browser-Based Cybersecurity Platform
+
+        </p>
+
+        <p>
+
+            Version 1.0
+
+        </p>
+
+    </footer>
+
+    <script src="js/app.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherForge - Password Intelligence</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">CipherForge</div>
+        <button id="themeToggle">Light Mode</button>
+    </nav>
+
+    <section class="hero">
+        <div class="dashboard-layout">
+
+            <aside class="meter-panel">
+            <p class="meter-title">Strength</p>
+            <div id="strengthPercent">0%</div>
+            <div id="strengthText">Very Weak</div>
+
+            <div class="strength-meter">
+            <div id="strengthLevel"></div>
+            </div>
+            </aside>
+
+            <div class="main-panel">
+
+                <h1>Password Intelligence</h1>
+
+                <p>
+                    Analyze password strength, estimate crack time,
+                    detect weak patterns and improve your digital security.
+                </p>
+
+                <div class="password-box">
+
+                    <input
+                        id="passwordInput"
+                        type="password"
+                        placeholder="Enter your password..."
+                    >
+
+                    <button id="togglePassword">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button id="copyPassword">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                    <button id="analyzeBtn">Analyze</button>
+                    <button id="generatePassword">🔐 Generate</button>
+
+                    <div class="info-grid">
+                        <div id="requirements">
+                        <div id="reqLength">❌ At least 8 characters</div>
+                        <div id="reqUpper">❌ One uppercase letter</div>
+                        <div id="reqLower">❌ One lowercase letter</div>
+                        <div id="reqNumber">❌ One number</div>
+                        <div id="reqSpecial">❌ One special character</div>
+                        </div>
+                        <div id="result"></div>
+                    </div>
+                    
+                    <div id="suggestions"></div>
+                </div>
+            </div>
+        
+        </div>
+
+    </section>
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
