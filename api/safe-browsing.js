@@ -1,75 +1,45 @@
-const allowedOrigins = [
-    "https://threathawk.xyz",
-    "https://www.threathawk.xyz"
-];
+export default async function handler(req, res) {
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "*"
+    );
 
-function getCorsOrigin(request) {
-    const origin = request.headers.get("origin");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "POST, OPTIONS"
+    );
 
-    /*
-     * Allow any origin temporarily while testing locally.
-     * We will restrict this after deployment works.
-     */
-    if (!origin || origin === "null") {
-        return "*";
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type"
+    );
+
+    if (req.method === "OPTIONS") {
+        return res.status(204).end();
     }
 
-    return allowedOrigins.includes(origin)
-        ? origin
-        : "*";
-}
-
-function createJSONResponse(request, data, status = 200) {
-    return new Response(JSON.stringify(data), {
-        status,
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": getCorsOrigin(request),
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type"
-        }
-    });
-}
-
-export default async function handler(request) {
-    if (request.method === "OPTIONS") {
-        return createJSONResponse(request, {}, 204);
-    }
-
-    if (request.method !== "POST") {
-        return createJSONResponse(
-            request,
-            {
-                error: "Method not allowed. Use POST."
-            },
-            405
-        );
+    if (req.method !== "POST") {
+        return res.status(405).json({
+            error: "Method not allowed. Use POST."
+        });
     }
 
     try {
-        const requestBody = await request.json();
-        const submittedURL = requestBody.url?.trim();
+        const submittedURL =
+            req.body?.url?.trim();
 
         if (!submittedURL) {
-            return createJSONResponse(
-                request,
-                {
-                    error: "A URL is required."
-                },
-                400
-            );
+            return res.status(400).json({
+                error: "A URL is required."
+            });
         }
 
         try {
             new URL(submittedURL);
         } catch {
-            return createJSONResponse(
-                request,
-                {
-                    error: "The submitted URL is invalid."
-                },
-                400
-            );
+            return res.status(400).json({
+                error: "The submitted URL is invalid."
+            });
         }
 
         const apiKey =
@@ -80,23 +50,21 @@ export default async function handler(request) {
                 "SAFE_BROWSING_API_KEY is missing."
             );
 
-            return createJSONResponse(
-                request,
-                {
-                    error:
-                        "Safe Browsing is not configured."
-                },
-                500
-            );
+            return res.status(500).json({
+                error:
+                    "Safe Browsing is not configured."
+            });
         }
 
         const googleResponse = await fetch(
             `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${apiKey}`,
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     client: {
                         clientId: "threathawk",
@@ -138,32 +106,36 @@ export default async function handler(request) {
                 googleError
             );
 
-            return createJSONResponse(
-                request,
-                {
-                    error:
-                        "The reputation service returned an error."
-                },
-                502
-            );
+            return res.status(502).json({
+                error:
+                    "The reputation service returned an error."
+            });
         }
 
         const googleData =
             await googleResponse.json();
 
-        const matches = googleData.matches || [];
+        const matches =
+            googleData.matches || [];
 
-        return createJSONResponse(request, {
+        return res.status(200).json({
             checked: true,
             safe: matches.length === 0,
             matchCount: matches.length,
 
             threats: matches.map(match => ({
-                threatType: match.threatType,
-                platformType: match.platformType,
+                threatType:
+                    match.threatType,
+
+                platformType:
+                    match.platformType,
+
                 threatEntryType:
                     match.threatEntryType,
-                url: match.threat?.url || submittedURL
+
+                url:
+                    match.threat?.url ||
+                    submittedURL
             }))
         });
     } catch (error) {
@@ -172,13 +144,9 @@ export default async function handler(request) {
             error
         );
 
-        return createJSONResponse(
-            request,
-            {
-                error:
-                    "The URL reputation check failed."
-            },
-            500
-        );
+        return res.status(500).json({
+            error:
+                "The URL reputation check failed."
+        });
     }
 }
