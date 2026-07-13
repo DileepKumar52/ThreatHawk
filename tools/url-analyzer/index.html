@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ThreatHawk | URL Analyzer</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <h1>URL Analyzer</h1>
+
+            <p>
+                Analyze URLs and extract important components.
+            </p>
+
+        </header>
+
+        <div class="card">
+
+            <label for="urlInput">Enter URL</label>
+
+            <textarea
+                id="urlInput"
+                rows="5"
+                placeholder="https://example.com/login"></textarea>
+
+            <div class="buttons">
+
+                <button id="analyzeBtn">
+                    Analyze URL
+                </button>
+
+                <button id="clearBtn">
+                    Clear
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="results">
+
+            <div class="result-card">
+                <h3>Protocol</h3>
+                <p id="protocol">-</p>
+            </div>
+
+            <div class="result-card">
+                <h3>Hostname</h3>
+                <p id="hostname">-</p>
+            </div>
+
+            <div class="result-card">
+                <h3>Domain</h3>
+                <p id="domain">-</p>
+            </div>
+
+            <div class="result-card">
+                <h3>TLD</h3>
+                <p id="tld">-</p>
+            </div>
+
+        </div>
+
+        <div class="risk-panel">
+
+            <div class="risk-header">
+                <div>
+                    <h2>URL Risk</h2>
+                    <p id="riskLabel">Not analyzed</p>
+                </div>
+
+                <span id="riskScore">0</span>
+            </div>
+
+            <div class="risk-track">
+                <div id="riskFill" class="risk-fill"></div>
+            </div>
+
+        </div>
+
+        <div class="findings-panel">
+
+            <div class="findings-header">
+                <h2>Security Findings</h2>
+                <span id="findingCount">0 findings</span>
+            </div>
+
+            <div id="findingsList" class="findings-list">
+                <p class="empty-findings">
+                    Analyze a URL to view security findings.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="analysis-panel">
+
+            <h2>URL Details</h2>
+
+            <table>
+
+                <tbody>
+
+                    <tr>
+                        <td>Subdomain</td>
+                        <td id="subdomain">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Port</td>
+                        <td id="port">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Path</td>
+                        <td id="path">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Query Parameters</td>
+                        <td id="query">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Fragment</td>
+                        <td id="fragment">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Length</td>
+                        <td id="length">-</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
