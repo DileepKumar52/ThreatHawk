@@ -1,80 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CipherForge - Password Intelligence</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <meta
+        name="description"
+        content="Analyze password strength, estimate offline crack time, detect weak patterns and generate secure passwords with ThreatHawk Password Intelligence."
+    >
+
+    <title>Password Intelligence | ThreatHawk</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
+
 <body>
 
-    <nav class="navbar">
-        <div class="logo">CipherForge</div>
-        <button id="themeToggle">Light Mode</button>
-    </nav>
+    <!-- ==============================
+         ThreatHawk Navigation
+    =============================== -->
 
-    <section class="hero">
-        <div class="dashboard-layout">
+    <header class="site-header">
 
-            <aside class="meter-panel">
-            <p class="meter-title">Strength</p>
-            <div id="strengthPercent">0%</div>
-            <div id="strengthText">Very Weak</div>
+        <nav class="navbar">
 
-            <div class="strength-meter">
-            <div id="strengthLevel"></div>
+            <a
+                href="../../index.html"
+                class="brand"
+                aria-label="Return to ThreatHawk dashboard"
+            >
+                <span class="brand-symbol">◇</span>
+                <span>ThreatHawk</span>
+            </a>
+
+            <div class="nav-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Modules
+                </a>
+
+                <a
+                    href="../url-analyzer/"
+                    class="desktop-link"
+                >
+                    URL Analyzer
+                </a>
+
+                <a
+                    href="../hash-analyzer/"
+                    class="desktop-link"
+                >
+                    Hash Analyzer
+                </a>
+
+                <a
+                    href="../log-analysis/"
+                    class="desktop-link"
+                >
+                    Log Analysis
+                </a>
+
             </div>
-            </aside>
 
-            <div class="main-panel">
+            <div class="nav-actions">
 
-                <h1>Password Intelligence</h1>
+                <span class="version-badge">
+                    Version 1.0
+                </span>
 
-                <p>
-                    Analyze password strength, estimate crack time,
-                    detect weak patterns and improve your digital security.
-                </p>
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to light mode"
+                >
+                    <i class="fa-regular fa-sun"></i>
 
-                <div class="password-box">
+                    <span>Light Mode</span>
+                </button>
 
-                    <input
-                        id="passwordInput"
-                        type="password"
-                        placeholder="Enter your password..."
-                    >
+            </div>
 
-                    <button id="togglePassword">
-                        <i class="fa-regular fa-eye"></i>
-                    </button>
-                    <button id="copyPassword">
-                        <i class="fa-regular fa-copy"></i>
-                    </button>
-                    <button id="analyzeBtn">Analyze</button>
-                    <button id="generatePassword">🔐 Generate</button>
+        </nav>
 
-                    <div class="info-grid">
-                        <div id="requirements">
-                        <div id="reqLength">❌ At least 8 characters</div>
-                        <div id="reqUpper">❌ One uppercase letter</div>
-                        <div id="reqLower">❌ One lowercase letter</div>
-                        <div id="reqNumber">❌ One number</div>
-                        <div id="reqSpecial">❌ One special character</div>
-                        </div>
-                        <div id="result"></div>
-                    </div>
-                    
-                    <div id="suggestions"></div>
+    </header>
+
+
+    <main>
+
+        <!-- ==============================
+             Module Header
+        =============================== -->
+
+        <section class="module-header">
+
+            <div class="module-container">
+
+                <div class="breadcrumb">
+
+                    <a href="../../index.html">
+                        ThreatHawk
+                    </a>
+
+                    <span>/</span>
+
+                    <span>Password Intelligence</span>
+
                 </div>
+
+                <div class="module-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            Credential Security Module
+                        </p>
+
+                        <h1>Password Intelligence</h1>
+
+                        <p class="module-description">
+                            Analyze password strength, estimate offline crack
+                            time, identify weak patterns and generate stronger
+                            credentials directly in your browser.
+                        </p>
+
+                    </div>
+
+                    <div class="module-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <small>Module Status</small>
+                            <strong>Active</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-        
+
+        </section>
+
+
+        <!-- ==============================
+             Analyzer Workspace
+        =============================== -->
+
+        <section class="analyzer-section">
+
+            <div class="module-container">
+
+                <div class="analyzer-layout">
+
+                    <!-- Strength Meter -->
+
+                    <aside class="meter-panel">
+
+                        <div class="meter-heading">
+
+                            <span class="panel-label">
+                                Password Strength
+                            </span>
+
+                            <div id="strengthPercent">
+                                0%
+                            </div>
+
+                            <div id="strengthText">
+                                Very Weak
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="strength-meter"
+                            aria-label="Password strength meter"
+                        >
+                            <div id="strengthLevel"></div>
+                        </div>
+
+                        <p class="meter-note">
+                            The score updates automatically while you type.
+                        </p>
+
+                    </aside>
+
+
+                    <!-- Main Analyzer -->
+
+                    <div class="main-panel">
+
+                        <section class="password-workspace">
+
+                            <div class="workspace-heading">
+
+                                <div>
+
+                                    <span class="panel-label">
+                                        Password Input
+                                    </span>
+
+                                    <h2>Test a password</h2>
+
+                                </div>
+
+                                <span class="privacy-badge">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    Local analysis
+                                </span>
+
+                            </div>
+
+
+                            <!-- Password Input Row -->
+
+                            <div class="password-controls">
+
+                                <div class="password-input-wrapper">
+
+                                    <input
+                                        id="passwordInput"
+                                        type="password"
+                                        placeholder="Enter or generate a password..."
+                                        autocomplete="new-password"
+                                        spellcheck="false"
+                                        aria-label="Password to analyze"
+                                    >
+
+                                    <button
+                                        id="togglePassword"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Show password"
+                                        title="Show password"
+                                    >
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+
+                                    <button
+                                        id="copyPassword"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Copy password"
+                                        title="Copy password"
+                                    >
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+
+                                </div>
+
+                                <button
+                                    id="generatePassword"
+                                    class="generate-button"
+                                    type="button"
+                                >
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    Generate Password
+                                </button>
+
+                            </div>
+
+
+                            <p class="input-helper">
+                                Analysis runs automatically. Your password is
+                                processed locally and is not submitted to a
+                                server.
+                            </p>
+
+
+                            <!-- Equal Information Panels -->
+
+                            <div class="info-grid">
+
+                                <!-- Requirements Panel -->
+
+                                <article
+                                    id="requirements"
+                                    class="analysis-panel"
+                                >
+
+                                    <div class="panel-heading">
+
+                                        <div class="panel-icon">
+                                            <i class="fa-solid fa-list-check"></i>
+                                        </div>
+
+                                        <div>
+                                            <span class="panel-label">
+                                                Validation
+                                            </span>
+
+                                            <h3>Password Requirements</h3>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="requirement-list">
+
+                                        <div
+                                            id="reqLength"
+                                            class="requirement-item invalid"
+                                        >
+                                            <span class="requirement-icon">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+
+                                            <span>
+                                                At least 8 characters
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            id="reqUpper"
+                                            class="requirement-item invalid"
+                                        >
+                                            <span class="requirement-icon">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+
+                                            <span>
+                                                One uppercase letter
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            id="reqLower"
+                                            class="requirement-item invalid"
+                                        >
+                                            <span class="requirement-icon">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+
+                                            <span>
+                                                One lowercase letter
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            id="reqNumber"
+                                            class="requirement-item invalid"
+                                        >
+                                            <span class="requirement-icon">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+
+                                            <span>
+                                                One number
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            id="reqSpecial"
+                                            class="requirement-item invalid"
+                                        >
+                                            <span class="requirement-icon">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+
+                                            <span>
+                                                One special character
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </article>
+
+
+                                <!-- Analysis Result Panel -->
+
+                                <article
+                                    id="result"
+                                    class="analysis-panel"
+                                    aria-live="polite"
+                                >
+
+                                    <div class="panel-heading">
+
+                                        <div class="panel-icon">
+                                            <i class="fa-solid fa-chart-line"></i>
+                                        </div>
+
+                                        <div>
+                                            <span class="panel-label">
+                                                Security Analysis
+                                            </span>
+
+                                            <h3>Analysis Result</h3>
+                                        </div>
+
+                                    </div>
+
+                                    <div
+                                        id="resultContent"
+                                        class="result-placeholder"
+                                    >
+
+                                        <div class="placeholder-icon">
+                                            <i class="fa-solid fa-key"></i>
+                                        </div>
+
+                                        <p>
+                                            Enter a password to view its
+                                            security score, entropy and
+                                            estimated offline crack time.
+                                        </p>
+
+                                    </div>
+
+                                </article>
+
+                            </div>
+
+
+                            <!-- Suggestions -->
+
+                            <article
+                                id="suggestions"
+                                class="suggestions-panel"
+                                aria-live="polite"
+                            >
+
+                                <div class="panel-heading">
+
+                                    <div class="panel-icon">
+                                        <i class="fa-regular fa-lightbulb"></i>
+                                    </div>
+
+                                    <div>
+                                        <span class="panel-label">
+                                            Recommendations
+                                        </span>
+
+                                        <h3>Security Suggestions</h3>
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    id="suggestionsContent"
+                                    class="suggestions-placeholder"
+                                >
+                                    Suggestions will appear after you enter a
+                                    password.
+                                </div>
+
+                            </article>
+
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             Information Section
+        =============================== -->
+
+        <section class="information-section">
+
+            <div class="module-container">
+
+                <div class="information-grid">
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+
+                        <h3>Local Processing</h3>
+
+                        <p>
+                            Password analysis runs inside your browser. The
+                            entered password is not sent to ThreatHawk.
+                        </p>
+
+                    </article>
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+
+                        <h3>Crack-Time Estimate</h3>
+
+                        <p>
+                            Crack time is a simplified offline estimate based
+                            on one billion guesses per second.
+                        </p>
+
+                    </article>
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-fingerprint"></i>
+                        </div>
+
+                        <h3>Pattern Detection</h3>
+
+                        <p>
+                            The analyzer checks common passwords, repeated
+                            characters and predictable sequences.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         Footer
+    =============================== -->
+
+    <footer class="site-footer">
+
+        <div class="module-container footer-content">
+
+            <div class="footer-brand">
+
+                <strong>ThreatHawk</strong>
+
+                <span>
+                    Browser-Based Cybersecurity Platform
+                </span>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Security Modules
+                </a>
+
+                <a
+                    href="https://github.com/DileepKumar52/ThreatHawk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+            <div class="footer-meta">
+                Password Intelligence • Version 1.0
+            </div>
+
         </div>
 
-    </section>
+    </footer>
+
+
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    >
+        <i class="fa-solid fa-check"></i>
+
+        <span id="toastMessage">
+            Password copied
+        </span>
+    </div>
+
 
     <script src="js/app.js"></script>
 
 </body>
+
 </html>

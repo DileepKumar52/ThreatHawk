@@ -234,3 +234,37 @@ footer.insertAdjacentHTML(
     </p>`
 
 );
+
+/* Make each module card clickable */
+
+document.querySelectorAll(".module-card[data-href]")
+    .forEach(card => {
+        function openModule() {
+            const target = card.dataset.href;
+
+            if (target) {
+                window.location.href = target;
+            }
+        }
+
+        card.addEventListener("click", event => {
+            /*
+             * Let the existing Launch Module link work normally.
+             */
+            if (event.target.closest("a")) {
+                return;
+            }
+
+            openModule();
+        });
+
+        card.addEventListener("keydown", event => {
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+                event.preventDefault();
+                openModule();
+            }
+        });
+    });
