@@ -3,174 +3,728 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatHawk | Hash Analyzer</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Identify MD5, SHA-1, SHA-256 and SHA-512 hashes, detect duplicates and export reports with ThreatHawk Hash Analyzer."
+    >
+
+    <title>Hash Analyzer | ThreatHawk</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
 
 <body>
 
-<div class="container">
+    <!-- ThreatHawk Navigation -->
 
-    <h1>Hash Analyzer</h1>
-    <p class="subtitle">
-        Analyze multiple MD5, SHA1, SHA256 and SHA512 hashes.
-        Enter one hash per line.
-    </p>
+    <header class="site-header">
 
-    <div class="card input-card">
+        <nav class="navbar module-container">
 
-        <div
-            id="dropZone"
-            class="drop-zone"
-            role="button"
-            tabindex="0"
-            aria-label="Upload hash files"
-        >
-            <input
-                type="file"
-                id="hashFiles"
-                accept=".txt,.csv,.log"
-                multiple
-                hidden
+            <a
+                href="../../index.html"
+                class="brand"
+                aria-label="Return to ThreatHawk dashboard"
             >
+                <span class="brand-symbol">◇</span>
+                <span>ThreatHawk</span>
+            </a>
 
-            <div id="dropIcon" class="drop-icon">📂</div>
+            <div class="nav-links">
 
-            <h2 id="dropTitle">Drop hash files here</h2>
+                <a href="../../index.html">
+                    Dashboard
+                </a>
 
-            <p id="dropText">
-                or click to select multiple files
-            </p>
+                <a href="../../index.html#modules">
+                    Modules
+                </a>
 
-            <span class="supported-files">
-                TXT • CSV • LOG
-            </span>
-        </div>
+                <a href="../password-analyzer/index.html">
+                    Password Intelligence
+                </a>
 
-        <div id="selectedFiles" class="selected-files">
-            No files selected
-        </div>
+                <a href="../url-analyzer/index.html">
+                    URL Analyzer
+                </a>
 
-        <div class="input-divider">
-            <span>OR PASTE HASHES</span>
-        </div>
+                <a href="../log-analyzer/index.html">
+                    Log Analysis
+                </a>
 
-        <label for="hashInput">Paste hashes</label>
+            </div>
 
-        <textarea
-            id="hashInput"
-            placeholder="Paste one hash per line..."
-            rows="7"
-        ></textarea>
+            <div class="nav-actions">
 
-        <div class="buttons">
+                <span class="version-badge">
+                    Version 1.0
+                </span>
 
-            <button id="analyzeBtn" type="button">
-                Analyze Hashes
-            </button>
-
-            <button id="clearBtn" type="button">
-                Clear
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="results">
-
-        <div class="result-card">
-            <h3>Total Hashes</h3>
-            <p id="totalHashes" class="placeholder">0</p>
-        </div>
-
-        <div class="result-card">
-            <h3>Valid Hashes</h3>
-            <p id="validHashes" class="placeholder">0</p>
-        </div>
-
-        <div class="result-card">
-            <h3>Invalid Hashes</h3>
-            <p id="invalidHashes" class="placeholder">0</p>
-        </div>
-
-        <div class="result-card">
-            <h3>Duplicate Entries</h3>
-            <p id="duplicateHashes" class="placeholder">0</p>
-        </div>
-
-    </div>
-
-    <div class="hash-results-panel">
-
-        <h2>Analysis Results</h2>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Hash</th>
-                            <th>Length</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Occurrences</th>
-                            <th>Action</th>
-                        </tr>
-                </thead>
-
-                <tbody id="hashResultsBody">
-                    <tr class="empty-row">
-                        <td colspan="7">No hashes analyzed yet.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-
-    <div class="export-panel">
-
-        <div>
-            <h2>Export Report</h2>
-            <p>Download the current hash analysis in your preferred format.</p>
-        </div>
-
-        <div class="export-menu">
-
-            <button id="exportMenuBtn" type="button">
-                Export Report ▾
-            </button>
-
-            <div id="exportOptions" class="export-options">
-
-                <button type="button" data-format="txt">
-                    Export TXT
-                </button>
-
-                <button type="button" data-format="json">
-                    Export JSON
-                </button>
-
-                <button type="button" data-format="csv">
-                    Export CSV
-                </button>
-
-                <button type="button" data-format="pdf">
-                    Export PDF
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to light mode"
+                >
+                    <i class="fa-regular fa-sun"></i>
+                    <span>Light Mode</span>
                 </button>
 
             </div>
 
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- Module Header -->
+
+        <section class="module-header">
+
+            <div class="module-container">
+
+                <div class="breadcrumb">
+
+                    <a href="../../index.html">
+                        ThreatHawk
+                    </a>
+
+                    <span>/</span>
+
+                    <span>Hash Analyzer</span>
+
+                </div>
+
+                <div class="module-heading">
+
+                    <div class="module-heading-content">
+
+                        <p class="eyebrow">
+                            Digital Forensics Module
+                        </p>
+
+                        <h1>Hash Analyzer</h1>
+
+                        <p class="module-description">
+                            Identify cryptographic hash formats, process
+                            multiple files, detect duplicate values and export
+                            structured investigation reports.
+                        </p>
+
+                    </div>
+
+                    <div class="module-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <small>Module Status</small>
+                            <strong>Active</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Analyzer Workspace -->
+
+        <section class="analyzer-section">
+
+            <div class="module-container">
+
+                <section class="analyzer-workspace">
+
+                    <div class="workspace-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Hash Input
+                            </span>
+
+                            <h2>Submit hashes for analysis</h2>
+
+                            <p>
+                                Upload supported files or paste one or more
+                                hashes manually. Analysis begins when you click
+                                Analyze Hashes.
+                            </p>
+
+                        </div>
+
+                        <span class="privacy-badge">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Local processing
+                        </span>
+
+                    </div>
+
+
+                    <!-- File Upload -->
+
+                    <div
+                        id="dropZone"
+                        class="drop-zone"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Upload hash files"
+                    >
+
+                        <input
+                            type="file"
+                            id="hashFiles"
+                            accept=".txt,.csv,.log"
+                            multiple
+                            hidden
+                        >
+
+                        <div
+                            id="dropIcon"
+                            class="drop-icon"
+                            aria-hidden="true"
+                        >
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+
+                        <h3 id="dropTitle">
+                            Drop hash files here
+                        </h3>
+
+                        <p id="dropText">
+                            Drag and drop files or click to browse
+                        </p>
+
+                        <span class="supported-files">
+                            TXT · CSV · LOG
+                        </span>
+
+                    </div>
+
+
+                    <!-- Selected Files -->
+
+                    <div
+                        id="selectedFiles"
+                        class="selected-files empty-files"
+                        aria-live="polite"
+                    >
+                        <i class="fa-regular fa-folder-open"></i>
+
+                        <span>
+                            No files selected
+                        </span>
+                    </div>
+
+
+                    <div class="input-divider">
+                        <span>Or paste hashes manually</span>
+                    </div>
+
+
+                    <!-- Text Input -->
+
+                    <div class="textarea-group">
+
+                        <div class="textarea-heading">
+
+                            <label for="hashInput">
+                                Paste hashes
+                            </label>
+
+                            <span>
+                                One hash per line or separated by spaces
+                            </span>
+
+                        </div>
+
+                        <textarea
+                            id="hashInput"
+                            placeholder="Example:
+5d41402abc4b2a76b9719d911017c592
+2aae6c35c94fcfb415dbe95f408b9ce91ee846ed"
+                            rows="8"
+                            spellcheck="false"
+                            aria-label="Hashes to analyze"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="workspace-actions">
+
+                        <button
+                            id="analyzeBtn"
+                            class="primary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            Analyze Hashes
+                        </button>
+
+                        <button
+                            id="clearBtn"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Clear
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- Statistics -->
+
+        <section class="statistics-section">
+
+            <div class="module-container">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            Analysis Overview
+                        </span>
+
+                        <h2>Hash statistics</h2>
+
+                    </div>
+
+                    <p>
+                        Summary values update after each completed analysis.
+                    </p>
+
+                </div>
+
+                <div class="statistics-grid">
+
+                    <article class="stat-card stat-total">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-hashtag"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <span>Total Hashes</span>
+
+                            <strong
+                                id="totalHashes"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+                        </div>
+
+                    </article>
+
+                    <article class="stat-card stat-valid">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <span>Valid Hashes</span>
+
+                            <strong
+                                id="validHashes"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+                        </div>
+
+                    </article>
+
+                    <article class="stat-card stat-invalid">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <span>Invalid Hashes</span>
+
+                            <strong
+                                id="invalidHashes"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+                        </div>
+
+                    </article>
+
+                    <article class="stat-card stat-duplicate">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-clone"></i>
+                        </div>
+
+                        <div class="stat-content">
+                            <span>Duplicate Entries</span>
+
+                            <strong
+                                id="duplicateHashes"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Analysis Results -->
+
+        <section class="results-section">
+
+            <div class="module-container">
+
+                <section class="results-panel">
+
+                    <div class="results-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Cryptographic Analysis
+                            </span>
+
+                            <h2>Analysis Results</h2>
+
+                            <p>
+                                Review detected algorithms, validity and
+                                duplicate occurrence counts.
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="resultCountBadge"
+                            class="result-count-badge"
+                        >
+                            0 results
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Hash Value</th>
+                                    <th>Length</th>
+                                    <th>Algorithm</th>
+                                    <th>Status</th>
+                                    <th>Occurrences</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="hashResultsBody">
+
+                                <tr class="empty-row">
+
+                                    <td colspan="7">
+
+                                        <div class="table-empty-state">
+
+                                            <div class="empty-state-icon">
+                                                <i class="fa-solid fa-fingerprint"></i>
+                                            </div>
+
+                                            <strong>
+                                                No hashes analyzed
+                                            </strong>
+
+                                            <p>
+                                                Upload files or paste hashes,
+                                                then click Analyze Hashes.
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- Export Report -->
+
+        <section class="export-section">
+
+            <div class="module-container">
+
+                <section class="export-panel">
+
+                    <div class="export-content">
+
+                        <div class="export-icon">
+                            <i class="fa-solid fa-file-export"></i>
+                        </div>
+
+                        <div>
+
+                            <span class="panel-label">
+                                Reporting
+                            </span>
+
+                            <h2>Export Analysis Report</h2>
+
+                            <p>
+                                Download the current results for documentation,
+                                evidence collection or further investigation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="export-menu">
+
+                        <button
+                            id="exportMenuBtn"
+                            class="export-menu-button"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="exportOptions"
+                        >
+                            <i class="fa-solid fa-download"></i>
+                            Export Report
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div
+                            id="exportOptions"
+                            class="export-options"
+                        >
+
+                            <button
+                                type="button"
+                                data-format="txt"
+                            >
+                                <i class="fa-regular fa-file-lines"></i>
+                                Export TXT
+                            </button>
+
+                            <button
+                                type="button"
+                                data-format="json"
+                            >
+                                <i class="fa-solid fa-code"></i>
+                                Export JSON
+                            </button>
+
+                            <button
+                                type="button"
+                                data-format="csv"
+                            >
+                                <i class="fa-solid fa-table"></i>
+                                Export CSV
+                            </button>
+
+                            <button
+                                type="button"
+                                data-format="pdf"
+                            >
+                                <i class="fa-regular fa-file-pdf"></i>
+                                Export PDF
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- Module Information -->
+
+        <section class="information-section">
+
+            <div class="module-container">
+
+                <div class="information-grid">
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+
+                        <h3>Local Analysis</h3>
+
+                        <p>
+                            Hash detection and duplicate analysis run directly
+                            inside your browser.
+                        </p>
+
+                    </article>
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+
+                        <h3>Batch Processing</h3>
+
+                        <p>
+                            Analyze multiple pasted hashes and multiple files
+                            within a single investigation.
+                        </p>
+
+                    </article>
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-file-shield"></i>
+                        </div>
+
+                        <h3>Supported Algorithms</h3>
+
+                        <p>
+                            Detect MD5, SHA-1, SHA-256 and SHA-512 hexadecimal
+                            digest formats.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="site-footer">
+
+        <div class="module-container footer-content">
+
+            <div class="footer-brand">
+
+                <strong>ThreatHawk</strong>
+
+                <span>
+                    Browser-Based Cybersecurity Platform
+                </span>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Security Modules
+                </a>
+
+                <a
+                    href="https://github.com/DileepKumar52/ThreatHawk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+            <div class="footer-meta">
+                Hash Analyzer · Version 1.0
+            </div>
+
         </div>
 
-    </div>
-</div>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/jspdf@3.0.3/dist/jspdf.umd.min.js"></script>
-<script src="js/app.js"></script>
+
+    <!-- Toast -->
+
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    >
+        <i class="fa-solid fa-check"></i>
+
+        <span id="toastMessage">
+            Action completed
+        </span>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@3.0.3/dist/jspdf.umd.min.js"></script>
+
+    <script src="js/app.js"></script>
 
 </body>
+
 </html>

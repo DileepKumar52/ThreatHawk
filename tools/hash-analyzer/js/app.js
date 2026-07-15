@@ -1,74 +1,112 @@
-const hashInput = document.getElementById("hashInput");
-const analyzeBtn = document.getElementById("analyzeBtn");
-const clearBtn = document.getElementById("clearBtn");
+"use strict";
 
-const totalHashes = document.getElementById("totalHashes");
-const validHashes = document.getElementById("validHashes");
-const invalidHashes = document.getElementById("invalidHashes");
+/* =========================================================
+   THREATHAWK HASH ANALYZER
+   Complete JavaScript
 
-const hashResultsBody = document.getElementById("hashResultsBody");
+   Features:
+   - Manual Analyze button
+   - Multiple file upload
+   - Drag-and-drop support
+   - TXT, CSV and LOG input
+   - Manual pasted input
+   - MD5, SHA-1, SHA-256 and SHA-512 detection
+   - Duplicate detection and highlighting
+   - Animated statistics
+   - Per-row copy controls
+   - TXT, JSON, CSV and PDF exports
+   - Clear/reset behavior
+   - Persistent light/dark theme
+   - Toast notifications
+========================================================= */
 
-const exportMenuBtn = document.getElementById("exportMenuBtn");
-const exportOptions = document.getElementById("exportOptions");
 
-const dropZone = document.getElementById("dropZone");
-const hashFiles = document.getElementById("hashFiles");
+/* =========================================================
+   1. DOM ELEMENTS
+========================================================= */
 
-const selectedFiles = document.getElementById("selectedFiles");
-const dropIcon = document.getElementById("dropIcon");
-const dropTitle = document.getElementById("dropTitle");
-const dropText = document.getElementById("dropText");
+const dropZone =
+    document.getElementById("dropZone");
 
-const duplicateHashes = document.getElementById("duplicateHashes");
+const hashFilesInput =
+    document.getElementById("hashFiles");
 
-let loadedFiles = [];
+const dropIcon =
+    document.getElementById("dropIcon");
 
-let analysisResults = [];
+const dropTitle =
+    document.getElementById("dropTitle");
 
-function detectHashType(hash) {
-    const hexPattern = /^[a-fA-F0-9]+$/;
+const dropText =
+    document.getElementById("dropText");
 
-    if (!hexPattern.test(hash)) {
-        return null;
-    }
+const selectedFilesContainer =
+    document.getElementById("selectedFiles");
 
-    const hashTypes = {
-        32: "MD5",
-        40: "SHA-1",
-        56: "SHA-224 / SHA3-224",
-        64: "SHA-256 / SHA3-256",
-        96: "SHA-384 / SHA3-384",
-        128: "SHA-512 / SHA3-512"
-    };
+const hashInput =
+    document.getElementById("hashInput");
 
-    if (hashTypes[hash.length]) {
-        return hashTypes[hash.length];
-    }
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
 
-    /*
-     * Unknown algorithms may still produce valid hexadecimal digests.
-     * Hexadecimal data must contain complete bytes, so its length must be even.
-     */
-    if (hash.length >= 16 && hash.length % 2 === 0) {
-        return "Custom Hex Digest";
-    }
+const clearBtn =
+    document.getElementById("clearBtn");
 
-    return null;
-}
+const totalHashes =
+    document.getElementById("totalHashes");
 
-function shortenHash(hash, visibleCharacters = 24) {
-    if (hash.length <= visibleCharacters * 2) {
-        return hash;
-    }
+const validHashes =
+    document.getElementById("validHashes");
 
-    const beginning = hash.slice(0, visibleCharacters);
-    const ending = hash.slice(-visibleCharacters);
+const invalidHashes =
+    document.getElementById("invalidHashes");
 
-    return `${beginning}...${ending}`;
-}
+const duplicateHashes =
+    document.getElementById("duplicateHashes");
+
+const hashResultsBody =
+    document.getElementById("hashResultsBody");
+
+const resultCountBadge =
+    document.getElementById("resultCountBadge");
+
+const exportMenuBtn =
+    document.getElementById("exportMenuBtn");
+
+const exportOptions =
+    document.getElementById("exportOptions");
+
+const themeToggle =
+    document.getElementById("themeToggle");
+
+const toast =
+    document.getElementById("toast");
+
+const toastMessage =
+    document.getElementById("toastMessage");
+
+
+/* =========================================================
+   2. APPLICATION STATE
+========================================================= */
+
+const SUPPORTED_FILE_EXTENSIONS = [
+    "txt",
+    "csv",
+    "log"
+];
+
+let selectedFiles = [];
+let currentResults = [];
+let toastTimer = null;
+
+
+/* =========================================================
+   3. GENERAL HELPERS
+========================================================= */
 
 function escapeHTML(value) {
-    return value
+    return String(value)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -76,735 +114,1450 @@ function escapeHTML(value) {
         .replaceAll("'", "&#039;");
 }
 
-function getHashesFromInput() {
-    return hashInput.value
-        .split(/\r?\n/)
-        .map(hash => hash.trim())
-        .filter(hash => hash.length > 0);
+function formatFileSize(bytes) {
+    if (!Number.isFinite(bytes) || bytes <= 0) {
+        return "0 B";
+    }
+
+    const units = [
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+    const unitIndex = Math.min(
+        Math.floor(
+            Math.log(bytes) /
+            Math.log(1024)
+        ),
+        units.length - 1
+    );
+
+    const value =
+        bytes / 1024 ** unitIndex;
+
+    return `${value.toFixed(
+        unitIndex === 0 ? 0 : 1
+    )} ${units[unitIndex]}`;
 }
 
-function resetResults() {
-    totalHashes.textContent = "0";
-    validHashes.textContent = "0";
-    invalidHashes.textContent = "0";
-    duplicateHashes.textContent = "0";
+function getFileExtension(filename) {
+    const parts =
+        filename.toLowerCase().split(".");
 
+    return parts.length > 1
+        ? parts.pop()
+        : "";
+}
+
+function createTimestamp() {
+    return new Date()
+        .toISOString()
+        .replaceAll(":", "-")
+        .replace(/\.\d{3}Z$/, "Z");
+}
+
+function pluralize(
+    amount,
+    singular,
+    plural = `${singular}s`
+) {
+    return amount === 1
+        ? singular
+        : plural;
+}
+
+
+/* =========================================================
+   4. TOAST NOTIFICATIONS
+========================================================= */
+
+function showToast(
+    message,
+    iconClass = "fa-check"
+) {
+    if (!toast || !toastMessage) {
+        return;
+    }
+
+    toastMessage.textContent =
+        message;
+
+    const icon =
+        toast.querySelector("i");
+
+    if (icon) {
+        icon.className =
+            `fa-solid ${iconClass}`;
+    }
+
+    toast.classList.add("show");
+
+    window.clearTimeout(toastTimer);
+
+    toastTimer =
+        window.setTimeout(() => {
+            toast.classList.remove(
+                "show"
+            );
+        }, 2300);
+}
+
+
+/* =========================================================
+   5. THEME
+========================================================= */
+
+function updateThemeButton(
+    lightModeEnabled
+) {
+    if (!themeToggle) {
+        return;
+    }
+
+    const icon =
+        themeToggle.querySelector("i");
+
+    const text =
+        themeToggle.querySelector("span");
+
+    if (icon) {
+        icon.className =
+            lightModeEnabled
+                ? "fa-regular fa-moon"
+                : "fa-regular fa-sun";
+    }
+
+    if (text) {
+        text.textContent =
+            lightModeEnabled
+                ? "Dark Mode"
+                : "Light Mode";
+    }
+
+    themeToggle.setAttribute(
+        "aria-label",
+        lightModeEnabled
+            ? "Switch to dark mode"
+            : "Switch to light mode"
+    );
+}
+
+function applySavedTheme() {
+    let savedTheme = null;
+
+    try {
+        savedTheme =
+            localStorage.getItem(
+                "threathawk-hash-theme"
+            );
+    } catch (error) {
+        console.warn(
+            "Theme preference could not be read:",
+            error
+        );
+    }
+
+    const lightModeEnabled =
+        savedTheme === "light";
+
+    document.body.classList.toggle(
+        "light-mode",
+        lightModeEnabled
+    );
+
+    updateThemeButton(
+        lightModeEnabled
+    );
+}
+
+
+/* =========================================================
+   6. HASH NORMALIZATION AND DETECTION
+========================================================= */
+
+function normalizeHash(value) {
+    return String(value)
+        .trim()
+        .replace(/^["']|["']$/g, "")
+        .trim();
+}
+
+function detectHashType(hash) {
+    if (!/^[a-fA-F0-9]+$/.test(hash)) {
+        return {
+            type: "Unknown",
+            valid: false
+        };
+    }
+
+    const length = hash.length;
+
+    switch (length) {
+        case 32:
+            return {
+                type: "MD5",
+                valid: true
+            };
+
+        case 40:
+            return {
+                type: "SHA-1",
+                valid: true
+            };
+
+        case 64:
+            return {
+                type: "SHA-256",
+                valid: true
+            };
+
+        case 128:
+            return {
+                type: "SHA-512",
+                valid: true
+            };
+
+        default:
+            return {
+                type: "Unknown",
+                valid: false
+            };
+    }
+}
+
+function extractHashesFromText(text) {
+    return String(text)
+        .split(/[\s,;|]+/)
+        .map(normalizeHash)
+        .filter(Boolean);
+}
+
+
+/* =========================================================
+   7. FILE VALIDATION AND READING
+========================================================= */
+
+function validateFile(file) {
+    const extension =
+        getFileExtension(file.name);
+
+    return SUPPORTED_FILE_EXTENSIONS
+        .includes(extension);
+}
+
+function getFileKey(file) {
+    return [
+        file.name,
+        file.size,
+        file.lastModified
+    ].join("-");
+}
+
+function addFiles(files) {
+    const incomingFiles =
+        Array.from(files);
+
+    if (incomingFiles.length === 0) {
+        return;
+    }
+
+    const validFiles = [];
+    const rejectedFiles = [];
+
+    const existingKeys =
+        new Set(
+            selectedFiles.map(getFileKey)
+        );
+
+    incomingFiles.forEach(file => {
+        if (!validateFile(file)) {
+            rejectedFiles.push(file.name);
+            return;
+        }
+
+        const key =
+            getFileKey(file);
+
+        if (!existingKeys.has(key)) {
+            validFiles.push(file);
+            existingKeys.add(key);
+        }
+    });
+
+    selectedFiles = [
+        ...selectedFiles,
+        ...validFiles
+    ];
+
+    renderSelectedFiles();
+
+    if (validFiles.length > 0) {
+        showToast(
+            `${validFiles.length} ${pluralize(
+                validFiles.length,
+                "file"
+            )} selected`,
+            "fa-file-circle-check"
+        );
+    }
+
+    if (rejectedFiles.length > 0) {
+        showToast(
+            "Some unsupported files were ignored",
+            "fa-triangle-exclamation"
+        );
+    }
+
+    hashFilesInput.value = "";
+}
+
+function readFileAsText(file) {
+    return new Promise(
+        (resolve, reject) => {
+            const reader =
+                new FileReader();
+
+            reader.onload = () => {
+                resolve(
+                    String(reader.result || "")
+                );
+            };
+
+            reader.onerror = () => {
+                reject(
+                    new Error(
+                        `Could not read ${file.name}.`
+                    )
+                );
+            };
+
+            reader.readAsText(file);
+        }
+    );
+}
+
+async function readSelectedFiles() {
+    if (selectedFiles.length === 0) {
+        return [];
+    }
+
+    dropZone.classList.add(
+        "is-processing"
+    );
+
+    analyzeBtn.disabled = true;
+
+    try {
+        const contents =
+            await Promise.all(
+                selectedFiles.map(
+                    readFileAsText
+                )
+            );
+
+        return contents.flatMap(
+            extractHashesFromText
+        );
+    } finally {
+        dropZone.classList.remove(
+            "is-processing"
+        );
+
+        analyzeBtn.disabled = false;
+    }
+}
+
+
+/* =========================================================
+   8. SELECTED FILE RENDERING
+========================================================= */
+
+function renderSelectedFiles() {
+    if (selectedFiles.length === 0) {
+        selectedFilesContainer.className =
+            "selected-files empty-files";
+
+        selectedFilesContainer.innerHTML = `
+            <i class="fa-regular fa-folder-open"></i>
+            <span>No files selected</span>
+        `;
+
+        dropTitle.textContent =
+            "Drop hash files here";
+
+        dropText.textContent =
+            "Drag and drop files or click to browse";
+
+        return;
+    }
+
+    selectedFilesContainer.className =
+        "selected-files";
+
+    selectedFilesContainer.innerHTML =
+        selectedFiles
+            .map(
+                (file, index) => `
+                    <div class="selected-file-item">
+
+                        <div class="selected-file-info">
+
+                            <span class="selected-file-icon">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </span>
+
+                            <div>
+                                <strong title="${escapeHTML(file.name)}">
+                                    ${escapeHTML(file.name)}
+                                </strong>
+
+                                <span>
+                                    ${formatFileSize(file.size)}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="remove-file-btn"
+                            data-file-index="${index}"
+                            aria-label="Remove ${escapeHTML(file.name)}"
+                            title="Remove file"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+
+                    </div>
+                `
+            )
+            .join("");
+
+    dropTitle.textContent =
+        `${selectedFiles.length} ${pluralize(
+            selectedFiles.length,
+            "file"
+        )} ready`;
+
+    dropText.textContent =
+        "Add more files or begin analysis";
+}
+
+function removeSelectedFile(index) {
+    if (
+        index < 0 ||
+        index >= selectedFiles.length
+    ) {
+        return;
+    }
+
+    const removedFile =
+        selectedFiles[index];
+
+    selectedFiles.splice(index, 1);
+
+    renderSelectedFiles();
+
+    showToast(
+        `${removedFile.name} removed`,
+        "fa-trash"
+    );
+}
+
+
+/* =========================================================
+   9. RESULT GENERATION
+========================================================= */
+
+function buildAnalysisResults(hashes) {
+    const occurrenceMap =
+        new Map();
+
+    hashes.forEach(hash => {
+        const key =
+            hash.toLowerCase();
+
+        occurrenceMap.set(
+            key,
+            (occurrenceMap.get(key) || 0) + 1
+        );
+    });
+
+    const processedKeys =
+        new Set();
+
+    const results = [];
+
+    hashes.forEach(hash => {
+        const key =
+            hash.toLowerCase();
+
+        if (processedKeys.has(key)) {
+            return;
+        }
+
+        processedKeys.add(key);
+
+        const detection =
+            detectHashType(hash);
+
+        const occurrences =
+            occurrenceMap.get(key) || 1;
+
+        results.push({
+            hash,
+            length: hash.length,
+            type: detection.type,
+            valid: detection.valid,
+            status: detection.valid
+                ? "Valid"
+                : "Invalid",
+            occurrences,
+            duplicate:
+                occurrences > 1
+        });
+    });
+
+    return results;
+}
+
+function calculateSummary(
+    rawHashes,
+    results
+) {
+    const validCount =
+        rawHashes.filter(hash =>
+            detectHashType(hash).valid
+        ).length;
+
+    const invalidCount =
+        rawHashes.length -
+        validCount;
+
+    const duplicateCount =
+        results.reduce(
+            (
+                total,
+                result
+            ) => {
+                return total +
+                    Math.max(
+                        result.occurrences - 1,
+                        0
+                    );
+            },
+            0
+        );
+
+    return {
+        total: rawHashes.length,
+        valid: validCount,
+        invalid: invalidCount,
+        duplicates: duplicateCount
+    };
+}
+
+
+/* =========================================================
+   10. ANIMATED STATISTICS
+========================================================= */
+
+function animateStatistic(
+    element,
+    targetValue,
+    duration = 500
+) {
+    if (!element) {
+        return;
+    }
+
+    const startValue =
+        Number.parseInt(
+            element.textContent,
+            10
+        ) || 0;
+
+    const difference =
+        targetValue - startValue;
+
+    const startTime =
+        performance.now();
+
+    element.classList.remove(
+        "updated",
+        "counting"
+    );
+
+    element.classList.add(
+        "counting"
+    );
+
+    function update(currentTime) {
+        const elapsed =
+            currentTime - startTime;
+
+        const progress =
+            Math.min(
+                elapsed / duration,
+                1
+            );
+
+        const easedProgress =
+            1 -
+            Math.pow(
+                1 - progress,
+                3
+            );
+
+        const displayedValue =
+            Math.round(
+                startValue +
+                difference *
+                easedProgress
+            );
+
+        element.textContent =
+            displayedValue.toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent =
+                targetValue.toLocaleString();
+
+            element.classList.remove(
+                "counting"
+            );
+
+            element.classList.add(
+                "updated"
+            );
+        }
+    }
+
+    requestAnimationFrame(update);
+}
+
+function updateStatistics(summary) {
+    animateStatistic(
+        totalHashes,
+        summary.total
+    );
+
+    animateStatistic(
+        validHashes,
+        summary.valid
+    );
+
+    animateStatistic(
+        invalidHashes,
+        summary.invalid
+    );
+
+    animateStatistic(
+        duplicateHashes,
+        summary.duplicates
+    );
+}
+
+
+/* =========================================================
+   11. RESULTS TABLE
+========================================================= */
+
+function renderEmptyResults() {
     hashResultsBody.innerHTML = `
         <tr class="empty-row">
-            <td colspan="7">No hashes analyzed yet.</td>
+
+            <td colspan="7">
+
+                <div class="table-empty-state">
+
+                    <div class="empty-state-icon">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+
+                    <strong>
+                        No hashes analyzed
+                    </strong>
+
+                    <p>
+                        Upload files or paste hashes,
+                        then click Analyze Hashes.
+                    </p>
+
+                </div>
+
+            </td>
+
         </tr>
     `;
+
+    resultCountBadge.textContent =
+        "0 results";
 }
 
-function ensureResultsExist() {
-    if (analysisResults.length === 0) {
-        alert("Analyze at least one hash before exporting.");
+function renderResults(results) {
+    if (results.length === 0) {
+        renderEmptyResults();
+        return;
+    }
+
+    resultCountBadge.textContent =
+        `${results.length} ${pluralize(
+            results.length,
+            "result"
+        )}`;
+
+    hashResultsBody.innerHTML =
+        results
+            .map(
+                (result, index) => {
+                    const statusClass =
+                        result.valid
+                            ? "status-valid"
+                            : "status-invalid";
+
+                    const occurrenceMarkup =
+                        result.duplicate
+                            ? `
+                                <span class="duplicate-badge">
+                                    ${result.occurrences} copies
+                                </span>
+                            `
+                            : `
+                                <span class="unique-badge">
+                                    Unique
+                                </span>
+                            `;
+
+                    return `
+                        <tr
+                            class="${
+                                result.duplicate
+                                    ? "duplicate-row"
+                                    : ""
+                            }"
+                        >
+                            <td>
+                                ${index + 1}
+                            </td>
+
+                            <td>
+                                <div
+                                    class="hash-value"
+                                    title="${escapeHTML(result.hash)}"
+                                >
+                                    ${escapeHTML(result.hash)}
+                                </div>
+                            </td>
+
+                            <td>
+                                ${result.length}
+                            </td>
+
+                            <td>
+                                <span class="hash-type-badge">
+                                    ${escapeHTML(result.type)}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="status-badge ${statusClass}">
+                                    ${result.status}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${occurrenceMarkup}
+                            </td>
+
+                            <td>
+                                <button
+                                    type="button"
+                                    class="row-copy-btn"
+                                    data-copy-index="${index}"
+                                    aria-label="Copy hash"
+                                    title="Copy hash"
+                                >
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   12. ANALYSIS
+========================================================= */
+
+async function analyzeHashes() {
+    const pastedHashes =
+        extractHashesFromText(
+            hashInput.value
+        );
+
+    let fileHashes = [];
+
+    try {
+        fileHashes =
+            await readSelectedFiles();
+    } catch (error) {
+        console.error(
+            "File reading failed:",
+            error
+        );
+
+        showToast(
+            error.message ||
+            "One or more files could not be read",
+            "fa-xmark"
+        );
+
+        return;
+    }
+
+    const allHashes = [
+        ...pastedHashes,
+        ...fileHashes
+    ];
+
+    if (allHashes.length === 0) {
+        showToast(
+            "Paste hashes or select files first",
+            "fa-circle-exclamation"
+        );
+
+        hashInput.focus();
+        return;
+    }
+
+    analyzeBtn.disabled = true;
+
+    try {
+        currentResults =
+            buildAnalysisResults(
+                allHashes
+            );
+
+        const summary =
+            calculateSummary(
+                allHashes,
+                currentResults
+            );
+
+        updateStatistics(summary);
+        renderResults(currentResults);
+
+        showToast(
+            `${allHashes.length} ${pluralize(
+                allHashes.length,
+                "hash"
+            )} analyzed`,
+            "fa-magnifying-glass-chart"
+        );
+    } catch (error) {
+        console.error(
+            "Hash analysis failed:",
+            error
+        );
+
+        showToast(
+            "Hash analysis failed",
+            "fa-xmark"
+        );
+    } finally {
+        analyzeBtn.disabled = false;
+    }
+}
+
+
+/* =========================================================
+   13. CLIPBOARD
+========================================================= */
+
+async function copyText(text) {
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        return;
+    }
+
+    const temporaryTextArea =
+        document.createElement("textarea");
+
+    temporaryTextArea.value = text;
+    temporaryTextArea.setAttribute(
+        "readonly",
+        ""
+    );
+
+    temporaryTextArea.style.position =
+        "fixed";
+
+    temporaryTextArea.style.opacity =
+        "0";
+
+    document.body.appendChild(
+        temporaryTextArea
+    );
+
+    temporaryTextArea.select();
+
+    const copied =
+        document.execCommand("copy");
+
+    temporaryTextArea.remove();
+
+    if (!copied) {
+        throw new Error(
+            "Clipboard operation failed."
+        );
+    }
+}
+
+async function copyResultHash(
+    index,
+    button
+) {
+    const result =
+        currentResults[index];
+
+    if (!result) {
+        return;
+    }
+
+    try {
+        await copyText(result.hash);
+
+        button.classList.remove(
+            "copy-failed"
+        );
+
+        button.classList.add(
+            "copied"
+        );
+
+        const icon =
+            button.querySelector("i");
+
+        if (icon) {
+            icon.className =
+                "fa-solid fa-check";
+        }
+
+        showToast(
+            "Hash copied"
+        );
+
+        window.setTimeout(() => {
+            button.classList.remove(
+                "copied"
+            );
+
+            if (icon) {
+                icon.className =
+                    "fa-regular fa-copy";
+            }
+        }, 1400);
+    } catch (error) {
+        console.error(
+            "Copy failed:",
+            error
+        );
+
+        button.classList.add(
+            "copy-failed"
+        );
+
+        const icon =
+            button.querySelector("i");
+
+        if (icon) {
+            icon.className =
+                "fa-solid fa-xmark";
+        }
+
+        showToast(
+            "Hash could not be copied",
+            "fa-xmark"
+        );
+    }
+}
+
+
+/* =========================================================
+   14. EXPORT HELPERS
+========================================================= */
+
+function ensureResultsForExport() {
+    if (currentResults.length === 0) {
+        showToast(
+            "Analyze hashes before exporting",
+            "fa-circle-exclamation"
+        );
+
         return false;
     }
 
     return true;
 }
 
-function getReportMetadata() {
-    const validCount = analysisResults.filter(
-        result => result.status === "Valid"
-    ).length;
+function downloadBlob(
+    content,
+    filename,
+    mimeType
+) {
+    const blob =
+        new Blob(
+            [content],
+            {
+                type: mimeType
+            }
+        );
 
-    const invalidCount = analysisResults.length - validCount;
+    const downloadURL =
+        URL.createObjectURL(blob);
 
-    return {
-        generatedAt: new Date().toLocaleString(),
-        totalHashes: analysisResults.length,
-        validHashes: validCount,
-        invalidHashes: invalidCount
-    };
-}
+    const link =
+        document.createElement("a");
 
-function downloadFile(content, filename, mimeType) {
-    const blob = new Blob([content], {
-        type: mimeType
-    });
-
-    const downloadUrl = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = downloadUrl;
+    link.href = downloadURL;
     link.download = filename;
 
     document.body.appendChild(link);
+
     link.click();
     link.remove();
 
-    URL.revokeObjectURL(downloadUrl);
+    URL.revokeObjectURL(
+        downloadURL
+    );
 }
 
-function getReportFilename(extension) {
-    const timestamp = new Date()
-        .toISOString()
-        .replaceAll(":", "-")
-        .replaceAll(".", "-");
-
-    return `threathawk-hash-report-${timestamp}.${extension}`;
+function createExportRows() {
+    return currentResults.map(
+        (result, index) => ({
+            number: index + 1,
+            hash: result.hash,
+            length: result.length,
+            algorithm: result.type,
+            status: result.status,
+            occurrences:
+                result.occurrences,
+            duplicate:
+                result.duplicate
+        })
+    );
 }
+
+function createReportMetadata() {
+    return {
+        generatedBy:
+            "ThreatHawk Hash Analyzer",
+        generatedAt:
+            new Date().toISOString(),
+        uniqueResults:
+            currentResults.length,
+        validResults:
+            currentResults.filter(
+                result => result.valid
+            ).length,
+        invalidResults:
+            currentResults.filter(
+                result => !result.valid
+            ).length,
+        duplicatedValues:
+            currentResults.filter(
+                result => result.duplicate
+            ).length
+    };
+}
+
+
+/* =========================================================
+   15. TXT EXPORT
+========================================================= */
 
 function exportTXT() {
-    if (!ensureResultsExist()) {
+    if (!ensureResultsForExport()) {
         return;
     }
 
-    const metadata = getReportMetadata();
+    const metadata =
+        createReportMetadata();
 
-    const resultSections = analysisResults.map(result => {
-        return [
-            `#${result.id}`,
-            `Hash   : ${result.hash}`,
-            `Length : ${result.length}`,
-            `Type   : ${result.type}`,
-            `Status : ${result.status}`,
-            "------------------------------------------------------------"
-        ].join("\n");
-    });
-
-    const report = [
-        "============================================================",
-        "              THREATHAWK HASH ANALYSIS REPORT",
-        "============================================================",
+    const lines = [
+        "THREATHAWK HASH ANALYSIS REPORT",
+        "================================",
         "",
         `Generated: ${metadata.generatedAt}`,
+        `Unique results: ${metadata.uniqueResults}`,
+        `Valid results: ${metadata.validResults}`,
+        `Invalid results: ${metadata.invalidResults}`,
+        `Duplicated values: ${metadata.duplicatedValues}`,
         "",
-        "SUMMARY",
-        "------------------------------------------------------------",
-        `Total Hashes   : ${metadata.totalHashes}`,
-        `Valid Hashes   : ${metadata.validHashes}`,
-        `Invalid Hashes : ${metadata.invalidHashes}`,
-        "",
-        "ANALYSIS RESULTS",
-        "------------------------------------------------------------",
-        "",
-        resultSections.join("\n\n"),
-        "",
-        "NOTES",
-        "------------------------------------------------------------",
-        "Hash types are inferred using hexadecimal format and digest length.",
-        "Identical digest lengths may belong to more than one algorithm.",
-        "Validation confirms format only; it does not establish reputation or safety.",
-        "",
-        "Generated by ThreatHawk",
-        "============================================================"
-    ].join("\n");
+        "RESULTS",
+        "-------"
+    ];
 
-    downloadFile(
-        report,
-        getReportFilename("txt"),
+    currentResults.forEach(
+        (result, index) => {
+            lines.push(
+                "",
+                `#${index + 1}`,
+                `Hash: ${result.hash}`,
+                `Length: ${result.length}`,
+                `Algorithm: ${result.type}`,
+                `Status: ${result.status}`,
+                `Occurrences: ${result.occurrences}`,
+                `Duplicate: ${
+                    result.duplicate
+                        ? "Yes"
+                        : "No"
+                }`
+            );
+        }
+    );
+
+    downloadBlob(
+        lines.join("\n"),
+        `threathawk-hash-report-${createTimestamp()}.txt`,
         "text/plain;charset=utf-8"
     );
 }
 
+
+/* =========================================================
+   16. JSON EXPORT
+========================================================= */
+
 function exportJSON() {
-    if (!ensureResultsExist()) {
+    if (!ensureResultsForExport()) {
         return;
     }
 
     const report = {
-        tool: "ThreatHawk Hash Analyzer",
-        metadata: getReportMetadata(),
-        results: analysisResults
+        metadata:
+            createReportMetadata(),
+
+        results:
+            createExportRows()
     };
 
-    downloadFile(
-        JSON.stringify(report, null, 2),
-        getReportFilename("json"),
+    downloadBlob(
+        JSON.stringify(
+            report,
+            null,
+            2
+        ),
+        `threathawk-hash-report-${createTimestamp()}.json`,
         "application/json;charset=utf-8"
     );
 }
 
-function escapeCSVValue(value) {
-    const stringValue = String(value);
 
-    return `"${stringValue.replaceAll('"', '""')}"`;
+/* =========================================================
+   17. CSV EXPORT
+========================================================= */
+
+function escapeCSV(value) {
+    const stringValue =
+        String(value);
+
+    return `"${stringValue.replaceAll(
+        '"',
+        '""'
+    )}"`;
 }
 
 function exportCSV() {
-    if (!ensureResultsExist()) {
+    if (!ensureResultsForExport()) {
         return;
     }
 
     const headers = [
-        "ID",
+        "Number",
         "Hash",
         "Length",
-        "Type",
-        "Status"
+        "Algorithm",
+        "Status",
+        "Occurrences",
+        "Duplicate"
     ];
 
-    const rows = analysisResults.map(result => {
-        return [
-            result.id,
-            result.hash,
-            result.length,
-            result.type,
-            result.status
-        ]
-            .map(escapeCSVValue)
-            .join(",");
-    });
+    const rows =
+        createExportRows()
+            .map(result => [
+                result.number,
+                result.hash,
+                result.length,
+                result.algorithm,
+                result.status,
+                result.occurrences,
+                result.duplicate
+                    ? "Yes"
+                    : "No"
+            ]);
 
     const csvContent = [
-        headers.map(escapeCSVValue).join(","),
-        ...rows
+        headers.map(escapeCSV).join(","),
+        ...rows.map(
+            row =>
+                row.map(escapeCSV)
+                    .join(",")
+        )
     ].join("\n");
 
-    /*
-     * UTF-8 BOM helps spreadsheet applications recognize
-     * the file encoding correctly.
-     */
-    downloadFile(
-        `\uFEFF${csvContent}`,
-        getReportFilename("csv"),
+    downloadBlob(
+        csvContent,
+        `threathawk-hash-report-${createTimestamp()}.csv`,
         "text/csv;charset=utf-8"
     );
 }
 
+
+/* =========================================================
+   18. PDF EXPORT
+========================================================= */
+
+function splitHashForPDF(
+    pdf,
+    hash,
+    maximumWidth
+) {
+    return pdf.splitTextToSize(
+        hash,
+        maximumWidth
+    );
+}
+
 function exportPDF() {
-    if (!ensureResultsExist()) {
+    if (!ensureResultsForExport()) {
         return;
     }
 
-    if (!window.jspdf?.jsPDF) {
-        alert("PDF library failed to load. Check your internet connection.");
+    if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+    ) {
+        showToast(
+            "PDF library is unavailable",
+            "fa-xmark"
+        );
+
         return;
     }
 
-    const { jsPDF } = window.jspdf;
-    const documentPDF = new jsPDF();
+    const {
+        jsPDF
+    } = window.jspdf;
 
-    const metadata = getReportMetadata();
+    const pdf =
+        new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4"
+        });
 
-    const pageWidth = documentPDF.internal.pageSize.getWidth();
-    const pageHeight = documentPDF.internal.pageSize.getHeight();
+    const pageWidth =
+        pdf.internal.pageSize.getWidth();
 
-    const leftMargin = 15;
-    const rightMargin = 15;
-    const usableWidth = pageWidth - leftMargin - rightMargin;
+    const pageHeight =
+        pdf.internal.pageSize.getHeight();
 
-    let currentY = 18;
+    const margin = 16;
+    const contentWidth =
+        pageWidth - margin * 2;
 
-    function addPageIfNeeded(requiredHeight = 20) {
-        if (currentY + requiredHeight > pageHeight - 18) {
-            documentPDF.addPage();
-            currentY = 18;
+    let y = 18;
+
+    const metadata =
+        createReportMetadata();
+
+    function ensurePageSpace(
+        requiredHeight
+    ) {
+        if (
+            y + requiredHeight >
+            pageHeight - 16
+        ) {
+            pdf.addPage();
+            y = 18;
         }
     }
 
-    function addWrappedText(text, options = {}) {
-        const {
-            fontSize = 10,
-            fontStyle = "normal",
-            gapAfter = 5
-        } = options;
+    pdf.setFont(
+        "helvetica",
+        "bold"
+    );
 
-        documentPDF.setFont("helvetica", fontStyle);
-        documentPDF.setFontSize(fontSize);
+    pdf.setFontSize(18);
 
-        const lines = documentPDF.splitTextToSize(
-            String(text),
-            usableWidth
-        );
-
-        const lineHeight = fontSize * 0.45;
-        const requiredHeight = lines.length * lineHeight + gapAfter;
-
-        addPageIfNeeded(requiredHeight);
-
-        documentPDF.text(lines, leftMargin, currentY);
-
-        currentY += requiredHeight;
-    }
-
-    documentPDF.setFont("helvetica", "bold");
-    documentPDF.setFontSize(20);
-    documentPDF.text(
+    pdf.text(
         "ThreatHawk Hash Analysis Report",
-        leftMargin,
-        currentY
+        margin,
+        y
     );
 
-    currentY += 10;
+    y += 9;
 
-    documentPDF.setFont("helvetica", "normal");
-    documentPDF.setFontSize(10);
-    documentPDF.text(
-        `Generated: ${metadata.generatedAt}`,
-        leftMargin,
-        currentY
+    pdf.setFont(
+        "helvetica",
+        "normal"
     );
 
-    currentY += 12;
+    pdf.setFontSize(9);
 
-    addWrappedText("Summary", {
-        fontSize: 15,
-        fontStyle: "bold",
-        gapAfter: 7
-    });
-
-    addWrappedText(
-        `Total Hashes: ${metadata.totalHashes}`,
-        { gapAfter: 4 }
+    pdf.text(
+        `Generated: ${new Date(
+            metadata.generatedAt
+        ).toLocaleString()}`,
+        margin,
+        y
     );
 
-    addWrappedText(
-        `Valid Hashes: ${metadata.validHashes}`,
-        { gapAfter: 4 }
+    y += 6;
+
+    pdf.text(
+        `Unique results: ${metadata.uniqueResults} | Valid: ${metadata.validResults} | Invalid: ${metadata.invalidResults} | Duplicated values: ${metadata.duplicatedValues}`,
+        margin,
+        y
     );
 
-    addWrappedText(
-        `Invalid Hashes: ${metadata.invalidHashes}`,
-        { gapAfter: 9 }
-    );
+    y += 10;
 
-    addWrappedText("Analysis Results", {
-        fontSize: 15,
-        fontStyle: "bold",
-        gapAfter: 8
-    });
+    currentResults.forEach(
+        (result, index) => {
+            const hashLines =
+                splitHashForPDF(
+                    pdf,
+                    result.hash,
+                    contentWidth - 8
+                );
 
-    analysisResults.forEach(result => {
-        addPageIfNeeded(38);
+            const blockHeight =
+                25 +
+                hashLines.length * 4;
 
-        addWrappedText(`#${result.id}`, {
-            fontSize: 11,
-            fontStyle: "bold",
-            gapAfter: 4
-        });
-
-        addWrappedText(`Hash: ${result.hash}`, {
-            fontSize: 9,
-            gapAfter: 4
-        });
-
-        addWrappedText(`Length: ${result.length}`, {
-            gapAfter: 4
-        });
-
-        addWrappedText(`Type: ${result.type}`, {
-            gapAfter: 4
-        });
-
-        addWrappedText(`Status: ${result.status}`, {
-            gapAfter: 8
-        });
-
-        documentPDF.setDrawColor(190);
-        documentPDF.line(
-            leftMargin,
-            currentY,
-            pageWidth - rightMargin,
-            currentY
-        );
-
-        currentY += 8;
-    });
-
-    addPageIfNeeded(35);
-
-    addWrappedText("Notes", {
-        fontSize: 15,
-        fontStyle: "bold",
-        gapAfter: 7
-    });
-
-    addWrappedText(
-        "Hash types are inferred using hexadecimal format and digest length."
-    );
-
-    addWrappedText(
-        "Identical digest lengths may belong to more than one algorithm."
-    );
-
-    addWrappedText(
-        "Validation confirms format only and does not establish whether a hash is safe or malicious."
-    );
-
-    documentPDF.save(getReportFilename("pdf"));
-}
-
-const supportedExtensions = ["txt", "csv", "log"];
-
-function getFileExtension(filename) {
-    return filename
-        .split(".")
-        .pop()
-        .toLowerCase();
-}
-
-function isSupportedFile(file) {
-    return supportedExtensions.includes(
-        getFileExtension(file.name)
-    );
-}
-
-function extractValuesFromFile(content) {
-    return content
-        /*
-         * Supports:
-         * - one hash per line
-         * - comma-separated CSV values
-         * - semicolon-separated values
-         * - tab-separated values
-         */
-        .split(/[\r\n,;\t]+/)
-        .map(value => value.trim())
-        .filter(value => value.length > 0);
-}
-
-function readFileAsText(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onload = event => {
-            resolve(event.target.result);
-        };
-
-        reader.onerror = () => {
-            reject(
-                new Error(`Could not read ${file.name}`)
+            ensurePageSpace(
+                blockHeight
             );
-        };
 
-        reader.readAsText(file);
-    });
-}
+            pdf.setFont(
+                "helvetica",
+                "bold"
+            );
 
-function renderSelectedFiles() {
-    if (loadedFiles.length === 0) {
-        selectedFiles.textContent = "No files selected";
+            pdf.setFontSize(10);
 
-        dropIcon.textContent = "📂";
-        dropTitle.textContent = "Drop hash files here";
-        dropText.textContent =
-            "or click to select multiple files";
+            pdf.text(
+                `#${index + 1} - ${result.type} - ${result.status}`,
+                margin,
+                y
+            );
 
-        return;
-    }
+            y += 5;
 
-    selectedFiles.innerHTML = loadedFiles
-        .map((file, index) => {
-            return `
-                <div class="selected-file-item">
-                    <div class="selected-file-info">
-                        <span class="selected-file-icon">📄</span>
+            pdf.setFont(
+                "courier",
+                "normal"
+            );
 
-                        <div>
-                            <strong>${escapeHTML(file.name)}</strong>
-                            <span>${formatFileSize(file.size)}</span>
-                        </div>
-                    </div>
+            pdf.setFontSize(8);
 
-                    <button
-                        type="button"
-                        class="remove-file-btn"
-                        data-file-index="${index}"
-                        aria-label="Remove ${escapeHTML(file.name)}"
-                        title="Remove file"
-                    >
-                        ×
-                    </button>
-                </div>
-            `;
-        })
-        .join("");
+            pdf.text(
+                hashLines,
+                margin + 3,
+                y
+            );
 
-    dropIcon.textContent = "✓";
-    dropTitle.textContent =
-        `${loadedFiles.length} file${loadedFiles.length === 1 ? "" : "s"} selected`;
+            y +=
+                hashLines.length * 4 +
+                3;
 
-    dropText.textContent =
-        "Drop more files or click to add";
-}
+            pdf.setFont(
+                "helvetica",
+                "normal"
+            );
 
-function formatFileSize(bytes) {
-    if (bytes < 1024) {
-        return `${bytes} B`;
-    }
+            pdf.setFontSize(8);
 
-    if (bytes < 1024 * 1024) {
-        return `${(bytes / 1024).toFixed(1)} KB`;
-    }
+            pdf.text(
+                `Length: ${result.length} | Occurrences: ${result.occurrences} | Duplicate: ${
+                    result.duplicate
+                        ? "Yes"
+                        : "No"
+                }`,
+                margin + 3,
+                y
+            );
 
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
+            y += 8;
 
-async function handleFiles(fileList) {
-    const incomingFiles = Array.from(fileList);
+            pdf.setDrawColor(
+                180,
+                180,
+                180
+            );
 
-    if (incomingFiles.length === 0) {
-        return;
-    }
+            pdf.line(
+                margin,
+                y,
+                pageWidth - margin,
+                y
+            );
 
-    const supportedFiles = incomingFiles.filter(isSupportedFile);
-    const rejectedFiles = incomingFiles.filter(
-        file => !isSupportedFile(file)
-    );
-
-    if (rejectedFiles.length > 0) {
-        alert(
-            `Unsupported files skipped:\n${rejectedFiles
-                .map(file => file.name)
-                .join("\n")}`
-        );
-    }
-
-    if (supportedFiles.length === 0) {
-        return;
-    }
-
-    dropZone.classList.add("is-processing");
-    dropIcon.textContent = "⏳";
-    dropTitle.textContent = "Reading files...";
-    dropText.textContent = "Please wait";
-
-    try {
-        const newHashValues = [];
-
-        for (const file of supportedFiles) {
-            const content = await readFileAsText(file);
-            const values = extractValuesFromFile(content);
-
-            newHashValues.push(...values);
+            y += 7;
         }
+    );
 
-        loadedFiles.push(...supportedFiles);
+    pdf.save(
+        `threathawk-hash-report-${createTimestamp()}.pdf`
+    );
+}
 
-        const existingValues = getHashesFromInput();
 
-        hashInput.value = [
-            ...existingValues,
-            ...newHashValues
-        ].join("\n");
+/* =========================================================
+   19. EXPORT MENU
+========================================================= */
 
-        renderSelectedFiles();
+function setExportMenuOpen(open) {
+    exportOptions.classList.toggle(
+        "show",
+        open
+    );
 
-        dropText.textContent =
-            `${newHashValues.length} value${newHashValues.length === 1 ? "" : "s"} loaded`;
-    } catch (error) {
-        console.error(error);
+    exportMenuBtn.setAttribute(
+        "aria-expanded",
+        String(open)
+    );
 
-        alert(
-            "One or more files could not be read."
+    const chevron =
+        exportMenuBtn.querySelector(
+            ".fa-chevron-down, .fa-chevron-up"
         );
 
-        renderSelectedFiles();
-    } finally {
-        dropZone.classList.remove("is-processing");
-
-        /*
-         * Reset allows selecting the same file again later.
-         */
-        hashFiles.value = "";
+    if (chevron) {
+        chevron.className =
+            open
+                ? "fa-solid fa-chevron-up"
+                : "fa-solid fa-chevron-down";
     }
 }
 
-function analyzeHashes() {
-    const hashes = getHashesFromInput();
-
-    if (hashes.length === 0) {
-        resetResults();
-
-        hashResultsBody.innerHTML = `
-            <tr class="empty-row">
-                <td colspan="7">Please enter at least one hash.</td>
-            </tr>
-        `;
-
-        return;
-    }
-
-    analyzeBtn.disabled = true;
-    analyzeBtn.textContent = "Analyzing...";
-
-    setTimeout(() => {
-        let validCount = 0;
-        let invalidCount = 0;
-
-        analysisResults = [];
-
-        const occurrenceMap = new Map();
-
-        hashes.forEach(hash => {
-            const normalizedHash = hash.toLowerCase();
-
-            occurrenceMap.set(
-                normalizedHash,
-                (occurrenceMap.get(normalizedHash) || 0) + 1
-            );
-        });
-
-        hashResultsBody.innerHTML = "";
-
-        hashes.forEach((hash, index) => {
-            const hashType = detectHashType(hash);
-            const isValid = hashType !== null;
-            const normalizedHash = hash.toLowerCase();
-            const occurrenceCount = occurrenceMap.get(normalizedHash) || 1;
-            const isDuplicate = occurrenceCount > 1;
-
-            analysisResults.push({
-                id: index + 1,
-                hash,
-                length: hash.length,
-                type: hashType || "Unknown",
-                status: isValid ? "Valid" : "Invalid",
-                occurrences: occurrenceCount,
-                duplicate: isDuplicate
-            });
-            const safeHash = escapeHTML(hash);
-            const displayedHash = escapeHTML(shortenHash(hash));
-
-            if (isValid) {
-                validCount++;
-            } else {
-                invalidCount++;
-            }
-
-            const row = document.createElement("tr");
-
-            if (isDuplicate) {
-                row.classList.add("duplicate-row");
-            }
-
-            row.innerHTML = `
-                <td>${index + 1}</td>
-
-                <td
-                    class="hash-value"
-                    title="${safeHash}"
-                    data-full-hash="${safeHash}"
-                >
-                    ${displayedHash}
-                </td>
-
-                <td>${hash.length}</td>
-
-                <td>
-                    ${hashType || "Unknown"}
-                </td>
-
-                <td>
-                    <span class="status-badge ${
-                        isValid ? "status-valid" : "status-invalid"
-                    }">
-                        ${isValid ? "Valid" : "Invalid"}
-                    </span>
-                </td>
-
-                <td>
-                    ${
-                        isDuplicate
-                        ? `<span class="duplicate-badge">${occurrenceCount}× Duplicate</span>`
-                        : `<span class="unique-badge">1×</span>`
-                    }
-                </td>
-
-                <td>
-                    <button
-                        type="button"
-                        class="row-copy-btn"
-                        data-hash="${safeHash}"
-                        aria-label="Copy hash"
-                        title="Copy full hash"
-                    >
-                        📋
-                    </button>
-                </td>
-            `;
-
-            hashResultsBody.appendChild(row);
-        });
-
-        const duplicateEntryCount = Array.from(
-            occurrenceMap.values()
-        ).reduce((total, count) => {
-            return total + Math.max(count - 1, 0);
-        }, 0);
-
-        totalHashes.textContent = hashes.length;
-        validHashes.textContent = validCount;
-        invalidHashes.textContent = invalidCount;
-
-        analyzeBtn.disabled = false;
-        analyzeBtn.textContent = "Analyze Hashes";
-    }, 300);
-}
-
-analyzeBtn.addEventListener("click", analyzeHashes);
-
-clearBtn.addEventListener("click", () => {
-    hashInput.value = "";
-
-    loadedFiles = [];
-    analysisResults = [];
-
-    hashFiles.value = "";
-
-    renderSelectedFiles();
-    resetResults();
-
-    exportOptions?.classList.remove("show");
-});
-
-hashInput.addEventListener("keydown", event => {
-    if (event.key === "Enter" && event.ctrlKey) {
-        event.preventDefault();
-        analyzeHashes();
-    }
-});
-
-hashResultsBody.addEventListener("click", async event => {
-    const copyButton = event.target.closest(".row-copy-btn");
-
-    if (!copyButton) {
-        return;
-    }
-
-    const hash = copyButton.dataset.hash;
-
-    try {
-        await navigator.clipboard.writeText(hash);
-
-        copyButton.textContent = "✓";
-        copyButton.classList.add("copied");
-
-        setTimeout(() => {
-            copyButton.textContent = "📋";
-            copyButton.classList.remove("copied");
-        }, 1200);
-    } catch (error) {
-        console.error("Copy failed:", error);
-
-        copyButton.textContent = "!";
-        copyButton.classList.add("copy-failed");
-
-        setTimeout(() => {
-            copyButton.textContent = "📋";
-            copyButton.classList.remove("copy-failed");
-        }, 1200);
-    }
-});
-
-exportMenuBtn.addEventListener("click", event => {
-    event.stopPropagation();
-    exportOptions.classList.toggle("show");
-});
-
-exportOptions.addEventListener("click", event => {
-    const exportButton = event.target.closest("[data-format]");
-
-    if (!exportButton) {
-        return;
-    }
-
-    const format = exportButton.dataset.format;
-
+function handleExport(format) {
     const exporters = {
         txt: exportTXT,
         json: exportJSON,
@@ -812,79 +1565,315 @@ exportOptions.addEventListener("click", event => {
         pdf: exportPDF
     };
 
-    const selectedExporter = exporters[format];
+    const exporter =
+        exporters[format];
 
-    if (selectedExporter) {
-        selectedExporter();
-    }
+    if (!exporter) {
+        showToast(
+            "Unsupported export format",
+            "fa-xmark"
+        );
 
-    exportOptions.classList.remove("show");
-});
-
-document.addEventListener("click", event => {
-    if (!event.target.closest(".export-menu")) {
-        exportOptions.classList.remove("show");
-    }
-});
-
-dropZone.addEventListener("click", () => {
-    hashFiles.click();
-});
-
-dropZone.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        hashFiles.click();
-    }
-});
-
-hashFiles.addEventListener("change", event => {
-    handleFiles(event.target.files);
-});
-
-dropZone.addEventListener("dragenter", event => {
-    event.preventDefault();
-    dropZone.classList.add("is-dragging");
-});
-
-dropZone.addEventListener("dragover", event => {
-    event.preventDefault();
-    dropZone.classList.add("is-dragging");
-
-    if (event.dataTransfer) {
-        event.dataTransfer.dropEffect = "copy";
-    }
-});
-
-dropZone.addEventListener("dragleave", event => {
-    /*
-     * Prevent flickering when dragging over child elements.
-     */
-    if (!dropZone.contains(event.relatedTarget)) {
-        dropZone.classList.remove("is-dragging");
-    }
-});
-
-dropZone.addEventListener("drop", event => {
-    event.preventDefault();
-    dropZone.classList.remove("is-dragging");
-
-    handleFiles(event.dataTransfer.files);
-});
-
-selectedFiles.addEventListener("click", event => {
-    const removeButton = event.target.closest(
-        ".remove-file-btn"
-    );
-
-    if (!removeButton) {
         return;
     }
 
-    const fileIndex = Number(
-        removeButton.dataset.fileIndex
+    exporter();
+
+    if (currentResults.length > 0) {
+        showToast(
+            `${format.toUpperCase()} report exported`,
+            "fa-file-export"
+        );
+    }
+}
+
+
+/* =========================================================
+   20. CLEAR AND RESET
+========================================================= */
+
+function resetStatistics() {
+    totalHashes.textContent = "0";
+    validHashes.textContent = "0";
+    invalidHashes.textContent = "0";
+    duplicateHashes.textContent = "0";
+}
+
+function clearAnalyzer() {
+    selectedFiles = [];
+    currentResults = [];
+
+    hashFilesInput.value = "";
+    hashInput.value = "";
+
+    renderSelectedFiles();
+    renderEmptyResults();
+    resetStatistics();
+
+    setExportMenuOpen(false);
+
+    showToast(
+        "Hash Analyzer cleared",
+        "fa-rotate-left"
     );
 
-    loadedFiles.splice(fileIndex, 1);
-    renderSelectedFiles();
+    hashInput.focus();
+}
+
+
+/* =========================================================
+   21. EVENT LISTENERS
+========================================================= */
+
+dropZone.addEventListener(
+    "click",
+    () => {
+        hashFilesInput.click();
+    }
+);
+
+dropZone.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+            event.preventDefault();
+            hashFilesInput.click();
+        }
+    }
+);
+
+hashFilesInput.addEventListener(
+    "change",
+    event => {
+        addFiles(
+            event.target.files
+        );
+    }
+);
+
+[
+    "dragenter",
+    "dragover"
+].forEach(eventName => {
+    dropZone.addEventListener(
+        eventName,
+        event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            dropZone.classList.add(
+                "is-dragging"
+            );
+        }
+    );
 });
+
+[
+    "dragleave",
+    "drop"
+].forEach(eventName => {
+    dropZone.addEventListener(
+        eventName,
+        event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            dropZone.classList.remove(
+                "is-dragging"
+            );
+        }
+    );
+});
+
+dropZone.addEventListener(
+    "drop",
+    event => {
+        addFiles(
+            event.dataTransfer.files
+        );
+    }
+);
+
+selectedFilesContainer.addEventListener(
+    "click",
+    event => {
+        const removeButton =
+            event.target.closest(
+                "[data-file-index]"
+            );
+
+        if (!removeButton) {
+            return;
+        }
+
+        const index =
+            Number.parseInt(
+                removeButton.dataset.fileIndex,
+                10
+            );
+
+        removeSelectedFile(index);
+    }
+);
+
+analyzeBtn.addEventListener(
+    "click",
+    analyzeHashes
+);
+
+clearBtn.addEventListener(
+    "click",
+    clearAnalyzer
+);
+
+hashInput.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter" &&
+            event.ctrlKey
+        ) {
+            event.preventDefault();
+            analyzeHashes();
+        }
+    }
+);
+
+hashResultsBody.addEventListener(
+    "click",
+    event => {
+        const copyButton =
+            event.target.closest(
+                "[data-copy-index]"
+            );
+
+        if (!copyButton) {
+            return;
+        }
+
+        const index =
+            Number.parseInt(
+                copyButton.dataset.copyIndex,
+                10
+            );
+
+        copyResultHash(
+            index,
+            copyButton
+        );
+    }
+);
+
+exportMenuBtn.addEventListener(
+    "click",
+    event => {
+        event.stopPropagation();
+
+        const currentlyOpen =
+            exportOptions.classList.contains(
+                "show"
+            );
+
+        setExportMenuOpen(
+            !currentlyOpen
+        );
+    }
+);
+
+exportOptions.addEventListener(
+    "click",
+    event => {
+        const formatButton =
+            event.target.closest(
+                "[data-format]"
+            );
+
+        if (!formatButton) {
+            return;
+        }
+
+        handleExport(
+            formatButton.dataset.format
+        );
+
+        setExportMenuOpen(false);
+    }
+);
+
+document.addEventListener(
+    "click",
+    event => {
+        if (
+            !event.target.closest(
+                ".export-menu"
+            )
+        ) {
+            setExportMenuOpen(false);
+        }
+    }
+);
+
+document.addEventListener(
+    "keydown",
+    event => {
+        if (event.key === "Escape") {
+            setExportMenuOpen(false);
+        }
+    }
+);
+
+themeToggle.addEventListener(
+    "click",
+    () => {
+        const lightModeEnabled =
+            !document.body.classList.contains(
+                "light-mode"
+            );
+
+        document.body.classList.toggle(
+            "light-mode",
+            lightModeEnabled
+        );
+
+        updateThemeButton(
+            lightModeEnabled
+        );
+
+        try {
+            localStorage.setItem(
+                "threathawk-hash-theme",
+                lightModeEnabled
+                    ? "light"
+                    : "dark"
+            );
+        } catch (error) {
+            console.warn(
+                "Theme preference could not be saved:",
+                error
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   22. INITIALIZATION
+========================================================= */
+
+function initializeHashAnalyzer() {
+    applySavedTheme();
+
+    renderSelectedFiles();
+    renderEmptyResults();
+    resetStatistics();
+
+    exportMenuBtn.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+}
+
+initializeHashAnalyzer();
