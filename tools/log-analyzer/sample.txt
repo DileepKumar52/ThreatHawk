@@ -1,0 +1,12 @@
+2026-07-17 09:12:01 INFO User login successful user=john ip=192.168.1.10
+2026-07-17 09:12:20 WARNING Failed login for user=root ip=185.220.101.12
+2026-07-17 09:12:31 WARNING Failed login for user=root ip=185.220.101.12
+2026-07-17 09:12:42 WARNING Failed login for user=admin ip=185.220.101.12
+2026-07-17 09:13:08 WARNING Failed login for user=ubuntu ip=45.227.255.206
+2026-07-17 09:13:30 INFO SSH connection established ip=192.168.1.15
+2026-07-17 09:13:42 WARNING Possible brute force detected from ip=185.220.101.12
+2026-07-17 09:14:02 INFO DNS query for github.com
+2026-07-17 09:14:20 WARNING Suspicious URL detected http://login-paypal-security.com
+2026-07-17 09:14:51 INFO Downloaded file hash=5d41402abc4b2a76b9719d911017c592
+2026-07-17 09:15:11 WARNING Known malicious IP detected ip=45.227.255.206
+2026-07-17 09:15:45 INFO User logout user=john

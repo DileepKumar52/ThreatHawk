@@ -21,8 +21,135 @@ const riskFill = document.getElementById("riskFill");
 const findingsList = document.getElementById("findingsList");
 const findingCount = document.getElementById("findingCount");
 
-function resetResults() {
+const riskScoreRing =
+    document.querySelector(".risk-score-ring");
 
+const themeToggle =
+    document.getElementById("themeToggle");
+
+const toast =
+    document.getElementById("toast");
+
+const toastMessage =
+    document.getElementById("toastMessage");
+
+let toastTimer = null;
+let currentRiskScore = 0;
+
+function showToast(
+    message,
+    iconClass = "fa-check"
+) {
+    if (!toast || !toastMessage) {
+        return;
+    }
+
+    toastMessage.textContent = message;
+
+    const icon = toast.querySelector("i");
+
+    if (icon) {
+        icon.className =
+            `fa-solid ${iconClass}`;
+    }
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2300);
+}
+
+function updateThemeButton(lightModeEnabled) {
+    if (!themeToggle) {
+        return;
+    }
+
+    const icon =
+        themeToggle.querySelector("i");
+
+    const text =
+        themeToggle.querySelector("span");
+
+    if (icon) {
+        icon.className =
+            lightModeEnabled
+                ? "fa-regular fa-moon"
+                : "fa-regular fa-sun";
+    }
+
+    if (text) {
+        text.textContent =
+            lightModeEnabled
+                ? "Dark Mode"
+                : "Light Mode";
+    }
+
+    themeToggle.setAttribute(
+        "aria-label",
+        lightModeEnabled
+            ? "Switch to dark mode"
+            : "Switch to light mode"
+    );
+}
+
+function applySavedTheme() {
+    let savedTheme = null;
+
+    try {
+        savedTheme =
+            localStorage.getItem(
+                "threathawk-url-theme"
+            );
+    } catch (error) {
+        console.warn(
+            "Theme preference could not be read:",
+            error
+        );
+    }
+
+    const lightModeEnabled =
+        savedTheme === "light";
+
+    document.body.classList.toggle(
+        "light-mode",
+        lightModeEnabled
+    );
+
+    updateThemeButton(lightModeEnabled);
+}
+
+function toggleTheme() {
+    const lightModeEnabled =
+        !document.body.classList.contains(
+            "light-mode"
+        );
+
+    document.body.classList.toggle(
+        "light-mode",
+        lightModeEnabled
+    );
+
+    updateThemeButton(lightModeEnabled);
+
+    try {
+        localStorage.setItem(
+            "threathawk-url-theme",
+            lightModeEnabled
+                ? "light"
+                : "dark"
+        );
+    } catch (error) {
+        console.warn(
+            "Theme preference could not be saved:",
+            error
+        );
+    }
+}
+
+function resetResults() {
     protocol.textContent = "-";
     hostname.textContent = "-";
     domain.textContent = "-";
@@ -35,23 +162,48 @@ function resetResults() {
     fragment.textContent = "-";
     length.textContent = "-";
 
-    updateRiskMeter(0);
-    riskLabel.textContent = "Not analyzed";
-    findingCount.textContent = "0 findings";
+    hostname.title = "-";
+    domain.title = "-";
+    path.title = "-";
+    fragment.title = "-";
+
+    updateRiskMeter(0, true);
+
+    findingCount.textContent =
+        "0 findings";
 
     findingsList.innerHTML = `
-        <p class="empty-findings">
-            Analyze a URL to view security findings.
-        </p>
-    `;
+        <div class="findings-empty-state">
 
+            <div class="empty-state-icon">
+                <i class="fa-solid fa-shield"></i>
+            </div>
+
+            <strong>
+                No URL analyzed
+            </strong>
+
+            <p class="empty-findings">
+                Enter a website address and run the analyzer
+                to view structural security findings.
+            </p>
+
+        </div>
+    `;
 }
 
-function updateRiskMeter(score) {
-    const safeScore = Math.max(0, Math.min(score, 100));
-
-    riskScore.textContent = safeScore;
-    riskFill.style.width = `${safeScore}%`;
+function updateRiskMeter(
+    score,
+    forceNotAnalyzed = false
+) {
+    const safeScore =
+        Math.max(
+            0,
+            Math.min(
+                Math.round(score),
+                100
+            )
+        );
 
     riskFill.classList.remove(
         "risk-low",
@@ -60,19 +212,101 @@ function updateRiskMeter(score) {
         "risk-critical"
     );
 
+    riskScoreRing.classList.remove(
+        "risk-low-state",
+        "risk-medium-state",
+        "risk-high-state",
+        "risk-critical-state"
+    );
+
+    let label;
+    let fillClass;
+    let ringClass;
+
     if (safeScore <= 24) {
-        riskLabel.textContent = "Low Risk";
-        riskFill.classList.add("risk-low");
+        label = "Low Risk";
+        fillClass = "risk-low";
+        ringClass = "risk-low-state";
     } else if (safeScore <= 49) {
-        riskLabel.textContent = "Medium Risk";
-        riskFill.classList.add("risk-medium");
+        label = "Medium Risk";
+        fillClass = "risk-medium";
+        ringClass = "risk-medium-state";
     } else if (safeScore <= 74) {
-        riskLabel.textContent = "High Risk";
-        riskFill.classList.add("risk-high");
+        label = "High Risk";
+        fillClass = "risk-high";
+        ringClass = "risk-high-state";
     } else {
-        riskLabel.textContent = "Critical Risk";
-        riskFill.classList.add("risk-critical");
+        label = "Critical Risk";
+        fillClass = "risk-critical";
+        ringClass = "risk-critical-state";
     }
+
+    riskFill.classList.add(fillClass);
+    riskScoreRing.classList.add(ringClass);
+
+    riskFill.style.width =
+        `${safeScore}%`;
+
+    if (forceNotAnalyzed) {
+        riskLabel.textContent =
+            "Not analyzed";
+
+        riskScore.textContent = "0";
+        currentRiskScore = 0;
+
+        return;
+    }
+
+    riskLabel.textContent = label;
+
+    const startScore =
+        currentRiskScore;
+
+    const difference =
+        safeScore - startScore;
+
+    const duration = 600;
+    const startTime = performance.now();
+
+    riskScore.classList.remove("updated");
+
+    function animate(currentTime) {
+        const elapsed =
+            currentTime - startTime;
+
+        const progress =
+            Math.min(
+                elapsed / duration,
+                1
+            );
+
+        const eased =
+            1 - Math.pow(1 - progress, 3);
+
+        const displayedScore =
+            Math.round(
+                startScore +
+                difference * eased
+            );
+
+        riskScore.textContent =
+            displayedScore;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            riskScore.textContent =
+                safeScore;
+
+            riskScore.classList.add(
+                "updated"
+            );
+        }
+    }
+
+    requestAnimationFrame(animate);
+
+    currentRiskScore = safeScore;
 }
 
 const suspiciousKeywords = [
@@ -618,48 +852,140 @@ function analyzeURLRisk(parsed, originalURL) {
     };
 }
 
+function escapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function getFindingSeverity(points) {
+    if (points <= 0) {
+        return {
+            className: "finding-low",
+            label: "Info",
+            icon: "fa-circle-info"
+        };
+    }
+
+    if (points <= 7) {
+        return {
+            className: "finding-low",
+            label: "Low",
+            icon: "fa-shield-check"
+        };
+    }
+
+    if (points <= 15) {
+        return {
+            className: "finding-medium",
+            label: "Medium",
+            icon: "fa-triangle-exclamation"
+        };
+    }
+
+    if (points <= 24) {
+        return {
+            className: "finding-high",
+            label: "High",
+            icon: "fa-circle-exclamation"
+        };
+    }
+
+    return {
+        className: "finding-critical",
+        label: "Critical",
+        icon: "fa-skull-crossbones"
+    };
+}
+
 function renderFindings(findings) {
     findingCount.textContent =
         `${findings.length} ${
-            findings.length === 1 ? "finding" : "findings"
+            findings.length === 1
+                ? "finding"
+                : "findings"
         }`;
 
     if (findings.length === 0) {
         findingsList.innerHTML = `
-            <div class="finding-item finding-safe">
-                <div class="finding-icon">✓</div>
+            <div class="finding-card finding-safe">
 
-                <div>
-                    <h3>No obvious structural risks detected</h3>
-                    <p>
-                        The URL passed the current local heuristic checks.
-                        This does not guarantee that the destination is safe.
-                    </p>
+                <div class="finding-icon">
+                    <i class="fa-solid fa-shield-check"></i>
                 </div>
+
+                <div class="finding-content">
+
+                    <div class="finding-title-row">
+
+                        <h3>
+                            No obvious structural risks detected
+                        </h3>
+
+                        <span>Low</span>
+
+                    </div>
+
+                    <p>
+                        The URL passed the current heuristic
+                        and reputation checks. This does not
+                        guarantee that the destination is safe.
+                    </p>
+
+                </div>
+
             </div>
         `;
 
         return;
     }
 
-    findingsList.innerHTML = findings
-        .map(finding => {
-            return `
-                <div class="finding-item">
-                    <div class="finding-icon">!</div>
+    findingsList.innerHTML =
+        findings
+            .map(finding => {
+                const severity =
+                    getFindingSeverity(
+                        finding.points
+                    );
 
-                    <div class="finding-content">
-                        <div class="finding-title-row">
-                            <h3>${finding.title}</h3>
-                            <span>+${finding.points}</span>
+                return `
+                    <div class="finding-card ${severity.className}">
+
+                        <div class="finding-icon">
+                            <i class="fa-solid ${severity.icon}"></i>
                         </div>
 
-                        <p>${finding.description}</p>
+                        <div class="finding-content">
+
+                            <div class="finding-title-row">
+
+                                <h3>
+                                    ${escapeHTML(finding.title)}
+                                </h3>
+
+                                <span>
+                                    ${
+                                        finding.points > 0
+                                            ? `+${finding.points}`
+                                            : severity.label
+                                    }
+                                </span>
+
+                            </div>
+
+                            <p>
+                                ${escapeHTML(finding.description)}
+                            </p>
+
+                        </div>
+
                     </div>
-                </div>
-            `;
-        })
-        .join("");
+                `;
+            })
+            .join("");
 }
 
 async function checkSafeBrowsing(url) {
@@ -687,7 +1013,12 @@ async function analyzeURL() {
     let input = urlInput.value.trim();
 
     if (!input) {
-        alert("Please enter a URL.");
+        showToast(
+            "Please enter a URL first",
+            "fa-circle-exclamation"
+        );
+
+        urlInput.focus();
         return;
     }
 
@@ -705,12 +1036,14 @@ async function analyzeURL() {
             parsed.protocol.replace(":", "").toUpperCase();
 
         hostname.textContent = parsed.hostname;
+        hostname.title = parsed.hostname;
 
         const parts = parsed.hostname.split(".");
 
         if (parts.length >= 2) {
 
             domain.textContent = parts[parts.length - 2];
+            domain.title = domain.textContent;
 
             tld.textContent =
                 "." + parts[parts.length - 1];
@@ -749,6 +1082,8 @@ async function analyzeURL() {
         path.textContent =
             parsed.pathname || "/";
 
+        path.title = path.textContent;
+
         query.textContent =
             parsed.search
                 ? new URLSearchParams(parsed.search).size
@@ -758,7 +1093,9 @@ async function analyzeURL() {
             parsed.hash
                 ? parsed.hash.substring(1)
                 : "None";
-
+        fragment.title =
+            fragment.textContent;
+            
         length.textContent =
             input.length + " Characters";
 
@@ -772,7 +1109,15 @@ async function analyzeURL() {
             const finalFindings = [...riskAnalysis.findings];
 
             analyzeBtn.disabled = true;
-            analyzeBtn.textContent = "Checking Reputation...";
+
+            analyzeBtn.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Checking Reputation...
+            `;
+
+            document
+                .querySelector(".analyzer-workspace")
+                ?.classList.add("is-loading");
 
             try {
                 const reputationResult =
@@ -814,34 +1159,63 @@ async function analyzeURL() {
                         "The local analysis completed, but Google Safe Browsing could not be reached."
                 );
             } finally {
+
+                document
+                    .querySelector(".analyzer-workspace")
+                    ?.classList.remove("is-loading");
+                
                 analyzeBtn.disabled = false;
-                analyzeBtn.textContent = "Analyze URL";
+
+                analyzeBtn.innerHTML = `
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    Analyze URL
+                `;
             }
 
             updateRiskMeter(finalScore);
             renderFindings(finalFindings);
 
+            showToast(
+                "URL analysis completed",
+                "fa-shield-halved"
+            );
+
         }
 
-    catch {
+    catch (error) {
+        console.error(
+            "URL analysis failed:",
+            error
+        );
 
-        alert("Invalid URL.");
+        showToast(
+            "Please enter a valid URL",
+            "fa-xmark"
+        );
 
         resetResults();
-
+        urlInput.focus();
     }
 
 }
 
 analyzeBtn.addEventListener("click", analyzeURL);
 
-clearBtn.addEventListener("click", () => {
+clearBtn.addEventListener(
+    "click",
+    () => {
+        urlInput.value = "";
 
-    urlInput.value = "";
+        resetResults();
 
-    resetResults();
+        showToast(
+            "URL Analyzer cleared",
+            "fa-rotate-left"
+        );
 
-});
+        urlInput.focus();
+    }
+);
 
 urlInput.addEventListener("keydown", event => {
 
@@ -854,3 +1228,15 @@ urlInput.addEventListener("keydown", event => {
     }
 
 });
+
+themeToggle.addEventListener(
+    "click",
+    toggleTheme
+);
+
+function initializeURLAnalyzer() {
+    applySavedTheme();
+    resetResults();
+}
+
+initializeURLAnalyzer();

@@ -519,11 +519,11 @@ body.light-mode .site-header {
     background: var(--surface-light-transparent);
 }
 
-.nav-links a:nth-child(4) {
+.nav-links a:nth-child(5) {
     color: var(--accent-bright);
 }
 
-.nav-links a:nth-child(4)::after {
+.nav-links a:nth-child(5)::after {
     content: "";
 
     position: absolute;

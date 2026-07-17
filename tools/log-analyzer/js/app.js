@@ -24,6 +24,51 @@ let latestReport = "";
 
 const recommendations = document.getElementById("recommendations");
 
+const fileName = document.getElementById("fileName");
+const clearBtn = document.getElementById("clearBtn");
+
+const dropZone = document.getElementById("dropZone");
+const selectedFilePanel =
+    document.getElementById("selectedFilePanel");
+
+const processingPanel =
+    document.getElementById("processingPanel");
+
+const processingStage =
+    document.getElementById("processingStage");
+
+const processingPercent =
+    document.getElementById("processingPercent");
+
+const processingFill =
+    document.getElementById("processingFill");
+
+const threatSphere =
+    document.getElementById("threatSphere");
+
+const threatLevelElement =
+    document.getElementById("threatLevel");
+
+const attackTimeline =
+    document.getElementById("attackTimeline");
+
+const iocCountBadge =
+    document.getElementById("iocCount");
+
+const eventCountBadge =
+    document.getElementById("eventCountBadge");
+
+const themeToggle =
+    document.getElementById("themeToggle");
+
+const toast =
+    document.getElementById("toast");
+
+const toastMessage =
+    document.getElementById("toastMessage");
+
+let toastTimer = null;
+
 const knownMaliciousIPs = [
     "45.227.255.206",
     "185.143.223.11",
@@ -32,82 +77,554 @@ const knownMaliciousIPs = [
 
 let detectedIOCs = [];
 
+function showToast(
+    message,
+    iconClass = "fa-check"
+) {
+    if (!toast || !toastMessage) {
+        return;
+    }
+
+    toastMessage.textContent = message;
+
+    const icon = toast.querySelector("i");
+
+    if (icon) {
+        icon.className =
+            `fa-solid ${iconClass}`;
+    }
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2300);
+}
+
+function updateThemeButton(lightModeEnabled) {
+    if (!themeToggle) {
+        return;
+    }
+
+    const icon =
+        themeToggle.querySelector("i");
+
+    const text =
+        themeToggle.querySelector("span");
+
+    if (icon) {
+        icon.className =
+            lightModeEnabled
+                ? "fa-regular fa-moon"
+                : "fa-regular fa-sun";
+    }
+
+    if (text) {
+        text.textContent =
+            lightModeEnabled
+                ? "Dark Mode"
+                : "Light Mode";
+    }
+
+    themeToggle.setAttribute(
+        "aria-label",
+        lightModeEnabled
+            ? "Switch to dark mode"
+            : "Switch to light mode"
+    );
+}
+
+function applySavedTheme() {
+    const savedTheme =
+        localStorage.getItem(
+            "threathawk-log-theme"
+        );
+
+    const lightModeEnabled =
+        savedTheme === "light";
+
+    document.body.classList.toggle(
+        "light-mode",
+        lightModeEnabled
+    );
+
+    updateThemeButton(lightModeEnabled);
+}
+
+function toggleTheme() {
+    const lightModeEnabled =
+        !document.body.classList.contains(
+            "light-mode"
+        );
+
+    document.body.classList.toggle(
+        "light-mode",
+        lightModeEnabled
+    );
+
+    localStorage.setItem(
+        "threathawk-log-theme",
+        lightModeEnabled
+            ? "light"
+            : "dark"
+    );
+
+    updateThemeButton(lightModeEnabled);
+}
+
+function setProcessingProgress(
+    percent,
+    stage,
+    message = ""
+) {
+    const safePercent =
+        Math.max(
+            0,
+            Math.min(percent, 100)
+        );
+
+    processingPercent.textContent =
+        `${safePercent}%`;
+
+    processingFill.style.width =
+        `${safePercent}%`;
+
+    processingStage.textContent =
+        stage;
+
+    loadingMessage.textContent =
+        message;
+}
+
+function animateNumber(
+    element,
+    targetValue,
+    duration = 500
+) {
+    const startValue =
+        Number.parseInt(
+            element.textContent,
+            10
+        ) || 0;
+
+    const difference =
+        targetValue - startValue;
+
+    const startTime =
+        performance.now();
+
+    function update(currentTime) {
+        const progress =
+            Math.min(
+                (currentTime - startTime) /
+                duration,
+                1
+            );
+
+        const eased =
+            1 - Math.pow(1 - progress, 3);
+
+        element.textContent =
+            Math.round(
+                startValue +
+                difference * eased
+            );
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent =
+                targetValue;
+
+            element.classList.add(
+                "updated"
+            );
+        }
+    }
+
+    requestAnimationFrame(update);
+}
+
+function updateThreatSphere(
+    score,
+    threatLevel
+) {
+    threatSphere.classList.remove(
+        "threat-low-state",
+        "threat-medium-state",
+        "threat-high-state",
+        "threat-critical-state"
+    );
+
+    const stateClass =
+        threatLevel === "Critical"
+            ? "threat-critical-state"
+            : threatLevel === "High"
+                ? "threat-high-state"
+                : threatLevel === "Medium"
+                    ? "threat-medium-state"
+                    : "threat-low-state";
+
+    threatSphere.classList.add(
+        stateClass
+    );
+
+    threatLevelElement.textContent =
+        `${threatLevel} Risk`;
+
+    animateNumber(
+        threatScore,
+        score,
+        650
+    );
+}
+
+function updateSelectedFile(file) {
+    if (!file) {
+        fileName.textContent =
+            "No file selected";
+
+        selectedFilePanel.classList.add(
+            "empty-file"
+        );
+
+        return;
+    }
+
+    fileName.textContent =
+        `${file.name} · ${formatFileSize(file.size)}`;
+
+    selectedFilePanel.classList.remove(
+        "empty-file"
+    );
+}
+
+function formatFileSize(bytes) {
+    if (!bytes) {
+        return "0 B";
+    }
+
+    const units = [
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+    const index =
+        Math.min(
+            Math.floor(
+                Math.log(bytes) /
+                Math.log(1024)
+            ),
+            units.length - 1
+        );
+
+    const value =
+        bytes / Math.pow(1024, index);
+
+    return `${value.toFixed(
+        index === 0 ? 0 : 1
+    )} ${units[index]}`;
+}
+
 severityFilter.addEventListener("change", filterTable);
 searchInput.addEventListener("input", filterTable);
 
-logFile.addEventListener("change", function () {
-    const file = logFile.files[0];
-    const fileName = document.getElementById("fileName");
+logFile.addEventListener(
+    "change",
+    () => {
+        updateSelectedFile(
+            logFile.files[0]
+        );
+    }
+);
 
-    fileName.textContent = file ? file.name : "No file selected";
+dropZone.addEventListener(
+    "click",
+    () => {
+        logFile.click();
+    }
+);
+
+dropZone.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+            event.preventDefault();
+            logFile.click();
+        }
+    }
+);
+
+[
+    "dragenter",
+    "dragover"
+].forEach(eventName => {
+    dropZone.addEventListener(
+        eventName,
+        event => {
+            event.preventDefault();
+
+            dropZone.classList.add(
+                "is-dragging"
+            );
+        }
+    );
 });
 
-function filterTable() {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedSeverity = severityFilter.value;
+[
+    "dragleave",
+    "drop"
+].forEach(eventName => {
+    dropZone.addEventListener(
+        eventName,
+        event => {
+            event.preventDefault();
 
-    const rows = document.querySelectorAll("#eventTable tr");
+            dropZone.classList.remove(
+                "is-dragging"
+            );
+        }
+    );
+});
+
+dropZone.addEventListener(
+    "drop",
+    event => {
+        const files =
+            event.dataTransfer.files;
+
+        if (!files.length) {
+            return;
+        }
+
+        const file = files[0];
+
+        const extension =
+            file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+        if (
+            !["txt", "log", "csv"]
+                .includes(extension)
+        ) {
+            showToast(
+                "Only TXT, LOG and CSV files are supported",
+                "fa-triangle-exclamation"
+            );
+
+            return;
+        }
+
+        const transfer =
+            new DataTransfer();
+
+        transfer.items.add(file);
+
+        logFile.files =
+            transfer.files;
+
+        updateSelectedFile(file);
+    }
+);
+
+function filterTable() {
+    const searchText =
+        searchInput.value
+            .toLowerCase();
+
+    const selectedSeverity =
+        severityFilter.value;
+
+    const rows =
+        document.querySelectorAll(
+            "#eventTable tr"
+        );
 
     rows.forEach(row => {
-        const rowText = row.textContent.toLowerCase();
+        if (
+            row.classList.contains(
+                "empty-row"
+            ) ||
+            row.cells.length < 2
+        ) {
+            return;
+        }
+
+        const rowText =
+            row.textContent
+                .toLowerCase();
+
         const severity =
-            row.cells[1].textContent.trim();
+            row.cells[1]
+                .textContent
+                .trim();
 
         const matchesSearch =
-            rowText.includes(searchText);
+            rowText.includes(
+                searchText
+            );
 
         const matchesSeverity =
             selectedSeverity === "All" ||
-            severity === selectedSeverity;
+            severity ===
+                selectedSeverity;
 
-        if (matchesSearch && matchesSeverity) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
+        row.style.display =
+            matchesSearch &&
+            matchesSeverity
+                ? ""
+                : "none";
     });
 }
 
-uploadBtn.addEventListener("click", function () 
-    {
-        const file = logFile.files[0];
+uploadBtn.addEventListener(
+    "click",
+    () => {
+        const file =
+            logFile.files[0];
 
         if (!file) {
-            alert("Please select a log file first.");
+            showToast(
+                "Please select a log file first",
+                "fa-circle-exclamation"
+            );
+
             return;
         }
 
         uploadBtn.disabled = true;
-        uploadBtn.textContent = "Analyzing...";
-        loadingMessage.textContent = "Processing log file, please wait...";
 
-        const reader = new FileReader();
+        uploadBtn.innerHTML = `
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Analyzing...
+        `;
 
-        reader.onload = function (event) {
-            const content = event.target.result;
+        dropZone.classList.add(
+            "is-processing"
+        );
 
-            const logLines = content
-            .split("\n")
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
+        setProcessingProgress(
+            10,
+            "Reading log file",
+            "Loading file contents..."
+        );
 
-            setTimeout(() => {
-                try {
-                    analyzeLogs(logLines);
-                    loadingMessage.textContent = "Analysis complete.";
+        const reader =
+            new FileReader();
 
-                    setTimeout(() => {
-                    loadingMessage.textContent = "";
-                    }, 2500);
-                } catch (error) {
-                    console.error(error);
-                    loadingMessage.textContent = "Something went wrong while analyzing the log.";
-                } finally {
-                    uploadBtn.disabled = false;
-                    uploadBtn.textContent = "Analyze Log";
-                }
-            }, 100);
-        };
+        reader.onload =
+            function (event) {
+                const content =
+                    event.target.result;
+
+                setProcessingProgress(
+                    30,
+                    "Parsing events",
+                    "Normalizing log entries..."
+                );
+
+                const logLines =
+                    content
+                        .split(/\r?\n/)
+                        .map(line =>
+                            line.trim()
+                        )
+                        .filter(Boolean);
+
+                setTimeout(() => {
+                    setProcessingProgress(
+                        55,
+                        "Extracting indicators",
+                        "Searching for IPs, URLs, hashes and CVEs..."
+                    );
+                }, 180);
+
+                setTimeout(() => {
+                    setProcessingProgress(
+                        75,
+                        "Detecting attack patterns",
+                        "Checking authentication failures and brute-force activity..."
+                    );
+                }, 360);
+
+                setTimeout(() => {
+                    try {
+                        analyzeLogs(
+                            logLines
+                        );
+
+                        setProcessingProgress(
+                            100,
+                            "Analysis complete",
+                            "Threat analysis completed successfully."
+                        );
+
+                        showToast(
+                            "Log analysis completed",
+                            "fa-shield-halved"
+                        );
+                    } catch (error) {
+                        console.error(error);
+
+                        setProcessingProgress(
+                            0,
+                            "Analysis failed",
+                            "Something went wrong while analyzing the log."
+                        );
+
+                        showToast(
+                            "Log analysis failed",
+                            "fa-xmark"
+                        );
+                    } finally {
+                        uploadBtn.disabled =
+                            false;
+
+                        uploadBtn.innerHTML = `
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            Analyze Log
+                        `;
+
+                        dropZone.classList.remove(
+                            "is-processing"
+                        );
+                    }
+                }, 600);
+            };
+
+        reader.onerror =
+            function () {
+                setProcessingProgress(
+                    0,
+                    "File read failed",
+                    "The selected file could not be read."
+                );
+
+                uploadBtn.disabled = false;
+
+                uploadBtn.innerHTML = `
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    Analyze Log
+                `;
+
+                dropZone.classList.remove(
+                    "is-processing"
+                );
+
+                showToast(
+                    "The selected file could not be read",
+                    "fa-xmark"
+                );
+            };
 
         reader.readAsText(file);
     }
@@ -188,6 +705,7 @@ function analyzeLogs(logLines) {
 
     const failedLoginCounts = {};
     const alerts = [];
+    const timelineEvents = [];
 
     let score = 0;
 
@@ -246,7 +764,27 @@ function analyzeLogs(logLines) {
         } 
         else {
             infoCount++;
-        }       
+        }
+        
+        if (severity === "Warning") {
+            timelineEvents.push({
+                time,
+                title: "Failed authentication",
+                description: line
+            });
+        }
+
+        if (
+            ip !== "-" &&
+            knownMaliciousIPs.includes(ip)
+        ) {
+            timelineEvents.push({
+                time,
+                title: "Known malicious IP detected",
+                description:
+                    `${ip} matched the local malicious-IP list.`
+            });
+        }
 
         const row = document.createElement("tr");
 
@@ -286,19 +824,63 @@ function analyzeLogs(logLines) {
         }
     });
 
-    totalEvents.textContent = logLines.length;
-    failedLogins.textContent = failedCount;
-    suspiciousIPs.textContent = suspiciousCount;
-    criticalAlerts.textContent = criticalCount;
+    animateNumber(
+        totalEvents,
+        logLines.length
+    );
+
+    animateNumber(
+        failedLogins,
+        failedCount
+    );
+
+    animateNumber(
+        suspiciousIPs,
+        suspiciousCount
+    );
+
+    animateNumber(
+        criticalAlerts,
+        criticalCount
+    );
+
+    eventCountBadge.textContent =
+        `${logLines.length} ${
+            logLines.length === 1
+                ? "event"
+                : "events"
+        }`;
 
     updateChart(infoCount, warningCount);
 
     if (alerts.length === 0) {
-        alertPanel.innerHTML = "No alerts yet.";
+        alertPanel.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+
+                <strong>
+                    No critical alerts detected
+                </strong>
+
+                <p>
+                    The analyzed log did not produce
+                    any high-priority alerts.
+                </p>
+
+            </div>
+        `;
     } else {
-        alertPanel.innerHTML = alerts
-            .map(alert => `<div class="alert-item">${alert}</div>`)
-            .join("");
+        alertPanel.innerHTML =
+            alerts
+                .map(alert => `
+                    <div class="alert-item">
+                        <span>${alert}</span>
+                    </div>
+                `)
+                .join("");
     }
     
     score = 0;
@@ -336,24 +918,117 @@ function analyzeLogs(logLines) {
         threatLevel = "Medium";
     }
 
-    threatScore.innerHTML = `
-        ${score}
-        <div class="threat-level">${threatLevel}</div>
-    `;
+    updateThreatSphere(
+        score,
+        threatLevel
+    );
+
+    iocCountBadge.textContent =
+    `${detectedIOCs.length} ${
+        detectedIOCs.length === 1
+            ? "indicator"
+            : "indicators"
+    }`;
 
     if (detectedIOCs.length === 0) {
-        iocList.innerHTML = "No IOCs detected.";
-    } 
-    else {
-        iocList.innerHTML = detectedIOCs
-        .sort((a, b) => b.count - a.count)
-            .map(ioc => `
-                <div class="ioc-item">
-                    <span>🚨 ${ioc.type}: ${ioc.value}</span>
-                    <span class="ioc-badge">${ioc.count} Hits</span>
+        iocList.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-crosshairs"></i>
                 </div>
-            `)
-        .join("");
+
+                <strong>
+                    No IOCs detected
+                </strong>
+
+                <p>
+                    No URLs, domains, hashes,
+                    CVEs or malicious IP matches
+                    were extracted.
+                </p>
+
+            </div>
+        `;
+    } else {
+        iocList.innerHTML =
+            detectedIOCs
+                .sort(
+                    (first, second) =>
+                        second.count -
+                        first.count
+                )
+                .map(ioc => `
+                    <div class="ioc-item">
+
+                        <div>
+                            <strong>
+                                ${ioc.type}: ${ioc.value}
+                            </strong>
+
+                            <p>
+                                Extracted indicator of compromise
+                            </p>
+                        </div>
+
+                        <span class="ioc-badge">
+                            ${ioc.count} ${
+                                ioc.count === 1
+                                    ? "Hit"
+                                    : "Hits"
+                            }
+                        </span>
+
+                    </div>
+                `)
+                .join("");
+    }
+
+    if (timelineEvents.length === 0) {
+        attackTimeline.innerHTML = `
+            <div class="timeline-empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <strong>
+                    No notable timeline events
+                </strong>
+
+                <p>
+                    No authentication failures or known
+                    malicious-IP events were identified.
+                </p>
+
+            </div>
+        `;
+    } else {
+        attackTimeline.innerHTML =
+            timelineEvents
+                .slice(0, 50)
+                .map(event => `
+                    <article class="timeline-item">
+
+                        <div class="timeline-item-header">
+
+                            <strong>
+                                ${event.title}
+                            </strong>
+
+                            <time>
+                                ${event.time}
+                            </time>
+
+                        </div>
+
+                        <p>
+                            ${event.description}
+                        </p>
+
+                    </article>
+                `)
+                .join("");
     }
 
     latestReport = `
@@ -471,10 +1146,10 @@ function analyzeLogs(logLines) {
     recommendations.innerHTML = `
         <h3>Recommended Actions</h3>
         <ul class="recommendation-list">
-            <li>✔ ${recommendationText}</li>
-            <li>✔ Enable Multi-Factor Authentication (MFA).</li>
-            <li>✔ Review successful logins after repeated failures.</li>
-            <li>✔ Continue monitoring suspicious source IPs.</li>
+            <li>${recommendationText}</li>
+            <li>Enable Multi-Factor Authentication (MFA).</li>
+            <li>Review successful logins after repeated failures.</li>
+            <li>Continue monitoring suspicious source IPs.</li>
         </ul>
     `;
 
@@ -494,9 +1169,14 @@ function updateChart(infoCount, warningCount) {
             datasets: [{
                 data: [infoCount, warningCount],
                 backgroundColor: [
-                    "#00d4ff",
-                    "#ffb347"
-                ]
+                    "#64748b",
+                    "#ff8c1a"
+                ],
+                borderColor: [
+                    "#94a3b8",
+                    "#ffab47"
+                ],
+                borderWidth: 1
             }]
         },
         options: {
@@ -514,7 +1194,11 @@ function updateChart(infoCount, warningCount) {
 
 exportReportBtn.addEventListener("click", function () {
     if (!latestReport) {
-        alert("Please analyze a log file first.");
+        showToast(
+            "Analyze a log file before exporting",
+            "fa-circle-exclamation"
+        );
+
         return;
     }
 
@@ -528,4 +1212,169 @@ exportReportBtn.addEventListener("click", function () {
     link.click();
 
     URL.revokeObjectURL(link.href);
+    
+    showToast(
+        "Incident report exported",
+        "fa-file-export"
+    );
 });
+
+clearBtn.addEventListener(
+    "click",
+    () => {
+        logFile.value = "";
+
+        updateSelectedFile(null);
+
+        totalEvents.textContent = "0";
+        criticalAlerts.textContent = "0";
+        suspiciousIPs.textContent = "0";
+        failedLogins.textContent = "0";
+
+        updateThreatSphere(
+            0,
+            "Low"
+        );
+
+        eventCountBadge.textContent =
+            "0 events";
+
+        iocCountBadge.textContent =
+            "0 indicators";
+
+        eventTable.innerHTML = `
+            <tr class="empty-row">
+
+                <td colspan="4">
+
+                    <div class="table-empty-state">
+
+                        <div class="empty-state-icon">
+                            <i class="fa-solid fa-table-list"></i>
+                        </div>
+
+                        <strong>
+                            No events available
+                        </strong>
+
+                        <p>
+                            Upload and analyze a log file
+                            to populate this table.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+        `;
+
+        alertPanel.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <strong>
+                    No alerts detected
+                </strong>
+
+                <p>
+                    Upload and analyze a log file
+                    to view security alerts.
+                </p>
+
+            </div>
+        `;
+
+        attackTimeline.innerHTML = `
+            <div class="timeline-empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <strong>
+                    No timeline generated
+                </strong>
+
+                <p>
+                    Notable events will appear here
+                    after analysis.
+                </p>
+
+            </div>
+        `;
+
+        iocList.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </div>
+
+                <strong>
+                    No IOCs detected
+                </strong>
+
+                <p>
+                    Extracted indicators will appear
+                    here after analysis.
+                </p>
+
+            </div>
+        `;
+
+        incidentSummary.textContent =
+            "No incident summary generated.";
+
+        recommendations.innerHTML = "";
+
+        latestReport = "";
+        detectedIOCs = [];
+
+        setProcessingProgress(
+            0,
+            "Waiting for a file",
+            ""
+        );
+
+        searchInput.value = "";
+        severityFilter.value = "All";
+
+        if (eventChart) {
+            eventChart.destroy();
+            eventChart = null;
+        }
+
+        showToast(
+            "Log Analyzer cleared",
+            "fa-rotate-left"
+        );
+    }
+);
+
+themeToggle.addEventListener(
+    "click",
+    toggleTheme
+);
+
+function initializeLogAnalyzer() {
+    applySavedTheme();
+
+    setProcessingProgress(
+        0,
+        "Waiting for a file",
+        ""
+    );
+
+    updateSelectedFile(null);
+
+    updateThreatSphere(
+        0,
+        "Low"
+    );
+}
+
+initializeLogAnalyzer();

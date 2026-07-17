@@ -1,182 +1,1095 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatHawk</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Analyze authentication and security logs, detect brute-force attacks, extract IOCs and generate incident summaries with ThreatHawk Log Analysis."
+    >
+
+    <title>Log Analysis | ThreatHawk</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<nav class="top-nav">
-    <h1>ThreatHawk</h1>
+    <!-- ==========================================
+         ThreatHawk Navigation
+    =========================================== -->
 
-    <div class="nav-links">
-        <a href="#tool">Analyzer</a>
-        <a href="#features">Features</a>
-        <a href="#incidentSummary">Report</a>
-        <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank">GitHub</a>
-    </div>
-</nav>
+    <header class="site-header">
 
-<header class="hero">
-    <div class="hero-content">
-        <p class="eyebrow">Cybersecurity Log Analysis Tool</p>
-        <h2>Detect brute-force attacks, suspicious IPs, failed logins, and IOCs in seconds.</h2>
-        <p class="hero-text">
-            ThreatHawk helps analysts review SSH and authentication logs, highlight suspicious activity,
-            calculate a threat score, and export a quick incident report.
-        </p>
+        <nav class="navbar module-container">
 
-        <div class="hero-actions">
-            <a href="#tool" class="primary-link">Start Analyzing</a>
-            <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" class="secondary-link">View Source</a>
-        </div>
-    </div>
-</header>
-
-<section class="features" id="features">
-    <div class="feature-card">
-        <h3>IOC Detection</h3>
-        <p>Flags known malicious IP addresses found inside uploaded logs.</p>
-    </div>
-
-    <div class="feature-card">
-        <h3>Brute-Force Detection</h3>
-        <p>Identifies repeated failed login attempts from suspicious sources.</p>
-    </div>
-
-    <div class="feature-card">
-        <h3>Threat Scoring</h3>
-        <p>Generates a simple score and level to summarize incident severity.</p>
-    </div>
-</section>
-
-<section class="dashboard" id="tool">
-    
-    <div class="section-heading">
-        <p class="eyebrow">Live Analyzer</p>
-        <h2>Upload a log file to begin threat analysis.</h2>
-        <p>
-            ThreatHawk reviews your logs for suspicious IP activity, failed login patterns,
-            known IOCs, brute-force attempts, and overall incident severity.
-        </p>
-    </div>
-
-    <div class="upload-box">
-
-        <label for="logFile" class="file-label">
-        📁 Choose Log File
-        </label>
-
-        <input type="file" id="logFile" accept=".txt,.log,.csv">
-
-        <span id="fileName">No file selected</span>
-
-        <button id="uploadBtn">Analyze Log</button>
-        
-        <p id="loadingMessage" class="loading-message"></p>
-
-    </div>
-
-    <div class="stats">
-
-        <div class="card">
-            <h3>Total Events</h3>
-            <p id="totalEvents">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Critical Alerts</h3>
-            <p id="criticalAlerts">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Suspicious IPs</h3>
-            <p id="suspiciousIPs">0</p>
-        </div>
-
-        <div class="card">
-            <h3>Failed Logins</h3>
-            <p id="failedLogins">0</p>
-        </div>
-        <div class="card">
-            <h3>Threat Score</h3>
-            <p id="threatScore">0</p>
-        </div>
-    </div>
-
-    <div class="panels">
-
-        <div class="chart-panel">
-            <canvas id="eventChart"></canvas>
-        </div>
-
-        <div class="alert-panel" id="alertPanel">
-            No alerts yet.
-        </div>
-
-    </div>
-
-    <div class="ioc-panel">
-        <h2>Detected IOCs</h2>
-        <div id="iocList">No IOCs detected.</div>
-    </div>
-
-    <div class="summary-panel">
-        <h2>Incident Summary</h2>
-        <div id="incidentSummary">No incident summary generated.</div>
-        <div id="recommendations"></div>
-        <button id="exportReportBtn">Export Report</button>
-    </div>
-
-    <div class="table-panel">
-        <div class="table-controls">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search events..."
+            <a
+                href="../../index.html"
+                class="brand"
+                aria-label="Return to ThreatHawk dashboard"
             >
+                <span class="brand-symbol">◇</span>
+                <span>ThreatHawk</span>
+            </a>
 
-            <select id="severityFilter">
-                <option value="All">All Severities</option>
-                <option value="Info">Info</option>
-                <option value="Warning">Warning</option>
-            </select>
+            <div class="nav-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Modules
+                </a>
+
+                <a href="../password-analyzer/index.html">
+                    Password Intelligence
+                </a>
+
+                <a href="../url-analyzer/index.html">
+                    URL Analyzer
+                </a>
+
+                <a href="../hash-analyzer/index.html">
+                    Hash Analyzer
+                </a>
+
+                <a
+                    href="../log-analyzer/index.html"
+                    class="active"
+                >
+                    Log Analysis
+                </a>
+
+            </div>
+
+            <div class="nav-actions">
+
+                <span class="version-badge">
+                    Version 1.0
+                </span>
+
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to light mode"
+                >
+                    <i class="fa-regular fa-sun"></i>
+                    <span>Light Mode</span>
+                </button>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- ==========================================
+             Module Header
+        =========================================== -->
+
+        <section class="module-header">
+
+            <div class="module-container">
+
+                <div class="breadcrumb">
+
+                    <a href="../../index.html">
+                        ThreatHawk
+                    </a>
+
+                    <span>/</span>
+
+                    <span>Log Analysis</span>
+
+                </div>
+
+                <div class="module-heading">
+
+                    <div class="module-heading-content">
+
+                        <p class="eyebrow">
+                            Security Operations Module
+                        </p>
+
+                        <h1>Log Analysis</h1>
+
+                        <p class="module-description">
+                            Analyze authentication and security logs, detect
+                            brute-force activity, extract suspicious IP
+                            addresses and generate an explainable incident
+                            assessment.
+                        </p>
+
+                    </div>
+
+                    <div class="module-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <small>Module Status</small>
+                            <strong>Active</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Log Upload Workspace
+        =========================================== -->
+
+        <section
+            id="tool"
+            class="analyzer-section"
+        >
+
+            <div class="module-container">
+
+                <section class="analyzer-workspace">
+
+                    <div class="workspace-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Log Input
+                            </span>
+
+                            <h2>Upload security logs for analysis</h2>
+
+                            <p>
+                                Submit TXT, LOG or CSV files to detect
+                                authentication failures, suspicious IP
+                                activity, possible brute-force attempts and
+                                indicators of compromise.
+                            </p>
+
+                        </div>
+
+                        <span class="analysis-badge">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Local analysis
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="dropZone"
+                        class="drop-zone"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Upload a security log file"
+                    >
+
+                        <input
+                            type="file"
+                            id="logFile"
+                            accept=".txt,.log,.csv"
+                            hidden
+                        >
+
+                        <div
+                            class="drop-zone-icon"
+                            aria-hidden="true"
+                        >
+                            <i class="fa-solid fa-file-shield"></i>
+                        </div>
+
+                        <h3>
+                            Drop a log file here
+                        </h3>
+
+                        <p>
+                            Drag and drop a file or click to browse
+                        </p>
+
+                        <span class="supported-files">
+                            TXT · LOG · CSV
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="selectedFilePanel"
+                        class="selected-file-panel empty-file"
+                        aria-live="polite"
+                    >
+
+                        <div class="selected-file-icon">
+                            <i class="fa-regular fa-folder-open"></i>
+                        </div>
+
+                        <div class="selected-file-content">
+
+                            <span>Selected file</span>
+
+                            <strong id="fileName">
+                                No file selected
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="workspace-actions">
+
+                        <label
+                            for="logFile"
+                            class="secondary-button file-label"
+                        >
+                            <i class="fa-regular fa-folder-open"></i>
+                            Browse File
+                        </label>
+
+                        <button
+                            id="uploadBtn"
+                            class="primary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            Analyze Log
+                        </button>
+
+                        <button
+                            id="clearBtn"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Clear
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="processingPanel"
+                        class="processing-panel"
+                        aria-live="polite"
+                    >
+
+                        <div class="processing-heading">
+
+                            <div>
+
+                                <span class="panel-label">
+                                    Analysis Progress
+                                </span>
+
+                                <strong id="processingStage">
+                                    Waiting for a file
+                                </strong>
+
+                            </div>
+
+                            <span id="processingPercent">
+                                0%
+                            </span>
+
+                        </div>
+
+                        <div class="processing-track">
+
+                            <div
+                                id="processingFill"
+                                class="processing-fill"
+                            ></div>
+
+                        </div>
+
+                        <p
+                            id="loadingMessage"
+                            class="loading-message"
+                        ></p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Threat Overview
+        =========================================== -->
+
+        <section class="threat-overview-section">
+
+            <div class="module-container">
+
+                <div class="threat-overview-grid">
+
+                    <!-- Threat Score Sphere -->
+
+                    <section class="threat-score-panel">
+
+                        <div class="panel-heading">
+
+                            <span class="panel-label">
+                                Incident Severity
+                            </span>
+
+                            <h2>Threat Score</h2>
+
+                            <p>
+                                A combined severity score calculated from
+                                authentication failures, suspicious sources,
+                                IOC matches and alert patterns.
+                            </p>
+
+                        </div>
+
+                        <div
+                            id="threatSphere"
+                            class="threat-sphere threat-low-state"
+                            aria-label="Threat score"
+                        >
+
+                            <div class="sphere-orbit orbit-one"></div>
+                            <div class="sphere-orbit orbit-two"></div>
+
+                            <div class="sphere-core">
+
+                                <span
+                                    id="threatScore"
+                                    class="sphere-score"
+                                >
+                                    0
+                                </span>
+
+                                <small>/ 100</small>
+
+                                <strong id="threatLevel">
+                                    Low Risk
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <p class="threat-score-caption">
+                            Active Threat Score
+                        </p>
+
+                    </section>
+
+
+                    <!-- Incident Summary -->
+
+                    <section
+                        id="incidentSummaryPanel"
+                        class="incident-summary-panel"
+                    >
+
+                        <div class="panel-heading">
+
+                            <span class="panel-label">
+                                Executive Assessment
+                            </span>
+
+                            <h2>Incident Summary</h2>
+
+                        </div>
+
+                        <div
+                            id="incidentSummary"
+                            class="incident-summary-content"
+                        >
+                            No incident summary generated.
+                        </div>
+
+                        <div
+                            id="recommendations"
+                            class="recommendations-content"
+                        ></div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Statistics
+        =========================================== -->
+
+        <section class="statistics-section">
+
+            <div class="module-container">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            Analysis Overview
+                        </span>
+
+                        <h2>Security statistics</h2>
+
+                    </div>
+
+                    <p>
+                        Key event counts extracted from the submitted log
+                        file.
+                    </p>
+
+                </div>
+
+
+                <div class="statistics-grid">
+
+                    <article class="stat-card stat-events">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-list"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>Total Events</span>
+
+                            <strong
+                                id="totalEvents"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card stat-critical">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>Critical Alerts</span>
+
+                            <strong
+                                id="criticalAlerts"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card stat-ip">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>Suspicious IPs</span>
+
+                            <strong
+                                id="suspiciousIPs"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card stat-login">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-user-lock"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>Failed Logins</span>
+
+                            <strong
+                                id="failedLogins"
+                                class="stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Event Activity and Alerts
+        =========================================== -->
+
+        <section class="activity-section">
+
+            <div class="module-container">
+
+                <div class="activity-grid">
+
+                    <section class="chart-panel">
+
+                        <div class="panel-heading">
+
+                            <span class="panel-label">
+                                Event Distribution
+                            </span>
+
+                            <h2>Log Activity</h2>
+
+                            <p>
+                                Distribution of detected event and severity
+                                categories.
+                            </p>
+
+                        </div>
+
+                        <div class="chart-wrapper">
+
+                            <canvas id="eventChart"></canvas>
+
+                        </div>
+
+                    </section>
+
+
+                    <section class="alert-panel-wrapper">
+
+                        <div class="panel-heading">
+
+                            <span class="panel-label">
+                                Detection Results
+                            </span>
+
+                            <h2>Security Alerts</h2>
+
+                            <p>
+                                High-priority findings generated during log
+                                analysis.
+                            </p>
+
+                        </div>
+
+                        <div
+                            id="alertPanel"
+                            class="alert-panel"
+                            aria-live="polite"
+                        >
+
+                            <div class="empty-state">
+
+                                <div class="empty-state-icon">
+                                    <i class="fa-solid fa-bell"></i>
+                                </div>
+
+                                <strong>
+                                    No alerts detected
+                                </strong>
+
+                                <p>
+                                    Upload and analyze a log file to view
+                                    security alerts.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Attack Timeline
+        =========================================== -->
+
+        <section class="timeline-section">
+
+            <div class="module-container">
+
+                <section class="timeline-panel">
+
+                    <div class="panel-heading">
+
+                        <span class="panel-label">
+                            Incident Reconstruction
+                        </span>
+
+                        <h2>Attack Timeline</h2>
+
+                        <p>
+                            A chronological view of notable authentication and
+                            security events found in the log.
+                        </p>
+
+                    </div>
+
+                    <div
+                        id="attackTimeline"
+                        class="attack-timeline"
+                    >
+
+                        <div class="timeline-empty-state">
+
+                            <div class="empty-state-icon">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+
+                            <strong>
+                                No timeline generated
+                            </strong>
+
+                            <p>
+                                Notable events will appear here after the log
+                                has been analyzed.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             IOC Intelligence
+        =========================================== -->
+
+        <section class="ioc-section">
+
+            <div class="module-container">
+
+                <section class="ioc-panel">
+
+                    <div class="ioc-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Indicator Intelligence
+                            </span>
+
+                            <h2>Detected IOCs</h2>
+
+                            <p>
+                                Suspicious IP addresses and other indicators
+                                extracted from the submitted log.
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="iocCount"
+                            class="ioc-count-badge"
+                        >
+                            0 indicators
+                        </span>
+
+                    </div>
+
+                    <div
+                        id="iocList"
+                        class="ioc-list"
+                    >
+
+                        <div class="empty-state">
+
+                            <div class="empty-state-icon">
+                                <i class="fa-solid fa-crosshairs"></i>
+                            </div>
+
+                            <strong>
+                                No IOCs detected
+                            </strong>
+
+                            <p>
+                                Extracted indicators will appear here after
+                                analysis.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Event Table
+        =========================================== -->
+
+        <section class="events-section">
+
+            <div class="module-container">
+
+                <section class="table-panel">
+
+                    <div class="table-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Event Investigation
+                            </span>
+
+                            <h2>Parsed Log Events</h2>
+
+                            <p>
+                                Search and filter the events extracted from the
+                                uploaded log.
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="eventCountBadge"
+                            class="event-count-badge"
+                        >
+                            0 events
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-controls">
+
+                        <div class="search-wrapper">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="text"
+                                id="searchInput"
+                                placeholder="Search events, IPs or messages..."
+                                aria-label="Search parsed log events"
+                            >
+
+                        </div>
+
+                        <select
+                            id="severityFilter"
+                            aria-label="Filter events by severity"
+                        >
+                            <option value="All">
+                                All Severities
+                            </option>
+
+                            <option value="Info">
+                                Info
+                            </option>
+
+                            <option value="Warning">
+                                Warning
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Severity</th>
+                                    <th>Event</th>
+                                    <th>IP Address</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="eventTable">
+
+                                <tr class="empty-row">
+
+                                    <td colspan="4">
+
+                                        <div class="table-empty-state">
+
+                                            <div class="empty-state-icon">
+                                                <i class="fa-solid fa-table-list"></i>
+                                            </div>
+
+                                            <strong>
+                                                No events available
+                                            </strong>
+
+                                            <p>
+                                                Upload and analyze a log file
+                                                to populate this table.
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Reporting
+        =========================================== -->
+
+        <section class="report-section">
+
+            <div class="module-container">
+
+                <section class="report-panel">
+
+                    <div class="report-content">
+
+                        <div class="report-icon">
+                            <i class="fa-solid fa-file-shield"></i>
+                        </div>
+
+                        <div>
+
+                            <span class="panel-label">
+                                Incident Reporting
+                            </span>
+
+                            <h2>Export Analysis Report</h2>
+
+                            <p>
+                                Download the current incident assessment for
+                                documentation, evidence collection or further
+                                investigation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        id="exportReportBtn"
+                        class="export-button"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-file-export"></i>
+                        Export Report
+                    </button>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Module Information
+        =========================================== -->
+
+        <section class="information-section">
+
+            <div class="module-container">
+
+                <div class="information-grid">
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-user-secret"></i>
+                        </div>
+
+                        <h3>Brute-Force Detection</h3>
+
+                        <p>
+                            Repeated failed authentication attempts are
+                            grouped to identify likely password attacks.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-crosshairs"></i>
+                        </div>
+
+                        <h3>IOC Extraction</h3>
+
+                        <p>
+                            ThreatHawk extracts suspicious IP addresses and
+                            counts repeated occurrences across the log.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+
+                        <h3>Incident Reconstruction</h3>
+
+                        <p>
+                            Notable events are organized into a timeline to
+                            help explain how the activity unfolded.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="module-container footer-content">
+
+            <div class="footer-brand">
+
+                <strong>ThreatHawk</strong>
+
+                <span>
+                    Browser-Based Cybersecurity Platform
+                </span>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Security Modules
+                </a>
+
+                <a
+                    href="https://github.com/DileepKumar52/ThreatHawk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+            <div class="footer-meta">
+                Log Analysis · Version 1.0
+            </div>
 
         </div>
 
-        <table>
+    </footer>
 
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Severity</th>
-                    <th>Event</th>
-                    <th>IP</th>
-                </tr>
-            </thead>
 
-            <tbody id="eventTable">
+    <!-- ==========================================
+         Toast Notification
+    =========================================== -->
 
-            </tbody>
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    >
 
-        </table>
+        <i class="fa-solid fa-check"></i>
+
+        <span id="toastMessage">
+            Action completed
+        </span>
 
     </div>
 
-</section>
 
-<script src="js/app.js"></script>
-
-<footer class="footer">
-    <h3>ThreatHawk</h3>
-    <p>Cybersecurity Log Analyzer built for SOC practice, portfolio building, and incident review.</p>
-    <p>Built by Dileep Kumar • HTML • CSS • JavaScript • GitHub Pages</p>
-</footer>
+    <script src="js/app.js"></script>
 
 </body>
+
 </html>

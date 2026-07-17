@@ -521,12 +521,11 @@ body.light-mode .site-header {
         var(--surface-light-transparent);
 }
 
-.nav-links a:first-child {
-    color:
-        var(--accent-bright);
+.nav-links a.active {
+    color: var(--accent-bright);
 }
 
-.nav-links a:first-child::after {
+.nav-links a.active::after {
     content: "";
 
     position: absolute;
@@ -536,11 +535,9 @@ body.light-mode .site-header {
 
     height: 2px;
 
-    background:
-        var(--accent);
+    background: var(--accent);
 
-    border-radius:
-        999px;
+    border-radius: 999px;
 }
 
 .nav-actions {

@@ -3,151 +3,823 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ThreatHawk | URL Analyzer</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <meta
+        name="description"
+        content="Analyze URL structure, detect phishing indicators, identify possible brand impersonation and review URL risk with ThreatHawk URL Analyzer."
+    >
+
+    <title>URL Analyzer | ThreatHawk</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
 
 <body>
 
-    <div class="container">
+    <!-- ==============================
+         ThreatHawk Navigation
+    =============================== -->
 
-        <header>
+    <header class="site-header">
 
-            <h1>URL Analyzer</h1>
+        <nav class="navbar module-container">
 
-            <p>
-                Analyze URLs and extract important components.
-            </p>
+            <a
+                href="../../index.html"
+                class="brand"
+                aria-label="Return to ThreatHawk dashboard"
+            >
+                <span class="brand-symbol">◇</span>
+                <span>ThreatHawk</span>
+            </a>
 
-        </header>
+            <div class="nav-links">
 
-        <div class="card">
+                <a href="../../index.html">
+                    Dashboard
+                </a>
 
-            <label for="urlInput">Enter URL</label>
+                <a href="../../index.html#modules">
+                    Modules
+                </a>
 
-            <textarea
-                id="urlInput"
-                rows="5"
-                placeholder="https://example.com/login"></textarea>
+                <a href="../password-analyzer/index.html">
+                    Password Intelligence
+                </a>
 
-            <div class="buttons">
+                <a href="../url-analyzer/index.html">
+                    URL Analyzer
+                </a>
 
-                <button id="analyzeBtn">
-                    Analyze URL
+                <a href="../hash-analyzer/index.html">
+                    Hash Analyzer
+                </a>
+
+                <a href="../log-analyzer/index.html">
+                    Log Analysis
+                </a>
+
+            </div>
+
+            <div class="nav-actions">
+
+                <span class="version-badge">
+                    Version 1.0
+                </span>
+
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to light mode"
+                >
+                    <i class="fa-regular fa-sun"></i>
+                    <span>Light Mode</span>
                 </button>
 
-                <button id="clearBtn">
-                    Clear
-                </button>
-
             </div>
 
-        </div>
+        </nav>
 
-        <div class="results">
+    </header>
 
-            <div class="result-card">
-                <h3>Protocol</h3>
-                <p id="protocol">-</p>
-            </div>
 
-            <div class="result-card">
-                <h3>Hostname</h3>
-                <p id="hostname">-</p>
-            </div>
+    <main>
 
-            <div class="result-card">
-                <h3>Domain</h3>
-                <p id="domain">-</p>
-            </div>
+        <!-- ==============================
+             Module Header
+        =============================== -->
 
-            <div class="result-card">
-                <h3>TLD</h3>
-                <p id="tld">-</p>
-            </div>
+        <section class="module-header">
 
-        </div>
+            <div class="module-container">
 
-        <div class="risk-panel">
+                <div class="breadcrumb">
 
-            <div class="risk-header">
-                <div>
-                    <h2>URL Risk</h2>
-                    <p id="riskLabel">Not analyzed</p>
+                    <a href="../../index.html">
+                        ThreatHawk
+                    </a>
+
+                    <span>/</span>
+
+                    <span>URL Analyzer</span>
+
                 </div>
 
-                <span id="riskScore">0</span>
+                <div class="module-heading">
+
+                    <div class="module-heading-content">
+
+                        <p class="eyebrow">
+                            Threat Detection Module
+                        </p>
+
+                        <h1>URL Analyzer</h1>
+
+                        <p class="module-description">
+                            Inspect URL structure, identify suspicious
+                            patterns, detect possible brand impersonation and
+                            assess phishing risk through one focused security
+                            workflow.
+                        </p>
+
+                    </div>
+
+                    <div class="module-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <small>Module Status</small>
+                            <strong>Active</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="risk-track">
-                <div id="riskFill" class="risk-fill"></div>
+        </section>
+
+
+        <!-- ==============================
+             URL Input Workspace
+        =============================== -->
+
+        <section class="analyzer-section">
+
+            <div class="module-container">
+
+                <section class="analyzer-workspace">
+
+                    <div class="workspace-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                URL Input
+                            </span>
+
+                            <h2>Analyze a website address</h2>
+
+                            <p>
+                                Enter a complete website address or domain to
+                                inspect its structure and identify suspicious
+                                phishing indicators.
+                            </p>
+
+                        </div>
+
+                        <span class="analysis-badge">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Security analysis
+                        </span>
+
+                    </div>
+
+
+                    <div class="url-input-group">
+
+                        <label for="urlInput">
+                            Website URL
+                        </label>
+
+                        <div class="url-input-wrapper">
+
+                            <div
+                                class="input-icon"
+                                aria-hidden="true"
+                            >
+                                <i class="fa-solid fa-link"></i>
+                            </div>
+
+                            <textarea
+                                id="urlInput"
+                                rows="4"
+                                placeholder="https://example.com/login"
+                                spellcheck="false"
+                                aria-label="URL to analyze"
+                            ></textarea>
+
+                        </div>
+
+                        <p class="input-helper">
+                            You may enter a URL with or without
+                            <strong>https://</strong>. Press Enter or use the
+                            Analyze URL button to begin.
+                        </p>
+
+                    </div>
+
+
+                    <div class="workspace-actions">
+
+                        <button
+                            id="analyzeBtn"
+                            class="primary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            Analyze URL
+                        </button>
+
+                        <button
+                            id="clearBtn"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Clear
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             Quick URL Information
+        =============================== -->
+
+        <section class="summary-section">
+
+            <div class="module-container">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            URL Overview
+                        </span>
+
+                        <h2>Quick information</h2>
+
+                    </div>
+
+                    <p>
+                        The primary components extracted from the submitted
+                        website address.
+                    </p>
+
+                </div>
+
+
+                <div class="summary-grid">
+
+                    <article class="summary-card">
+
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+
+                        <div class="summary-content">
+
+                            <span>Protocol</span>
+
+                            <strong id="protocol">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+
+                        <div class="summary-content">
+
+                            <span>Hostname</span>
+
+                            <strong
+                                id="hostname"
+                                title="-"
+                            >
+                                -
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+
+                        <div class="summary-content">
+
+                            <span>Domain</span>
+
+                            <strong
+                                id="domain"
+                                title="-"
+                            >
+                                -
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+
+                        <div class="summary-content">
+
+                            <span>Top-Level Domain</span>
+
+                            <strong id="tld">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ==============================
+             Risk Assessment
+        =============================== -->
+
+        <section class="risk-section">
+
+            <div class="module-container">
+
+                <section class="risk-panel">
+
+                    <div class="risk-overview">
+
+                        <div class="risk-heading">
+
+                            <span class="panel-label">
+                                Risk Assessment
+                            </span>
+
+                            <h2>Overall Risk</h2>
+
+                            <p id="riskLabel">
+                                Not analyzed
+                            </p>
+
+                        </div>
+
+
+                        <div class="risk-score-wrapper">
+
+                            <div
+                                class="risk-score-ring"
+                                aria-label="URL risk score"
+                            >
+                                <span id="riskScore">0</span>
+                                <small>/ 100</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-meter">
+
+                        <div class="risk-scale">
+
+                            <span>Low</span>
+                            <span>Medium</span>
+                            <span>High</span>
+                            <span>Critical</span>
+
+                        </div>
+
+                        <div class="risk-track">
+
+                            <div
+                                id="riskFill"
+                                class="risk-fill"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-note">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <p>
+                            The score is based on structural heuristics such
+                            as protocol security, suspicious keywords,
+                            redirects, encoding, hostname patterns and
+                            possible brand impersonation.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             Security Findings
+        =============================== -->
+
+        <section class="findings-section">
+
+            <div class="module-container">
+
+                <section class="findings-panel">
+
+                    <div class="findings-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Detection Results
+                            </span>
+
+                            <h2>Security Findings</h2>
+
+                            <p>
+                                Review the signals that contributed to the
+                                calculated URL risk score.
+                            </p>
+
+                        </div>
+
+                        <span
+                            id="findingCount"
+                            class="finding-count"
+                        >
+                            0 findings
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="findingsList"
+                        class="findings-list"
+                        aria-live="polite"
+                    >
+
+                        <div class="findings-empty-state">
+
+                            <div class="empty-state-icon">
+                                <i class="fa-solid fa-shield"></i>
+                            </div>
+
+                            <strong>
+                                No URL analyzed
+                            </strong>
+
+                            <p class="empty-findings">
+                                Enter a website address and run the analyzer
+                                to view structural security findings.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             Technical URL Details
+        =============================== -->
+
+        <section class="details-section">
+
+            <div class="module-container">
+
+                <section class="details-panel">
+
+                    <div class="details-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Parsed Components
+                            </span>
+
+                            <h2>Technical URL Details</h2>
+
+                            <p>
+                                Additional values extracted from the parsed
+                                website address.
+                            </p>
+
+                        </div>
+
+                        <div class="details-heading-icon">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+
+                    </div>
+
+
+                    <div class="details-grid">
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-sitemap"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>Subdomain</span>
+
+                                <strong id="subdomain">
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>Port</span>
+
+                                <strong id="port">
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>Path</span>
+
+                                <strong
+                                    id="path"
+                                    title="-"
+                                >
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-list"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>Query Parameters</span>
+
+                                <strong id="query">
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>Fragment</span>
+
+                                <strong
+                                    id="fragment"
+                                    title="-"
+                                >
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="detail-card">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-ruler-horizontal"></i>
+                            </div>
+
+                            <div class="detail-content">
+
+                                <span>URL Length</span>
+
+                                <strong id="length">
+                                    -
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             Analyzer Information
+        =============================== -->
+
+        <section class="information-section">
+
+            <div class="module-container">
+
+                <div class="information-grid">
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-code-branch"></i>
+                        </div>
+
+                        <h3>Structural Analysis</h3>
+
+                        <p>
+                            ThreatHawk inspects protocol, hostname structure,
+                            encoding, path patterns and redirect parameters.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-mask-face"></i>
+                        </div>
+
+                        <h3>Impersonation Detection</h3>
+
+                        <p>
+                            Lookalike characters and domain similarity are
+                            checked for possible trusted-brand impersonation.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h3>Explainable Scoring</h3>
+
+                        <p>
+                            Every detected signal appears as a finding so the
+                            final risk score remains understandable.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         Footer
+    =============================== -->
+
+    <footer class="site-footer">
+
+        <div class="module-container footer-content">
+
+            <div class="footer-brand">
+
+                <strong>ThreatHawk</strong>
+
+                <span>
+                    Browser-Based Cybersecurity Platform
+                </span>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Security Modules
+                </a>
+
+                <a
+                    href="https://github.com/DileepKumar52/ThreatHawk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+            <div class="footer-meta">
+                URL Analyzer · Version 1.0
             </div>
 
         </div>
 
-        <div class="findings-panel">
+    </footer>
 
-            <div class="findings-header">
-                <h2>Security Findings</h2>
-                <span id="findingCount">0 findings</span>
-            </div>
 
-            <div id="findingsList" class="findings-list">
-                <p class="empty-findings">
-                    Analyze a URL to view security findings.
-                </p>
-            </div>
+    <!-- ==============================
+         Toast Notification
+    =============================== -->
 
-        </div>
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    >
+        <i class="fa-solid fa-check"></i>
 
-        <div class="analysis-panel">
-
-            <h2>URL Details</h2>
-
-            <table>
-
-                <tbody>
-
-                    <tr>
-                        <td>Subdomain</td>
-                        <td id="subdomain">-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Port</td>
-                        <td id="port">-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Path</td>
-                        <td id="path">-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Query Parameters</td>
-                        <td id="query">-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Fragment</td>
-                        <td id="fragment">-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Length</td>
-                        <td id="length">-</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+        <span id="toastMessage">
+            Action completed
+        </span>
     </div>
+
 
     <script src="js/app.js"></script>
 
