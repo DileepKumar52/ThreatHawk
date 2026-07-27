@@ -2,25 +2,6 @@
 <html lang="en">
 <head>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9595S5GKM8"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9595S5GKM8');
-    </script>
-
-    <!-- Microsoft Clarity tag -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "xsgijywudn");
-    </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreatHawk | Free Open-Source Browser-Based Cybersecurity Tools</title>
@@ -166,7 +147,7 @@
     </header>
 
 
-    <main id="main-content"></main>
+    <main id="main-content">
 
     <!-- ===================== -->
     <!-- Hero -->
@@ -751,7 +732,53 @@
 
     </footer>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js" defer></script>
+
+    <!-- Load analytics after the visible page has finished loading -->
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                // Google Analytics
+                window.dataLayer = window.dataLayer || [];
+
+                window.gtag = function () {
+                    dataLayer.push(arguments);
+                };
+
+                gtag("js", new Date());
+                gtag("config", "G-9595S5GKM8");
+
+                const googleAnalyticsScript = document.createElement("script");
+                googleAnalyticsScript.async = true;
+                googleAnalyticsScript.src =
+                    "https://www.googletagmanager.com/gtag/js?id=G-9595S5GKM8";
+
+                document.head.appendChild(googleAnalyticsScript);
+
+                // Microsoft Clarity
+                (function (c, l, a, r, i, t, y) {
+                    c[a] =
+                    c[a] ||
+                    function () {
+                        (c[a].q = c[a].q || []).push(arguments);
+                    };
+
+                    t = l.createElement(r);
+                    t.async = true;
+                    t.src = "https://www.clarity.ms/tag/" + i;
+
+                    y = l.getElementsByTagName(r)[0];
+                    y.parentNode.insertBefore(t, y);
+                })(
+                    window,
+                    document,
+                    "clarity",
+                    "script",
+                    "xsgijywudn"
+                );
+            }, 1500);
+        });
+    </script>
 
 </body>
 </html>
