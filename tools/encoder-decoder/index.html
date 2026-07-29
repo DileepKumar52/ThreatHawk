@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Free Encoder & Decoder Toolkit | ThreatHawk</title>
+
+    <meta
+        name="description"
+        content="Encode and decode Base64, Base64 URL, URL encoding, HTML entities, Hex, Binary and ROT13 securely in your browser with ThreatHawk."
+    >
+
+    <link
+        rel="canonical"
+        href="https://threathawk.net/tools/encoder-decoder/"
+    >
+
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ThreatHawk">
+
+    <meta
+        property="og:title"
+        content="Free Encoder & Decoder Toolkit | ThreatHawk"
+    >
+
+    <meta
+        property="og:description"
+        content="Encode, decode and transform text across multiple formats directly inside your browser."
+    >
+
+    <meta
+        property="og:url"
+        content="https://threathawk.net/tools/encoder-decoder/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta
+        name="twitter:title"
+        content="Free Encoder & Decoder Toolkit | ThreatHawk"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Convert Base64, URL encoding, HTML entities, Hex, Binary and more securely online."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="96x96"
+        href="/favicon-96x96.png"
+    >
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+    >
+
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Tool Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ThreatHawk Encoder & Decoder",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Encoding and Decoding Utility",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and a modern web browser",
+        "url": "https://threathawk.net/tools/encoder-decoder/",
+        "image": "https://threathawk.net/assets/logo.svg",
+        "description": "Encode and decode Base64, URL encoding, HTML entities, Hex, Binary and ROT13 entirely within your browser.",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "isAccessibleForFree": true,
+        "license": "https://opensource.org/licenses/MIT",
+        "creator": {
+            "@type": "Organization",
+            "name": "ThreatHawk"
+        }
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         ThreatHawk Navigation
+    =========================================== -->
+
+    <header class="site-header">
+
+        <nav class="navbar module-container">
+
+            <a
+                href="../../index.html"
+                class="brand"
+                aria-label="Return to ThreatHawk dashboard"
+            >
+                <span class="brand-symbol">◇</span>
+                <span>ThreatHawk</span>
+            </a>
+
+            <div class="nav-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Modules
+                </a>
+
+                <a href="../password-analyzer/index.html">
+                    Password Intelligence
+                </a>
+
+                <a href="../url-analyzer/index.html">
+                    URL Analyzer
+                </a>
+
+                <a href="../hash-analyzer/index.html">
+                    Hash Analyzer
+                </a>
+
+                <a href="../log-analyzer/index.html">
+                    Log Analysis
+                </a>
+
+                <a
+                    href="./index.html"
+                    class="active"
+                    aria-current="page"
+                >
+                    Encoder & Decoder
+                </a>
+
+            </div>
+
+            <div class="nav-actions">
+
+                <span class="version-badge">
+                    Version 1.0
+                </span>
+
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to light mode"
+                >
+                    <i class="fa-regular fa-sun"></i>
+                    <span>Light Mode</span>
+                </button>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <main id="main-content">
+
+        <!-- ==========================================
+             Module Header
+        =========================================== -->
+
+        <section class="module-header">
+
+            <div class="module-container">
+
+                <div class="breadcrumb">
+
+                    <a href="../../index.html">
+                        ThreatHawk
+                    </a>
+
+                    <span>/</span>
+
+                    <span>Encoder & Decoder</span>
+
+                </div>
+
+                <div class="module-heading">
+
+                    <div class="module-heading-content">
+
+                        <p class="eyebrow">
+                            Data Transformation Module
+                        </p>
+
+                        <h1>Encoder & Decoder</h1>
+
+                        <p class="module-description">
+                            Encode, decode and transform text across multiple
+                            formats including Base64, URL Encoding, HTML
+                            Entities, Hex, Binary and ROT13. All processing
+                            takes place locally inside your browser.
+                        </p>
+
+                    </div>
+
+                    <div class="module-status">
+
+                        <span class="status-dot"></span>
+
+                        <div>
+                            <small>Module Status</small>
+                            <strong>Active</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Converter Workspace
+        =========================================== -->
+
+        <section
+            id="tool"
+            class="converter-section"
+        >
+
+            <div class="module-container">
+
+                <section class="converter-workspace">
+
+                    <div class="workspace-heading">
+
+                        <div>
+
+                            <span class="panel-label">
+                                Data Conversion
+                            </span>
+
+                            <h2>Encode or decode your data</h2>
+
+                            <p>
+                                Select a format and operation, enter your data
+                                and convert it instantly without sending
+                                information to an external server.
+                            </p>
+
+                        </div>
+
+                        <span class="local-processing-badge">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            Local processing
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Privacy Notice -->
+
+                    <div class="privacy-notice">
+
+                        <div class="privacy-notice-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>Your data stays private</strong>
+
+                            <p>
+                                Input and output data are processed locally
+                                inside your browser and are not uploaded.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Format and Operation Controls -->
+
+                    <div class="converter-controls">
+
+                        <div class="control-group format-control">
+
+                            <label for="formatSelect">
+                                Format
+                            </label>
+
+                            <div class="select-wrapper">
+
+                                <i class="fa-solid fa-code"></i>
+
+                                <select
+                                    id="formatSelect"
+                                    aria-label="Select encoding format"
+                                >
+                                    <option value="base64">
+                                        Base64
+                                    </option>
+
+                                    <option value="base64url">
+                                        Base64 URL
+                                    </option>
+
+                                    <option value="url">
+                                        URL Encoding
+                                    </option>
+
+                                    <option value="html">
+                                        HTML Entities
+                                    </option>
+
+                                    <option value="hex">
+                                        Hexadecimal
+                                    </option>
+
+                                    <option value="binary">
+                                        Binary
+                                    </option>
+
+                                    <option value="rot13">
+                                        ROT13
+                                    </option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <fieldset class="control-group operation-control">
+
+                            <legend>
+                                Operation
+                            </legend>
+
+                            <div
+                                class="operation-toggle"
+                                role="radiogroup"
+                                aria-label="Select conversion operation"
+                            >
+
+                                <label class="operation-option active">
+
+                                    <input
+                                        type="radio"
+                                        name="operation"
+                                        value="encode"
+                                        id="encodeOperation"
+                                        checked
+                                    >
+
+                                    <span>
+                                        <i class="fa-solid fa-lock"></i>
+                                        Encode
+                                    </span>
+
+                                </label>
+
+                                <label class="operation-option">
+
+                                    <input
+                                        type="radio"
+                                        name="operation"
+                                        value="decode"
+                                        id="decodeOperation"
+                                    >
+
+                                    <span>
+                                        <i class="fa-solid fa-lock-open"></i>
+                                        Decode
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+
+
+                    <!-- Input and Output Panels -->
+
+                    <div class="converter-grid">
+
+                        <!-- Input Panel -->
+
+                        <section class="converter-panel input-panel">
+
+                            <div class="converter-panel-heading">
+
+                                <div>
+
+                                    <span class="panel-label">
+                                        Source Data
+                                    </span>
+
+                                    <h3 id="inputPanelTitle">
+                                        Plain Text
+                                    </h3>
+
+                                </div>
+
+                                <div class="panel-actions">
+
+                                    <button
+                                        id="pasteBtn"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Paste data from clipboard"
+                                        title="Paste"
+                                    >
+                                        <i class="fa-regular fa-clipboard"></i>
+                                        <span>Paste</span>
+                                    </button>
+
+                                    <button
+                                        id="clearInputBtn"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Clear input data"
+                                        title="Clear input"
+                                    >
+                                        <i class="fa-solid fa-eraser"></i>
+                                        <span>Clear</span>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="textarea-wrapper">
+
+                                <textarea
+                                    id="inputText"
+                                    class="converter-textarea"
+                                    placeholder="Enter or paste text here..."
+                                    spellcheck="false"
+                                    aria-label="Conversion input"
+                                ></textarea>
+
+                            </div>
+
+                            <div class="panel-meta">
+
+                                <span>
+                                    <strong id="inputCharacterCount">0</strong>
+                                    characters
+                                </span>
+
+                                <span>
+                                    <strong id="inputByteCount">0</strong>
+                                    bytes
+                                </span>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- Output Panel -->
+
+                        <section class="converter-panel output-panel">
+
+                            <div class="converter-panel-heading">
+
+                                <div>
+
+                                    <span class="panel-label">
+                                        Converted Data
+                                    </span>
+
+                                    <h3 id="outputPanelTitle">
+                                        Encoded Text
+                                    </h3>
+
+                                </div>
+
+                                <div class="panel-actions">
+
+                                    <button
+                                        id="copyOutputBtn"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Copy output to clipboard"
+                                        title="Copy output"
+                                        disabled
+                                    >
+                                        <i class="fa-regular fa-copy"></i>
+                                        <span>Copy</span>
+                                    </button>
+
+                                    <button
+                                        id="downloadOutputBtn"
+                                        class="icon-button"
+                                        type="button"
+                                        aria-label="Download output"
+                                        title="Download output"
+                                        disabled
+                                    >
+                                        <i class="fa-solid fa-download"></i>
+                                        <span>Download</span>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="textarea-wrapper">
+
+                                <textarea
+                                    id="outputText"
+                                    class="converter-textarea"
+                                    placeholder="Converted result will appear here..."
+                                    spellcheck="false"
+                                    aria-label="Conversion output"
+                                    readonly
+                                ></textarea>
+
+                            </div>
+
+                            <div class="panel-meta">
+
+                                <span>
+                                    <strong id="outputCharacterCount">0</strong>
+                                    characters
+                                </span>
+
+                                <span>
+                                    <strong id="outputByteCount">0</strong>
+                                    bytes
+                                </span>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- Main Workspace Actions -->
+
+                    <div class="workspace-actions">
+
+                        <button
+                            id="convertBtn"
+                            class="primary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            Convert Data
+                        </button>
+
+                        <button
+                            id="swapBtn"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-right-left"></i>
+                            Swap
+                        </button>
+
+                        <button
+                            id="clearAllBtn"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Clear All
+                        </button>
+
+                    </div>
+
+
+                    <!-- Conversion Status -->
+
+                    <div
+                        id="conversionStatus"
+                        class="conversion-status"
+                        aria-live="polite"
+                    >
+
+                        <div class="status-message">
+
+                            <i
+                                id="statusIcon"
+                                class="fa-solid fa-circle-info"
+                            ></i>
+
+                            <div>
+
+                                <span class="panel-label">
+                                    Conversion Status
+                                </span>
+
+                                <strong id="statusText">
+                                    Waiting for input
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="status-details">
+
+                            <span>
+                                Format:
+                                <strong id="selectedFormatStatus">
+                                    Base64
+                                </strong>
+                            </span>
+
+                            <span>
+                                Operation:
+                                <strong id="selectedOperationStatus">
+                                    Encode
+                                </strong>
+                            </span>
+
+                            <span>
+                                Time:
+                                <strong id="conversionTime">
+                                    0 ms
+                                </strong>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Supported Formats
+        =========================================== -->
+
+        <section class="formats-section">
+
+            <div class="module-container">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            Supported Formats
+                        </span>
+
+                        <h2>Available transformations</h2>
+
+                    </div>
+
+                    <p>
+                        Choose the format that matches the data you need to
+                        inspect, transmit or transform.
+                    </p>
+
+                </div>
+
+
+                <div class="formats-grid">
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-file-code"></i>
+                        </div>
+
+                        <h3>Base64</h3>
+
+                        <p>
+                            Convert UTF-8 text into Base64 data or decode
+                            Base64 content back into readable text.
+                        </p>
+
+                        <span class="format-capability">
+                            Encode · Decode
+                        </span>
+
+                    </article>
+
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+
+                        <h3>URL Encoding</h3>
+
+                        <p>
+                            Safely represent reserved characters inside URLs,
+                            parameters and web requests.
+                        </p>
+
+                        <span class="format-capability">
+                            Encode · Decode
+                        </span>
+
+                    </article>
+
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+
+                        <h3>HTML Entities</h3>
+
+                        <p>
+                            Convert special HTML characters into entities or
+                            restore entities to their original characters.
+                        </p>
+
+                        <span class="format-capability">
+                            Encode · Decode
+                        </span>
+
+                    </article>
+
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-hashtag"></i>
+                        </div>
+
+                        <h3>Hexadecimal</h3>
+
+                        <p>
+                            Represent text as hexadecimal byte values or
+                            translate hexadecimal data back into text.
+                        </p>
+
+                        <span class="format-capability">
+                            Encode · Decode
+                        </span>
+
+                    </article>
+
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-0"></i>
+                        </div>
+
+                        <h3>Binary</h3>
+
+                        <p>
+                            Convert text into binary byte sequences or decode
+                            binary values into readable text.
+                        </p>
+
+                        <span class="format-capability">
+                            Encode · Decode
+                        </span>
+
+                    </article>
+
+
+                    <article class="format-card">
+
+                        <div class="format-icon">
+                            <i class="fa-solid fa-repeat"></i>
+                        </div>
+
+                        <h3>ROT13</h3>
+
+                        <p>
+                            Apply the ROT13 letter substitution transformation
+                            to text and reverse it using the same operation.
+                        </p>
+
+                        <span class="format-capability">
+                            Transform
+                        </span>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             Module Information
+        =========================================== -->
+
+        <section class="information-section">
+
+            <div class="module-container">
+
+                <div class="information-grid">
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <h3>Local Processing</h3>
+
+                        <p>
+                            All conversions happen inside your browser. Your
+                            input and output are not sent to ThreatHawk servers.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+
+                        <h3>UTF-8 Support</h3>
+
+                        <p>
+                            Convert regular text, symbols and international
+                            characters without relying on basic ASCII-only
+                            browser functions.
+                        </p>
+
+                    </article>
+
+
+                    <article class="information-card">
+
+                        <div class="information-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h3>Encoding Is Not Encryption</h3>
+
+                        <p>
+                            Encoded data can usually be reversed without a key.
+                            Do not use encoding alone to protect confidential
+                            information.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         Footer
+    =========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="module-container footer-content">
+
+            <div class="footer-brand">
+
+                <strong>ThreatHawk</strong>
+
+                <span>
+                    Browser-Based Cybersecurity Platform
+                </span>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="../../index.html">
+                    Dashboard
+                </a>
+
+                <a href="../../index.html#modules">
+                    Security Modules
+                </a>
+
+                <a
+                    href="https://github.com/DileepKumar52/ThreatHawk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>
+
+            </div>
+
+            <div class="footer-meta">
+                Encoder & Decoder · Version 1.0
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ==========================================
+         Toast Notification
+    =========================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    >
+
+        <i
+            id="toastIcon"
+            class="fa-solid fa-check"
+        ></i>
+
+        <span id="toastMessage">
+            Action completed
+        </span>
+
+    </div>
+
+
+    <!-- Tool JavaScript -->
+
+    <script
+        src="js/app.js"
+        defer
+    ></script>
+
+</body>
+
+</html>

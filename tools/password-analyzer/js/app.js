@@ -1541,3 +1541,130 @@ function initializePasswordIntelligence() {
 }
 
 initializePasswordIntelligence();
+
+const knowledgeData = {
+
+    aboutPopup: {
+        title: "About Password Intelligence",
+        content: `
+            <p>
+                Password Intelligence helps you evaluate password strength using modern security principles.
+                Analysis is performed locally in your browser, meaning your password never leaves your device.
+            </p>
+
+            <p>
+                The tool measures password complexity, entropy, predictable patterns, and estimated resistance
+                against offline attacks to help you create stronger credentials.
+            </p>
+        `
+    },
+
+    featuresPopup: {
+        title: "Key Features",
+        content: `
+            <ul>
+                <li>Real-time password strength analysis</li>
+                <li>Entropy calculation</li>
+                <li>Offline crack-time estimation</li>
+                <li>Weak pattern detection</li>
+                <li>Secure password generator</li>
+                <li>100% local browser processing</li>
+            </ul>
+        `
+    },
+
+    workflowPopup: {
+        title: "How Password Analysis Works",
+        content: `
+            <ol>
+                <li>Enter your password.</li>
+                <li>The analyzer evaluates its strength.</li>
+                <li>Entropy and crack time are estimated.</li>
+                <li>Security recommendations are generated instantly.</li>
+            </ol>
+        `
+    }
+
+};
+
+const overlay = document.getElementById("knowledgeOverlay");
+const popupTitle = document.getElementById("popupTitle");
+const popupContent = document.getElementById("popupContent");
+const popupClose = document.getElementById("popupClose");
+
+document.querySelectorAll(".info-button").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const data = knowledgeData[button.dataset.popup];
+
+        popupTitle.innerHTML = data.title;
+        popupContent.innerHTML = data.content;
+
+        overlay.classList.add("active");
+
+    });
+
+});
+
+popupClose.addEventListener("click", () => {
+
+    overlay.classList.remove("active");
+
+});
+
+overlay.addEventListener("click", (e) => {
+
+    if (e.target === overlay) {
+
+        overlay.classList.remove("active");
+
+    }
+
+});
+
+/* ==========================================================
+   ThreatHawk Navigation Dropdown
+========================================================== */
+
+const navDropdown = document.querySelector(".nav-dropdown");
+const dropdownToggle = document.querySelector(".dropdown-toggle");
+
+if (navDropdown && dropdownToggle) {
+
+    dropdownToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const isOpen = navDropdown.classList.toggle("active");
+
+        dropdownToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!navDropdown.contains(event.target)) {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+    });
+
+}

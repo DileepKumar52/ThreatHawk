@@ -106,59 +106,195 @@
 
     <!-- ==============================
          ThreatHawk Navigation
-    =============================== -->
+    ================================ -->
 
     <header class="site-header">
 
-        <nav class="navbar">
+        <div class="navbar">
 
             <a
                 href="../../index.html"
-                class="brand"
-                aria-label="Return to ThreatHawk dashboard"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
             >
-                <span class="brand-symbol">◇</span>
-                <span>ThreatHawk</span>
+                <h2>ThreatHawk</h2>
             </a>
 
-            <div class="nav-links">
+            <nav aria-label="Primary navigation">
 
-                <a href="../../index.html">
-                    Dashboard
-                </a>
+                <ul>
 
-                <a href="../../index.html#modules">
-                    Modules
-                </a>
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
 
-                <a href="index.html" class="active">Password Intelligence</a>
+                    <li class="nav-dropdown">
 
-                <a
-                    href="../url-analyzer/index.html"
-                    class="desktop-link"
-                >
-                    URL Analyzer
-                </a>
+                        <button
+                            class="dropdown-toggle active"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+                        <span>Modules</span>
 
-                <a
-                    href="../hash-analyzer/index.html"
-                    class="desktop-link"
-                >
-                    Hash Analyzer
-                </a>
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
 
-                <a
-                    href="../log-analyzer/index.html"
-                    class="desktop-link"
-                >
-                    Log Analysis
-                </a>
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                            aria-label="ThreatHawk modules"
+                        >
 
-            </div>
+                            <li>
+                                <a
+                                    href="index.html"
+                                    class="current-module"
+                                    aria-current="page"
+                                >
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <rect
+                                                x="4"
+                                                y="10"
+                                                width="16"
+                                                height="10"
+                                                rx="2"
+                                            ></rect>
+
+                                            <path
+                                                d="M8 10V7a4 4 0 0 1 8 0v3"
+                                            ></path>
+
+                                            <path d="M12 14v2"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Password Intelligence</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../url-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="9"
+                                            ></circle>
+
+                                            <path d="M3 12h18"></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 1 0 18"
+                                            ></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 0 0 18"
+                                            ></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>URL Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../hash-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M10 3 8 21"></path>
+                                            <path d="m16 3-2 18"></path>
+                                            <path d="M4 9h16"></path>
+                                            <path d="M3 15h16"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Hash Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../log-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M6 3h9l3 3v15H6z"></path>
+                                            <path d="M14 3v4h4"></path>
+                                            <path d="M9 12h6"></path>
+                                            <path d="M9 16h6"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Log Analysis</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../encoder-decoder/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="m8 9-4 3 4 3"></path>
+                                            <path d="m16 9 4 3-4 3"></path>
+                                            <path d="m14 5-4 14"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Encoder &amp; Decoder</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#faq">
+                            FAQ
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
 
             <div class="nav-actions">
 
-                <span class="version-badge">
+                <span class="version">
                     Version 1.0
                 </span>
 
@@ -175,7 +311,7 @@
 
             </div>
 
-        </nav>
+        </div>
 
     </header>
 
@@ -553,58 +689,72 @@
 
         </section>
 
-
         <!-- ==============================
-             Information Section
+                Knowledge Center
         =============================== -->
 
-        <section class="information-section">
+        <section id="about" class="knowledge-section">
 
             <div class="module-container">
 
-                <div class="information-grid">
+                <div class="knowledge-grid">
 
-                    <article class="information-card">
+                    <!-- About -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-laptop-code"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>About Password Intelligence</h3>
+
+                            <button class="info-button" data-popup="aboutPopup">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Local Processing</h3>
-
                         <p>
-                            Password analysis runs inside your browser. The
-                            entered password is not sent to ThreatHawk.
+                            Learn how Password Intelligence evaluates password security while keeping your credentials private.
                         </p>
 
                     </article>
 
-                    <article class="information-card">
+                    <!-- Features -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-stopwatch"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>Key Features</h3>
+
+                            <button class="info-button" data-popup="featuresPopup">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Crack-Time Estimate</h3>
-
                         <p>
-                            Crack time is a simplified offline estimate based
-                            on one billion guesses per second.
+                            Explore the security capabilities available within Password Intelligence.
                         </p>
 
                     </article>
 
-                    <article class="information-card">
+                    <!-- How It Works -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-fingerprint"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>How Password Analysis Works</h3>
+
+                            <button class="info-button" data-popup="workflowPopup">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Pattern Detection</h3>
-
                         <p>
-                            The analyzer checks common passwords, repeated
-                            characters and predictable sequences.
+                            Understand how your password is evaluated in real time directly within your browser.
                         </p>
 
                     </article>
@@ -615,8 +765,166 @@
 
         </section>
 
+        <!-- ==============================
+        Frequently Asked Questions
+        =============================== -->
+
+        <section class="faq-section" id="faq">
+
+            <div class="module-container">
+
+                <div class="section-heading">
+                    <span class="section-label">Common Questions</span>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <p>
+                        Find answers about password strength, crack-time estimates,
+                        privacy, and how Password Intelligence works.
+                    </p>
+                </div>
+
+                <div class="faq-list">
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            Is my password uploaded to ThreatHawk?
+
+                        </summary>
+
+                        <p>
+                            No. Password Intelligence performs all analysis locally within your browser. Your password is never uploaded, stored, or transmitted to ThreatHawk or any third-party server, ensuring your sensitive credentials remain completely private during analysis.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            Is Password Intelligence free to use?
+
+                        </summary>
+
+                        <p>
+                            Yes. Password Intelligence is completely free to use with no subscriptions, hidden charges, or usage limits. You can analyze password strength, estimate crack time, identify security weaknesses, and generate strong passwords directly in your browser without creating an account.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            How is password strength calculated?
+
+                        </summary>
+
+                        <p>
+                            Password Intelligence evaluates multiple security factors, including password length, uppercase and lowercase letters, numbers, special characters, character diversity, and common attack patterns. These checks are combined to generate an overall strength score, helping you understand how resistant your password is to brute-force and dictionary attacks.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            What makes a password strong?
+
+                        </summary>
+
+                        <p>
+                            A strong password is long, unique, and difficult to guess. It should contain a mix of uppercase and lowercase letters, numbers, and special characters while avoiding common words, personal information, or predictable patterns. Using a unique password for every account significantly improves your overall security.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            How accurate is the crack-time estimate?
+
+                        </summary>
+
+                        <p>
+                            The crack-time estimate is an educated approximation based on password complexity, length, and modern password-cracking techniques. While actual times can vary depending on an attacker's hardware and methods, the estimate provides a realistic indication of how resistant your password is to brute-force attacks and helps you compare the strength of different passwords.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            Does Password Intelligence work on mobile devices?
+
+                        </summary>
+
+                        <p>
+                            Yes. Password Intelligence is fully responsive and works on desktops, laptops, tablets, and smartphones. The interface automatically adapts to different screen sizes, allowing you to analyze password strength, generate secure passwords, and review security recommendations from any modern web browser.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            Can this tool detect compromised passwords?
+
+                        </summary>
+
+                        <p>
+                            No. Password Intelligence evaluates password strength and security based on its complexity and common attack patterns, but it does not currently check whether a password has appeared in known data breaches. This feature may be added in a future update while maintaining user privacy.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+
+                            Why should I use a password manager?
+
+                        </summary>
+
+                        <p>
+                            A password manager helps you create, store, and autofill strong, unique passwords for every account without having to remember them all. This reduces the risk of password reuse, protects your online accounts from credential-stuffing attacks, and makes it much easier to maintain good security practices.
+                        </p>
+
+                    </details>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
 
+    <!-- ==============================
+             Knowledge Popup
+    =============================== -->
+
+    <div class="knowledge-popup-overlay" id="knowledgeOverlay">
+
+        <div class="knowledge-popup" id="knowledgePopup">
+
+            <button class="popup-close" id="popupClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 id="popupTitle"></h3>
+
+            <div id="popupContent"></div>
+
+        </div>
+
+    </div>
 
     <!-- ==============================
          Footer

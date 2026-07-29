@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreatHawk | Free Open-Source Browser-Based Cybersecurity Tools</title>
 
-    <meta name="description" content="ThreatHawk is a free open-source browser-based cybersecurity platform with password analysis, URL inspection, hash analysis, log analysis, and security tools that run directly in your browser.">
+    <meta name="description" content="ThreatHawk is a free open-source browser-based cybersecurity platform for password analysis, URL inspection, hash identification, security log analysis, and data encoding or decoding. Most tools run locally in your browser.">
 
     <link rel="canonical" href="https://threathawk.net/">
 
     <!-- Basic SEO -->
     <meta name="keywords"
-          content="Cybersecurity, Password Analyzer, URL Analyzer, Hash Analyzer, Log Analyzer, SOC Tools, ThreatHawk, Open Source, Browser Security">
+          content="Cybersecurity, Password Analyzer, URL Analyzer, Hash Analyzer, Log Analyzer, Encoder Decoder, Base64 Decoder, URL Decoder, Hex Decoder, Binary Decoder, ROT13, SOC Tools, ThreatHawk, Open Source, Browser Security">
 
     <meta name="author" content="Dileep Kumar">
 
@@ -22,8 +22,10 @@
     <meta property="og:title"
           content="ThreatHawk | Free Open-Source Browser-Based Cybersecurity Tools">
 
-    <meta property="og:description"
-          content="Analyze passwords, URLs, hashes, and security logs directly in your browser.">
+    <meta
+    property="og:description"
+    content="Free open-source browser-based cybersecurity platform featuring Password Intelligence, URL Analyzer, Hash Analyzer, Log Analysis, and Encoder & Decoder modules. Most tools run locally for maximum privacy."
+    >
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://threathawk.net/">
@@ -36,8 +38,10 @@
     <meta name="twitter:title"
           content="ThreatHawk | Free Open-Source Browser-Based Cybersecurity Tools">
 
-    <meta name="twitter:description"
-          content="Open-source browser-based cybersecurity toolkit.">
+    <meta
+    name="twitter:description"
+    content="Analyze passwords, URLs, hashes, security logs, and encoded data with ThreatHawk's free browser-based cybersecurity toolkit."
+    >
 
     <meta name="twitter:image" content="https://threathawk.net/assets/og-image.png">
 
@@ -71,7 +75,7 @@
     "@type":"WebSite",
     "name":"ThreatHawk",
     "url":"https://threathawk.net/",
-    "description":"Free open-source browser-based cybersecurity platform offering password analysis, URL inspection, hash analysis, and security log analysis.",
+    "description": "ThreatHawk is a free open-source browser-based cybersecurity platform featuring Password Intelligence, URL Analyzer, Hash Analyzer, Log Analysis, and Encoder & Decoder modules.",
     "publisher":{
         "@type":"Person",
         "name":"Dileep Kumar"
@@ -99,7 +103,7 @@
     },
     "isAccessibleForFree":true,
     "license":"https://opensource.org/licenses/MIT",
-    "description":"Open-source browser-based cybersecurity toolkit for password, URL, hash and log analysis."
+    "description": "ThreatHawk is a free open-source browser-based cybersecurity platform featuring Password Intelligence, URL Analyzer, Hash Analyzer, Log Analysis, and Encoder & Decoder modules."
     }
     </script>
 </head>
@@ -124,7 +128,103 @@
 
                 <li><a href="#home">Home</a></li>
 
-                <li><a href="#modules">Modules</a></li>
+                <li class="nav-dropdown">
+                    <button
+                        class="dropdown-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="modulesDropdown"
+                    >
+                        <span>Modules</span>
+
+                        <svg
+                            class="dropdown-arrow"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </button>
+
+                    <ul
+                        class="dropdown-menu"
+                        id="modulesDropdown"
+                        aria-label="ThreatHawk modules"
+                    >
+                        <li>
+                            <a href="tools/password-analyzer/index.html">
+                                <span class="dropdown-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+                                        <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                                        <path d="M12 14v2"></path>
+                                    </svg>
+                                </span>
+
+                                <span>Password Intelligence</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="tools/url-analyzer/index.html">
+                                <span class="dropdown-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <path d="M3 12h18"></path>
+                                        <path d="M12 3a14 14 0 0 1 0 18"></path>
+                                        <path d="M12 3a14 14 0 0 0 0 18"></path>
+                                    </svg>
+                                </span>
+
+                                <span>URL Analyzer</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="tools/hash-analyzer/index.html">
+                                <span class="dropdown-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M10 3 8 21"></path>
+                                        <path d="m16 3-2 18"></path>
+                                        <path d="M4 9h16"></path>
+                                        <path d="M3 15h16"></path>
+                                    </svg>
+                                </span>
+
+                                <span>Hash Analyzer</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="tools/log-analyzer/index.html">
+                                <span class="dropdown-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M6 3h9l3 3v15H6z"></path>
+                                        <path d="M14 3v4h4"></path>
+                                        <path d="M9 12h6"></path>
+                                        <path d="M9 16h6"></path>
+                                    </svg>
+                                </span>
+
+                                <span>Log Analysis</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="tools/encoder-decoder/index.html">
+                                <span class="dropdown-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="m8 9-4 3 4 3"></path>
+                                        <path d="m16 9 4 3-4 3"></path>
+                                        <path d="m14 5-4 14"></path>
+                                    </svg>
+                                </span>
+
+                                <span>Encoder &amp; Decoder</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li><a href="#capabilities">Capabilities</a></li>
 
@@ -212,9 +312,7 @@
             </h2>
 
             <p>
-
-                Purpose-built browser-based modules for security analysis, investigation and threat detection.
-
+                Analyze passwords, URLs, hashes, security logs and encoded data with privacy-first browser-based cybersecurity tools. No uploads. No installation. Everything runs locally.
             </p>
 
         </div>
@@ -382,6 +480,38 @@
 
             </article>
 
+            <article
+                class="module-card"
+                data-href="tools/encoder-decoder/index.html"
+                tabindex="0"
+                role="link"
+                aria-label="Launch Encoder and Decoder"
+            >
+                <div class="module-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="m8 9-4 3 4 3"></path>
+                        <path d="m16 9 4 3-4 3"></path>
+                        <path d="m14 5-4 14"></path>
+                    </svg>
+                </div>
+
+                <h3>
+                    Encoder &amp; Decoder
+                </h3>
+
+                <p>
+                    Transform data across Base64, URL, HTML, hexadecimal,
+                    binary and ROT13 formats directly in your browser.
+                </p>
+
+                <a
+                    href="tools/encoder-decoder/index.html"
+                    class="module-button"
+                >
+                    Launch Module
+                </a>
+            </article>
+
         </div>
 
     </section>
@@ -490,6 +620,8 @@
 
                 <div>Log Analysis</div>
 
+                <div>Encoder &amp; Decoder</div>
+
             </div>
 
             <div class="architecture-box">
@@ -548,6 +680,7 @@
                     <li>✔ URL Analyzer</li>
                     <li>✔ Hash Analyzer</li>
                     <li>✔ Log Analysis</li>
+                    <li>✔ Encoder &amp; Decoder</li>
 
                 </ul>
 
@@ -646,7 +779,7 @@
                 <details class="faq-item">
                     <summary>What is ThreatHawk?</summary>
                     <p>
-                        ThreatHawk is an open-source browser-based cybersecurity platform that provides security analysis tools including password auditing, URL inspection, hash analysis, and log analysis without requiring software installation.
+                        ThreatHawk is an open-source browser-based cybersecurity platform offering password auditing, URL inspection, hash analysis, security log analysis, and data encoding and decoding tools that run directly in your browser without requiring software installation.
                     </p>
                 </details>
 
