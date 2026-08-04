@@ -106,57 +106,195 @@
 
 <body>
 
-    <!-- ==========================================
-         ThreatHawk Navigation
-    =========================================== -->
+    <!-- ThreatHawk Navigation -->
 
     <header class="site-header">
 
-        <nav class="navbar module-container">
+        <div class="navbar">
 
             <a
                 href="../../index.html"
-                class="brand"
-                aria-label="Return to ThreatHawk dashboard"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
             >
-                <span class="brand-symbol">◇</span>
-                <span>ThreatHawk</span>
+                <h2>ThreatHawk</h2>
             </a>
 
-            <div class="nav-links">
+            <nav aria-label="Primary navigation">
 
-                <a href="../../index.html">
-                    Dashboard
-                </a>
+                <ul>
 
-                <a href="../../index.html#modules">
-                    Modules
-                </a>
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
 
-                <a href="../password-analyzer/index.html">
-                    Password Intelligence
-                </a>
+                    <li class="nav-dropdown">
 
-                <a href="../url-analyzer/index.html">
-                    URL Analyzer
-                </a>
+                        <button
+                            class="dropdown-toggle active"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+                        <span>Modules</span>
 
-                <a href="../hash-analyzer/index.html">
-                    Hash Analyzer
-                </a>
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
 
-                <a
-                    href="../log-analyzer/index.html"
-                    class="active"
-                >
-                    Log Analysis
-                </a>
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                            aria-label="ThreatHawk modules"
+                        >
 
-            </div>
+                            <li>
+                                <a href="../password-analyzer/index.html">
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <rect
+                                                x="4"
+                                                y="10"
+                                                width="16"
+                                                height="10"
+                                                rx="2"
+                                            ></rect>
+
+                                            <path
+                                                d="M8 10V7a4 4 0 0 1 8 0v3"
+                                            ></path>
+
+                                            <path d="M12 14v2"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Password Intelligence</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../url-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="9"
+                                            ></circle>
+
+                                            <path d="M3 12h18"></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 1 0 18"
+                                            ></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 0 0 18"
+                                            ></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>URL Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../hash-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M10 3 8 21"></path>
+                                            <path d="m16 3-2 18"></path>
+                                            <path d="M4 9h16"></path>
+                                            <path d="M3 15h16"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Hash Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="index.html"
+                                    class="current-module"
+                                    aria-current="page"
+                                >
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M6 3h9l3 3v15H6z"></path>
+                                            <path d="M14 3v4h4"></path>
+                                            <path d="M9 12h6"></path>
+                                            <path d="M9 16h6"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Log Analysis</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../encoder-decoder/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="m8 9-4 3 4 3"></path>
+                                            <path d="m16 9 4 3-4 3"></path>
+                                            <path d="m14 5-4 14"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Encoder &amp; Decoder</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#faq">
+                            FAQ
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
 
             <div class="nav-actions">
 
-                <span class="version-badge">
+                <span class="version">
                     Version 1.0
                 </span>
 
@@ -167,12 +305,13 @@
                     aria-label="Switch to light mode"
                 >
                     <i class="fa-regular fa-sun"></i>
+
                     <span>Light Mode</span>
                 </button>
 
             </div>
 
-        </nav>
+        </div>
 
     </header>
 
@@ -1031,58 +1170,94 @@
 
 
         <!-- ==========================================
-             Module Information
+                        Knowledge Center
         =========================================== -->
 
-        <section class="information-section">
+        <section id="about" class="knowledge-section">
 
             <div class="module-container">
 
-                <div class="information-grid">
+                <div class="knowledge-grid">
 
-                    <article class="information-card">
+                    <!-- About Log Analysis -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-user-secret"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>About Log Analysis</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="aboutPopup"
+                                aria-label="Learn more about Log Analysis"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Brute-Force Detection</h3>
-
                         <p>
-                            Repeated failed authentication attempts are
-                            grouped to identify likely password attacks.
+                            Learn how ThreatHawk examines security logs, identifies
+                            suspicious activity and supports incident investigation
+                            directly within your browser.
                         </p>
 
                     </article>
 
 
-                    <article class="information-card">
+                    <!-- Key Features -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-crosshairs"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>Key Features</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="featuresPopup"
+                                aria-label="View Log Analysis features"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>IOC Extraction</h3>
-
                         <p>
-                            ThreatHawk extracts suspicious IP addresses and
-                            counts repeated occurrences across the log.
+                            Explore threat scoring, brute-force detection, IOC
+                            extraction, attack timelines, event filtering and
+                            incident reporting.
                         </p>
 
                     </article>
 
 
-                    <article class="information-card">
+                    <!-- How It Works -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-route"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>How Log Analysis Works</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="workflowPopup"
+                                aria-label="Learn how log analysis works"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Incident Reconstruction</h3>
-
                         <p>
-                            Notable events are organized into a timeline to
-                            help explain how the activity unfolded.
+                            Understand how uploaded log events are parsed, classified,
+                            scored and converted into alerts, indicators and an
+                            explainable incident assessment.
                         </p>
 
                     </article>
@@ -1093,7 +1268,248 @@
 
         </section>
 
+        <!-- ==========================================
+                Frequently Asked Questions
+        =========================================== -->
+
+        <section class="faq-section" id="faq">
+
+            <div class="module-container">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="panel-label">
+                            Common Questions
+                        </span>
+
+                        <h2>Frequently Asked Questions</h2>
+
+                    </div>
+
+                    <p>
+                        Find answers about log privacy, supported file types,
+                        threat scoring, brute-force detection, IOC extraction
+                        and the limitations of automated security analysis.
+                    </p>
+
+                </div>
+
+
+                <div class="faq-list">
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Are uploaded log files sent to ThreatHawk?
+                        </summary>
+
+                        <p>
+                            No. Log Analysis processes supported files directly in
+                            your browser. ThreatHawk does not intentionally upload,
+                            store or maintain a personal history of the log files you
+                            analyze. Even so, avoid using confidential production logs
+                            on shared or untrusted devices because the browser and local
+                            system still handle the data.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Which log file types are supported?
+                        </summary>
+
+                        <p>
+                            The current Log Analysis module accepts TXT, LOG and CSV
+                            files. The parser is designed for common authentication and
+                            security-event formats, but highly customized or unusual
+                            log structures may not be interpreted perfectly without
+                            additional formatting support.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            How is the threat score calculated?
+                        </summary>
+
+                        <p>
+                            The threat score is based on detected security signals such
+                            as repeated failed logins, suspicious IP addresses, alert
+                            patterns, IOC matches and other notable events. These
+                            indicators are combined into an overall severity score so
+                            investigators can quickly understand the apparent level of
+                            risk.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            How does ThreatHawk detect brute-force activity?
+                        </summary>
+
+                        <p>
+                            ThreatHawk looks for repeated authentication failures and
+                            groups suspicious patterns by source, event type and
+                            occurrence frequency. A large number of failed attempts from
+                            the same source may indicate password guessing or automated
+                            brute-force activity.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            What are indicators of compromise?
+                        </summary>
+
+                        <p>
+                            Indicators of compromise, commonly called IOCs, are values
+                            that may be associated with suspicious or malicious
+                            activity. In the current module, these primarily include IP
+                            addresses extracted from the submitted log and counted
+                            across repeated events.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Can Log Analysis confirm that an incident occurred?
+                        </summary>
+
+                        <p>
+                            No. The module identifies suspicious patterns and produces
+                            an explainable assessment, but it cannot independently prove
+                            that a security incident occurred. Results should be
+                            reviewed alongside system context, endpoint evidence,
+                            network data and other investigative sources.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Why might legitimate activity be flagged as suspicious?
+                        </summary>
+
+                        <p>
+                            Legitimate systems can generate repeated failures, unusual
+                            IP activity or noisy alerts during testing, configuration
+                            changes, user mistakes or automated processes. The analyzer
+                            reports suspicious characteristics, not final guilt
+                            verdicts, despite software occasionally behaving as if it
+                            has joined a courtroom drama.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Can I search and filter the analyzed events?
+                        </summary>
+
+                        <p>
+                            Yes. After analysis, you can search parsed events by message,
+                            IP address or event details and filter the table by severity.
+                            This helps narrow large datasets to the events most relevant
+                            to an investigation.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Can I export the incident analysis?
+                        </summary>
+
+                        <p>
+                            Yes. The Export Analysis Report feature generates a report
+                            from the current incident summary, threat score, findings,
+                            indicators and parsed events for documentation or further
+                            investigation.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Is Log Analysis a replacement for a SIEM?
+                        </summary>
+
+                        <p>
+                            No. ThreatHawk Log Analysis is a lightweight browser-based
+                            investigation tool. It does not replace a full SIEM,
+                            continuous monitoring platform, endpoint detection system
+                            or professional incident-response workflow.
+                        </p>
+
+                    </details>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
+
+    <!-- ==========================================
+                 Knowledge Popup
+    =========================================== -->
+
+    <div
+        class="knowledge-popup-overlay"
+        id="knowledgeOverlay"
+        aria-hidden="true"
+    >
+
+        <div
+            class="knowledge-popup"
+            id="knowledgePopup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="popupTitle"
+        >
+
+            <button
+                class="popup-close"
+                id="popupClose"
+                type="button"
+                aria-label="Close information popup"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 id="popupTitle"></h3>
+
+            <div id="popupContent"></div>
+
+        </div>
+
+    </div>
 
 
     <!-- ==========================================

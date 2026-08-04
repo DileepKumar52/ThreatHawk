@@ -1378,3 +1378,346 @@ function initializeLogAnalyzer() {
 }
 
 initializeLogAnalyzer();
+
+/* =========================================================
+   THREATHAWK NAVIGATION
+========================================================= */
+
+const navDropdown =
+    document.querySelector(".nav-dropdown");
+
+const dropdownToggle =
+    document.querySelector(".dropdown-toggle");
+
+if (navDropdown && dropdownToggle) {
+
+    dropdownToggle.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        const isOpen =
+            navDropdown.classList.toggle("active");
+
+        dropdownToggle.classList.toggle(
+            "active",
+            isOpen
+        );
+
+        dropdownToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+
+    document.addEventListener("click", (event) => {
+
+        if (!navDropdown.contains(event.target)) {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "Escape") {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+}
+
+/* =========================================================
+   KNOWLEDGE POPUPS
+========================================================= */
+
+const knowledgeData = {
+    aboutPopup: {
+        title: "About Log Analysis",
+
+        content: `
+            <p>
+                ThreatHawk Log Analysis is a browser-based security operations
+                tool designed to inspect authentication and security logs for
+                suspicious activity.
+            </p>
+
+            <p>
+                It helps identify repeated login failures, suspicious source
+                addresses, notable events and indicators that may require
+                further investigation.
+            </p>
+
+            <p>
+                The module is intended to support triage and incident review.
+                Its findings are based on the content and patterns present in
+                the uploaded log and should not be treated as absolute proof
+                that an incident occurred.
+            </p>
+        `
+    },
+
+    featuresPopup: {
+        title: "Log Analysis Key Features",
+
+        content: `
+            <ul>
+                <li>
+                    Analyze TXT, LOG and CSV security files
+                </li>
+
+                <li>
+                    Detect repeated failed authentication attempts
+                </li>
+
+                <li>
+                    Identify possible brute-force activity
+                </li>
+
+                <li>
+                    Extract suspicious IP addresses and indicators
+                </li>
+
+                <li>
+                    Calculate an overall threat score
+                </li>
+
+                <li>
+                    Generate an incident summary and recommendations
+                </li>
+
+                <li>
+                    Build a chronological attack timeline
+                </li>
+
+                <li>
+                    Display event distribution using Chart.js
+                </li>
+
+                <li>
+                    Search and filter parsed log events
+                </li>
+
+                <li>
+                    Export the completed incident analysis
+                </li>
+
+                <li>
+                    Perform analysis locally within the browser
+                </li>
+            </ul>
+        `
+    },
+
+    workflowPopup: {
+        title: "How Log Analysis Works",
+
+        content: `
+            <ol>
+                <li>
+                    A supported TXT, LOG or CSV file is selected or dropped
+                    into the analyzer.
+                </li>
+
+                <li>
+                    The file is read locally and divided into individual log
+                    entries.
+                </li>
+
+                <li>
+                    Each entry is parsed for timestamps, severity, event
+                    messages and IP addresses.
+                </li>
+
+                <li>
+                    Authentication failures, suspicious patterns and repeated
+                    source activity are counted.
+                </li>
+
+                <li>
+                    Extracted indicators are grouped and added to the IOC
+                    intelligence section.
+                </li>
+
+                <li>
+                    Important events are organized chronologically to build the
+                    attack timeline.
+                </li>
+
+                <li>
+                    Detected signals are combined into a threat score and an
+                    incident severity level.
+                </li>
+
+                <li>
+                    The analyzer generates security alerts, a summary and
+                    recommended investigation actions.
+                </li>
+
+                <li>
+                    Parsed events can then be searched, filtered and exported
+                    for further review.
+                </li>
+            </ol>
+        `
+    }
+};
+
+
+const knowledgeOverlay =
+    document.getElementById("knowledgeOverlay");
+
+const knowledgePopup =
+    document.getElementById("knowledgePopup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupContent =
+    document.getElementById("popupContent");
+
+const popupClose =
+    document.getElementById("popupClose");
+
+let lastPopupTrigger = null;
+
+
+function openKnowledgePopup(popupKey, triggerButton) {
+    const popupData =
+        knowledgeData[popupKey];
+
+    if (
+        !popupData ||
+        !knowledgeOverlay ||
+        !popupTitle ||
+        !popupContent
+    ) {
+        return;
+    }
+
+    lastPopupTrigger =
+        triggerButton || null;
+
+    popupTitle.textContent =
+        popupData.title;
+
+    popupContent.innerHTML =
+        popupData.content;
+
+    knowledgeOverlay.classList.add(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+    window.requestAnimationFrame(() => {
+        popupClose?.focus();
+    });
+}
+
+
+function closeKnowledgePopup() {
+    if (!knowledgeOverlay) {
+        return;
+    }
+
+    knowledgeOverlay.classList.remove(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow =
+        "";
+
+    if (lastPopupTrigger) {
+        lastPopupTrigger.focus();
+    }
+
+    lastPopupTrigger = null;
+}
+
+
+document
+    .querySelectorAll(".info-button")
+    .forEach(button => {
+        button.addEventListener(
+            "click",
+            () => {
+                openKnowledgePopup(
+                    button.dataset.popup,
+                    button
+                );
+            }
+        );
+    });
+
+
+popupClose?.addEventListener(
+    "click",
+    closeKnowledgePopup
+);
+
+
+knowledgeOverlay?.addEventListener(
+    "click",
+    event => {
+        if (
+            event.target ===
+            knowledgeOverlay
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Escape" &&
+            knowledgeOverlay?.classList.contains(
+                "active"
+            )
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+knowledgePopup?.addEventListener(
+    "click",
+    event => {
+        event.stopPropagation();
+    }
+);
