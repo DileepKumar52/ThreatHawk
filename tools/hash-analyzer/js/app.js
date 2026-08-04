@@ -1877,3 +1877,335 @@ function initializeHashAnalyzer() {
 }
 
 initializeHashAnalyzer();
+
+/* =========================================================
+   THREATHAWK NAVIGATION
+========================================================= */
+
+const navDropdown =
+    document.querySelector(".nav-dropdown");
+
+const dropdownToggle =
+    document.querySelector(".dropdown-toggle");
+
+if (navDropdown && dropdownToggle) {
+
+    dropdownToggle.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        const isOpen =
+            navDropdown.classList.toggle("active");
+
+        dropdownToggle.classList.toggle(
+            "active",
+            isOpen
+        );
+
+        dropdownToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+
+    document.addEventListener("click", (event) => {
+
+        if (!navDropdown.contains(event.target)) {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "Escape") {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+}
+
+/* =========================================================
+   KNOWLEDGE POPUPS
+========================================================= */
+
+const knowledgeData = {
+    aboutPopup: {
+        title: "About Hash Analyzer",
+
+        content: `
+            <p>
+                ThreatHawk Hash Analyzer is a browser-based investigation tool
+                designed to identify common cryptographic hash formats and
+                organize large collections of hash values.
+            </p>
+
+            <p>
+                It supports pasted values and uploaded files, performs analysis
+                locally in your browser and helps highlight invalid entries,
+                duplicate hashes and likely algorithms.
+            </p>
+
+            <p>
+                Hash identification is based mainly on format and length. It
+                does not prove where a hash came from, whether the underlying
+                data is safe or whether the hash has been compromised.
+            </p>
+        `
+    },
+
+    featuresPopup: {
+        title: "Hash Analyzer Key Features",
+
+        content: `
+            <ul>
+                <li>
+                    Identify MD5 hash values
+                </li>
+
+                <li>
+                    Identify SHA-1 hash values
+                </li>
+
+                <li>
+                    Identify SHA-256 hash values
+                </li>
+
+                <li>
+                    Identify SHA-512 hash values
+                </li>
+
+                <li>
+                    Analyze multiple pasted hashes in one session
+                </li>
+
+                <li>
+                    Process multiple TXT, CSV and LOG files
+                </li>
+
+                <li>
+                    Detect and count duplicate hash entries
+                </li>
+
+                <li>
+                    Validate hexadecimal structure and expected length
+                </li>
+
+                <li>
+                    Export investigation results as TXT, JSON, CSV or PDF
+                </li>
+
+                <li>
+                    Perform analysis locally within the browser
+                </li>
+            </ul>
+        `
+    },
+
+    workflowPopup: {
+        title: "How Hash Analysis Works",
+
+        content: `
+            <ol>
+                <li>
+                    Hash values are collected from the text input and selected
+                    files.
+                </li>
+
+                <li>
+                    The submitted content is divided into individual values
+                    using spaces, line breaks and supported file formatting.
+                </li>
+
+                <li>
+                    Extra whitespace is removed and each value is normalized
+                    before validation.
+                </li>
+
+                <li>
+                    Each entry is checked for valid hexadecimal characters.
+                </li>
+
+                <li>
+                    The character length is compared against supported digest
+                    formats such as MD5, SHA-1, SHA-256 and SHA-512.
+                </li>
+
+                <li>
+                    Identical values are counted so repeated hashes can be
+                    identified quickly.
+                </li>
+
+                <li>
+                    The results table displays the detected algorithm, length,
+                    validity and occurrence count.
+                </li>
+
+                <li>
+                    The completed analysis can be exported for reporting,
+                    evidence collection or further investigation.
+                </li>
+            </ol>
+        `
+    }
+};
+
+
+const knowledgeOverlay =
+    document.getElementById("knowledgeOverlay");
+
+const knowledgePopup =
+    document.getElementById("knowledgePopup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupContent =
+    document.getElementById("popupContent");
+
+const popupClose =
+    document.getElementById("popupClose");
+
+let lastPopupTrigger = null;
+
+
+function openKnowledgePopup(popupKey, triggerButton) {
+    const popupData =
+        knowledgeData[popupKey];
+
+    if (
+        !popupData ||
+        !knowledgeOverlay ||
+        !popupTitle ||
+        !popupContent
+    ) {
+        return;
+    }
+
+    lastPopupTrigger =
+        triggerButton || null;
+
+    popupTitle.textContent =
+        popupData.title;
+
+    popupContent.innerHTML =
+        popupData.content;
+
+    knowledgeOverlay.classList.add(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+    window.requestAnimationFrame(() => {
+        popupClose?.focus();
+    });
+}
+
+
+function closeKnowledgePopup() {
+    if (!knowledgeOverlay) {
+        return;
+    }
+
+    knowledgeOverlay.classList.remove(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow =
+        "";
+
+    if (lastPopupTrigger) {
+        lastPopupTrigger.focus();
+    }
+
+    lastPopupTrigger = null;
+}
+
+
+document
+    .querySelectorAll(".info-button")
+    .forEach(button => {
+        button.addEventListener(
+            "click",
+            () => {
+                openKnowledgePopup(
+                    button.dataset.popup,
+                    button
+                );
+            }
+        );
+    });
+
+
+popupClose?.addEventListener(
+    "click",
+    closeKnowledgePopup
+);
+
+
+knowledgeOverlay?.addEventListener(
+    "click",
+    event => {
+        if (
+            event.target ===
+            knowledgeOverlay
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Escape" &&
+            knowledgeOverlay?.classList.contains(
+                "active"
+            )
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+knowledgePopup?.addEventListener(
+    "click",
+    event => {
+        event.stopPropagation();
+    }
+);

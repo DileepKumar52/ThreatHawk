@@ -108,48 +108,191 @@
 
     <header class="site-header">
 
-        <nav class="navbar module-container">
+        <div class="navbar">
 
             <a
                 href="../../index.html"
-                class="brand"
-                aria-label="Return to ThreatHawk dashboard"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
             >
-                <span class="brand-symbol">◇</span>
-                <span>ThreatHawk</span>
+                <h2>ThreatHawk</h2>
             </a>
 
-            <div class="nav-links">
+            <nav aria-label="Primary navigation">
 
-                <a href="../../index.html">
-                    Dashboard
-                </a>
+                <ul>
 
-                <a href="../../index.html#modules">
-                    Modules
-                </a>
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
 
-                <a href="../password-analyzer/index.html">
-                    Password Intelligence
-                </a>
+                    <li class="nav-dropdown">
 
-                <a href="../url-analyzer/index.html">
-                    URL Analyzer
-                </a>
+                        <button
+                            class="dropdown-toggle active"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+                        <span>Modules</span>
 
-                <a href="../hash-analyzer/index.html">
-                    Hash Analyzer
-                </a>
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
 
-                <a href="../log-analyzer/index.html">
-                    Log Analysis
-                </a>
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                            aria-label="ThreatHawk modules"
+                        >
 
-            </div>
+                            <li>
+                                <a href="../password-analyzer/index.html">
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <rect
+                                                x="4"
+                                                y="10"
+                                                width="16"
+                                                height="10"
+                                                rx="2"
+                                            ></rect>
+
+                                            <path
+                                                d="M8 10V7a4 4 0 0 1 8 0v3"
+                                            ></path>
+
+                                            <path d="M12 14v2"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Password Intelligence</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../url-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="9"
+                                            ></circle>
+
+                                            <path d="M3 12h18"></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 1 0 18"
+                                            ></path>
+
+                                            <path
+                                                d="M12 3a14 14 0 0 0 0 18"
+                                            ></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>URL Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="index.html"
+                                    class="current-module"
+                                    aria-current="page"
+                                >
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M10 3 8 21"></path>
+                                            <path d="m16 3-2 18"></path>
+                                            <path d="M4 9h16"></path>
+                                            <path d="M3 15h16"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Hash Analyzer</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../log-analyzer/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M6 3h9l3 3v15H6z"></path>
+                                            <path d="M14 3v4h4"></path>
+                                            <path d="M9 12h6"></path>
+                                            <path d="M9 16h6"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Log Analysis</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../encoder-decoder/index.html">
+
+                                    <span
+                                        class="dropdown-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="m8 9-4 3 4 3"></path>
+                                            <path d="m16 9 4 3-4 3"></path>
+                                            <path d="m14 5-4 14"></path>
+                                        </svg>
+                                    </span>
+
+                                    <span>Encoder &amp; Decoder</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#faq">
+                            FAQ
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
 
             <div class="nav-actions">
 
-                <span class="version-badge">
+                <span class="version">
                     Version 1.0
                 </span>
 
@@ -160,12 +303,13 @@
                     aria-label="Switch to light mode"
                 >
                     <i class="fa-regular fa-sun"></i>
+
                     <span>Light Mode</span>
                 </button>
 
             </div>
 
-        </nav>
+        </div>
 
     </header>
 
@@ -677,55 +821,93 @@
         </section>
 
 
-        <!-- Module Information -->
+        <!-- ==============================
+                Knowledge Center
+        =============================== -->
 
-        <section class="information-section">
+        <section id="about" class="knowledge-section">
 
             <div class="module-container">
 
-                <div class="information-grid">
+                <div class="knowledge-grid">
 
-                    <article class="information-card">
+                    <!-- About Hash Analyzer -->
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-laptop-code"></i>
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>About Hash Analyzer</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="aboutPopup"
+                                aria-label="Learn more about Hash Analyzer"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Local Analysis</h3>
-
                         <p>
-                            Hash detection and duplicate analysis run directly
-                            inside your browser.
+                            Learn how ThreatHawk identifies cryptographic hash formats,
+                            processes multiple values and supports digital forensic
+                            investigations directly in your browser.
                         </p>
 
                     </article>
 
-                    <article class="information-card">
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-layer-group"></i>
+                    <!-- Key Features -->
+
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>Key Features</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="featuresPopup"
+                                aria-label="View Hash Analyzer features"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Batch Processing</h3>
-
                         <p>
-                            Analyze multiple pasted hashes and multiple files
-                            within a single investigation.
+                            Explore supported hash formats, batch processing, duplicate
+                            detection, file analysis and structured report exports.
                         </p>
 
                     </article>
 
-                    <article class="information-card">
 
-                        <div class="information-icon">
-                            <i class="fa-solid fa-file-shield"></i>
+                    <!-- How It Works -->
+
+                    <article class="knowledge-card">
+
+                        <div class="knowledge-header">
+
+                            <h3>How Hash Analysis Works</h3>
+
+                            <button
+                                class="info-button"
+                                type="button"
+                                data-popup="workflowPopup"
+                                aria-label="Learn how hash analysis works"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
                         </div>
 
-                        <h3>Supported Algorithms</h3>
-
                         <p>
-                            Detect MD5, SHA-1, SHA-256 and SHA-512 hexadecimal
-                            digest formats.
+                            Understand how submitted values are validated, classified,
+                            counted and converted into readable investigation results.
                         </p>
 
                     </article>
@@ -736,7 +918,192 @@
 
         </section>
 
+        <!-- ==============================
+            Frequently Asked Questions
+        =============================== -->
+
+        <section class="faq-section" id="faq">
+
+            <div class="module-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        Common Questions
+                    </span>
+
+                    <h2>Frequently Asked Questions</h2>
+
+                    <p>
+                        Find answers about supported hash algorithms, privacy,
+                        duplicate detection, batch analysis and how ThreatHawk
+                        Hash Analyzer identifies cryptographic hashes.
+                    </p>
+
+                </div>
+
+                <div class="faq-list">
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Is my hash data uploaded to ThreatHawk?
+                        </summary>
+
+                        <p>
+                            No. Hash Analyzer performs all analysis locally inside your
+                            browser. Hashes are never uploaded, stored or transmitted to
+                            ThreatHawk servers, allowing you to inspect sensitive values
+                            without exposing them to third parties.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Which hash algorithms are supported?
+                        </summary>
+
+                        <p>
+                            Hash Analyzer can identify common cryptographic hash formats
+                            including MD5, SHA-1, SHA-256 and SHA-512. The tool
+                            determines the most likely algorithm by validating the hash
+                            format, hexadecimal characters and expected length.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Can Hash Analyzer crack or reverse a hash?
+                        </summary>
+
+                        <p>
+                            No. ThreatHawk does not crack, decrypt or reverse hashes.
+                            The module identifies supported hash types, validates their
+                            structure, detects duplicates and organizes results for
+                            investigation purposes.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            How does ThreatHawk identify a hash algorithm?
+                        </summary>
+
+                        <p>
+                            The analyzer examines each submitted value for valid
+                            hexadecimal formatting and compares its character length
+                            against known cryptographic hash specifications. The closest
+                            matching algorithm is then reported.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Why can multiple algorithms have similar hash lengths?
+                        </summary>
+
+                        <p>
+                            Some hashing algorithms produce outputs with identical
+                            lengths. Because of this, length alone cannot always confirm
+                            the exact algorithm. Hash Analyzer provides the most likely
+                            identification based on supported formats, but contextual
+                            information may still be required during an investigation.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            What does duplicate detection mean?
+                        </summary>
+
+                        <p>
+                            Duplicate detection counts identical hash values appearing
+                            multiple times within the uploaded files or pasted input.
+                            This helps investigators quickly identify repeated entries
+                            and reduce unnecessary review.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Can I analyze multiple files and hashes together?
+                        </summary>
+
+                        <p>
+                            Yes. Hash Analyzer supports batch processing, allowing you
+                            to analyze multiple files or large collections of hashes in
+                            a single session. Results are combined into one structured
+                            report for easier review and export.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            Is Hash Analyzer suitable for digital forensics?
+                        </summary>
+
+                        <p>
+                            Yes. Hash Analyzer is designed as an investigation and
+                            analysis aid for cybersecurity professionals, SOC analysts,
+                            incident responders and digital forensic workflows. It helps
+                            identify and organize cryptographic hashes but should be used
+                            alongside other forensic tools for comprehensive analysis.
+                        </p>
+
+                    </details>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
+
+    <!-- ==============================
+             Knowledge Popup
+    =============================== -->
+
+    <div
+        class="knowledge-popup-overlay"
+        id="knowledgeOverlay"
+        aria-hidden="true"
+    >
+        <div
+            class="knowledge-popup"
+            id="knowledgePopup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="popupTitle"
+        >
+            <button
+                class="popup-close"
+                id="popupClose"
+                type="button"
+                aria-label="Close information popup"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 id="popupTitle"></h3>
+
+            <div id="popupContent"></div>
+        </div>
+    </div>
 
 
     <!-- Footer -->

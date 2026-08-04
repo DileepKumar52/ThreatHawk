@@ -1240,3 +1240,311 @@ function initializeURLAnalyzer() {
 }
 
 initializeURLAnalyzer();
+
+/* =========================================================
+   KNOWLEDGE POPUPS
+========================================================= */
+
+const knowledgeData = {
+    aboutPopup: {
+        title: "About URL Analyzer",
+
+        content: `
+            <p>
+                ThreatHawk URL Analyzer is a browser-based security tool
+                designed to help inspect website addresses before they are
+                opened.
+            </p>
+
+            <p>
+                It examines the visible structure of a URL, detects suspicious
+                patterns and presents the results as understandable security
+                findings with an overall risk score.
+            </p>
+
+            <p>
+                The analyzer is intended to support investigation and security
+                awareness. A low risk score means fewer suspicious indicators
+                were detected, but it does not guarantee that a website is safe.
+            </p>
+        `
+    },
+
+    featuresPopup: {
+        title: "URL Analyzer Key Features",
+
+        content: `
+            <ul>
+                <li>
+                    URL structure and protocol inspection
+                </li>
+
+                <li>
+                    Suspicious keyword and phishing-pattern detection
+                </li>
+
+                <li>
+                    Brand impersonation and deceptive-domain checks
+                </li>
+
+                <li>
+                    Subdomain, path, query and fragment analysis
+                </li>
+
+                <li>
+                    Encoded character and unusual-symbol detection
+                </li>
+
+                <li>
+                    IP-address hostname identification
+                </li>
+
+                <li>
+                    Explainable security findings and risk scoring
+                </li>
+
+                <li>
+                    Google Safe Browsing reputation checking
+                </li>
+            </ul>
+        `
+    },
+
+    howItWorksPopup: {
+        title: "How URL Analysis Works",
+
+        content: `
+            <ol>
+                <li>
+                    The submitted website address is normalized and converted
+                    into a valid URL format.
+                </li>
+
+                <li>
+                    The analyzer extracts components such as the protocol,
+                    hostname, domain, subdomain, path, query parameters and
+                    fragment.
+                </li>
+
+                <li>
+                    Structural heuristics inspect the URL for suspicious
+                    keywords, unusual characters, deceptive redirects,
+                    excessive length and possible brand impersonation.
+                </li>
+
+                <li>
+                    When available, Google Safe Browsing checks the URL against
+                    known threat information.
+                </li>
+
+                <li>
+                    The detected signals are combined into an overall risk
+                    score.
+                </li>
+
+                <li>
+                    Each contributing signal is displayed in Security Findings
+                    so the result can be reviewed instead of accepted blindly.
+                </li>
+            </ol>
+        `
+    }
+};
+
+
+const knowledgeOverlay =
+    document.getElementById("knowledgeOverlay");
+
+const knowledgePopup =
+    document.getElementById("knowledgePopup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupContent =
+    document.getElementById("popupContent");
+
+const popupClose =
+    document.getElementById("popupClose");
+
+let lastPopupTrigger = null;
+
+
+function openKnowledgePopup(popupKey, triggerButton) {
+    const popupData =
+        knowledgeData[popupKey];
+
+    if (
+        !popupData ||
+        !knowledgeOverlay ||
+        !popupTitle ||
+        !popupContent
+    ) {
+        return;
+    }
+
+    lastPopupTrigger =
+        triggerButton || null;
+
+    popupTitle.textContent =
+        popupData.title;
+
+    popupContent.innerHTML =
+        popupData.content;
+
+    knowledgeOverlay.classList.add(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+    window.requestAnimationFrame(() => {
+        popupClose?.focus();
+    });
+}
+
+
+function closeKnowledgePopup() {
+    if (!knowledgeOverlay) {
+        return;
+    }
+
+    knowledgeOverlay.classList.remove(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow =
+        "";
+
+    if (lastPopupTrigger) {
+        lastPopupTrigger.focus();
+    }
+
+    lastPopupTrigger = null;
+}
+
+
+document
+    .querySelectorAll(".info-button")
+    .forEach(button => {
+        button.addEventListener(
+            "click",
+            () => {
+                openKnowledgePopup(
+                    button.dataset.popup,
+                    button
+                );
+            }
+        );
+    });
+
+
+popupClose?.addEventListener(
+    "click",
+    closeKnowledgePopup
+);
+
+
+knowledgeOverlay?.addEventListener(
+    "click",
+    event => {
+        if (
+            event.target ===
+            knowledgeOverlay
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Escape" &&
+            knowledgeOverlay?.classList.contains(
+                "active"
+            )
+        ) {
+            closeKnowledgePopup();
+        }
+    }
+);
+
+
+knowledgePopup?.addEventListener(
+    "click",
+    event => {
+        event.stopPropagation();
+    }
+);
+
+/* =========================================================
+   THREATHAWK NAVIGATION
+========================================================= */
+
+const navDropdown =
+    document.querySelector(".nav-dropdown");
+
+const dropdownToggle =
+    document.querySelector(".dropdown-toggle");
+
+if (navDropdown && dropdownToggle) {
+
+    dropdownToggle.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        const isOpen =
+            navDropdown.classList.toggle("active");
+
+        dropdownToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+
+    document.addEventListener("click", (event) => {
+
+        if (!navDropdown.contains(event.target)) {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "Escape") {
+
+            navDropdown.classList.remove("active");
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+}
