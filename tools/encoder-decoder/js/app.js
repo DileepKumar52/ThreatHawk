@@ -1425,3 +1425,367 @@ if (
     initializeApplication();
 
 }
+
+/* =========================================================
+   THREATHAWK NAVIGATION
+========================================================= */
+
+const navDropdown =
+    document.querySelector(".nav-dropdown");
+
+const dropdownToggle =
+    document.querySelector(".dropdown-toggle");
+
+if (navDropdown && dropdownToggle) {
+
+    dropdownToggle.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            const isOpen =
+                navDropdown.classList.toggle(
+                    "active"
+                );
+
+            dropdownToggle.classList.toggle(
+                "active",
+                isOpen
+            );
+
+            dropdownToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (
+                !navDropdown.contains(event.target)
+            ) {
+                navDropdown.classList.remove(
+                    "active"
+                );
+
+                dropdownToggle.classList.remove(
+                    "active"
+                );
+
+                dropdownToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Escape") {
+                navDropdown.classList.remove(
+                    "active"
+                );
+
+                dropdownToggle.classList.remove(
+                    "active"
+                );
+
+                dropdownToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                dropdownToggle.focus();
+            }
+        }
+    );
+}
+
+/* =========================================================
+   KNOWLEDGE POPUPS
+========================================================= */
+
+const knowledgeData = {
+    aboutPopup: {
+        title: "About Encoder & Decoder",
+
+        content: `
+            <p>
+                ThreatHawk Encoder & Decoder is a browser-based utility that
+                converts data between common encoding formats without sending
+                information to external servers.
+            </p>
+
+            <p>
+                It supports Base64, Base64 URL, URL encoding, HTML entities,
+                hexadecimal, binary and ROT13 while keeping all processing
+                inside your browser.
+            </p>
+
+            <p>
+                The module is designed for developers, SOC analysts,
+                penetration testers and students who need to inspect,
+                transform and validate encoded data quickly and safely.
+            </p>
+        `
+    },
+
+    featuresPopup: {
+        title: "Encoder & Decoder Key Features",
+
+        content: `
+            <ul>
+                <li>
+                    Encode and decode Base64
+                </li>
+
+                <li>
+                    Support for Base64 URL encoding
+                </li>
+
+                <li>
+                    URL encoding and decoding
+                </li>
+
+                <li>
+                    HTML entity conversion
+                </li>
+
+                <li>
+                    Hexadecimal conversion
+                </li>
+
+                <li>
+                    Binary text conversion
+                </li>
+
+                <li>
+                    ROT13 transformation
+                </li>
+
+                <li>
+                    UTF-8 character support
+                </li>
+
+                <li>
+                    Copy, paste and swap operations
+                </li>
+
+                <li>
+                    Download converted output
+                </li>
+
+                <li>
+                    Local browser-based processing
+                </li>
+            </ul>
+        `
+    },
+
+    workflowPopup: {
+        title: "How Data Conversion Works",
+
+        content: `
+            <ol>
+                <li>
+                    Select the desired conversion format.
+                </li>
+
+                <li>
+                    Choose whether to encode or decode the input.
+                </li>
+
+                <li>
+                    Paste or type the source data into the input panel.
+                </li>
+
+                <li>
+                    The module validates the supplied content before
+                    performing the requested transformation.
+                </li>
+
+                <li>
+                    The selected encoding or decoding algorithm is applied
+                    locally within your browser.
+                </li>
+
+                <li>
+                    The converted result is displayed in the output panel.
+                </li>
+
+                <li>
+                    Character counts, byte counts and conversion status are
+                    updated automatically.
+                </li>
+
+                <li>
+                    The result can be copied, swapped back into the input,
+                    downloaded or used for additional conversions.
+                </li>
+            </ol>
+        `
+    }
+};
+
+
+const knowledgeOverlay =
+    document.getElementById("knowledgeOverlay");
+
+const knowledgePopup =
+    document.getElementById("knowledgePopup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupContent =
+    document.getElementById("popupContent");
+
+const popupClose =
+    document.getElementById("popupClose");
+
+let lastPopupTrigger = null;
+
+
+function openKnowledgePopup(popupKey, triggerButton) {
+
+    const popupData =
+        knowledgeData[popupKey];
+
+    if (
+        !popupData ||
+        !knowledgeOverlay ||
+        !popupTitle ||
+        !popupContent
+    ) {
+        return;
+    }
+
+    lastPopupTrigger =
+        triggerButton || null;
+
+    popupTitle.textContent =
+        popupData.title;
+
+    popupContent.innerHTML =
+        popupData.content;
+
+    knowledgeOverlay.classList.add(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+    window.requestAnimationFrame(() => {
+        popupClose?.focus();
+    });
+
+}
+
+
+function closeKnowledgePopup() {
+
+    if (!knowledgeOverlay) {
+        return;
+    }
+
+    knowledgeOverlay.classList.remove(
+        "active"
+    );
+
+    knowledgeOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow =
+        "";
+
+    if (lastPopupTrigger) {
+        lastPopupTrigger.focus();
+    }
+
+    lastPopupTrigger = null;
+
+}
+
+
+document
+    .querySelectorAll(".info-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                openKnowledgePopup(
+                    button.dataset.popup,
+                    button
+                );
+
+            }
+        );
+
+    });
+
+
+popupClose?.addEventListener(
+    "click",
+    closeKnowledgePopup
+);
+
+
+knowledgeOverlay?.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            knowledgeOverlay
+        ) {
+            closeKnowledgePopup();
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            knowledgeOverlay?.classList.contains(
+                "active"
+            )
+        ) {
+            closeKnowledgePopup();
+        }
+
+    }
+);
+
+
+knowledgePopup?.addEventListener(
+    "click",
+    event => {
+
+        event.stopPropagation();
+
+    }
+);
