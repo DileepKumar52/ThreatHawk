@@ -29,10 +29,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Free SOC Security Log Analyzer | ThreatHawk</title>
+    <title>Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk</title>
 
-    <meta name="description"
-          content="Analyze security logs, identify indicators of compromise, calculate threat severity, and review incident findings with ThreatHawk's SOC log analyzer.">
+    <meta
+        name="description"
+        content="Use ThreatHawk's free Security Log Analyzer to inspect authentication logs, detect failed logins, identify IOCs, suspicious IP addresses and potential brute-force activity."
+    >
 
     <link rel="canonical"
           href="https://threathawk.net/tools/log-analyzer/">
@@ -42,20 +44,26 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ThreatHawk">
-    <meta property="og:title"
-          content="Free SOC Security Log Analyzer | ThreatHawk">
-    <meta property="og:description"
-          content="Analyze security logs, extract indicators of compromise, and review potential threats.">
+    <meta
+        property="og:title"
+        content="Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk">
+    <meta
+        property="og:description"
+        content="Analyze authentication logs, detect failed login attempts, suspicious IPs and indicators of compromise."
+    >
     <meta property="og:url"
           content="https://threathawk.net/tools/log-analyzer/">
     <meta property="og:image" content="https://threathawk.net/assets/og-image.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title"
-          content="Free SOC Security Log Analyzer | ThreatHawk">
-    <meta name="twitter:description"
-          content="Analyze logs, detect suspicious activity, and extract security indicators online.">
+    <meta
+        name="twitter:title"
+        content="Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk">
+    <meta
+        name="twitter:description"
+        content="Inspect authentication logs, detect failed logins, suspicious IPs and indicators of compromise locally."
+    >
     <meta name="twitter:image" content="https://threathawk.net/assets/og-image.png">
 
     <!-- Favicons -->
@@ -88,7 +96,7 @@
         "browserRequirements": "Requires JavaScript and a modern web browser",
         "url": "https://threathawk.net/tools/log-analyzer/",
         "image": "https://threathawk.net/assets/logo.svg",
-        "description": "Analyze security logs, identify indicators of compromise, detect threats, and summarize findings entirely within your browser.",
+        "description": "Use ThreatHawk's free Security Log Analyzer to inspect authentication logs, detect failed logins, identify indicators of compromise, suspicious IP addresses and potential brute-force activity locally in your browser.",
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -97,9 +105,63 @@
         "isAccessibleForFree": true,
         "license": "https://opensource.org/licenses/MIT",
         "creator": {
+            "@type": "Person",
+            "name": "Dileep Kumar"
+        },
+        "publisher": {
             "@type": "Organization",
-            "name": "ThreatHawk"
+            "name": "ThreatHawk",
+            "url": "https://threathawk.net/"
         }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+            {
+                "@type":"Question",
+                "name":"Are my log files uploaded to ThreatHawk?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"No. Security Log Analyzer processes uploaded log files locally inside your browser. Log contents are not stored or transmitted to ThreatHawk servers."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"Which log formats are supported?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"ThreatHawk supports common structured log formats used for authentication and security event analysis, including CSV and JSON files."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"What are Indicators of Compromise (IOCs)?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"Indicators of Compromise are observable artifacts such as suspicious IP addresses, domains, file hashes or unusual activity that may indicate malicious behavior."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"Can Log Analyzer detect brute-force attacks?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"The analyzer highlights repeated failed login attempts, suspicious IP addresses and abnormal authentication patterns that may indicate brute-force activity."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"Is the Security Log Analyzer free?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"Yes. ThreatHawk's Security Log Analyzer is free to use and performs analysis directly in your browser."
+                }
+            }
+        ]
     }
     </script>
 </head>
@@ -346,13 +408,10 @@
                             Security Operations Module
                         </p>
 
-                        <h1>Log Analysis</h1>
+                        <h1>Free Security Log Analyzer</h1>
 
                         <p class="module-description">
-                            Analyze authentication and security logs, detect
-                            brute-force activity, extract suspicious IP
-                            addresses and generate an explainable incident
-                            assessment.
+                            Use the free Security Log Analyzer to inspect authentication logs, detect failed login attempts, identify suspicious IP addresses, extract indicators of compromise (IOCs) and investigate security events directly in your browser.
                         </p>
 
                     </div>
