@@ -1468,3 +1468,249 @@ footer p {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+/* =========================================================
+   DEDICATED ABOUT PAGE
+========================================================= */
+
+.about-hero {
+    min-height: auto;
+    padding-top: 130px;
+    padding-bottom: 110px;
+}
+
+
+/* About content sections */
+
+.about-section {
+    max-width: 1050px;
+    padding-block: 42px;
+}
+
+.about-section + .about-section {
+    margin-top: 24px;
+}
+
+.about-section .section-heading {
+    margin-bottom: 28px;
+}
+
+.about-section .section-heading h2 {
+    font-size: clamp(32px, 4vw, 48px);
+}
+
+
+/* Main information panel */
+
+.about-section {
+    position: relative;
+
+    padding-inline: 42px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(17, 29, 47, 0.82),
+            rgba(8, 16, 29, 0.72)
+        );
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-small);
+
+    overflow: hidden;
+}
+
+.about-section::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--accent),
+            transparent
+        );
+
+    opacity: 0.65;
+}
+
+
+/* Text */
+
+.about-section > p {
+    max-width: 820px;
+    margin: 0 auto;
+
+    color: var(--text-secondary);
+
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.about-section > p + p {
+    margin-top: 18px;
+}
+
+
+/* Limitations list */
+
+.about-list {
+    max-width: 820px;
+    margin: 0 auto;
+
+    display: grid;
+    gap: 14px;
+}
+
+.about-list li {
+    position: relative;
+
+    padding: 16px 18px 16px 48px;
+
+    color: var(--text-secondary);
+
+    background: var(--background-soft);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-small);
+
+    line-height: 1.65;
+}
+
+.about-list li::before {
+    content: "✓";
+
+    position: absolute;
+    left: 18px;
+    top: 16px;
+
+    color: var(--accent);
+    font-weight: 800;
+}
+
+
+/* Creator section */
+
+.about-buttons {
+    max-width: 820px;
+    margin: 30px auto 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.about-buttons .primary-btn,
+.about-buttons .secondary-btn {
+    min-width: 170px;
+}
+
+
+/* Final CTA */
+
+.about-section:last-child {
+    margin-bottom: 90px;
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 212, 255, 0.09),
+            rgba(8, 16, 29, 0.78)
+        );
+
+    border-color: rgba(0, 212, 255, 0.25);
+}
+
+.about-section:last-child .hero-buttons {
+    margin-top: 30px;
+}
+
+
+/* Active navigation item */
+
+.navbar nav a[aria-current="page"] {
+    color: var(--text-primary);
+}
+
+.navbar nav a[aria-current="page"]::after {
+    transform: scaleX(1);
+}
+
+
+/* =========================================================
+   ABOUT PAGE RESPONSIVE
+========================================================= */
+
+@media (max-width: 820px) {
+
+    .about-hero {
+        padding-top: 95px;
+        padding-bottom: 80px;
+    }
+
+    .about-section {
+        padding:
+            34px 28px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .about-hero {
+        padding-top: 75px;
+        padding-bottom: 65px;
+    }
+
+    .about-hero h1 {
+        font-size: 43px;
+    }
+
+    .about-section {
+        width: min(
+            calc(100% - 28px),
+            var(--container-width)
+        );
+
+        padding:
+            28px 20px;
+    }
+
+    .about-section .section-heading {
+        margin-bottom: 22px;
+    }
+
+    .about-section .section-heading h2 {
+        font-size: 31px;
+    }
+
+    .about-section > p {
+        font-size: 15px;
+    }
+
+    .about-list li {
+        padding:
+            15px 15px 15px 43px;
+    }
+
+    .about-buttons {
+        flex-direction: column;
+    }
+
+    .about-buttons .primary-btn,
+    .about-buttons .secondary-btn {
+        width: 100%;
+    }
+
+}
