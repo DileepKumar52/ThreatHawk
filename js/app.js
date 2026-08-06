@@ -217,24 +217,6 @@ document.querySelectorAll(
 });
 
 
-/* ==========================
-   Footer Year
-========================== */
-
-const footer = document.querySelector("footer");
-
-const year = new Date().getFullYear();
-
-footer.insertAdjacentHTML(
-
-    "beforeend",
-
-    `<p style="margin-top:20px;width:100%;text-align:center;color:#66758a;font-size:13px;">
-        © ${year} ThreatHawk. All rights reserved.
-    </p>`
-
-);
-
 /* Make each module card clickable */
 
 document.querySelectorAll(".module-card[data-href]")

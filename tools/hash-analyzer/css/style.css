@@ -1104,60 +1104,64 @@ body.light-mode .dropdown-menu {
 
 
 /* =========================================================
-   7. FOOTER
+   UNIFIED SITE FOOTER
 ========================================================= */
 
 .site-footer {
-    margin-top: 110px;
+    width: min(
+        calc(100% - 40px),
+        var(--container-width)
+    );
 
-    padding: 42px 0;
+    margin: 0 auto;
+    padding: 42px 0 30px;
 
-    background: rgba(3, 7, 15, 0.88);
-
-    border-top: 1px solid var(--border);
-}
-
-body.light-mode .site-footer {
-    background: rgba(238, 233, 247, 0.88);
-}
-
-.footer-content {
     display: grid;
-
     grid-template-columns:
-        1fr auto auto;
+        minmax(220px, 1fr)
+        auto
+        minmax(220px, 1fr);
 
     align-items: center;
+    column-gap: 28px;
+    row-gap: 22px;
 
-    gap: 42px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+
+/* Brand */
 
 .footer-brand {
+    justify-self: start;
+
     display: grid;
-
-    line-height: 1.35;
+    gap: 5px;
 }
 
-.footer-brand strong {
-    color: var(--platform-cyan);
+.footer-brand h2 {
+    margin: 0;
 
-    font-size: 19px;
-
-    letter-spacing: -0.025em;
+    color: var(--accent);
+    font-size: 20px;
 }
 
-.footer-brand span {
-    margin-top: 4px;
+.footer-brand p {
+    margin: 0;
 
     color: var(--text-muted);
-
-    font-size: 11px;
+    font-size: 13px;
 }
 
+
+/* Links */
+
 .footer-links {
+    justify-self: center;
+
     display: flex;
     align-items: center;
-
+    justify-content: center;
     flex-wrap: wrap;
 
     gap: 18px;
@@ -1166,24 +1170,92 @@ body.light-mode .site-footer {
 .footer-links a {
     color: var(--text-secondary);
 
-    font-size: 12px;
-    font-weight: 650;
+    font-size: 13px;
+    font-weight: 700;
 
-    transition: color var(--transition);
+    white-space: nowrap;
+
+    transition:
+        color var(--transition),
+        transform var(--transition);
 }
 
 .footer-links a:hover {
-    color: var(--accent-bright);
+    color: var(--accent-light);
+    transform: translateY(-2px);
 }
 
-.footer-meta {
+
+/* Version */
+
+.footer-version {
+    justify-self: end;
+
+    margin: 0;
+
     color: var(--text-muted);
+    font-size: 13px;
 
-    font-size: 10px;
-
-    text-align: right;
+    white-space: nowrap;
 }
 
+
+/* Copyright */
+
+.footer-copyright {
+    grid-column: 1 / -1;
+
+    margin: 4px 0 0;
+
+    color: var(--text-muted);
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   FOOTER RESPONSIVE
+========================================================= */
+
+@media (max-width: 820px) {
+
+    .site-footer {
+        grid-template-columns: 1fr;
+
+        justify-items: center;
+
+        text-align: center;
+    }
+
+    .footer-brand,
+    .footer-links,
+    .footer-version {
+        justify-self: center;
+    }
+
+    .footer-copyright {
+        grid-column: 1;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .site-footer {
+        width: min(
+            calc(100% - 28px),
+            var(--container-width)
+        );
+
+        padding: 34px 0 26px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
 
 /* =========================================================
    8. SHARED ANIMATIONS
