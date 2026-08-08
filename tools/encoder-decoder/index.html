@@ -14,7 +14,7 @@
 
     <meta
         name="description"
-        content="Use ThreatHawk's free Encoder Decoder to convert Base64, Base64 URL, URL encoding, HTML entities, Hex, Binary and ROT13 locally in your browser."
+        content="Free browser-based Base64 encoder and decoder with support for Base64 URL, URL encoding, HTML entities, Hex, Binary and ROT13. Convert data locally with ThreatHawk."
     >
 
     <link
@@ -107,13 +107,25 @@
         "browserRequirements": "Requires JavaScript and a modern web browser",
         "url": "https://threathawk.net/tools/encoder-decoder/",
         "image": "https://threathawk.net/assets/logo.svg",
-        "description": "Use ThreatHawk's free Encoder and Decoder to convert Base64, Base64 URL, URL encoding, HTML entities, hexadecimal, binary and ROT13 data locally inside your browser.",
+        "description": "ThreatHawk is a free browser-based Base64 encoder and decoder with support for Base64 URL, URL encoding, HTML entities, hexadecimal, binary and ROT13. All conversions are processed locally in the browser.",
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
         },
         "isAccessibleForFree": true,
+        "featureList": [
+            "Base64 encoding and decoding",
+            "Base64 URL encoding and decoding",
+            "URL encoding and decoding",
+            "HTML entity encoding and decoding",
+            "Hexadecimal encoding and decoding",
+            "Binary encoding and decoding",
+            "ROT13 transformation",
+            "UTF-8 text support",
+            "Local browser-based processing",
+            "Copy and download converted output"
+        ],
         "license": "https://opensource.org/licenses/MIT",
         "creator": {
             "@type": "Person",
@@ -170,6 +182,22 @@
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "Yes. After conversion, the result can be copied to the clipboard or downloaded as a local file."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I encode text to Base64?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Select Base64 from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk generates the Base64 representation locally inside your browser."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I decode Base64 into readable text?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Select Base64 as the format, choose Decode, paste the Base64 value into the Source Data field and click Convert Data. Valid Base64 input is decoded locally and displayed in the output panel."
                 }
             }
         ]
@@ -424,13 +452,13 @@
                             Data Transformation Module
                         </p>
 
-                        <h1>Free Encoder &amp; Decoder</h1>
+                        <h1>Free Base64, URL, Hex &amp; Binary Encoder Decoder</h1>
 
                         <p class="module-description">
-                            Use the free Encoder &amp; Decoder to convert Base64,
-                            Base64 URL, URL encoding, HTML entities, hexadecimal,
-                            binary and ROT13 data. All processing takes place
-                            locally inside your browser.
+                            Encode or decode Base64, Base64 URL, URL-encoded data,
+                            HTML entities, hexadecimal, binary and ROT13 directly
+                            in your browser. ThreatHawk processes all conversions
+                            locally for privacy and speed.
                         </p>
 
                     </div>
@@ -913,12 +941,23 @@
                             <i class="fa-solid fa-file-code"></i>
                         </div>
 
-                        <h3>Base64</h3>
+                        <h3>
+                            <a href="#base64-guide">
+                                Base64 Encoder &amp; Decoder
+                            </a>
+                        </h3>
 
                         <p>
                             Convert UTF-8 text into Base64 data or decode
                             Base64 content back into readable text.
                         </p>
+
+                        <a
+                            href="#base64-guide"
+                            class="format-guide-link"
+                        >
+                            Learn about Base64 →
+                        </a>
 
                         <span class="format-capability">
                             Encode · Decode
@@ -1025,6 +1064,195 @@
                         </span>
 
                     </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+                        Base64 Guide
+        =========================================== -->
+
+        <section class="base64-guide-section" id="base64-guide">
+
+            <div class="module-container">
+
+                <div class="base64-guide-header">
+
+                    <span class="panel-label">
+                        Base64 Guide
+                    </span>
+
+                    <h2>Free Base64 Encoder &amp; Decoder</h2>
+
+                    <p>
+                        Encode text to Base64 or decode Base64 back into readable
+                        text using ThreatHawk's browser-based Encoder &amp; Decoder.
+                        All conversions are processed locally inside your browser.
+                    </p>
+
+                </div>
+
+                <div class="base64-guide-grid">
+
+                    <article class="base64-guide-card">
+
+                        <h3>What is Base64?</h3>
+
+                        <p>
+                            Base64 is an encoding method that represents binary or
+                            text data using a set of ASCII characters. It is commonly
+                            used when data needs to be safely included in text-based
+                            formats such as web requests, configuration files,
+                            email content and APIs.
+                        </p>
+
+                        <p>
+                            Base64 is an encoding format, not an encryption method.
+                            Anyone with a Base64 decoder can recover the original
+                            content.
+                        </p>
+
+                    </article>
+
+                    <article class="base64-guide-card">
+
+                        <h3>How to Encode Text to Base64</h3>
+
+                        <ol>
+                            <li>Select <strong>Base64</strong> from the format menu.</li>
+
+                            <li>
+                                Select <strong>Encode</strong> as the operation.
+                            </li>
+
+                            <li>
+                                Enter or paste your text into the Source Data field.
+                            </li>
+
+                            <li>
+                                Click <strong>Convert Data</strong>.
+                            </li>
+
+                            <li>
+                                Copy or download the generated Base64 result.
+                            </li>
+                        </ol>
+
+                    </article>
+
+                    <article class="base64-guide-card">
+
+                        <h3>How to Decode Base64</h3>
+
+                        <ol>
+                            <li>Select <strong>Base64</strong> as the format.</li>
+
+                            <li>
+                                Choose <strong>Decode</strong>.
+                            </li>
+
+                            <li>
+                                Paste the Base64 value into the Source Data field.
+                            </li>
+
+                            <li>
+                                Click <strong>Convert Data</strong>.
+                            </li>
+
+                            <li>
+                                Review the decoded result before using unknown content.
+                            </li>
+                        </ol>
+
+                    </article>
+
+                    <article class="base64-guide-card base64-example-card">
+
+                        <span class="example-label">
+                            Encoding Example
+                        </span>
+
+                        <h3>Base64 Encoding Example</h3>
+
+                        <div class="base64-example">
+
+                            <div>
+                                <span>Plain text</span>
+                                <code>Hello ThreatHawk</code>
+                            </div>
+
+                            <div class="example-arrow" aria-hidden="true">
+                        ↓
+                            </div>
+
+                            <div>
+                                <span>Base64</span>
+                                <code>SGVsbG8gVGhyZWF0SGF3aw==</code>
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    <article class="base64-guide-card">
+
+                        <h3>Base64 and UTF-8</h3>
+
+                        <p>
+                            ThreatHawk's converter supports UTF-8 text, allowing
+                            Base64 conversion of standard text, symbols and
+                            international characters.
+                        </p>
+
+                        <p>
+                            UTF-8 text is first represented as bytes before those
+                            bytes are converted into Base64 characters.
+                        </p>
+
+                    </article>
+
+                    <article class="base64-guide-card">
+
+                        <h3>Common Base64 Decoding Errors</h3>
+
+                        <p>
+                            Base64 decoding can fail when the input contains invalid
+                            characters, incorrect padding, missing data or content
+                            that is not actually Base64 encoded.
+                        </p>
+
+                        <p>
+                            If decoding fails, verify that Base64 and Decode are
+                            selected and check the submitted value for accidental
+                            spaces or incomplete data.
+                        </p>
+
+                    </article>
+
+                </div>
+
+                <div class="base64-warning">
+
+                    <div class="base64-warning-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Base64 is not encryption</h3>
+
+                        <p>
+                            Base64 does not protect confidential information.
+                            It only changes how data is represented and can be
+                            reversed without a password or cryptographic key.
+                            Do not use Base64 as a security mechanism for passwords,
+                            credentials or sensitive information.
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -1187,6 +1415,37 @@
                             encoding, HTML entities, hexadecimal, binary and ROT13.
                             Each format can be selected from the format menu before
                             running the conversion.
+                        </p>
+
+                    </details>
+
+                    <details class="faq-item">
+
+                        <summary>
+                            How do I encode text to Base64?
+                        </summary>
+
+                        <p>
+                            Select Base64 from the format menu, choose Encode, enter or paste
+                            your text into the Source Data field and click Convert Data.
+                            ThreatHawk will generate the Base64 representation locally inside
+                            your browser without uploading the input.
+                        </p>
+
+                    </details>
+
+
+                    <details class="faq-item">
+
+                        <summary>
+                            How do I decode Base64 into readable text?
+                        </summary>
+
+                        <p>
+                            Select Base64 as the format, choose Decode, paste the Base64 value
+                            into the Source Data field and click Convert Data. If the submitted
+                            value is valid Base64, the decoded text will appear in the output
+                            panel.
                         </p>
 
                     </details>

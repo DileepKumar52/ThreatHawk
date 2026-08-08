@@ -2299,3 +2299,24 @@ section {
 .footer-creator a:hover {
     color: var(--accent);
 }
+
+.module-sub-link {
+    position: relative;
+    z-index: 1;
+
+    margin-bottom: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition:
+        color var(--transition),
+        transform var(--transition);
+}
+
+.module-sub-link:hover {
+    color: var(--accent-light);
+    transform: translateX(4px);
+}
