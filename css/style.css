@@ -2279,3 +2279,23 @@ section {
     }
 
 }
+
+.footer-creator {
+    grid-column: 1 / -1;
+
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+    text-align: center;
+}
+
+.footer-creator a {
+    color: var(--accent-light);
+    font-weight: 700;
+}
+
+.footer-creator a:hover {
+    color: var(--accent);
+}
