@@ -375,17 +375,17 @@ section {
 @media (max-width: 820px) {
 
     .nav-dropdown {
-        position: relative;
+        position: static;
     }
 
     .dropdown-menu {
-        position: absolute;
+        position: fixed;
 
-        top: calc(100% + 12px);
+        top: 150px;
         left: 50%;
 
-        width: 260px;
-        min-width: 260px;
+        width: min(280px, calc(100vw - 32px));
+        min-width: 0;
 
         margin: 0;
         padding: 10px;
@@ -395,7 +395,7 @@ section {
         border: 1px solid var(--border);
         border-radius: 14px;
 
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 
         opacity: 0;
         visibility: hidden;
@@ -408,7 +408,7 @@ section {
             transform 0.2s ease,
             visibility 0.2s ease;
 
-        z-index: 3000;
+        z-index: 5000;
     }
 
     .nav-dropdown.active .dropdown-menu {
@@ -419,13 +419,13 @@ section {
         transform: translateX(-50%) translateY(0);
     }
 
-    .dropdown-toggle {
-        pointer-events: auto;
-        cursor: pointer;
+    .dropdown-menu li {
+        width: 100%;
     }
 
-    .dropdown-arrow {
-        display: block;
+    .dropdown-menu a {
+        width: 100%;
+        white-space: normal;
     }
 }
 
@@ -1195,7 +1195,8 @@ section {
     .navbar nav {
         order: 3;
         width: 100%;
-        overflow-x: visible;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
 
     .navbar nav ul {
