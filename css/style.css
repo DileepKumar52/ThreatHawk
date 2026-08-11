@@ -1195,7 +1195,7 @@ section {
     .navbar nav {
         order: 3;
         width: 100%;
-        overflow-x: auto;
+        overflow-x: visible;
     }
 
     .navbar nav ul {
