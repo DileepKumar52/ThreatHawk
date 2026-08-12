@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google AdSense -->
+    <script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329858525106937"
+        crossorigin="anonymous">
+    </script>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        How to Check if a URL Is Safe: 10 Signs of a Malicious Link | ThreatHawk
+    </title>
+
+    <meta
+        name="description"
+        content="Learn how to check if a URL is safe. Discover 10 practical signs of phishing and malicious links, suspicious domains, fake HTTPS trust, shortened URLs and more."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="https://threathawk.net/guides/how-to-check-if-a-url-is-safe/"
+    >
+
+
+    <!-- Open Graph -->
+
+    <meta
+        property="og:type"
+        content="article"
+    >
+
+    <meta
+        property="og:site_name"
+        content="ThreatHawk"
+    >
+
+    <meta
+        property="og:title"
+        content="How to Check if a URL Is Safe: 10 Signs of a Malicious or Phishing Link"
+    >
+
+    <meta
+        property="og:description"
+        content="Learn practical ways to inspect suspicious URLs, identify phishing links and recognize malicious domain patterns."
+    >
+
+    <meta
+        property="og:url"
+        content="https://threathawk.net/guides/how-to-check-if-a-url-is-safe/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Twitter -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="How to Check if a URL Is Safe | ThreatHawk"
+    >
+
+    <meta
+        name="twitter:description"
+        content="10 practical signs that can help you recognize malicious and phishing URLs before opening them."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Favicons -->
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="../../favicon.svg"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="96x96"
+        href="../../favicon-96x96.png"
+    >
+
+    <link
+        rel="shortcut icon"
+        href="../../favicon.ico"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="../../apple-touch-icon.png"
+    >
+
+    <link
+        rel="manifest"
+        href="../../site.webmanifest"
+    >
+
+
+    <!-- Guides shared stylesheet -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- Article structured data -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How to Check if a URL Is Safe: 10 Signs of a Malicious or Phishing Link",
+        "description": "A practical guide to identifying suspicious, malicious and phishing URLs.",
+        "author": {
+            "@type": "Organization",
+            "name": "ThreatHawk"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ThreatHawk",
+            "url": "https://threathawk.net/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://threathawk.net/guides/how-to-check-if-a-url-is-safe/"
+        },
+        "datePublished": "2026-08-12",
+        "dateModified": "2026-08-12"
+    }
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <div class="navbar">
+
+            <a
+                href="../../index.html"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
+            >
+                <h2>ThreatHawk</h2>
+            </a>
+
+
+            <nav aria-label="Primary navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
+
+
+                    <li class="nav-dropdown">
+
+                        <button
+                            class="dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+
+                            <span>Modules</span>
+
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+
+                        </button>
+
+
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                        >
+
+                            <li>
+                                <a href="../../tools/password-analyzer/index.html">
+                                    Password Intelligence
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/url-analyzer/index.html">
+                                    URL Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/hash-analyzer/index.html">
+                                    Hash Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/log-analyzer/index.html">
+                                    Log Analysis
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/encoder-decoder/index.html">
+                                    Encoder &amp; Decoder
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <li>
+                        <a
+                            href="../index.html"
+                            class="active"
+                        >
+                            Guides
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="../../about/index.html">
+                            About
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="../../contact/index.html">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <span class="version">
+                    Knowledge Hub
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="article-page">
+
+
+        <!-- =====================================================
+             ARTICLE HERO
+        ====================================================== -->
+
+        <section class="article-hero">
+
+            <div class="article-container">
+
+
+                <nav
+                    class="breadcrumbs"
+                    aria-label="Breadcrumb"
+                >
+
+                    <a href="../../index.html">
+                        Home
+                    </a>
+
+                    <span>›</span>
+
+                    <a href="../index.html">
+                        Guides
+                    </a>
+
+                    <span>›</span>
+
+                    <span>
+                        URL Security
+                    </span>
+
+                </nav>
+
+
+                <div class="article-meta-top">
+
+                    <span class="article-category">
+                        URL &amp; Phishing Security
+                    </span>
+
+                    <span class="meta-dot">
+                        •
+                    </span>
+
+                    <span>
+                        8 min read
+                    </span>
+
+                </div>
+
+
+                <h1>
+                    How to Check if a URL Is Safe:
+                    <span>
+                        10 Signs of a Malicious or Phishing Link
+                    </span>
+                </h1>
+
+
+                <p class="article-intro">
+                    Suspicious links are one of the most common ways attackers
+                    deliver phishing pages, credential-stealing websites,
+                    malware and scams. Learning how to inspect a URL before
+                    opening it can prevent many of these attacks.
+                </p>
+
+
+                <div class="article-details">
+
+                    <span>
+                        Published August 12, 2026
+                    </span>
+
+                    <span>
+                        Updated August 12, 2026
+                    </span>
+
+                    <span>
+                        By ThreatHawk
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ARTICLE BODY
+        ====================================================== -->
+
+        <div class="article-layout">
+
+
+            <!-- =================================================
+                 SIDEBAR / TABLE OF CONTENTS
+            ================================================== -->
+
+            <aside class="article-sidebar">
+
+                <div class="toc-card">
+
+                    <span class="toc-label">
+                        On this page
+                    </span>
+
+
+                    <nav aria-label="Table of contents">
+
+                        <a href="#quick-answer">
+                            Quick answer
+                        </a>
+
+                        <a href="#check-domain">
+                            1. Check the real domain
+                        </a>
+
+                        <a href="#misspellings">
+                            2. Look for misspellings
+                        </a>
+
+                        <a href="#https">
+                            3. Don't trust HTTPS alone
+                        </a>
+
+                        <a href="#subdomains">
+                            4. Inspect subdomains
+                        </a>
+
+                        <a href="#shortened-links">
+                            5. Beware shortened URLs
+                        </a>
+
+                        <a href="#characters">
+                            6. Watch misleading characters
+                        </a>
+
+                        <a href="#path-query">
+                            7. Examine path and query
+                        </a>
+
+                        <a href="#context">
+                            8. Consider the message context
+                        </a>
+
+                        <a href="#preview">
+                            9. Inspect before clicking
+                        </a>
+
+                        <a href="#security-tools">
+                            10. Use security tools
+                        </a>
+
+                        <a href="#clicked-link">
+                            Already clicked?
+                        </a>
+
+                        <a href="#faq">
+                            FAQ
+                        </a>
+
+                    </nav>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 ARTICLE CONTENT
+            ================================================== -->
+
+            <article class="article-content">
+
+
+                <!-- Quick answer -->
+
+                <section
+                    class="article-section"
+                    id="quick-answer"
+                >
+
+                    <div class="quick-answer-box">
+
+                        <span class="box-label">
+                            Quick Answer
+                        </span>
+
+                        <h2>
+                            How can you tell if a URL is safe?
+                        </h2>
+
+                        <p>
+                            Start by checking the actual registered domain,
+                            looking for spelling mistakes, inspecting
+                            subdomains, avoiding unexpected shortened links
+                            and considering where the link came from.
+                            HTTPS alone does not prove that a website is safe.
+                        </p>
+
+                        <p>
+                            If you are unsure, do not open the link directly.
+                            Analyze it first using a URL inspection or
+                            reputation tool.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 1 -->
+
+                <section
+                    class="article-section"
+                    id="check-domain"
+                >
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <h2>
+                        Check the actual domain name
+                    </h2>
+
+                    <p>
+                        The most important part of a URL is the registered
+                        domain. Attackers often create links that look
+                        legitimate at first glance while using a completely
+                        different domain.
+                    </p>
+
+                    <p>
+                        For example, consider:
+                    </p>
+
+
+                    <div class="url-example safe-example">
+
+                        <span class="example-label">
+                            Expected
+                        </span>
+
+                        <code>
+                            https://accounts.example.com/login
+                        </code>
+
+                    </div>
+
+
+                    <div class="url-example danger-example">
+
+                        <span class="example-label">
+                            Suspicious
+                        </span>
+
+                        <code>
+                            https://example-login-security.com/account
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        The second URL contains the brand-like term
+                        <strong>example</strong>, but the actual domain is
+                        <strong>example-login-security.com</strong>.
+                        It is a completely separate website.
+                    </p>
+
+                </section>
+
+
+                <!-- 2 -->
+
+                <section
+                    class="article-section"
+                    id="misspellings"
+                >
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <h2>
+                        Look for misspelled or impersonated domains
+                    </h2>
+
+                    <p>
+                        Phishing domains often imitate trusted websites using
+                        subtle spelling changes. This technique is commonly
+                        called typosquatting.
+                    </p>
+
+
+                    <div class="comparison-grid">
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Legitimate-looking
+                            </span>
+
+                            <code>
+                                example.com
+                            </code>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Possible impersonation
+                            </span>
+
+                            <code>
+                                examp1e.com
+                            </code>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Possible impersonation
+                            </span>
+
+                            <code>
+                                exarnple.com
+                            </code>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+                        Attackers may substitute numbers, visually similar
+                        letters or additional words in an attempt to make the
+                        domain appear trustworthy.
+                    </p>
+
+                </section>
+
+
+                <!-- 3 -->
+
+                <section
+                    class="article-section"
+                    id="https"
+                >
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <h2>
+                        Don't trust HTTPS alone
+                    </h2>
+
+                    <p>
+                        HTTPS means that communication between your browser
+                        and the website is encrypted. It does
+                        <strong>not</strong> mean that the website itself is
+                        legitimate.
+                    </p>
+
+                    <div class="info-box">
+
+                        <strong>
+                            Important:
+                        </strong>
+
+                        <p>
+                            A phishing website can also use HTTPS and display
+                            a padlock icon.
+                        </p>
+
+                    </div>
+
+                    <p>
+                        Treat HTTPS as a basic security requirement, not as
+                        proof that a website can be trusted.
+                    </p>
+
+                </section>
+
+
+                <!-- 4 -->
+
+                <section
+                    class="article-section"
+                    id="subdomains"
+                >
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h2>
+                        Inspect suspicious subdomains
+                    </h2>
+
+                    <p>
+                        Attackers can place convincing brand names in a
+                        subdomain while the real registered domain appears
+                        later in the URL.
+                    </p>
+
+
+                    <div class="url-example danger-example">
+
+                        <code>
+                            https://paypal.com.security-check.example.net/login
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        In this example, <strong>paypal.com</strong> appears
+                        near the beginning, but the actual registered domain
+                        is <strong>example.net</strong>.
+                    </p>
+
+                    <p>
+                        Always identify the real domain instead of trusting the
+                        first recognizable word in the URL.
+                    </p>
+
+                </section>
+
+
+                <!-- 5 -->
+
+                <section
+                    class="article-section"
+                    id="shortened-links"
+                >
+
+                    <span class="section-number">
+                        05
+                    </span>
+
+                    <h2>
+                        Be careful with shortened URLs
+                    </h2>
+
+                    <p>
+                        URL shorteners hide the final destination of a link.
+                        They are widely used for legitimate purposes, but they
+                        also make it harder to know where a link will take you
+                        before opening it.
+                    </p>
+
+                    <p>
+                        Be especially cautious when shortened links arrive
+                        unexpectedly through:
+                    </p>
+
+                    <ul class="article-list">
+                        <li>Email messages</li>
+                        <li>SMS or messaging apps</li>
+                        <li>Social media direct messages</li>
+                        <li>Unknown QR codes</li>
+                        <li>Unsolicited account alerts</li>
+                    </ul>
+
+                </section>
+
+
+                <!-- 6 -->
+
+                <section
+                    class="article-section"
+                    id="characters"
+                >
+
+                    <span class="section-number">
+                        06
+                    </span>
+
+                    <h2>
+                        Watch for misleading characters
+                    </h2>
+
+                    <p>
+                        Some malicious domains use characters that resemble
+                        normal letters. A number such as
+                        <strong>1</strong> may replace a lowercase
+                        <strong>l</strong>, or similar-looking characters may
+                        be used to imitate a trusted domain.
+                    </p>
+
+                    <p>
+                        These differences can be difficult to notice when
+                        quickly reading a link on a phone or inside an email.
+                    </p>
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            ThreatHawk Tip
+                        </span>
+
+                        <p>
+                            Slow down and read the domain character by
+                            character when a link involves passwords,
+                            payments, account verification or personal data.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 7 -->
+
+                <section
+                    class="article-section"
+                    id="path-query"
+                >
+
+                    <span class="section-number">
+                        07
+                    </span>
+
+                    <h2>
+                        Examine the path and query parameters
+                    </h2>
+
+                    <p>
+                        The part of a URL after the domain can also provide
+                        useful clues.
+                    </p>
+
+                    <div class="url-breakdown">
+
+                        <code>
+                            https://example.com/account/login?verify=true
+                        </code>
+
+                        <div class="url-parts">
+
+                            <span>
+                                <strong>Domain:</strong>
+                                example.com
+                            </span>
+
+                            <span>
+                                <strong>Path:</strong>
+                                /account/login
+                            </span>
+
+                            <span>
+                                <strong>Query:</strong>
+                                ?verify=true
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Long strings of encoded text, unusual redirect
+                        parameters or suspicious terms such as
+                        <strong>verify-account</strong>,
+                        <strong>urgent-login</strong> or
+                        <strong>secure-update</strong> deserve additional
+                        scrutiny.
+                    </p>
+
+                </section>
+
+
+                <!-- 8 -->
+
+                <section
+                    class="article-section"
+                    id="context"
+                >
+
+                    <span class="section-number">
+                        08
+                    </span>
+
+                    <h2>
+                        Consider the message surrounding the link
+                    </h2>
+
+                    <p>
+                        A URL should never be judged in isolation. Consider why
+                        you received it.
+                    </p>
+
+                    <p>
+                        Phishing messages frequently attempt to create urgency
+                        or fear:
+                    </p>
+
+                    <ul class="article-list">
+                        <li>Your account will be suspended.</li>
+                        <li>A payment failed.</li>
+                        <li>You received an unexpected refund.</li>
+                        <li>Your password must be changed immediately.</li>
+                        <li>A package cannot be delivered.</li>
+                    </ul>
+
+                    <p>
+                        If a message pressures you to act immediately, open the
+                        company's official website manually instead of using
+                        the provided link.
+                    </p>
+
+                </section>
+
+
+                <!-- 9 -->
+
+                <section
+                    class="article-section"
+                    id="preview"
+                >
+
+                    <span class="section-number">
+                        09
+                    </span>
+
+                    <h2>
+                        Inspect the link before opening it
+                    </h2>
+
+                    <p>
+                        On desktop browsers, hovering over a link often reveals
+                        its destination in the browser's status area.
+                    </p>
+
+                    <p>
+                        On mobile devices, many browsers allow you to press and
+                        hold a link to preview or copy the destination without
+                        opening it.
+                    </p>
+
+                    <p>
+                        If the displayed destination does not match what the
+                        message claims, do not continue.
+                    </p>
+
+                </section>
+
+
+                <!-- 10 -->
+
+                <section
+                    class="article-section"
+                    id="security-tools"
+                >
+
+                    <span class="section-number">
+                        10
+                    </span>
+
+                    <h2>
+                        Analyze suspicious URLs with security tools
+                    </h2>
+
+                    <p>
+                        Manual inspection is useful, but suspicious URLs can
+                        contain patterns that are easy to overlook.
+                    </p>
+
+                    <p>
+                        URL analysis tools can help identify suspicious
+                        keywords, domain impersonation, unusual URL structure
+                        and other indicators that deserve investigation.
+                    </p>
+
+
+                    <div class="tool-cta-card">
+
+                        <div>
+
+                            <span class="section-label">
+                                ThreatHawk Tool
+                            </span>
+
+                            <h3>
+                                Analyze a suspicious URL before opening it.
+                            </h3>
+
+                            <p>
+                                ThreatHawk's URL Analyzer examines website
+                                addresses for suspicious patterns, phishing
+                                indicators and potentially deceptive domain
+                                structures.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="../../tools/url-analyzer/index.html"
+                            class="primary-button"
+                        >
+                            Open URL Analyzer
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Already clicked -->
+
+                <section
+                    class="article-section"
+                    id="clicked-link"
+                >
+
+                    <span class="section-number">
+                        Action
+                    </span>
+
+                    <h2>
+                        What should you do if you already clicked a suspicious link?
+                    </h2>
+
+                    <p>
+                        Simply opening a suspicious page does not always mean
+                        your device or account has been compromised. What
+                        matters is what happened afterward.
+                    </p>
+
+                    <p>
+                        If you entered credentials, downloaded a file or
+                        granted permissions, take additional precautions.
+                    </p>
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            Close the suspicious website.
+                        </li>
+
+                        <li>
+                            Do not download or open files from the page.
+                        </li>
+
+                        <li>
+                            Change any password you entered on the suspicious
+                            site.
+                        </li>
+
+                        <li>
+                            Enable multi-factor authentication where
+                            available.
+                        </li>
+
+                        <li>
+                            Review recent account activity for unexpected
+                            logins.
+                        </li>
+
+                        <li>
+                            Scan downloaded files before opening them.
+                        </li>
+
+                    </ol>
+
+                </section>
+
+
+                <!-- Conclusion -->
+
+                <section class="article-section">
+
+                    <h2>
+                        Final takeaway
+                    </h2>
+
+                    <p>
+                        No single sign can prove that every URL is safe or
+                        malicious. The strongest approach is to combine domain
+                        inspection, context, cautious browsing habits and
+                        security tools.
+                    </p>
+
+                    <p>
+                        When a link involves passwords, financial information
+                        or sensitive accounts, taking a few seconds to inspect
+                        it is considerably easier than recovering from a
+                        successful phishing attack.
+                    </p>
+
+                </section>
+
+
+                <!-- FAQ -->
+
+                <section
+                    class="article-section faq-section"
+                    id="faq"
+                >
+
+                    <span class="section-label">
+                        Frequently Asked Questions
+                    </span>
+
+                    <h2>
+                        URL safety FAQ
+                    </h2>
+
+
+                    <details>
+
+                        <summary>
+                            Does HTTPS mean a website is safe?
+                        </summary>
+
+                        <p>
+                            No. HTTPS encrypts the connection between your
+                            browser and the website, but malicious websites can
+                            also use HTTPS.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Can a phishing website have a padlock?
+                        </summary>
+
+                        <p>
+                            Yes. A padlock indicates that the connection is
+                            encrypted. It does not verify that the website
+                            belongs to the organization it claims to represent.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Are shortened URLs dangerous?
+                        </summary>
+
+                        <p>
+                            Not automatically. Legitimate websites use URL
+                            shorteners too. The risk is that the shortened link
+                            hides its final destination, making inspection more
+                            difficult.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            What is the safest way to open an account link?
+                        </summary>
+
+                        <p>
+                            When possible, manually type the official website
+                            address or use a trusted bookmark instead of
+                            following an unexpected link from a message.
+                        </p>
+
+                    </details>
+
+                </section>
+
+
+                <!-- Related -->
+
+                <section class="related-guides">
+
+                    <span class="section-label">
+                        Continue Learning
+                    </span>
+
+                    <h2>
+                        Related ThreatHawk guides
+                    </h2>
+
+
+                    <div class="related-grid">
+
+                        <article>
+
+                            <span>
+                                Password Security
+                            </span>
+
+                            <h3>
+                                What Makes a Password Strong?
+                            </h3>
+
+                            <p>
+                                Planned guide
+                            </p>
+
+                        </article>
+
+
+                        <article>
+
+                            <span>
+                                Digital Forensics
+                            </span>
+
+                            <h3>
+                                MD5 vs SHA-1 vs SHA-256 vs SHA-512
+                            </h3>
+
+                            <p>
+                                Planned guide
+                            </p>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-brand">
+
+            <h2>
+                ThreatHawk
+            </h2>
+
+            <p>
+                Free Browser-Based Cybersecurity Tools
+            </p>
+
+        </div>
+
+
+        <nav
+            class="footer-links"
+            aria-label="Footer navigation"
+        >
+
+            <a href="../../about/index.html">
+                About
+            </a>
+
+            <a href="../../contact/index.html">
+                Contact
+            </a>
+
+            <a href="../../privacy-policy/index.html">
+                Privacy Policy
+            </a>
+
+            <a href="../../terms/index.html">
+                Terms
+            </a>
+
+            <a href="../../disclaimer/index.html">
+                Disclaimer
+            </a>
+
+            <a
+                href="https://github.com/DileepKumar52/ThreatHawk"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+            </a>
+
+        </nav>
+
+
+        <p class="footer-version">
+            Knowledge Hub
+        </p>
+
+
+        <p class="footer-copyright">
+            © 2026 ThreatHawk. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script
+        src="../js/app.js"
+        defer
+    ></script>
+
+</body>
+
+</html>
