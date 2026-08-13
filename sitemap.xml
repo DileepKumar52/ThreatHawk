@@ -75,4 +75,10 @@
         <loc>https://threathawk.net/guides/how-to-check-if-a-url-is-safe/</loc>
     </url>
 
+    <url>
+        <loc>https://threathawk.net/guides/what-makes-a-password-strong/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>

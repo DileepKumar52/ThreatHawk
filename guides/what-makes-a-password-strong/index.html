@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google AdSense -->
+    <script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329858525106937"
+        crossorigin="anonymous">
+    </script>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        What Makes a Password Strong? Password Security Explained | ThreatHawk
+    </title>
+
+    <meta
+        name="description"
+        content="Learn what makes a password strong, including password length, entropy, uniqueness, reuse, passphrases, common attacks and practical password security habits."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="https://threathawk.net/guides/what-makes-a-password-strong/"
+    >
+
+
+    <!-- Open Graph -->
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="ThreatHawk">
+
+    <meta
+        property="og:title"
+        content="What Makes a Password Strong? Password Security Explained"
+    >
+
+    <meta
+        property="og:description"
+        content="Understand password length, entropy, reuse, passphrases, common attacks and practical ways to create stronger passwords."
+    >
+
+    <meta
+        property="og:url"
+        content="https://threathawk.net/guides/what-makes-a-password-strong/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Twitter -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="What Makes a Password Strong? | ThreatHawk"
+    >
+
+    <meta
+        name="twitter:description"
+        content="A practical guide to strong passwords, password entropy, passphrases, reuse and common password attacks."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Favicons -->
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="../../favicon.svg"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="96x96"
+        href="../../favicon-96x96.png"
+    >
+
+    <link
+        rel="shortcut icon"
+        href="../../favicon.ico"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="../../apple-touch-icon.png"
+    >
+
+    <link
+        rel="manifest"
+        href="../../site.webmanifest"
+    >
+
+
+    <!-- Shared Guides stylesheet -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- Article structured data -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "What Makes a Password Strong? Password Security Explained",
+        "description": "A practical guide to password strength, entropy, password reuse, passphrases and common password attacks.",
+        "author": {
+            "@type": "Organization",
+            "name": "ThreatHawk"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ThreatHawk",
+            "url": "https://threathawk.net/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://threathawk.net/guides/what-makes-a-password-strong/"
+        },
+        "datePublished": "2026-08-12",
+        "dateModified": "2026-08-12"
+    }
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <div class="navbar">
+
+            <a
+                href="../../index.html"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
+            >
+                <h2>ThreatHawk</h2>
+            </a>
+
+
+            <nav aria-label="Primary navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
+
+
+                    <li class="nav-dropdown">
+
+                        <button
+                            class="dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+
+                            <span>Modules</span>
+
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+
+                        </button>
+
+
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                        >
+
+                            <li>
+                                <a href="../../tools/password-analyzer/index.html">
+                                    Password Intelligence
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/url-analyzer/index.html">
+                                    URL Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/hash-analyzer/index.html">
+                                    Hash Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/log-analyzer/index.html">
+                                    Log Analysis
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/encoder-decoder/index.html">
+                                    Encoder &amp; Decoder
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <li>
+                        <a
+                            href="../index.html"
+                            class="active"
+                        >
+                            Guides
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="../../about/index.html">
+                            About
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="../../contact/index.html">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <span class="version">
+                    Knowledge Hub
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="article-page">
+
+
+        <!-- =====================================================
+             ARTICLE HERO
+        ====================================================== -->
+
+        <section class="article-hero">
+
+            <div class="article-container">
+
+
+                <nav
+                    class="breadcrumbs"
+                    aria-label="Breadcrumb"
+                >
+
+                    <a href="../../index.html">
+                        Home
+                    </a>
+
+                    <span>›</span>
+
+                    <a href="../index.html">
+                        Guides
+                    </a>
+
+                    <span>›</span>
+
+                    <span>
+                        Password Security
+                    </span>
+
+                </nav>
+
+
+                <div class="article-meta-top">
+
+                    <span class="article-category">
+                        Password Security
+                    </span>
+
+                    <span class="meta-dot">
+                        •
+                    </span>
+
+                    <span>
+                        9 min read
+                    </span>
+
+                </div>
+
+
+                <h1>
+                    What Makes a Password Strong?
+                    <span>
+                        Password Security Explained
+                    </span>
+                </h1>
+
+
+                <p class="article-intro">
+                    A strong password is not just a collection of symbols,
+                    numbers and capital letters. Password strength depends on
+                    length, unpredictability, uniqueness and how the password
+                    is used across different accounts.
+                </p>
+
+
+                <div class="article-details">
+
+                    <span>
+                        Published August 12, 2026
+                    </span>
+
+                    <span>
+                        Updated August 12, 2026
+                    </span>
+
+                    <span>
+                        By ThreatHawk
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ARTICLE BODY
+        ====================================================== -->
+
+        <div class="article-layout">
+
+
+            <!-- Table of contents -->
+
+            <aside class="article-sidebar">
+
+                <div class="toc-card">
+
+                    <span class="toc-label">
+                        On this page
+                    </span>
+
+
+                    <nav aria-label="Table of contents">
+
+                        <a href="#quick-answer">
+                            Quick answer
+                        </a>
+
+                        <a href="#length">
+                            1. Password length
+                        </a>
+
+                        <a href="#entropy">
+                            2. Entropy and unpredictability
+                        </a>
+
+                        <a href="#reuse">
+                            3. Avoid password reuse
+                        </a>
+
+                        <a href="#patterns">
+                            4. Avoid predictable patterns
+                        </a>
+
+                        <a href="#passphrases">
+                            5. Use passphrases
+                        </a>
+
+                        <a href="#attacks">
+                            6. Understand password attacks
+                        </a>
+
+                        <a href="#managers">
+                            7. Use password managers
+                        </a>
+
+                        <a href="#mfa">
+                            8. Add multi-factor authentication
+                        </a>
+
+                        <a href="#checker">
+                            9. Check password strength
+                        </a>
+
+                        <a href="#breach">
+                            10. Respond to breaches
+                        </a>
+
+                        <a href="#faq">
+                            FAQ
+                        </a>
+
+                    </nav>
+
+                </div>
+
+            </aside>
+
+
+            <!-- Article -->
+
+            <article class="article-content">
+
+
+                <!-- Quick answer -->
+
+                <section
+                    class="article-section"
+                    id="quick-answer"
+                >
+
+                    <div class="quick-answer-box">
+
+                        <span class="box-label">
+                            Quick Answer
+                        </span>
+
+                        <h2>
+                            What makes a password strong?
+                        </h2>
+
+                        <p>
+                            A strong password should be long, unique and
+                            difficult to predict. Length is one of the most
+                            important factors because every additional
+                            character increases the number of possible
+                            combinations an attacker may need to test.
+                        </p>
+
+                        <p>
+                            Strong passwords should also avoid common words,
+                            personal information and reused patterns.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 1 -->
+
+                <section
+                    class="article-section"
+                    id="length"
+                >
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <h2>
+                        Password length matters more than most people think
+                    </h2>
+
+                    <p>
+                        Longer passwords generally provide more resistance to
+                        guessing and brute-force attacks because they create a
+                        larger number of possible combinations.
+                    </p>
+
+                    <p>
+                        Compare:
+                    </p>
+
+
+                    <div class="comparison-grid">
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Short
+                            </span>
+
+                            <code>
+                                Tiger92!
+                            </code>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Longer
+                            </span>
+
+                            <code>
+                                Tiger92!BlueRiver
+                            </code>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Passphrase
+                            </span>
+
+                            <code>
+                                orbit-lantern-river-cactus
+                            </code>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+                        A short password can contain several character types
+                        and still be easier to guess than a much longer,
+                        unpredictable password.
+                    </p>
+
+                </section>
+
+
+                <!-- 2 -->
+
+                <section
+                    class="article-section"
+                    id="entropy"
+                >
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <h2>
+                        Strength comes from entropy and unpredictability
+                    </h2>
+
+                    <p>
+                        Password entropy is a way of describing how difficult
+                        a password is to predict based on the number of
+                        possible combinations.
+                    </p>
+
+                    <p>
+                        Increasing length and randomness generally increases
+                        password entropy.
+                    </p>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            Important:
+                        </strong>
+
+                        <p>
+                            A password that looks complicated to a human is not
+                            necessarily unpredictable to password-cracking
+                            software.
+                        </p>
+
+                    </div>
+
+
+                    <p>
+                        Attackers use dictionaries, leaked password databases
+                        and common substitution patterns when guessing
+                        passwords.
+                    </p>
+
+                </section>
+
+
+                <!-- 3 -->
+
+                <section
+                    class="article-section"
+                    id="reuse"
+                >
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <h2>
+                        Never reuse important passwords
+                    </h2>
+
+                    <p>
+                        Password reuse turns one compromised account into a
+                        potential compromise of several other accounts.
+                    </p>
+
+                    <p>
+                        Attackers frequently test usernames and passwords from
+                        previous data breaches against unrelated services.
+                        This technique is known as credential stuffing.
+                    </p>
+
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            ThreatHawk Tip
+                        </span>
+
+                        <p>
+                            Your email account, banking accounts and other
+                            sensitive services should always use unique
+                            passwords that are not shared with less important
+                            websites.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 4 -->
+
+                <section
+                    class="article-section"
+                    id="patterns"
+                >
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h2>
+                        Avoid predictable password patterns
+                    </h2>
+
+                    <p>
+                        Common passwords and predictable modifications are
+                        among the first combinations attackers test.
+                    </p>
+
+                    <p>
+                        Examples include:
+                    </p>
+
+
+                    <ul class="article-list">
+
+                        <li>
+                            password123
+                        </li>
+
+                        <li>
+                            admin123
+                        </li>
+
+                        <li>
+                            qwerty123
+                        </li>
+
+                        <li>
+                            Your name followed by your birth year
+                        </li>
+
+                        <li>
+                            Replacing “a” with “@” or “o” with “0”
+                        </li>
+
+                    </ul>
+
+
+                    <p>
+                        Substitutions such as
+                        <strong>P@ssw0rd</strong> may look clever, but these
+                        transformations are widely known and included in
+                        password-cracking rules.
+                    </p>
+
+                </section>
+
+
+                <!-- 5 -->
+
+                <section
+                    class="article-section"
+                    id="passphrases"
+                >
+
+                    <span class="section-number">
+                        05
+                    </span>
+
+                    <h2>
+                        Consider using a passphrase
+                    </h2>
+
+                    <p>
+                        A passphrase uses several words to create a longer
+                        password that can be easier to remember while still
+                        providing substantial length.
+                    </p>
+
+
+                    <div class="url-example safe-example">
+
+                        <span class="example-label">
+                            Example format
+                        </span>
+
+                        <code>
+                            orbit-lantern-river-cactus
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        The words should not form an obvious phrase or quote,
+                        and the exact example above should not be used as a
+                        real password.
+                    </p>
+
+                </section>
+
+
+                <!-- 6 -->
+
+                <section
+                    class="article-section"
+                    id="attacks"
+                >
+
+                    <span class="section-number">
+                        06
+                    </span>
+
+                    <h2>
+                        Understand how passwords are attacked
+                    </h2>
+
+                    <p>
+                        Password strength makes more sense when you understand
+                        the techniques attackers use.
+                    </p>
+
+
+                    <ul class="article-list">
+
+                        <li>
+                            <strong>Brute force:</strong>
+                            testing large numbers of combinations.
+                        </li>
+
+                        <li>
+                            <strong>Dictionary attack:</strong>
+                            testing common words and known password lists.
+                        </li>
+
+                        <li>
+                            <strong>Credential stuffing:</strong>
+                            testing leaked credentials on other websites.
+                        </li>
+
+                        <li>
+                            <strong>Password spraying:</strong>
+                            testing a small number of common passwords against
+                            many accounts.
+                        </li>
+
+                        <li>
+                            <strong>Phishing:</strong>
+                            convincing a user to reveal the password directly.
+                        </li>
+
+                    </ul>
+
+
+                    <p>
+                        A technically strong password can still be stolen
+                        through phishing, malware or social engineering, which
+                        is why password strength is only one part of account
+                        security.
+                    </p>
+
+                </section>
+
+
+                <!-- 7 -->
+
+                <section
+                    class="article-section"
+                    id="managers"
+                >
+
+                    <span class="section-number">
+                        07
+                    </span>
+
+                    <h2>
+                        Use a password manager for unique passwords
+                    </h2>
+
+                    <p>
+                        Remembering a unique strong password for every account
+                        quickly becomes unrealistic.
+                    </p>
+
+                    <p>
+                        Password managers help generate and store unique
+                        credentials so you do not need to memorize every
+                        password individually.
+                    </p>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            Focus on the master password.
+                        </strong>
+
+                        <p>
+                            The password protecting your password manager
+                            should itself be long, unique and carefully
+                            protected.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 8 -->
+
+                <section
+                    class="article-section"
+                    id="mfa"
+                >
+
+                    <span class="section-number">
+                        08
+                    </span>
+
+                    <h2>
+                        Add multi-factor authentication
+                    </h2>
+
+                    <p>
+                        Multi-factor authentication adds another verification
+                        step beyond the password.
+                    </p>
+
+                    <p>
+                        If an attacker discovers your password, an additional
+                        authentication factor can still prevent unauthorized
+                        access.
+                    </p>
+
+                    <p>
+                        Common forms include authentication apps, security
+                        keys and one-time codes.
+                    </p>
+
+                </section>
+
+
+                <!-- 9 -->
+
+                <section
+                    class="article-section"
+                    id="checker"
+                >
+
+                    <span class="section-number">
+                        09
+                    </span>
+
+                    <h2>
+                        Check password strength before using it
+                    </h2>
+
+                    <p>
+                        Password strength tools can help identify common
+                        weaknesses such as short length, missing complexity,
+                        repeated characters and predictable patterns.
+                    </p>
+
+
+                    <div class="tool-cta-card">
+
+                        <div>
+
+                            <span class="section-label">
+                                ThreatHawk Tool
+                            </span>
+
+                            <h3>
+                                Analyze password strength directly in your browser.
+                            </h3>
+
+                            <p>
+                                ThreatHawk Password Intelligence evaluates
+                                password characteristics, estimates resistance
+                                to cracking and provides suggestions for
+                                improving password strength.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="../../tools/password-analyzer/index.html"
+                            class="primary-button"
+                        >
+                            Open Password Intelligence
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            Privacy Reminder
+                        </span>
+
+                        <p>
+                            Avoid entering a real sensitive password into an
+                            unknown online checker. Use trusted tools and
+                            understand how the password is processed before
+                            submitting it.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 10 -->
+
+                <section
+                    class="article-section"
+                    id="breach"
+                >
+
+                    <span class="section-number">
+                        10
+                    </span>
+
+                    <h2>
+                        Change compromised passwords quickly
+                    </h2>
+
+                    <p>
+                        Even a strong password should be replaced if you have
+                        reason to believe it has been exposed.
+                    </p>
+
+                    <p>
+                        If an account is involved in a breach:
+                    </p>
+
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            Change the affected password.
+                        </li>
+
+                        <li>
+                            Change the password anywhere else it was reused.
+                        </li>
+
+                        <li>
+                            Enable multi-factor authentication.
+                        </li>
+
+                        <li>
+                            Review recent account activity.
+                        </li>
+
+                        <li>
+                            Sign out unknown or active sessions where possible.
+                        </li>
+
+                    </ol>
+
+                </section>
+
+
+                <!-- Final -->
+
+                <section class="article-section">
+
+                    <h2>
+                        Final takeaway
+                    </h2>
+
+                    <p>
+                        Strong password security is not about making a short
+                        password look complicated. The most important habits
+                        are using sufficient length, avoiding predictable
+                        patterns and keeping passwords unique between
+                        important accounts.
+                    </p>
+
+                    <p>
+                        Combine those habits with a password manager and
+                        multi-factor authentication, and a stolen password
+                        becomes much less useful to an attacker.
+                    </p>
+
+                </section>
+
+
+                <!-- FAQ -->
+
+                <section
+                    class="article-section faq-section"
+                    id="faq"
+                >
+
+                    <span class="section-label">
+                        Frequently Asked Questions
+                    </span>
+
+                    <h2>
+                        Password security FAQ
+                    </h2>
+
+
+                    <details>
+
+                        <summary>
+                            Is a longer password always stronger?
+                        </summary>
+
+                        <p>
+                            Length generally improves resistance to guessing,
+                            but predictable long phrases and reused passwords
+                            can still be weak. Length should be combined with
+                            uniqueness and unpredictability.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Are symbols required for a strong password?
+                        </summary>
+
+                        <p>
+                            Symbols can increase the possible character set,
+                            but adding one symbol to a short predictable
+                            password does not automatically make it strong.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Is a passphrase better than a password?
+                        </summary>
+
+                        <p>
+                            A well-designed passphrase can provide substantial
+                            length while being easier to remember. It should
+                            still avoid obvious quotes, common phrases and
+                            predictable word combinations.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Should every account use a different password?
+                        </summary>
+
+                        <p>
+                            Important accounts should use unique passwords.
+                            Reusing credentials allows one breach to potentially
+                            expose several unrelated accounts.
+                        </p>
+
+                    </details>
+
+                </section>
+
+
+                <!-- Related -->
+
+                <section class="related-guides">
+
+                    <span class="section-label">
+                        Continue Learning
+                    </span>
+
+                    <h2>
+                        Related ThreatHawk guides
+                    </h2>
+
+
+                    <div class="related-grid">
+
+
+                        <article>
+
+                            <span>
+                                URL Security
+                            </span>
+
+                            <h3>
+                                How to Check if a URL Is Safe
+                            </h3>
+
+                            <a
+                                href="../how-to-check-if-a-url-is-safe/index.html"
+                                class="guide-link"
+                            >
+                                Read guide →
+                            </a>
+
+                        </article>
+
+
+                        <article>
+
+                            <span>
+                                Digital Forensics
+                            </span>
+
+                            <h3>
+                                MD5 vs SHA-1 vs SHA-256 vs SHA-512
+                            </h3>
+
+                            <p>
+                                Planned guide
+                            </p>
+
+                        </article>
+
+
+                    </div>
+
+                </section>
+
+
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-brand">
+
+            <h2>
+                ThreatHawk
+            </h2>
+
+            <p>
+                Free Browser-Based Cybersecurity Tools
+            </p>
+
+        </div>
+
+
+        <nav
+            class="footer-links"
+            aria-label="Footer navigation"
+        >
+
+            <a href="../../about/index.html">
+                About
+            </a>
+
+            <a href="../../contact/index.html">
+                Contact
+            </a>
+
+            <a href="../../privacy-policy/index.html">
+                Privacy Policy
+            </a>
+
+            <a href="../../terms/index.html">
+                Terms
+            </a>
+
+            <a href="../../disclaimer/index.html">
+                Disclaimer
+            </a>
+
+            <a
+                href="https://github.com/DileepKumar52/ThreatHawk"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+            </a>
+
+        </nav>
+
+
+        <p class="footer-version">
+            Knowledge Hub
+        </p>
+
+
+        <p class="footer-copyright">
+            © 2026 ThreatHawk. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script
+        src="../js/app.js"
+        defer
+    ></script>
+
+</body>
+
+</html>
