@@ -17,12 +17,12 @@
     >
 
     <title>
-        What Makes a Password Strong? Password Security Explained | ThreatHawk
+        MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained | ThreatHawk
     </title>
 
     <meta
         name="description"
-        content="Learn what makes a password strong, including password length, entropy, uniqueness, reuse, passphrases, common attacks and practical password security habits."
+        content="Compare MD5, SHA-1, SHA-256 and SHA-512. Learn their hash lengths, security differences, collision resistance, practical uses and how analysts identify common hashes."
     >
 
     <meta
@@ -32,7 +32,7 @@
 
     <link
         rel="canonical"
-        href="https://threathawk.net/guides/what-makes-a-password-strong/"
+        href="https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
     >
 
 
@@ -43,17 +43,17 @@
 
     <meta
         property="og:title"
-        content="What Makes a Password Strong? Password Security Explained"
+        content="MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained"
     >
 
     <meta
         property="og:description"
-        content="Understand password length, entropy, reuse, passphrases, common attacks and practical ways to create stronger passwords."
+        content="A practical comparison of MD5, SHA-1, SHA-256 and SHA-512 for cybersecurity, integrity checking and digital forensics."
     >
 
     <meta
         property="og:url"
-        content="https://threathawk.net/guides/what-makes-a-password-strong/"
+        content="https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
     >
 
     <meta
@@ -71,12 +71,12 @@
 
     <meta
         name="twitter:title"
-        content="What Makes a Password Strong? | ThreatHawk"
+        content="MD5 vs SHA-1 vs SHA-256 vs SHA-512 | ThreatHawk"
     >
 
     <meta
         name="twitter:description"
-        content="A practical guide to strong passwords, password entropy, passphrases, reuse and common password attacks."
+        content="Understand the differences between common cryptographic hash algorithms and where analysts encounter them."
     >
 
     <meta
@@ -131,8 +131,8 @@
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "What Makes a Password Strong? Password Security Explained",
-        "description": "A practical guide to password strength, entropy, password reuse, passphrases and common password attacks.",
+        "headline": "MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained",
+        "description": "A practical comparison of MD5, SHA-1, SHA-256 and SHA-512 for cybersecurity, integrity checking and digital forensics.",
         "author": {
             "@type": "Organization",
             "name": "ThreatHawk"
@@ -144,10 +144,10 @@
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https://threathawk.net/guides/what-makes-a-password-strong/"
+            "@id": "https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
         },
-        "datePublished": "2026-08-12",
-        "dateModified": "2026-08-12"
+        "datePublished": "2026-08-13",
+        "dateModified": "2026-08-13"
     }
     </script>
 
@@ -276,11 +276,9 @@
 
 
             <div class="nav-actions">
-
                 <span class="version">
                     Knowledge Hub
                 </span>
-
             </div>
 
         </div>
@@ -318,7 +316,7 @@
                     <span>›</span>
 
                     <span>
-                        Password Security
+                        Digital Forensics
                     </span>
 
                 </nav>
@@ -327,7 +325,7 @@
                 <div class="article-meta-top">
 
                     <span class="article-category">
-                        Password Security
+                        Digital Forensics
                     </span>
 
                     <span class="meta-dot">
@@ -335,36 +333,38 @@
                     </span>
 
                     <span>
-                        9 min read
+                        10 min read
                     </span>
 
                 </div>
 
 
                 <h1>
-                    What Makes a Password Strong?
+                    MD5 vs SHA-1 vs SHA-256 vs SHA-512
                     <span>
-                        Password Security Explained
+                        Hash Algorithms Explained
                     </span>
                 </h1>
 
 
                 <p class="article-intro">
-                    A strong password is not just a collection of symbols,
-                    numbers and capital letters. Password strength depends on
-                    length, unpredictability, uniqueness and how the password
-                    is used across different accounts.
+                    Cryptographic hashes appear everywhere in cybersecurity:
+                    file integrity checks, digital forensics, malware analysis,
+                    password storage and incident response. MD5, SHA-1,
+                    SHA-256 and SHA-512 may all produce hexadecimal-looking
+                    output, but they differ significantly in size, security
+                    and modern use.
                 </p>
 
 
                 <div class="article-details">
 
                     <span>
-                        Published August 12, 2026
+                        Published August 13, 2026
                     </span>
 
                     <span>
-                        Updated August 12, 2026
+                        Updated August 13, 2026
                     </span>
 
                     <span>
@@ -402,44 +402,44 @@
                             Quick answer
                         </a>
 
-                        <a href="#length">
-                            1. Password length
+                        <a href="#what-is-hash">
+                            1. What is a hash?
                         </a>
 
-                        <a href="#entropy">
-                            2. Entropy and unpredictability
+                        <a href="#md5">
+                            2. MD5
                         </a>
 
-                        <a href="#reuse">
-                            3. Avoid password reuse
+                        <a href="#sha1">
+                            3. SHA-1
                         </a>
 
-                        <a href="#patterns">
-                            4. Avoid predictable patterns
+                        <a href="#sha256">
+                            4. SHA-256
                         </a>
 
-                        <a href="#passphrases">
-                            5. Use passphrases
+                        <a href="#sha512">
+                            5. SHA-512
                         </a>
 
-                        <a href="#attacks">
-                            6. Understand password attacks
+                        <a href="#comparison">
+                            6. Side-by-side comparison
                         </a>
 
-                        <a href="#managers">
-                            7. Use password managers
+                        <a href="#collisions">
+                            7. Collision resistance
                         </a>
 
-                        <a href="#mfa">
-                            8. Add multi-factor authentication
+                        <a href="#forensics">
+                            8. Digital forensics use
                         </a>
 
-                        <a href="#checker">
-                            9. Check password strength
+                        <a href="#which-use">
+                            9. Which should you use?
                         </a>
 
-                        <a href="#breach">
-                            10. Respond to breaches
+                        <a href="#hash-analyzer">
+                            10. Identify hashes
                         </a>
 
                         <a href="#faq">
@@ -472,20 +472,20 @@
                         </span>
 
                         <h2>
-                            What makes a password strong?
+                            What is the main difference between MD5, SHA-1, SHA-256 and SHA-512?
                         </h2>
 
                         <p>
-                            A strong password should be long, unique and
-                            difficult to predict. Length is one of the most
-                            important factors because every additional
-                            character increases the number of possible
-                            combinations an attacker may need to test.
+                            The biggest differences are output size, resistance
+                            to collisions and whether the algorithm is still
+                            considered appropriate for security-sensitive use.
                         </p>
 
                         <p>
-                            Strong passwords should also avoid common words,
-                            personal information and reused patterns.
+                            MD5 and SHA-1 are considered unsuitable for modern
+                            collision-sensitive security purposes. SHA-256 and
+                            SHA-512 belong to the SHA-2 family and are widely
+                            used for integrity and cryptographic applications.
                         </p>
 
                     </div>
@@ -497,7 +497,7 @@
 
                 <section
                     class="article-section"
-                    id="length"
+                    id="what-is-hash"
                 >
 
                     <span class="section-number">
@@ -505,67 +505,38 @@
                     </span>
 
                     <h2>
-                        Password length matters more than most people think
+                        What is a cryptographic hash?
                     </h2>
 
                     <p>
-                        Longer passwords generally provide more resistance to
-                        guessing and brute-force attacks because they create a
-                        larger number of possible combinations.
+                        A cryptographic hash function takes input data and
+                        produces a fixed-length output called a hash, digest or
+                        fingerprint.
                     </p>
 
                     <p>
-                        Compare:
+                        Even a small change in the input should produce a very
+                        different output.
                     </p>
 
 
-                    <div class="comparison-grid">
+                    <div class="url-example safe-example">
 
-                        <div>
+                        <span class="example-label">
+                            Example concept
+                        </span>
 
-                            <span class="comparison-title">
-                                Short
-                            </span>
-
-                            <code>
-                                Tiger92!
-                            </code>
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="comparison-title">
-                                Longer
-                            </span>
-
-                            <code>
-                                Tiger92!BlueRiver
-                            </code>
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="comparison-title">
-                                Passphrase
-                            </span>
-
-                            <code>
-                                orbit-lantern-river-cactus
-                            </code>
-
-                        </div>
+                        <code>
+                            File → Hash Function → Fixed-Length Digest
+                        </code>
 
                     </div>
 
 
                     <p>
-                        A short password can contain several character types
-                        and still be easier to guess than a much longer,
-                        unpredictable password.
+                        Hash functions are designed to work in one direction.
+                        You can calculate a hash from data, but the hash is not
+                        intended to reveal the original input.
                     </p>
 
                 </section>
@@ -575,7 +546,7 @@
 
                 <section
                     class="article-section"
-                    id="entropy"
+                    id="md5"
                 >
 
                     <span class="section-number">
@@ -583,18 +554,33 @@
                     </span>
 
                     <h2>
-                        Strength comes from entropy and unpredictability
+                        MD5
                     </h2>
 
                     <p>
-                        Password entropy is a way of describing how difficult
-                        a password is to predict based on the number of
-                        possible combinations.
+                        MD5 produces a 128-bit hash, usually displayed as
+                        32 hexadecimal characters.
                     </p>
 
+
+                    <div class="url-example">
+
+                        <span class="example-label">
+                            Typical MD5 length
+                        </span>
+
+                        <code>
+                            d41d8cd98f00b204e9800998ecf8427e
+                        </code>
+
+                    </div>
+
+
                     <p>
-                        Increasing length and randomness generally increases
-                        password entropy.
+                        MD5 was once widely used for file integrity and
+                        software distribution, but practical collision attacks
+                        have made it unsuitable for cryptographic security
+                        where collision resistance matters.
                     </p>
 
 
@@ -605,19 +591,13 @@
                         </strong>
 
                         <p>
-                            A password that looks complicated to a human is not
-                            necessarily unpredictable to password-cracking
-                            software.
+                            Seeing MD5 during an investigation does not mean
+                            the hash is useless. Analysts still encounter MD5
+                            values in malware databases, historical systems and
+                            file-identification workflows.
                         </p>
 
                     </div>
-
-
-                    <p>
-                        Attackers use dictionaries, leaked password databases
-                        and common substitution patterns when guessing
-                        passwords.
-                    </p>
 
                 </section>
 
@@ -626,7 +606,7 @@
 
                 <section
                     class="article-section"
-                    id="reuse"
+                    id="sha1"
                 >
 
                     <span class="section-number">
@@ -634,18 +614,81 @@
                     </span>
 
                     <h2>
-                        Never reuse important passwords
+                        SHA-1
                     </h2>
 
                     <p>
-                        Password reuse turns one compromised account into a
-                        potential compromise of several other accounts.
+                        SHA-1 produces a 160-bit digest, commonly represented
+                        by 40 hexadecimal characters.
+                    </p>
+
+
+                    <div class="url-example">
+
+                        <span class="example-label">
+                            Typical SHA-1 length
+                        </span>
+
+                        <code>
+                            da39a3ee5e6b4b0d3255bfef95601890afd80709
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        SHA-1 offered stronger collision resistance than MD5,
+                        but collision attacks have also been demonstrated
+                        against SHA-1.
                     </p>
 
                     <p>
-                        Attackers frequently test usernames and passwords from
-                        previous data breaches against unrelated services.
-                        This technique is known as credential stuffing.
+                        For new security-sensitive designs, SHA-1 should not
+                        be chosen as the primary cryptographic hash.
+                    </p>
+
+                </section>
+
+
+                <!-- 4 -->
+
+                <section
+                    class="article-section"
+                    id="sha256"
+                >
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h2>
+                        SHA-256
+                    </h2>
+
+                    <p>
+                        SHA-256 is part of the SHA-2 family and produces a
+                        256-bit digest, normally displayed as 64 hexadecimal
+                        characters.
+                    </p>
+
+
+                    <div class="url-example safe-example">
+
+                        <span class="example-label">
+                            Typical SHA-256 length
+                        </span>
+
+                        <code>
+                            e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        SHA-256 is widely used for file integrity, digital
+                        signatures, certificates, software verification and
+                        many other security applications.
                     </p>
 
 
@@ -656,73 +699,12 @@
                         </span>
 
                         <p>
-                            Your email account, banking accounts and other
-                            sensitive services should always use unique
-                            passwords that are not shared with less important
-                            websites.
+                            When a 64-character hexadecimal hash appears in
+                            logs, malware reports or forensic notes, SHA-256 is
+                            one of the first common formats worth considering.
                         </p>
 
                     </div>
-
-                </section>
-
-
-                <!-- 4 -->
-
-                <section
-                    class="article-section"
-                    id="patterns"
-                >
-
-                    <span class="section-number">
-                        04
-                    </span>
-
-                    <h2>
-                        Avoid predictable password patterns
-                    </h2>
-
-                    <p>
-                        Common passwords and predictable modifications are
-                        among the first combinations attackers test.
-                    </p>
-
-                    <p>
-                        Examples include:
-                    </p>
-
-
-                    <ul class="article-list">
-
-                        <li>
-                            password123
-                        </li>
-
-                        <li>
-                            admin123
-                        </li>
-
-                        <li>
-                            qwerty123
-                        </li>
-
-                        <li>
-                            Your name followed by your birth year
-                        </li>
-
-                        <li>
-                            Replacing “a” with “@” or “o” with “0”
-                        </li>
-
-                    </ul>
-
-
-                    <p>
-                        Substitutions such as
-                        <strong>P@ssw0rd</strong> may look clever, but these
-                        transformations are widely known and included in
-                        password-cracking rules.
-                    </p>
 
                 </section>
 
@@ -731,7 +713,7 @@
 
                 <section
                     class="article-section"
-                    id="passphrases"
+                    id="sha512"
                 >
 
                     <span class="section-number">
@@ -739,33 +721,39 @@
                     </span>
 
                     <h2>
-                        Consider using a passphrase
+                        SHA-512
                     </h2>
 
                     <p>
-                        A passphrase uses several words to create a longer
-                        password that can be easier to remember while still
-                        providing substantial length.
+                        SHA-512 is also part of SHA-2 and produces a
+                        512-bit digest, normally shown as 128 hexadecimal
+                        characters.
+                    </p>
+
+                    <p>
+                        Its output is twice the size of SHA-256, but a larger
+                        digest does not automatically mean that every use case
+                        requires SHA-512.
                     </p>
 
 
-                    <div class="url-example safe-example">
+                    <div class="url-example">
 
                         <span class="example-label">
-                            Example format
+                            SHA-512 output
                         </span>
 
                         <code>
-                            orbit-lantern-river-cactus
+                            128 hexadecimal characters
                         </code>
 
                     </div>
 
 
                     <p>
-                        The words should not form an obvious phrase or quote,
-                        and the exact example above should not be used as a
-                        real password.
+                        SHA-512 is used in cryptographic applications where its
+                        properties and implementation characteristics are
+                        appropriate for the system.
                     </p>
 
                 </section>
@@ -775,7 +763,7 @@
 
                 <section
                     class="article-section"
-                    id="attacks"
+                    id="comparison"
                 >
 
                     <span class="section-number">
@@ -783,51 +771,82 @@
                     </span>
 
                     <h2>
-                        Understand how passwords are attacked
+                        MD5 vs SHA-1 vs SHA-256 vs SHA-512
                     </h2>
 
+
+                    <div class="comparison-grid">
+
+                        <div>
+
+                            <span class="comparison-title">
+                                MD5
+                            </span>
+
+                            <code>
+                                128-bit
+                            </code>
+
+                            <p>
+                                32 hex characters
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                SHA-1
+                            </span>
+
+                            <code>
+                                160-bit
+                            </code>
+
+                            <p>
+                                40 hex characters
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="comparison-title">
+                                SHA-256
+                            </span>
+
+                            <code>
+                                256-bit
+                            </code>
+
+                            <p>
+                                64 hex characters
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="url-example">
+
+                        <span class="example-label">
+                            SHA-512
+                        </span>
+
+                        <code>
+                            512-bit digest · 128 hexadecimal characters
+                        </code>
+
+                    </div>
+
+
                     <p>
-                        Password strength makes more sense when you understand
-                        the techniques attackers use.
-                    </p>
-
-
-                    <ul class="article-list">
-
-                        <li>
-                            <strong>Brute force:</strong>
-                            testing large numbers of combinations.
-                        </li>
-
-                        <li>
-                            <strong>Dictionary attack:</strong>
-                            testing common words and known password lists.
-                        </li>
-
-                        <li>
-                            <strong>Credential stuffing:</strong>
-                            testing leaked credentials on other websites.
-                        </li>
-
-                        <li>
-                            <strong>Password spraying:</strong>
-                            testing a small number of common passwords against
-                            many accounts.
-                        </li>
-
-                        <li>
-                            <strong>Phishing:</strong>
-                            convincing a user to reveal the password directly.
-                        </li>
-
-                    </ul>
-
-
-                    <p>
-                        A technically strong password can still be stolen
-                        through phishing, malware or social engineering, which
-                        is why password strength is only one part of account
-                        security.
+                        Hash length can help identify a possible algorithm, but
+                        length alone does not always prove which algorithm
+                        produced a value.
                     </p>
 
                 </section>
@@ -837,7 +856,7 @@
 
                 <section
                     class="article-section"
-                    id="managers"
+                    id="collisions"
                 >
 
                     <span class="section-number">
@@ -845,31 +864,36 @@
                     </span>
 
                     <h2>
-                        Use a password manager for unique passwords
+                        Why collision resistance matters
                     </h2>
 
                     <p>
-                        Remembering a unique strong password for every account
-                        quickly becomes unrealistic.
+                        A collision occurs when two different inputs produce
+                        the same hash value.
                     </p>
 
                     <p>
-                        Password managers help generate and store unique
-                        credentials so you do not need to memorize every
-                        password individually.
+                        For a cryptographic hash function, finding such pairs
+                        should be computationally impractical.
+                    </p>
+
+                    <p>
+                        Collision weaknesses are the major reason MD5 and
+                        SHA-1 are no longer appropriate for many security
+                        applications.
                     </p>
 
 
                     <div class="info-box">
 
                         <strong>
-                            Focus on the master password.
+                            Collision resistance is not the same as encryption.
                         </strong>
 
                         <p>
-                            The password protecting your password manager
-                            should itself be long, unique and carefully
-                            protected.
+                            Hashes are fingerprints of data. Encryption is
+                            designed to protect data in a reversible form when
+                            the correct key is available.
                         </p>
 
                     </div>
@@ -881,7 +905,7 @@
 
                 <section
                     class="article-section"
-                    id="mfa"
+                    id="forensics"
                 >
 
                     <span class="section-number">
@@ -889,23 +913,46 @@
                     </span>
 
                     <h2>
-                        Add multi-factor authentication
+                        How hashes are used in digital forensics
                     </h2>
 
                     <p>
-                        Multi-factor authentication adds another verification
-                        step beyond the password.
+                        Hashes are extremely useful during forensic and
+                        incident-response workflows because they provide a
+                        compact way to identify data.
                     </p>
 
-                    <p>
-                        If an attacker discovers your password, an additional
-                        authentication factor can still prevent unauthorized
-                        access.
-                    </p>
+
+                    <ul class="article-list">
+
+                        <li>
+                            Checking whether a forensic image changed.
+                        </li>
+
+                        <li>
+                            Comparing suspicious files against known malware.
+                        </li>
+
+                        <li>
+                            Identifying duplicate files.
+                        </li>
+
+                        <li>
+                            Recording file fingerprints in incident reports.
+                        </li>
+
+                        <li>
+                            Searching threat-intelligence platforms for known
+                            malicious artifacts.
+                        </li>
+
+                    </ul>
+
 
                     <p>
-                        Common forms include authentication apps, security
-                        keys and one-time codes.
+                        Analysts may encounter MD5, SHA-1 and SHA-256 together
+                        because different tools and databases historically
+                        adopted different formats.
                     </p>
 
                 </section>
@@ -915,7 +962,7 @@
 
                 <section
                     class="article-section"
-                    id="checker"
+                    id="which-use"
                 >
 
                     <span class="section-number">
@@ -923,13 +970,63 @@
                     </span>
 
                     <h2>
-                        Check password strength before using it
+                        Which hash algorithm should you use?
                     </h2>
 
                     <p>
-                        Password strength tools can help identify common
-                        weaknesses such as short length, missing complexity,
-                        repeated characters and predictable patterns.
+                        For new cryptographic applications, MD5 and SHA-1
+                        should generally not be selected where collision
+                        resistance is required.
+                    </p>
+
+                    <p>
+                        SHA-256 and SHA-512 remain common choices from the
+                        SHA-2 family, but the correct algorithm depends on the
+                        protocol, application and security requirements.
+                    </p>
+
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            Practical distinction
+                        </span>
+
+                        <p>
+                            There is a difference between using MD5 to identify
+                            an old malware sample and trusting MD5 to protect a
+                            modern cryptographic signature. Context matters.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 10 -->
+
+                <section
+                    class="article-section"
+                    id="hash-analyzer"
+                >
+
+                    <span class="section-number">
+                        10
+                    </span>
+
+                    <h2>
+                        Identify unknown hashes with security tools
+                    </h2>
+
+                    <p>
+                        When you encounter an unknown hexadecimal value during
+                        an investigation, its length can provide an initial
+                        clue about the algorithm.
+                    </p>
+
+                    <p>
+                        Automated hash-identification tools make this process
+                        faster, especially when working with multiple values.
                     </p>
 
 
@@ -942,96 +1039,28 @@
                             </span>
 
                             <h3>
-                                Analyze password strength directly in your browser.
+                                Identify common hash formats instantly.
                             </h3>
 
                             <p>
-                                ThreatHawk Password Intelligence evaluates
-                                password characteristics, estimates resistance
-                                to cracking and provides suggestions for
-                                improving password strength.
+                                ThreatHawk Hash Analyzer detects common MD5,
+                                SHA-1, SHA-256 and SHA-512 formats, supports
+                                multiple hash values and provides quick
+                                analysis directly in your browser.
                             </p>
 
                         </div>
 
 
                         <a
-                            href="../../tools/password-analyzer/index.html"
+                            href="../../tools/hash-analyzer/index.html"
                             class="primary-button"
                         >
-                            Open Password Intelligence
+                            Open Hash Analyzer
                             <span>→</span>
                         </a>
 
                     </div>
-
-
-                    <div class="tip-box">
-
-                        <span class="box-label">
-                            Privacy Reminder
-                        </span>
-
-                        <p>
-                            Avoid entering a real sensitive password into an
-                            unknown online checker. Use trusted tools and
-                            understand how the password is processed before
-                            submitting it.
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-                <!-- 10 -->
-
-                <section
-                    class="article-section"
-                    id="breach"
-                >
-
-                    <span class="section-number">
-                        10
-                    </span>
-
-                    <h2>
-                        Change compromised passwords quickly
-                    </h2>
-
-                    <p>
-                        Even a strong password should be replaced if you have
-                        reason to believe it has been exposed.
-                    </p>
-
-                    <p>
-                        If an account is involved in a breach:
-                    </p>
-
-
-                    <ol class="article-list numbered-list">
-
-                        <li>
-                            Change the affected password.
-                        </li>
-
-                        <li>
-                            Change the password anywhere else it was reused.
-                        </li>
-
-                        <li>
-                            Enable multi-factor authentication.
-                        </li>
-
-                        <li>
-                            Review recent account activity.
-                        </li>
-
-                        <li>
-                            Sign out unknown or active sessions where possible.
-                        </li>
-
-                    </ol>
 
                 </section>
 
@@ -1045,17 +1074,22 @@
                     </h2>
 
                     <p>
-                        Strong password security is not about making a short
-                        password look complicated. The most important habits
-                        are using sufficient length, avoiding predictable
-                        patterns and keeping passwords unique between
-                        important accounts.
+                        MD5, SHA-1, SHA-256 and SHA-512 are all cryptographic
+                        hash algorithms, but they should not be treated as
+                        interchangeable.
                     </p>
 
                     <p>
-                        Combine those habits with a password manager and
-                        multi-factor authentication, and a stolen password
-                        becomes much less useful to an attacker.
+                        MD5 and SHA-1 remain common artifacts in historical
+                        systems and investigations, while SHA-256 and SHA-512
+                        provide stronger modern SHA-2 alternatives for
+                        security-sensitive applications.
+                    </p>
+
+                    <p>
+                        For analysts, understanding the output length,
+                        weaknesses and context of each algorithm makes hash
+                        identification much faster.
                     </p>
 
                 </section>
@@ -1073,21 +1107,21 @@
                     </span>
 
                     <h2>
-                        Password security FAQ
+                        Hash algorithm FAQ
                     </h2>
 
 
                     <details>
 
                         <summary>
-                            Is a longer password always stronger?
+                            Is MD5 still used?
                         </summary>
 
                         <p>
-                            Length generally improves resistance to guessing,
-                            but predictable long phrases and reused passwords
-                            can still be weak. Length should be combined with
-                            uniqueness and unpredictability.
+                            Yes. MD5 still appears in legacy systems, file
+                            databases, malware analysis and historical
+                            workflows, but it should not be relied upon for
+                            modern collision-sensitive cryptographic security.
                         </p>
 
                     </details>
@@ -1096,13 +1130,13 @@
                     <details>
 
                         <summary>
-                            Are symbols required for a strong password?
+                            Is SHA-1 secure?
                         </summary>
 
                         <p>
-                            Symbols can increase the possible character set,
-                            but adding one symbol to a short predictable
-                            password does not automatically make it strong.
+                            SHA-1 has known collision weaknesses and should not
+                            be selected for new applications that depend on
+                            strong collision resistance.
                         </p>
 
                     </details>
@@ -1111,14 +1145,14 @@
                     <details>
 
                         <summary>
-                            Is a passphrase better than a password?
+                            Is SHA-512 stronger than SHA-256?
                         </summary>
 
                         <p>
-                            A well-designed passphrase can provide substantial
-                            length while being easier to remember. It should
-                            still avoid obvious quotes, common phrases and
-                            predictable word combinations.
+                            SHA-512 has a larger output and different security
+                            parameters, but choosing between SHA-256 and
+                            SHA-512 depends on the system and use case rather
+                            than simply selecting the larger number.
                         </p>
 
                     </details>
@@ -1127,13 +1161,30 @@
                     <details>
 
                         <summary>
-                            Should every account use a different password?
+                            Can a hash be reversed?
                         </summary>
 
                         <p>
-                            Important accounts should use unique passwords.
-                            Reusing credentials allows one breach to potentially
-                            expose several unrelated accounts.
+                            Cryptographic hashes are designed as one-way
+                            functions. Attackers may still guess inputs and
+                            compare their hashes, which is why weak passwords
+                            should never be protected by a raw fast hash alone.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Can hash length identify the algorithm?
+                        </summary>
+
+                        <p>
+                            Length is a useful clue. For example, MD5 commonly
+                            appears as 32 hexadecimal characters and SHA-256 as
+                            64. However, length alone may not conclusively
+                            identify every possible algorithm.
                         </p>
 
                     </details>
@@ -1180,15 +1231,15 @@
                         <article>
 
                             <span>
-                                Digital Forensics
+                                Password Security
                             </span>
 
                             <h3>
-                                MD5 vs SHA-1 vs SHA-256 vs SHA-512
+                                What Makes a Password Strong?
                             </h3>
 
                             <a
-                                href="../md5-vs-sha1-vs-sha256-vs-sha512/index.html"
+                                href="../what-makes-a-password-strong/index.html"
                                 class="guide-link"
                             >
                                 Read guide →
