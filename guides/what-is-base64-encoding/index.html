@@ -17,12 +17,12 @@
     >
 
     <title>
-        MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained | ThreatHawk
+        What Is Base64 Encoding and How Does It Work? | ThreatHawk
     </title>
 
     <meta
         name="description"
-        content="Compare MD5, SHA-1, SHA-256 and SHA-512. Learn their hash lengths, security differences, collision resistance, practical uses and how analysts identify common hashes."
+        content="Learn what Base64 encoding is, how it works, how to recognize Base64, why it is not encryption and where Base64 appears in cybersecurity."
     >
 
     <meta
@@ -32,7 +32,7 @@
 
     <link
         rel="canonical"
-        href="https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
+        href="https://threathawk.net/guides/what-is-base64-encoding/"
     >
 
 
@@ -43,17 +43,17 @@
 
     <meta
         property="og:title"
-        content="MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained"
+        content="What Is Base64 Encoding and How Does It Work?"
     >
 
     <meta
         property="og:description"
-        content="A practical comparison of MD5, SHA-1, SHA-256 and SHA-512 for cybersecurity, integrity checking and digital forensics."
+        content="A practical guide to Base64 encoding, decoding, recognition, security use and common misconceptions."
     >
 
     <meta
         property="og:url"
-        content="https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
+        content="https://threathawk.net/guides/what-is-base64-encoding/"
     >
 
     <meta
@@ -71,12 +71,12 @@
 
     <meta
         name="twitter:title"
-        content="MD5 vs SHA-1 vs SHA-256 vs SHA-512 | ThreatHawk"
+        content="What Is Base64 Encoding? | ThreatHawk"
     >
 
     <meta
         name="twitter:description"
-        content="Understand the differences between common cryptographic hash algorithms and where analysts encounter them."
+        content="Understand Base64 encoding, how it works and why Base64 should never be confused with encryption."
     >
 
     <meta
@@ -131,8 +131,8 @@
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "MD5 vs SHA-1 vs SHA-256 vs SHA-512: Hash Algorithms Explained",
-        "description": "A practical comparison of MD5, SHA-1, SHA-256 and SHA-512 for cybersecurity, integrity checking and digital forensics.",
+        "headline": "What Is Base64 Encoding and How Does It Work?",
+        "description": "A practical guide to Base64 encoding, decoding, security use and common misconceptions.",
         "author": {
             "@type": "Organization",
             "name": "ThreatHawk"
@@ -144,7 +144,7 @@
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https://threathawk.net/guides/md5-vs-sha1-vs-sha256-vs-sha512/"
+            "@id": "https://threathawk.net/guides/what-is-base64-encoding/"
         },
         "datePublished": "2026-08-13",
         "dateModified": "2026-08-13"
@@ -316,7 +316,7 @@
                     <span>›</span>
 
                     <span>
-                        Digital Forensics
+                        Encoding &amp; Data Analysis
                     </span>
 
                 </nav>
@@ -325,7 +325,7 @@
                 <div class="article-meta-top">
 
                     <span class="article-category">
-                        Digital Forensics
+                        Encoding &amp; Data Analysis
                     </span>
 
                     <span class="meta-dot">
@@ -333,27 +333,26 @@
                     </span>
 
                     <span>
-                        10 min read
+                        9 min read
                     </span>
 
                 </div>
 
 
                 <h1>
-                    MD5 vs SHA-1 vs SHA-256 vs SHA-512
+                    What Is Base64 Encoding?
                     <span>
-                        Hash Algorithms Explained
+                        How Base64 Works and Why It Is Not Encryption
                     </span>
                 </h1>
 
 
                 <p class="article-intro">
-                    Cryptographic hashes appear everywhere in cybersecurity:
-                    file integrity checks, digital forensics, malware analysis,
-                    password storage and incident response. MD5, SHA-1,
-                    SHA-256 and SHA-512 may all produce hexadecimal-looking
-                    output, but they differ significantly in size, security
-                    and modern use.
+                    Base64 is a method for representing binary data using
+                    printable text characters. It appears in web applications,
+                    email, APIs, certificates, scripts and security
+                    investigations, but it is often misunderstood as a form of
+                    encryption.
                 </p>
 
 
@@ -385,8 +384,6 @@
         <div class="article-layout">
 
 
-            <!-- Table of contents -->
-
             <aside class="article-sidebar">
 
                 <div class="toc-card">
@@ -402,44 +399,48 @@
                             Quick answer
                         </a>
 
-                        <a href="#what-is-hash">
-                            1. What is a hash?
+                        <a href="#what-is-base64">
+                            1. What is Base64?
                         </a>
 
-                        <a href="#md5">
-                            2. MD5
+                        <a href="#why-base64">
+                            2. Why Base64 exists
                         </a>
 
-                        <a href="#sha1">
-                            3. SHA-1
+                        <a href="#how-it-works">
+                            3. How Base64 works
                         </a>
 
-                        <a href="#sha256">
-                            4. SHA-256
+                        <a href="#example">
+                            4. Base64 example
                         </a>
 
-                        <a href="#sha512">
-                            5. SHA-512
+                        <a href="#recognize">
+                            5. How to recognize Base64
                         </a>
 
-                        <a href="#comparison">
-                            6. Side-by-side comparison
+                        <a href="#not-encryption">
+                            6. Base64 is not encryption
                         </a>
 
-                        <a href="#collisions">
-                            7. Collision resistance
+                        <a href="#compare">
+                            7. Encoding vs hashing vs encryption
                         </a>
 
-                        <a href="#forensics">
-                            8. Digital forensics use
+                        <a href="#cybersecurity">
+                            8. Base64 in cybersecurity
                         </a>
 
-                        <a href="#which-use">
-                            9. Which should you use?
+                        <a href="#risks">
+                            9. Suspicious Base64
                         </a>
 
-                        <a href="#hash-analyzer">
-                            10. Identify hashes
+                        <a href="#decode-safely">
+                            10. Decode Base64 safely
+                        </a>
+
+                        <a href="#encoder-tool">
+                            ThreatHawk tool
                         </a>
 
                         <a href="#faq">
@@ -453,12 +454,10 @@
             </aside>
 
 
-            <!-- Article -->
-
             <article class="article-content">
 
 
-                <!-- Quick answer -->
+                <!-- Quick Answer -->
 
                 <section
                     class="article-section"
@@ -472,20 +471,20 @@
                         </span>
 
                         <h2>
-                            What is the main difference between MD5, SHA-1, SHA-256 and SHA-512?
+                            What is Base64 encoding?
                         </h2>
 
                         <p>
-                            The biggest differences are output size, resistance
-                            to collisions and whether the algorithm is still
-                            considered appropriate for security-sensitive use.
+                            Base64 converts binary data into a text
+                            representation using a limited set of printable
+                            characters. It is designed for compatibility and
+                            transport, not confidentiality.
                         </p>
 
                         <p>
-                            MD5 and SHA-1 are considered unsuitable for modern
-                            collision-sensitive security purposes. SHA-256 and
-                            SHA-512 belong to the SHA-2 family and are widely
-                            used for integrity and cryptographic applications.
+                            Anyone who has the encoded value can normally
+                            decode it without a secret key, which is why
+                            Base64 should never be treated as encryption.
                         </p>
 
                     </div>
@@ -497,7 +496,7 @@
 
                 <section
                     class="article-section"
-                    id="what-is-hash"
+                    id="what-is-base64"
                 >
 
                     <span class="section-number">
@@ -505,38 +504,50 @@
                     </span>
 
                     <h2>
-                        What is a cryptographic hash?
+                        What is Base64?
                     </h2>
 
                     <p>
-                        A cryptographic hash function takes input data and
-                        produces a fixed-length output called a hash, digest or
-                        fingerprint.
+                        Computers frequently need to transfer binary data
+                        through systems that were originally designed to work
+                        with text.
                     </p>
 
                     <p>
-                        Even a small change in the input should produce a very
-                        different output.
+                        Base64 solves this problem by representing the binary
+                        data using a set of 64 printable characters.
                     </p>
 
 
                     <div class="url-example safe-example">
 
                         <span class="example-label">
-                            Example concept
+                            Plain text
                         </span>
 
                         <code>
-                            File → Hash Function → Fixed-Length Digest
+                            ThreatHawk
+                        </code>
+
+                    </div>
+
+
+                    <div class="url-example">
+
+                        <span class="example-label">
+                            Base64 representation
+                        </span>
+
+                        <code>
+                            VGhyZWF0SGF3aw==
                         </code>
 
                     </div>
 
 
                     <p>
-                        Hash functions are designed to work in one direction.
-                        You can calculate a hash from data, but the hash is not
-                        intended to reveal the original input.
+                        The second value looks less readable, but it does not
+                        hide the original information securely.
                     </p>
 
                 </section>
@@ -546,7 +557,7 @@
 
                 <section
                     class="article-section"
-                    id="md5"
+                    id="why-base64"
                 >
 
                     <span class="section-number">
@@ -554,47 +565,50 @@
                     </span>
 
                     <h2>
-                        MD5
+                        Why does Base64 exist?
                     </h2>
 
                     <p>
-                        MD5 produces a 128-bit hash, usually displayed as
-                        32 hexadecimal characters.
+                        Some systems may not safely handle arbitrary binary
+                        bytes. Encoding that data into printable characters
+                        allows it to move through text-oriented systems without
+                        being corrupted.
                     </p>
 
 
-                    <div class="url-example">
+                    <ul class="article-list">
 
-                        <span class="example-label">
-                            Typical MD5 length
-                        </span>
+                        <li>
+                            Embedding images or files inside text formats.
+                        </li>
 
-                        <code>
-                            d41d8cd98f00b204e9800998ecf8427e
-                        </code>
+                        <li>
+                            Transporting binary data in email.
+                        </li>
 
-                    </div>
+                        <li>
+                            Representing data inside JSON or XML.
+                        </li>
 
+                        <li>
+                            Including binary information in web applications.
+                        </li>
 
-                    <p>
-                        MD5 was once widely used for file integrity and
-                        software distribution, but practical collision attacks
-                        have made it unsuitable for cryptographic security
-                        where collision resistance matters.
-                    </p>
+                        <li>
+                            Transferring certificates, keys or other structured data.
+                        </li>
+
+                    </ul>
 
 
                     <div class="info-box">
 
                         <strong>
-                            Important:
+                            Base64 prioritizes compatibility.
                         </strong>
 
                         <p>
-                            Seeing MD5 during an investigation does not mean
-                            the hash is useless. Analysts still encounter MD5
-                            values in malware databases, historical systems and
-                            file-identification workflows.
+                            It was not designed to make information secret.
                         </p>
 
                     </div>
@@ -606,7 +620,7 @@
 
                 <section
                     class="article-section"
-                    id="sha1"
+                    id="how-it-works"
                 >
 
                     <span class="section-number">
@@ -614,37 +628,41 @@
                     </span>
 
                     <h2>
-                        SHA-1
+                        How Base64 encoding works
                     </h2>
 
                     <p>
-                        SHA-1 produces a 160-bit digest, commonly represented
-                        by 40 hexadecimal characters.
+                        Base64 processes the binary representation of data and
+                        reorganizes it into groups that can be represented by
+                        one of 64 available characters.
+                    </p>
+
+                    <p>
+                        The standard Base64 character set commonly includes:
                     </p>
 
 
                     <div class="url-example">
 
-                        <span class="example-label">
-                            Typical SHA-1 length
-                        </span>
-
                         <code>
-                            da39a3ee5e6b4b0d3255bfef95601890afd80709
+                            A-Z  a-z  0-9  +  /
                         </code>
 
                     </div>
 
 
                     <p>
-                        SHA-1 offered stronger collision resistance than MD5,
-                        but collision attacks have also been demonstrated
-                        against SHA-1.
+                        The equals sign
+                        <strong>=</strong>
+                        may appear at the end as padding when the input length
+                        does not align evenly with Base64's encoding groups.
                     </p>
 
                     <p>
-                        For new security-sensitive designs, SHA-1 should not
-                        be chosen as the primary cryptographic hash.
+                        The exact binary conversion is useful to understand,
+                        but analysts usually do not perform the conversion by
+                        hand. Tools handle that charming little exercise in
+                        unnecessary suffering.
                     </p>
 
                 </section>
@@ -654,7 +672,7 @@
 
                 <section
                     class="article-section"
-                    id="sha256"
+                    id="example"
                 >
 
                     <span class="section-number">
@@ -662,34 +680,98 @@
                     </span>
 
                     <h2>
-                        SHA-256
+                        A simple Base64 example
                     </h2>
 
-                    <p>
-                        SHA-256 is part of the SHA-2 family and produces a
-                        256-bit digest, normally displayed as 64 hexadecimal
-                        characters.
-                    </p>
 
-
-                    <div class="url-example safe-example">
-
-                        <span class="example-label">
-                            Typical SHA-256 length
-                        </span>
+                    <div class="url-breakdown">
 
                         <code>
-                            e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                            SGVsbG8gV29ybGQ=
                         </code>
+
+                        <div class="url-parts">
+
+                            <span>
+                                <strong>Encoded:</strong>
+                                SGVsbG8gV29ybGQ=
+                            </span>
+
+                            <span>
+                                <strong>Decoded:</strong>
+                                Hello World
+                            </span>
+
+                            <span>
+                                <strong>Type:</strong>
+                                Base64
+                            </span>
+
+                        </div>
 
                     </div>
 
 
                     <p>
-                        SHA-256 is widely used for file integrity, digital
-                        signatures, certificates, software verification and
-                        many other security applications.
+                        No password or decryption key is needed to recover
+                        <strong>Hello World</strong>.
                     </p>
+
+                    <p>
+                        That distinction is essential when Base64 appears in
+                        authentication headers, scripts or suspicious payloads.
+                    </p>
+
+                </section>
+
+
+                <!-- 5 -->
+
+                <section
+                    class="article-section"
+                    id="recognize"
+                >
+
+                    <span class="section-number">
+                        05
+                    </span>
+
+                    <h2>
+                        How to recognize Base64
+                    </h2>
+
+                    <p>
+                        Base64 values often have recognizable characteristics,
+                        although appearance alone cannot prove that a string is
+                        Base64.
+                    </p>
+
+
+                    <ul class="article-list">
+
+                        <li>
+                            Letters and numbers make up most of the value.
+                        </li>
+
+                        <li>
+                            Standard Base64 may contain
+                            <strong>+</strong>
+                            and
+                            <strong>/</strong>.
+                        </li>
+
+                        <li>
+                            One or two
+                            <strong>=</strong>
+                            characters may appear at the end.
+                        </li>
+
+                        <li>
+                            Long values may look unusually random while still
+                            containing only a narrow character set.
+                        </li>
+
+                    </ul>
 
 
                     <div class="tip-box">
@@ -699,62 +781,13 @@
                         </span>
 
                         <p>
-                            When a 64-character hexadecimal hash appears in
-                            logs, malware reports or forensic notes, SHA-256 is
-                            one of the first common formats worth considering.
+                            Base64URL is a related variation commonly used in
+                            web technologies. It typically replaces
+                            <strong>+</strong> and <strong>/</strong> with
+                            URL-safe characters.
                         </p>
 
                     </div>
-
-                </section>
-
-
-                <!-- 5 -->
-
-                <section
-                    class="article-section"
-                    id="sha512"
-                >
-
-                    <span class="section-number">
-                        05
-                    </span>
-
-                    <h2>
-                        SHA-512
-                    </h2>
-
-                    <p>
-                        SHA-512 is also part of SHA-2 and produces a
-                        512-bit digest, normally shown as 128 hexadecimal
-                        characters.
-                    </p>
-
-                    <p>
-                        Its output is twice the size of SHA-256, but a larger
-                        digest does not automatically mean that every use case
-                        requires SHA-512.
-                    </p>
-
-
-                    <div class="url-example">
-
-                        <span class="example-label">
-                            SHA-512 output
-                        </span>
-
-                        <code>
-                            128 hexadecimal characters
-                        </code>
-
-                    </div>
-
-
-                    <p>
-                        SHA-512 is used in cryptographic applications where its
-                        properties and implementation characteristics are
-                        appropriate for the system.
-                    </p>
 
                 </section>
 
@@ -763,7 +796,7 @@
 
                 <section
                     class="article-section"
-                    id="comparison"
+                    id="not-encryption"
                 >
 
                     <span class="section-number">
@@ -771,8 +804,18 @@
                     </span>
 
                     <h2>
-                        MD5 vs SHA-1 vs SHA-256 vs SHA-512
+                        Base64 is not encryption
                     </h2>
+
+                    <p>
+                        Encryption is designed to make information unreadable
+                        without the appropriate key.
+                    </p>
+
+                    <p>
+                        Base64 uses no secret key. The transformation is
+                        standardized and reversible by anyone.
+                    </p>
 
 
                     <div class="comparison-grid">
@@ -780,15 +823,15 @@
                         <div>
 
                             <span class="comparison-title">
-                                MD5
+                                Base64
                             </span>
 
                             <code>
-                                128-bit
+                                Reversible encoding
                             </code>
 
                             <p>
-                                32 hex characters
+                                No secret key required.
                             </p>
 
                         </div>
@@ -797,15 +840,15 @@
                         <div>
 
                             <span class="comparison-title">
-                                SHA-1
+                                Encryption
                             </span>
 
                             <code>
-                                160-bit
+                                Confidentiality
                             </code>
 
                             <p>
-                                40 hex characters
+                                Requires cryptographic key material.
                             </p>
 
                         </div>
@@ -814,39 +857,26 @@
                         <div>
 
                             <span class="comparison-title">
-                                SHA-256
+                                Hashing
                             </span>
 
                             <code>
-                                256-bit
+                                One-way digest
                             </code>
 
                             <p>
-                                64 hex characters
+                                Not designed to recover input.
                             </p>
 
                         </div>
-
-                    </div>
-
-
-                    <div class="url-example">
-
-                        <span class="example-label">
-                            SHA-512
-                        </span>
-
-                        <code>
-                            512-bit digest · 128 hexadecimal characters
-                        </code>
 
                     </div>
 
 
                     <p>
-                        Hash length can help identify a possible algorithm, but
-                        length alone does not always prove which algorithm
-                        produced a value.
+                        Encoding sensitive information with Base64 does not
+                        protect it from someone who can access the encoded
+                        value.
                     </p>
 
                 </section>
@@ -856,7 +886,7 @@
 
                 <section
                     class="article-section"
-                    id="collisions"
+                    id="compare"
                 >
 
                     <span class="section-number">
@@ -864,36 +894,44 @@
                     </span>
 
                     <h2>
-                        Why collision resistance matters
+                        Encoding vs hashing vs encryption
                     </h2>
 
                     <p>
-                        A collision occurs when two different inputs produce
-                        the same hash value.
+                        These three concepts solve different problems and
+                        should not be used interchangeably.
                     </p>
 
-                    <p>
-                        For a cryptographic hash function, finding such pairs
-                        should be computationally impractical.
-                    </p>
 
-                    <p>
-                        Collision weaknesses are the major reason MD5 and
-                        SHA-1 are no longer appropriate for many security
-                        applications.
-                    </p>
+                    <ul class="article-list">
+
+                        <li>
+                            <strong>Encoding:</strong>
+                            changes representation for compatibility or transport.
+                        </li>
+
+                        <li>
+                            <strong>Encryption:</strong>
+                            protects confidentiality using cryptographic keys.
+                        </li>
+
+                        <li>
+                            <strong>Hashing:</strong>
+                            produces a fixed-length fingerprint of input data.
+                        </li>
+
+                    </ul>
 
 
                     <div class="info-box">
 
                         <strong>
-                            Collision resistance is not the same as encryption.
+                            Simple rule:
                         </strong>
 
                         <p>
-                            Hashes are fingerprints of data. Encryption is
-                            designed to protect data in a reversible form when
-                            the correct key is available.
+                            If anybody can reverse the transformation without a
+                            secret, you should not treat it as encryption.
                         </p>
 
                     </div>
@@ -905,7 +943,7 @@
 
                 <section
                     class="article-section"
-                    id="forensics"
+                    id="cybersecurity"
                 >
 
                     <span class="section-number">
@@ -913,46 +951,52 @@
                     </span>
 
                     <h2>
-                        How hashes are used in digital forensics
+                        Where Base64 appears in cybersecurity
                     </h2>
 
                     <p>
-                        Hashes are extremely useful during forensic and
-                        incident-response workflows because they provide a
-                        compact way to identify data.
+                        Security analysts encounter Base64 frequently because
+                        many legitimate and malicious technologies use it.
                     </p>
 
 
                     <ul class="article-list">
 
                         <li>
-                            Checking whether a forensic image changed.
+                            HTTP authentication data.
                         </li>
 
                         <li>
-                            Comparing suspicious files against known malware.
+                            JSON Web Tokens and related web formats.
                         </li>
 
                         <li>
-                            Identifying duplicate files.
+                            Email attachments.
                         </li>
 
                         <li>
-                            Recording file fingerprints in incident reports.
+                            PowerShell commands and scripts.
                         </li>
 
                         <li>
-                            Searching threat-intelligence platforms for known
-                            malicious artifacts.
+                            Malware configuration data.
+                        </li>
+
+                        <li>
+                            Obfuscated command-and-control information.
+                        </li>
+
+                        <li>
+                            Certificates and key material.
                         </li>
 
                     </ul>
 
 
                     <p>
-                        Analysts may encounter MD5, SHA-1 and SHA-256 together
-                        because different tools and databases historically
-                        adopted different formats.
+                        Seeing Base64 does not automatically mean something is
+                        malicious. Analysts need to decode it and examine the
+                        surrounding context.
                     </p>
 
                 </section>
@@ -962,7 +1006,7 @@
 
                 <section
                     class="article-section"
-                    id="which-use"
+                    id="risks"
                 >
 
                     <span class="section-number">
@@ -970,32 +1014,50 @@
                     </span>
 
                     <h2>
-                        Which hash algorithm should you use?
+                        Why attackers use Base64
                     </h2>
 
                     <p>
-                        For new cryptographic applications, MD5 and SHA-1
-                        should generally not be selected where collision
-                        resistance is required.
+                        Attackers sometimes use Base64 to make commands,
+                        scripts or payloads less immediately readable.
                     </p>
 
                     <p>
-                        SHA-256 and SHA-512 remain common choices from the
-                        SHA-2 family, but the correct algorithm depends on the
-                        protocol, application and security requirements.
+                        This is usually obfuscation rather than genuine
+                        protection.
+                    </p>
+
+
+                    <div class="url-example danger-example">
+
+                        <span class="example-label">
+                            Investigation clue
+                        </span>
+
+                        <code>
+                            Long encoded values embedded inside scripts or command lines
+                        </code>
+
+                    </div>
+
+
+                    <p>
+                        Analysts may decode suspicious values to determine
+                        whether they contain commands, URLs, credentials or
+                        additional encoded content.
                     </p>
 
 
                     <div class="tip-box">
 
                         <span class="box-label">
-                            Practical distinction
+                            Important
                         </span>
 
                         <p>
-                            There is a difference between using MD5 to identify
-                            an old malware sample and trusting MD5 to protect a
-                            modern cryptographic signature. Context matters.
+                            Never assume decoded content is safe simply because
+                            it becomes readable. It may contain malicious
+                            commands, scripts or links.
                         </p>
 
                     </div>
@@ -1007,7 +1069,7 @@
 
                 <section
                     class="article-section"
-                    id="hash-analyzer"
+                    id="decode-safely"
                 >
 
                     <span class="section-number">
@@ -1015,18 +1077,62 @@
                     </span>
 
                     <h2>
-                        Identify unknown hashes with security tools
+                        How to decode Base64 safely
                     </h2>
 
                     <p>
-                        When you encounter an unknown hexadecimal value during
-                        an investigation, its length can provide an initial
-                        clue about the algorithm.
+                        Decoding text by itself does not execute the decoded
+                        content, but analysts should still handle suspicious
+                        data carefully.
                     </p>
 
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            Copy the encoded value without executing it.
+                        </li>
+
+                        <li>
+                            Decode it using a trusted local or browser-based tool.
+                        </li>
+
+                        <li>
+                            Treat the decoded result as untrusted data.
+                        </li>
+
+                        <li>
+                            Do not automatically open decoded URLs or files.
+                        </li>
+
+                        <li>
+                            Inspect scripts and commands before taking further action.
+                        </li>
+
+                    </ol>
+
+                </section>
+
+
+                <!-- ThreatHawk Tool -->
+
+                <section
+                    class="article-section"
+                    id="encoder-tool"
+                >
+
+                    <span class="section-number">
+                        Tool
+                    </span>
+
+                    <h2>
+                        Encode and decode Base64 with ThreatHawk
+                    </h2>
+
                     <p>
-                        Automated hash-identification tools make this process
-                        faster, especially when working with multiple values.
+                        Manually identifying and converting encoded data is
+                        useful for learning, but security investigations often
+                        involve many values and several encoding formats.
                     </p>
 
 
@@ -1039,24 +1145,24 @@
                             </span>
 
                             <h3>
-                                Identify common hash formats instantly.
+                                Encode or decode data directly in your browser.
                             </h3>
 
                             <p>
-                                ThreatHawk Hash Analyzer detects common MD5,
-                                SHA-1, SHA-256 and SHA-512 formats, supports
-                                multiple hash values and provides quick
-                                analysis directly in your browser.
+                                ThreatHawk Encoder &amp; Decoder supports
+                                Base64, Base64 URL, URL encoding, HTML
+                                entities, hexadecimal, binary and ROT13 with
+                                local browser processing.
                             </p>
 
                         </div>
 
 
                         <a
-                            href="../../tools/hash-analyzer/index.html"
+                            href="../../tools/encoder-decoder/index.html"
                             class="primary-button"
                         >
-                            Open Hash Analyzer
+                            Open Encoder &amp; Decoder
                             <span>→</span>
                         </a>
 
@@ -1074,22 +1180,21 @@
                     </h2>
 
                     <p>
-                        MD5, SHA-1, SHA-256 and SHA-512 are all cryptographic
-                        hash algorithms, but they should not be treated as
-                        interchangeable.
+                        Base64 is a representation format, not a security
+                        mechanism. Its purpose is to make binary data easier to
+                        transport through systems that expect text.
                     </p>
 
                     <p>
-                        MD5 and SHA-1 remain common artifacts in historical
-                        systems and investigations, while SHA-256 and SHA-512
-                        provide stronger modern SHA-2 alternatives for
-                        security-sensitive applications.
+                        For cybersecurity analysts, recognizing Base64 is
+                        useful because encoded values frequently appear in web
+                        traffic, scripts, malware and forensic evidence.
                     </p>
 
                     <p>
-                        For analysts, understanding the output length,
-                        weaknesses and context of each algorithm makes hash
-                        identification much faster.
+                        Decode suspicious values carefully, inspect the result
+                        in context and never confuse obscurity with
+                        confidentiality.
                     </p>
 
                 </section>
@@ -1107,21 +1212,19 @@
                     </span>
 
                     <h2>
-                        Hash algorithm FAQ
+                        Base64 FAQ
                     </h2>
 
 
                     <details>
 
                         <summary>
-                            Is MD5 still used?
+                            Is Base64 encryption?
                         </summary>
 
                         <p>
-                            Yes. MD5 still appears in legacy systems, file
-                            databases, malware analysis and historical
-                            workflows, but it should not be relied upon for
-                            modern collision-sensitive cryptographic security.
+                            No. Base64 is an encoding format and can normally
+                            be reversed without a password or cryptographic key.
                         </p>
 
                     </details>
@@ -1130,13 +1233,13 @@
                     <details>
 
                         <summary>
-                            Is SHA-1 secure?
+                            Why does Base64 sometimes end with equals signs?
                         </summary>
 
                         <p>
-                            SHA-1 has known collision weaknesses and should not
-                            be selected for new applications that depend on
-                            strong collision resistance.
+                            Equals signs can be used as padding when the input
+                            length does not divide evenly into the groups used
+                            by Base64 encoding.
                         </p>
 
                     </details>
@@ -1145,14 +1248,12 @@
                     <details>
 
                         <summary>
-                            Is SHA-512 stronger than SHA-256?
+                            Is Base64 safe for passwords?
                         </summary>
 
                         <p>
-                            SHA-512 has a larger output and different security
-                            parameters, but choosing between SHA-256 and
-                            SHA-512 depends on the system and use case rather
-                            than simply selecting the larger number.
+                            No. Base64 provides no meaningful protection for a
+                            password because the value can be decoded easily.
                         </p>
 
                     </details>
@@ -1161,14 +1262,13 @@
                     <details>
 
                         <summary>
-                            Can a hash be reversed?
+                            Is Base64 always suspicious?
                         </summary>
 
                         <p>
-                            Cryptographic hashes are designed as one-way
-                            functions. Attackers may still guess inputs and
-                            compare their hashes, which is why weak passwords
-                            should never be protected by a raw fast hash alone.
+                            No. Base64 is widely used for legitimate purposes.
+                            Analysts should evaluate where the value appears and
+                            what the decoded content contains.
                         </p>
 
                     </details>
@@ -1177,14 +1277,14 @@
                     <details>
 
                         <summary>
-                            Can hash length identify the algorithm?
+                            What is Base64URL?
                         </summary>
 
                         <p>
-                            Length is a useful clue. For example, MD5 commonly
-                            appears as 32 hexadecimal characters and SHA-256 as
-                            64. However, length alone may not conclusively
-                            identify every possible algorithm.
+                            Base64URL is a variation designed for URLs and web
+                            formats. It changes characters that may cause
+                            problems in URLs and commonly appears in modern web
+                            technologies.
                         </p>
 
                     </details>
@@ -1192,7 +1292,7 @@
                 </section>
 
 
-                <!-- Related -->
+                <!-- Related Guides -->
 
                 <section class="related-guides">
 
@@ -1207,19 +1307,18 @@
 
                     <div class="related-grid">
 
-
                         <article>
 
                             <span>
-                                Encoding &amp; Data Analysis
+                                Digital Forensics
                             </span>
 
                             <h3>
-                                What Is Base64 Encoding?
+                                MD5 vs SHA-1 vs SHA-256 vs SHA-512
                             </h3>
 
                             <a
-                                href="../what-is-base64-encoding/index.html"
+                                href="../md5-vs-sha1-vs-sha256-vs-sha512/index.html"
                                 class="guide-link"
                             >
                                 Read guide →
@@ -1231,22 +1330,21 @@
                         <article>
 
                             <span>
-                                Password Security
+                                SOC &amp; Log Analysis
                             </span>
 
                             <h3>
-                                What Makes a Password Strong?
+                                How to Read Security Logs
                             </h3>
 
                             <a
-                                href="../what-makes-a-password-strong/index.html"
+                                href="../how-to-read-security-logs/index.html"
                                 class="guide-link"
                             >
                                 Read guide →
                             </a>
 
                         </article>
-
 
                     </div>
 

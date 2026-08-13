@@ -93,4 +93,10 @@
         <priority>0.8</priority>
     </url>
 
+    <url>
+        <loc>https://threathawk.net/guides/what-is-base64-encoding/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>
