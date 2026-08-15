@@ -3485,6 +3485,242 @@ body.light-mode .faq-item[open] {
 }
 
 /* =========================================================
+   RELATED GUIDE
+========================================================= */
+
+.related-guide-section {
+    padding: 70px 0 20px;
+}
+
+.related-guide-section .section-heading {
+    margin-bottom: 34px;
+}
+
+.related-guide-card {
+    position: relative;
+
+    min-height: 210px;
+
+    padding: 30px;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 22px;
+
+    color: inherit;
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.08),
+            var(--surface-transparent)
+        );
+
+    border:
+        1px solid var(--border-accent);
+
+    border-radius:
+        var(--radius-large);
+
+    box-shadow:
+        var(--shadow-medium);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.related-guide-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0 0 auto 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            var(--platform-cyan)
+        );
+
+    opacity: 0;
+
+    transform: scaleX(0.4);
+
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.related-guide-card:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.12),
+            var(--surface-secondary)
+        );
+
+    border-color:
+        var(--accent);
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        var(--shadow-large),
+        0 0 30px rgba(34, 197, 94, 0.10);
+}
+
+.related-guide-card:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.related-guide-icon {
+    width: 58px;
+    height: 58px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color:
+        var(--accent-bright);
+
+    background:
+        var(--accent-soft);
+
+    border:
+        1px solid var(--border-accent);
+
+    border-radius:
+        16px;
+
+    font-size: 22px;
+}
+
+.related-guide-content {
+    min-width: 0;
+
+    max-width: 760px;
+}
+
+.related-guide-label {
+    color:
+        var(--accent-bright);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.12em;
+}
+
+.related-guide-content h3 {
+    margin-top: 8px;
+
+    color:
+        var(--text-primary);
+
+    font-size: 24px;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.025em;
+}
+
+.related-guide-content p {
+    margin-top: 12px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 14px;
+
+    line-height: 1.75;
+}
+
+.related-guide-link {
+    margin-top: 18px;
+
+    display: inline-flex;
+
+    color:
+        var(--accent-bright);
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        transform var(--transition);
+}
+
+.related-guide-card:hover .related-guide-link {
+    transform: translateX(4px);
+}
+
+body.light-mode .related-guide-card {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.07),
+            rgba(255, 255, 255, 0.96)
+        );
+}
+
+@media (max-width: 768px) {
+
+    .related-guide-section {
+        padding-top: 55px;
+    }
+
+    .related-guide-card {
+        min-height: 0;
+
+        padding: 24px;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .related-guide-card {
+        flex-direction: column;
+
+        gap: 18px;
+
+        padding: 21px;
+    }
+
+    .related-guide-icon {
+        width: 50px;
+        height: 50px;
+
+        font-size: 19px;
+    }
+
+    .related-guide-content h3 {
+        font-size: 21px;
+    }
+
+    .related-guide-content p {
+        font-size: 13px;
+    }
+
+}
+
+/* =========================================================
    RELATED TOOLS
 ========================================================= */
 
