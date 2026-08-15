@@ -17,12 +17,12 @@
     >
 
     <title>
-        How to Read Security Logs: A Beginner's Guide to Log Analysis | ThreatHawk
+        What Are Indicators of Compromise (IOCs)? A Practical Cybersecurity Guide | ThreatHawk
     </title>
 
     <meta
         name="description"
-        content="Learn how to read security logs, understand timestamps, IP addresses, failed logins, HTTP status codes, suspicious patterns and common indicators used in SOC analysis."
+        content="Learn what indicators of compromise are, common IOC types, examples, how SOC analysts use them, how IOCs appear in logs and how to investigate them safely."
     >
 
     <meta
@@ -32,7 +32,7 @@
 
     <link
         rel="canonical"
-        href="https://threathawk.net/guides/how-to-read-security-logs/"
+        href="https://threathawk.net/guides/what-are-indicators-of-compromise/"
     >
 
 
@@ -43,17 +43,17 @@
 
     <meta
         property="og:title"
-        content="How to Read Security Logs: A Beginner's Guide to Log Analysis"
+        content="What Are Indicators of Compromise (IOCs)? A Practical Cybersecurity Guide"
     >
 
     <meta
         property="og:description"
-        content="A practical introduction to security logs, failed login analysis, IP activity, web logs, suspicious patterns and SOC investigation workflows."
+        content="Understand IOC types, examples, investigation workflows and how SOC analysts use indicators of compromise during security investigations."
     >
 
     <meta
         property="og:url"
-        content="https://threathawk.net/guides/how-to-read-security-logs/"
+        content="https://threathawk.net/guides/what-are-indicators-of-compromise/"
     >
 
     <meta
@@ -71,12 +71,12 @@
 
     <meta
         name="twitter:title"
-        content="How to Read Security Logs | ThreatHawk"
+        content="What Are Indicators of Compromise (IOCs)? | ThreatHawk"
     >
 
     <meta
         name="twitter:description"
-        content="Learn the fundamentals of security log analysis and how SOC analysts recognize suspicious activity."
+        content="A practical guide to IOC types, examples and how security analysts investigate suspicious indicators."
     >
 
     <meta
@@ -131,8 +131,8 @@
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "How to Read Security Logs: A Beginner's Guide to Log Analysis",
-        "description": "A practical guide to understanding security logs, suspicious patterns, failed login activity and SOC analysis workflows.",
+        "headline": "What Are Indicators of Compromise (IOCs)? A Practical Cybersecurity Guide",
+        "description": "A practical guide to IOC types, examples, investigation workflows and how SOC analysts use indicators of compromise.",
         "author": {
             "@type": "Organization",
             "name": "ThreatHawk"
@@ -144,10 +144,10 @@
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https://threathawk.net/guides/how-to-read-security-logs/"
+            "@id": "https://threathawk.net/guides/what-are-indicators-of-compromise/"
         },
-        "datePublished": "2026-08-13",
-        "dateModified": "2026-08-13"
+        "datePublished": "2026-08-15",
+        "dateModified": "2026-08-15"
     }
     </script>
 
@@ -155,7 +155,6 @@
 
 
 <body>
-
 
     <!-- =====================================================
          NAVIGATION
@@ -173,7 +172,6 @@
                 <h2>ThreatHawk</h2>
             </a>
 
-
             <nav aria-label="Primary navigation">
 
                 <ul>
@@ -184,7 +182,6 @@
                         </a>
                     </li>
 
-
                     <li class="nav-dropdown">
 
                         <button
@@ -193,7 +190,6 @@
                             aria-expanded="false"
                             aria-controls="modulesDropdown"
                         >
-
                             <span>Modules</span>
 
                             <svg
@@ -203,9 +199,7 @@
                             >
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
-
                         </button>
-
 
                         <ul
                             class="dropdown-menu"
@@ -246,7 +240,6 @@
 
                     </li>
 
-
                     <li>
                         <a
                             href="../index.html"
@@ -256,13 +249,11 @@
                         </a>
                     </li>
 
-
                     <li>
                         <a href="../../about/index.html">
                             About
                         </a>
                     </li>
-
 
                     <li>
                         <a href="../../contact/index.html">
@@ -273,7 +264,6 @@
                 </ul>
 
             </nav>
-
 
             <div class="nav-actions">
                 <span class="version">
@@ -288,7 +278,6 @@
 
     <main class="article-page">
 
-
         <!-- =====================================================
              ARTICLE HERO
         ====================================================== -->
@@ -296,7 +285,6 @@
         <section class="article-hero">
 
             <div class="article-container">
-
 
                 <nav
                     class="breadcrumbs"
@@ -316,21 +304,18 @@
                     <span>›</span>
 
                     <span>
-                        SOC &amp; Log Analysis
+                        SOC &amp; Incident Response
                     </span>
 
                 </nav>
 
-
                 <div class="article-meta-top">
 
                     <span class="article-category">
-                        SOC &amp; Log Analysis
+                        SOC &amp; Incident Response
                     </span>
 
-                    <span class="meta-dot">
-                        •
-                    </span>
+                    <span class="meta-dot">•</span>
 
                     <span>
                         10 min read
@@ -338,32 +323,29 @@
 
                 </div>
 
-
                 <h1>
-                    How to Read Security Logs
+                    What Are Indicators of Compromise (IOCs)?
                     <span>
-                        A Beginner's Guide to Log Analysis
+                        A Practical Cybersecurity Guide
                     </span>
                 </h1>
 
-
                 <p class="article-intro">
-                    Security logs record what happened inside systems,
-                    applications, networks and user accounts. Learning how to
-                    read them is one of the most useful foundations for SOC
-                    analysts, incident responders and anyone investigating
-                    suspicious activity.
+                    Indicators of compromise are observable clues that may be
+                    linked to malicious activity. SOC analysts use them to
+                    investigate alerts, connect events, search for known threats
+                    and understand whether suspicious behavior may be part of a
+                    larger incident.
                 </p>
-
 
                 <div class="article-details">
 
                     <span>
-                        Published August 13, 2026
+                        Published August 15, 2026
                     </span>
 
                     <span>
-                        Updated August 13, 2026
+                        Updated August 15, 2026
                     </span>
 
                     <span>
@@ -392,55 +374,54 @@
                         On this page
                     </span>
 
-
                     <nav aria-label="Table of contents">
 
                         <a href="#quick-answer">
                             Quick answer
                         </a>
 
-                        <a href="#what-is-log">
-                            1. What is a security log?
+                        <a href="#what-is-ioc">
+                            1. What is an IOC?
                         </a>
 
-                        <a href="#why-logs-matter">
-                            2. Why logs matter
+                        <a href="#why-iocs-matter">
+                            2. Why IOCs matter
                         </a>
 
-                        <a href="#log-types">
-                            3. Common log types
+                        <a href="#ioc-types">
+                            3. Common IOC types
                         </a>
 
-                        <a href="#timestamps">
-                            4. Understand timestamps
+                        <a href="#ioc-examples">
+                            4. IOC examples
                         </a>
 
-                        <a href="#ip-addresses">
-                            5. Read IP activity
+                        <a href="#soc-use">
+                            5. How SOC analysts use IOCs
                         </a>
 
-                        <a href="#failed-logins">
-                            6. Failed login attempts
+                        <a href="#logs">
+                            6. IOCs in security logs
                         </a>
 
-                        <a href="#web-logs">
-                            7. Web and HTTP logs
+                        <a href="#workflow">
+                            7. IOC investigation workflow
                         </a>
 
-                        <a href="#patterns">
-                            8. Recognize suspicious patterns
+                        <a href="#ioa">
+                            8. IOC vs IOA
                         </a>
 
-                        <a href="#ioc">
-                            9. Indicators of compromise
+                        <a href="#false-positives">
+                            9. IOCs and false positives
                         </a>
 
-                        <a href="#soc-workflow">
-                            10. SOC investigation workflow
+                        <a href="#safe-investigation">
+                            10. Investigate IOCs safely
                         </a>
 
-                        <a href="#log-analyzer">
-                            Analyze logs
+                        <a href="#threathawk-tools">
+                            ThreatHawk tools
                         </a>
 
                         <a href="#faq">
@@ -457,7 +438,7 @@
             <article class="article-content">
 
 
-                <!-- Quick answer -->
+                <!-- Quick Answer -->
 
                 <section
                     class="article-section"
@@ -471,20 +452,20 @@
                         </span>
 
                         <h2>
-                            How do you read a security log?
+                            What is an indicator of compromise?
                         </h2>
 
                         <p>
-                            Start by identifying the timestamp, event type,
-                            source, user, IP address, severity and action.
-                            Then compare related events to understand what
-                            happened before and after the suspicious activity.
+                            An indicator of compromise, or IOC, is an observable
+                            piece of technical evidence that may be associated
+                            with malicious activity.
                         </p>
 
                         <p>
-                            A single log entry rarely tells the whole story.
-                            Log analysis is usually about recognizing patterns
-                            across multiple events.
+                            Common examples include suspicious IP addresses,
+                            domains, URLs, file hashes and artifacts found on
+                            compromised systems. An IOC is a clue, not automatic
+                            proof that an attack occurred.
                         </p>
 
                     </div>
@@ -496,7 +477,7 @@
 
                 <section
                     class="article-section"
-                    id="what-is-log"
+                    id="what-is-ioc"
                 >
 
                     <span class="section-number">
@@ -504,39 +485,39 @@
                     </span>
 
                     <h2>
-                        What is a security log?
+                        What is an Indicator of Compromise?
                     </h2>
 
                     <p>
-                        A log is a record generated when a system,
-                        application, device or service performs an action or
-                        observes an event.
+                        During a cyberattack, systems often produce observable
+                        traces. These traces may appear in network traffic,
+                        endpoint activity, authentication records, web logs,
+                        malware samples or threat-intelligence reports.
                     </p>
 
                     <p>
-                        Security analysts use these records to reconstruct
-                        activity and identify behavior that may indicate a
-                        security incident.
+                        Security teams use the term
+                        <strong>indicator of compromise</strong>
+                        for technical values or artifacts that may help identify
+                        malicious activity.
                     </p>
-
 
                     <div class="url-example safe-example">
 
                         <span class="example-label">
-                            Simplified event
+                            Example IOC
                         </span>
 
                         <code>
-                            2026-08-13 14:22:08 | LOGIN_FAILED | user=admin | src=192.0.2.18
+                            203.0.113.84
                         </code>
 
                     </div>
 
-
                     <p>
-                        This single entry already gives an analyst several
-                        useful fields: time, event type, username and source
-                        address.
+                        If that IP address appears in threat intelligence and
+                        later appears repeatedly in authentication logs, it may
+                        become relevant to an investigation.
                     </p>
 
                 </section>
@@ -546,7 +527,7 @@
 
                 <section
                     class="article-section"
-                    id="why-logs-matter"
+                    id="why-iocs-matter"
                 >
 
                     <span class="section-number">
@@ -554,49 +535,52 @@
                     </span>
 
                     <h2>
-                        Why security logs matter
+                        Why IOCs matter in cybersecurity
                     </h2>
 
                     <p>
-                        Security incidents often leave traces across several
-                        systems. Logs help investigators connect those traces.
+                        IOCs help analysts move from a broad alert to specific
+                        technical evidence that can be searched across systems.
                     </p>
-
 
                     <ul class="article-list">
 
                         <li>
-                            Detect suspicious login behavior.
+                            Identify known malicious infrastructure.
                         </li>
 
                         <li>
-                            Trace access to sensitive resources.
+                            Search historical logs for earlier activity.
                         </li>
 
                         <li>
-                            Identify malicious IP addresses.
+                            Compare suspicious files against threat intelligence.
                         </li>
 
                         <li>
-                            Investigate malware or command execution.
+                            Connect multiple events to the same incident.
                         </li>
 
                         <li>
-                            Reconstruct the timeline of an incident.
+                            Hunt for affected hosts or user accounts.
+                        </li>
+
+                        <li>
+                            Support containment and remediation decisions.
                         </li>
 
                     </ul>
 
-
                     <div class="info-box">
 
                         <strong>
-                            Context matters.
+                            IOCs are most useful with context.
                         </strong>
 
                         <p>
-                            An isolated event may be harmless. A sequence of
-                            unusual events may reveal a much larger problem.
+                            A suspicious value becomes much more meaningful when
+                            analysts understand where it appeared, when it was
+                            observed and what activity happened around it.
                         </p>
 
                     </div>
@@ -608,7 +592,7 @@
 
                 <section
                     class="article-section"
-                    id="log-types"
+                    id="ioc-types"
                 >
 
                     <span class="section-number">
@@ -616,33 +600,15 @@
                     </span>
 
                     <h2>
-                        Common types of security logs
+                        Common types of indicators of compromise
                     </h2>
 
                     <p>
-                        Analysts encounter logs from many different sources.
-                        Each source reveals a different part of system activity.
+                        IOCs can come from network activity, files, endpoints,
+                        email systems and applications.
                     </p>
 
-
                     <div class="comparison-grid">
-
-                        <div>
-
-                            <span class="comparison-title">
-                                Authentication
-                            </span>
-
-                            <code>
-                                Login activity
-                            </code>
-
-                            <p>
-                                Successful and failed logins.
-                            </p>
-
-                        </div>
-
 
                         <div>
 
@@ -651,39 +617,53 @@
                             </span>
 
                             <code>
-                                Connections
+                                IP / Domain / URL
                             </code>
 
                             <p>
-                                Source, destination and ports.
+                                Suspicious infrastructure and destinations.
                             </p>
 
                         </div>
 
+                        <div>
+
+                            <span class="comparison-title">
+                                Files
+                            </span>
+
+                            <code>
+                                Hashes
+                            </code>
+
+                            <p>
+                                Fingerprints of suspicious files.
+                            </p>
+
+                        </div>
 
                         <div>
 
                             <span class="comparison-title">
-                                Web
+                                Endpoint
                             </span>
 
                             <code>
-                                HTTP requests
+                                Paths / Processes
                             </code>
 
                             <p>
-                                Paths, responses and clients.
+                                Host-level artifacts and activity.
                             </p>
 
                         </div>
 
                     </div>
 
-
                     <p>
-                        Other common sources include endpoint logs, DNS logs,
-                        firewall events, cloud audit logs, application logs and
-                        antivirus or EDR alerts.
+                        Other indicators can include email addresses, sender
+                        domains, registry values, filenames, mutexes, user-agent
+                        strings and unusual command-line activity.
                     </p>
 
                 </section>
@@ -693,7 +673,7 @@
 
                 <section
                     class="article-section"
-                    id="timestamps"
+                    id="ioc-examples"
                 >
 
                     <span class="section-number">
@@ -701,40 +681,58 @@
                     </span>
 
                     <h2>
-                        Understand timestamps first
+                        Practical IOC examples
                     </h2>
 
-                    <p>
-                        Time is one of the most important fields in any
-                        investigation because analysts use timestamps to build
-                        an incident timeline.
-                    </p>
-
-                    <p>
-                        Always check whether the log uses local time, UTC or
-                        another configured timezone.
-                    </p>
-
-
-                    <div class="url-example">
-
-                        <span class="example-label">
-                            Example
-                        </span>
+                    <div class="url-breakdown">
 
                         <code>
-                            2026-08-13T09:15:42Z
+                            Suspicious security event
                         </code>
+
+                        <div class="url-parts">
+
+                            <span>
+                                <strong>IP:</strong>
+                                198.51.100.42
+                            </span>
+
+                            <span>
+                                <strong>Domain:</strong>
+                                update-check.example
+                            </span>
+
+                            <span>
+                                <strong>Hash:</strong>
+                                64-character SHA-256 value
+                            </span>
+
+                        </div>
 
                     </div>
 
-
                     <p>
-                        The <strong>Z</strong> suffix commonly indicates UTC.
-                        Mixing timestamps from different timezones without
-                        normalizing them can make an investigation appear out
-                        of order.
+                        An analyst might see the IP in firewall logs, the domain
+                        in DNS activity and the hash on an endpoint. When those
+                        indicators appear together around the same time, they
+                        provide a stronger investigative picture than any one
+                        value alone.
                     </p>
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            ThreatHawk Tip
+                        </span>
+
+                        <p>
+                            Build relationships between indicators. The most
+                            useful question is often not “Is this IP bad?” but
+                            “What else happened on the system when this IP
+                            appeared?”
+                        </p>
+
+                    </div>
 
                 </section>
 
@@ -743,7 +741,7 @@
 
                 <section
                     class="article-section"
-                    id="ip-addresses"
+                    id="soc-use"
                 >
 
                     <span class="section-number">
@@ -751,47 +749,49 @@
                     </span>
 
                     <h2>
-                        Read IP addresses and user activity
+                        How SOC analysts use IOCs
                     </h2>
 
                     <p>
-                        IP addresses help analysts understand where an event
-                        originated and where traffic was going.
+                        SOC analysts use indicators throughout alert triage,
+                        investigation and threat hunting.
                     </p>
 
+                    <ol class="article-list numbered-list">
 
-                    <div class="url-breakdown">
+                        <li>
+                            Receive an alert or suspicious event.
+                        </li>
 
-                        <code>
-                            LOGIN_SUCCESS user=alex src=203.0.113.44 dst=10.0.0.12
-                        </code>
+                        <li>
+                            Extract relevant technical indicators.
+                        </li>
 
-                        <div class="url-parts">
+                        <li>
+                            Search logs and security tools for those indicators.
+                        </li>
 
-                            <span>
-                                <strong>User:</strong>
-                                alex
-                            </span>
+                        <li>
+                            Compare them with threat intelligence.
+                        </li>
 
-                            <span>
-                                <strong>Source:</strong>
-                                203.0.113.44
-                            </span>
+                        <li>
+                            Identify related users, systems and events.
+                        </li>
 
-                            <span>
-                                <strong>Destination:</strong>
-                                10.0.0.12
-                            </span>
+                        <li>
+                            Determine whether the activity is benign or malicious.
+                        </li>
 
-                        </div>
+                        <li>
+                            Document findings and recommend action.
+                        </li>
 
-                    </div>
-
+                    </ol>
 
                     <p>
-                        Analysts compare IP activity with normal user behavior,
-                        geographic expectations, previous events and threat
-                        intelligence.
+                        This process turns a raw indicator into evidence that can
+                        support an incident decision.
                     </p>
 
                 </section>
@@ -801,7 +801,7 @@
 
                 <section
                     class="article-section"
-                    id="failed-logins"
+                    id="logs"
                 >
 
                     <span class="section-number">
@@ -809,49 +809,37 @@
                     </span>
 
                     <h2>
-                        Investigate failed login attempts
+                        How IOCs appear in security logs
                     </h2>
 
                     <p>
-                        A few failed logins are normal. Large numbers of
-                        failures or unusual patterns deserve more attention.
+                        Logs are one of the main places analysts discover and
+                        investigate indicators.
                     </p>
-
 
                     <div class="url-example danger-example">
 
                         <span class="example-label">
-                            Suspicious pattern
+                            Simplified log example
                         </span>
 
                         <code>
-                            250 failed login attempts from one source IP in 3 minutes
+                            LOGIN_FAILED user=admin src=198.51.100.42
                         </code>
 
                     </div>
 
-
                     <p>
-                        Analysts may investigate whether the activity resembles
-                        brute force, password spraying, credential stuffing or
-                        a legitimate user repeatedly entering the wrong
-                        password.
+                        The source IP may become an IOC if it is linked to known
+                        malicious activity or appears repeatedly in suspicious
+                        authentication events.
                     </p>
 
-
-                    <div class="tip-box">
-
-                        <span class="box-label">
-                            ThreatHawk Tip
-                        </span>
-
-                        <p>
-                            Look at what happens after the failures. A
-                            successful login immediately following many failed
-                            attempts can be especially important.
-                        </p>
-
-                    </div>
+                    <p>
+                        Analysts may also extract domains, URLs, hashes and other
+                        values from web logs, endpoint telemetry, DNS records and
+                        application events.
+                    </p>
 
                 </section>
 
@@ -860,7 +848,7 @@
 
                 <section
                     class="article-section"
-                    id="web-logs"
+                    id="workflow"
                 >
 
                     <span class="section-number">
@@ -868,61 +856,58 @@
                     </span>
 
                     <h2>
-                        Read web and HTTP logs
+                        A practical IOC investigation workflow
                     </h2>
 
                     <p>
-                        Web server logs often record the requested path, client
-                        address, request method, status code and user agent.
+                        IOC investigation works best when analysts follow a
+                        repeatable process.
                     </p>
 
+                    <ol class="article-list numbered-list">
 
-                    <div class="url-example">
+                        <li>
+                            Identify the indicator and where it was observed.
+                        </li>
 
-                        <span class="example-label">
-                            Simplified web log
-                        </span>
+                        <li>
+                            Record the timestamp and affected system.
+                        </li>
 
-                        <code>
-                            203.0.113.55 GET /admin/login 401
-                        </code>
+                        <li>
+                            Search related logs for the same indicator.
+                        </li>
+
+                        <li>
+                            Check whether other indicators appear nearby.
+                        </li>
+
+                        <li>
+                            Compare the value with trusted threat intelligence.
+                        </li>
+
+                        <li>
+                            Review user and host activity around the event.
+                        </li>
+
+                        <li>
+                            Determine scope, severity and likely impact.
+                        </li>
+
+                    </ol>
+
+                    <div class="info-box">
+
+                        <strong>
+                            Do not investigate an IOC in isolation.
+                        </strong>
+
+                        <p>
+                            Timeline, behavior and system context often matter
+                            more than the reputation of the indicator by itself.
+                        </p>
 
                     </div>
-
-
-                    <p>
-                        The HTTP status code provides an immediate clue about
-                        the result.
-                    </p>
-
-
-                    <ul class="article-list">
-
-                        <li>
-                            <strong>200:</strong> request succeeded.
-                        </li>
-
-                        <li>
-                            <strong>301 / 302:</strong> redirect.
-                        </li>
-
-                        <li>
-                            <strong>401:</strong> authentication required or failed.
-                        </li>
-
-                        <li>
-                            <strong>403:</strong> access forbidden.
-                        </li>
-
-                        <li>
-                            <strong>404:</strong> resource not found.
-                        </li>
-
-                        <li>
-                            <strong>500:</strong> server-side error.
-                        </li>
-
-                    </ul>
 
                 </section>
 
@@ -931,7 +916,7 @@
 
                 <section
                     class="article-section"
-                    id="patterns"
+                    id="ioa"
                 >
 
                     <span class="section-number">
@@ -939,48 +924,71 @@
                     </span>
 
                     <h2>
-                        Recognize suspicious patterns
+                        IOC vs IOA: what is the difference?
                     </h2>
 
                     <p>
-                        SOC analysts rarely investigate events based only on
-                        one field. They look for combinations of activity that
-                        differ from normal behavior.
+                        An IOC usually describes evidence associated with
+                        compromise, while an Indicator of Attack, or IOA, focuses
+                        more on suspicious behavior or attacker actions.
                     </p>
 
+                    <div class="comparison-grid">
 
-                    <ul class="article-list">
+                        <div>
 
-                        <li>
-                            Repeated failed authentication.
-                        </li>
+                            <span class="comparison-title">
+                                IOC
+                            </span>
 
-                        <li>
-                            Access at unusual times.
-                        </li>
+                            <code>
+                                Observable artifact
+                            </code>
 
-                        <li>
-                            One account logging in from several distant IPs.
-                        </li>
+                            <p>
+                                Example: malicious file hash.
+                            </p>
 
-                        <li>
-                            Sudden privilege changes.
-                        </li>
+                        </div>
 
-                        <li>
-                            Requests for sensitive or administrative paths.
-                        </li>
+                        <div>
 
-                        <li>
-                            Large bursts of outbound connections.
-                        </li>
+                            <span class="comparison-title">
+                                IOA
+                            </span>
 
-                    </ul>
+                            <code>
+                                Suspicious behavior
+                            </code>
 
+                            <p>
+                                Example: unusual credential dumping activity.
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Together
+                            </span>
+
+                            <code>
+                                Better context
+                            </code>
+
+                            <p>
+                                Artifact plus behavior improves confidence.
+                            </p>
+
+                        </div>
+
+                    </div>
 
                     <p>
-                        The value comes from connecting these events into a
-                        coherent story.
+                        Mature detection programs use both artifacts and
+                        behavior rather than depending exclusively on static
+                        indicator lists.
                     </p>
 
                 </section>
@@ -990,7 +998,7 @@
 
                 <section
                     class="article-section"
-                    id="ioc"
+                    id="false-positives"
                 >
 
                     <span class="section-number">
@@ -998,51 +1006,53 @@
                     </span>
 
                     <h2>
-                        Look for indicators of compromise
+                        Why an IOC does not automatically mean compromise
                     </h2>
 
                     <p>
-                        Indicators of compromise, often shortened to IOCs, are
-                        observable values associated with potentially
-                        malicious activity.
+                        Indicators can produce false positives or become stale
+                        over time.
                     </p>
 
+                    <p>
+                        An IP address may change ownership. A domain may be
+                        cleaned up. A shared cloud service may host both benign
+                        and malicious activity.
+                    </p>
 
                     <ul class="article-list">
 
                         <li>
-                            Suspicious IP addresses.
+                            Validate the source of the IOC.
                         </li>
 
                         <li>
-                            Malicious domains.
+                            Check when it was last observed.
                         </li>
 
                         <li>
-                            File hashes.
+                            Review behavior around the event.
                         </li>
 
                         <li>
-                            Unusual URLs.
+                            Look for supporting indicators.
                         </li>
 
                         <li>
-                            Unexpected process or file names.
+                            Avoid blocking solely on weak context.
                         </li>
 
                     </ul>
 
+                    <div class="tip-box">
 
-                    <div class="info-box">
-
-                        <strong>
-                            An IOC is evidence, not automatic proof.
-                        </strong>
+                        <span class="box-label">
+                            Analyst mindset
+                        </span>
 
                         <p>
-                            Analysts should validate indicators in context
-                            rather than treating every matching value as a
-                            confirmed compromise.
+                            Treat an IOC as a lead to investigate, not a verdict
+                            delivered by a hexadecimal oracle.
                         </p>
 
                     </div>
@@ -1054,7 +1064,7 @@
 
                 <section
                     class="article-section"
-                    id="soc-workflow"
+                    id="safe-investigation"
                 >
 
                     <span class="section-number">
@@ -1062,81 +1072,61 @@
                     </span>
 
                     <h2>
-                        How SOC analysts investigate logs
+                        How to investigate IOCs safely
                     </h2>
 
                     <p>
-                        A basic investigation often follows a repeatable
-                        workflow.
+                        Suspicious indicators may point toward malicious
+                        infrastructure or files, so analysts should avoid
+                        interacting with them carelessly.
                     </p>
-
 
                     <ol class="article-list numbered-list">
 
                         <li>
-                            Identify the alert or suspicious event.
+                            Do not open suspicious URLs directly in your normal browser.
                         </li>
 
                         <li>
-                            Confirm the affected user, host or service.
+                            Avoid executing unknown files.
                         </li>
 
                         <li>
-                            Review events before and after the alert.
+                            Analyze hashes instead of launching suspicious binaries.
                         </li>
 
                         <li>
-                            Extract relevant IP addresses, domains and hashes.
+                            Use logs and passive data before active interaction.
                         </li>
 
                         <li>
-                            Compare the activity with expected behavior.
-                        </li>
-
-                        <li>
-                            Determine severity and possible impact.
-                        </li>
-
-                        <li>
-                            Document findings and recommended action.
+                            Record evidence before making changes to affected systems.
                         </li>
 
                     </ol>
 
-
-                    <p>
-                        More advanced investigations may correlate data across
-                        SIEM platforms, endpoint tools, identity systems,
-                        network telemetry and threat intelligence.
-                    </p>
-
                 </section>
 
 
-                <!-- Analyzer -->
+                <!-- ThreatHawk Tools -->
 
                 <section
                     class="article-section"
-                    id="log-analyzer"
+                    id="threathawk-tools"
                 >
 
                     <span class="section-number">
-                        Tool
+                        Tools
                     </span>
 
                     <h2>
-                        Analyze logs with ThreatHawk
+                        Investigate IOCs with ThreatHawk
                     </h2>
 
                     <p>
-                        Reading individual entries manually is useful for
-                        learning, but larger datasets quickly become difficult
-                        to review line by line.
-                    </p>
-
-                    <p>
-                        Automated analysis can help surface severity,
-                        suspicious patterns and recurring indicators.
+                        Different indicators require different types of
+                        analysis. ThreatHawk's tools can help inspect several
+                        common IOC categories directly in the browser.
                     </p>
 
 
@@ -1145,28 +1135,88 @@
                         <div>
 
                             <span class="section-label">
-                                ThreatHawk Tool
+                                Security Logs
                             </span>
 
                             <h3>
-                                Inspect security logs directly in your browser.
+                                Extract suspicious indicators from log data.
                             </h3>
 
                             <p>
-                                ThreatHawk Log Analysis can process supported
-                                log data, highlight severity, summarize
+                                ThreatHawk Log Analysis can help surface
                                 suspicious activity and extract indicators such
-                                as IP addresses for faster investigation.
+                                as IP addresses from supported logs.
                             </p>
 
                         </div>
-
 
                         <a
                             href="../../tools/log-analyzer/index.html"
                             class="primary-button"
                         >
                             Open Log Analysis
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="tool-cta-card">
+
+                        <div>
+
+                            <span class="section-label">
+                                File Hashes
+                            </span>
+
+                            <h3>
+                                Identify common cryptographic hash formats.
+                            </h3>
+
+                            <p>
+                                Use ThreatHawk Hash Analyzer to recognize MD5,
+                                SHA-1, SHA-256 and SHA-512 values encountered
+                                during investigations.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="../../tools/hash-analyzer/index.html"
+                            class="primary-button"
+                        >
+                            Open Hash Analyzer
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="tool-cta-card">
+
+                        <div>
+
+                            <span class="section-label">
+                                Suspicious URLs
+                            </span>
+
+                            <h3>
+                                Inspect URL-based indicators before opening them.
+                            </h3>
+
+                            <p>
+                                ThreatHawk URL Analyzer checks suspicious URL
+                                structure, phishing indicators and potentially
+                                deceptive domain patterns.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="../../tools/url-analyzer/index.html"
+                            class="primary-button"
+                        >
+                            Open URL Analyzer
                             <span>→</span>
                         </a>
 
@@ -1184,17 +1234,22 @@
                     </h2>
 
                     <p>
-                        Reading security logs is less about memorizing every
-                        possible event code and more about learning how to
-                        recognize relationships between time, users, systems,
-                        addresses and actions.
+                        Indicators of compromise are technical clues that help
+                        security teams understand and investigate potentially
+                        malicious activity.
                     </p>
 
                     <p>
-                        Start with simple fields, build a timeline and look for
-                        behavior that does not fit the expected pattern. That
-                        same process scales from beginner exercises to real SOC
-                        investigations.
+                        IP addresses, domains, URLs, hashes and host artifacts
+                        become far more useful when analysts connect them with
+                        logs, timelines and behavior.
+                    </p>
+
+                    <p>
+                        The strongest investigations do not ask only whether an
+                        IOC is known to be malicious. They ask where it appeared,
+                        what happened around it and what other evidence supports
+                        the conclusion.
                     </p>
 
                 </section>
@@ -1212,21 +1267,20 @@
                     </span>
 
                     <h2>
-                        Security log analysis FAQ
+                        Indicators of Compromise FAQ
                     </h2>
 
 
                     <details>
 
                         <summary>
-                            What should I look at first in a security log?
+                            What does IOC mean in cybersecurity?
                         </summary>
 
                         <p>
-                            Start with the timestamp, event type, user, source
-                            and destination information. These fields usually
-                            provide the initial context needed to understand an
-                            event.
+                            IOC stands for Indicator of Compromise. It refers to
+                            an observable artifact that may be associated with
+                            malicious or compromised activity.
                         </p>
 
                     </details>
@@ -1235,14 +1289,13 @@
                     <details>
 
                         <summary>
-                            Are failed login attempts always malicious?
+                            What are common examples of IOCs?
                         </summary>
 
                         <p>
-                            No. Users frequently mistype passwords. Analysts
-                            look at volume, timing, source addresses, targeted
-                            accounts and what happens afterward before deciding
-                            whether failures are suspicious.
+                            Common examples include suspicious IP addresses,
+                            domains, URLs, file hashes, filenames, processes and
+                            other host or network artifacts.
                         </p>
 
                     </details>
@@ -1251,14 +1304,13 @@
                     <details>
 
                         <summary>
-                            What does a SOC analyst use logs for?
+                            Is an IP address always an IOC?
                         </summary>
 
                         <p>
-                            SOC analysts use logs to detect suspicious
-                            behavior, validate alerts, reconstruct incidents,
-                            extract indicators and determine the scope and
-                            impact of security events.
+                            No. An IP address becomes relevant as an IOC when
+                            threat intelligence or investigative context links
+                            it to suspicious or malicious activity.
                         </p>
 
                     </details>
@@ -1267,13 +1319,28 @@
                     <details>
 
                         <summary>
-                            What is an indicator of compromise?
+                            What is the difference between IOC and IOA?
                         </summary>
 
                         <p>
-                            An indicator of compromise is an observable value
-                            such as an IP address, domain or file hash that may
-                            be associated with malicious activity.
+                            An IOC focuses on observable evidence or artifacts,
+                            while an IOA focuses more on suspicious attacker
+                            behavior or actions.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Can an IOC be a false positive?
+                        </summary>
+
+                        <p>
+                            Yes. Indicators can be stale, shared by legitimate
+                            services or incorrectly classified, which is why
+                            analysts validate them using additional context.
                         </p>
 
                     </details>
@@ -1281,7 +1348,7 @@
                 </section>
 
 
-                <!-- Related -->
+                <!-- Related Guides -->
 
                 <section class="related-guides">
 
@@ -1293,22 +1360,20 @@
                         Related ThreatHawk guides
                     </h2>
 
-
                     <div class="related-grid">
-
 
                         <article>
 
                             <span>
-                                SOC &amp; Incident Response
+                                SOC &amp; Log Analysis
                             </span>
 
                             <h3>
-                                What Are Indicators of Compromise (IOCs)?
+                                How to Read Security Logs
                             </h3>
 
                             <a
-                                href="../what-are-indicators-of-compromise/index.html"
+                                href="../how-to-read-security-logs/index.html"
                                 class="guide-link"
                             >
                                 Read guide →
@@ -1335,7 +1400,6 @@
                             </a>
 
                         </article>
-
 
                     </div>
 
