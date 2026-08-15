@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Google AdSense -->
+    <script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329858525106937"
+        crossorigin="anonymous">
+    </script>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        What Is Phishing? How Phishing Attacks Actually Work | ThreatHawk
+    </title>
+
+    <meta
+        name="description"
+        content="Learn what phishing is, how phishing attacks work, common phishing types, warning signs, what happens after clicking a malicious link and how to stay protected."
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="https://threathawk.net/guides/what-is-phishing/"
+    >
+
+
+    <!-- Open Graph -->
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="ThreatHawk">
+
+    <meta
+        property="og:title"
+        content="What Is Phishing? How Phishing Attacks Actually Work"
+    >
+
+    <meta
+        property="og:description"
+        content="Understand how phishing attacks work, common phishing techniques, warning signs and what to do if you click a suspicious link."
+    >
+
+    <meta
+        property="og:url"
+        content="https://threathawk.net/guides/what-is-phishing/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Twitter -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="What Is Phishing? How Phishing Attacks Actually Work | ThreatHawk"
+    >
+
+    <meta
+        name="twitter:description"
+        content="A practical cybersecurity guide to phishing attacks, warning signs, malicious links and safer browsing."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://threathawk.net/assets/og-image.png"
+    >
+
+
+    <!-- Favicons -->
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="../../favicon.svg"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="96x96"
+        href="../../favicon-96x96.png"
+    >
+
+    <link
+        rel="shortcut icon"
+        href="../../favicon.ico"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="../../apple-touch-icon.png"
+    >
+
+    <link
+        rel="manifest"
+        href="../../site.webmanifest"
+    >
+
+
+    <!-- Shared Guides stylesheet -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- Article structured data -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "What Is Phishing? How Phishing Attacks Actually Work",
+        "description": "A practical cybersecurity guide explaining phishing attacks, common techniques, warning signs, malicious links and safer response steps.",
+        "author": {
+            "@type": "Organization",
+            "name": "ThreatHawk"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ThreatHawk",
+            "url": "https://threathawk.net/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://threathawk.net/guides/what-is-phishing/"
+        },
+        "datePublished": "2026-08-15",
+        "dateModified": "2026-08-15"
+    }
+    </script>
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <div class="navbar">
+
+            <a
+                href="../../index.html"
+                class="logo"
+                aria-label="Return to ThreatHawk homepage"
+            >
+                <h2>ThreatHawk</h2>
+            </a>
+
+            <nav aria-label="Primary navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="../../index.html">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-dropdown">
+
+                        <button
+                            class="dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="modulesDropdown"
+                        >
+                            <span>Modules</span>
+
+                            <svg
+                                class="dropdown-arrow"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+
+                        <ul
+                            class="dropdown-menu"
+                            id="modulesDropdown"
+                        >
+
+                            <li>
+                                <a href="../../tools/password-analyzer/index.html">
+                                    Password Intelligence
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/url-analyzer/index.html">
+                                    URL Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/hash-analyzer/index.html">
+                                    Hash Analyzer
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/log-analyzer/index.html">
+                                    Log Analysis
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../../tools/encoder-decoder/index.html">
+                                    Encoder &amp; Decoder
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a
+                            href="../index.html"
+                            class="active"
+                        >
+                            Guides
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../../about/index.html">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../../contact/index.html">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div class="nav-actions">
+                <span class="version">
+                    Knowledge Hub
+                </span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="article-page">
+
+        <!-- =====================================================
+             ARTICLE HERO
+        ====================================================== -->
+
+        <section class="article-hero">
+
+            <div class="article-container">
+
+                <nav
+                    class="breadcrumbs"
+                    aria-label="Breadcrumb"
+                >
+
+                    <a href="../../index.html">
+                        Home
+                    </a>
+
+                    <span>›</span>
+
+                    <a href="../index.html">
+                        Guides
+                    </a>
+
+                    <span>›</span>
+
+                    <span>
+                        Phishing Protection
+                    </span>
+
+                </nav>
+
+                <div class="article-meta-top">
+
+                    <span class="article-category">
+                        Phishing Protection
+                    </span>
+
+                    <span class="meta-dot">•</span>
+
+                    <span>
+                        11 min read
+                    </span>
+
+                </div>
+
+                <h1>
+                    What Is Phishing?
+                    <span>
+                        How Phishing Attacks Actually Work
+                    </span>
+                </h1>
+
+                <p class="article-intro">
+                    Phishing is a social-engineering attack in which an attacker
+                    pretends to be a trusted person, company or service to convince
+                    someone to reveal sensitive information, open a malicious link,
+                    download a file or take another unsafe action.
+                </p>
+
+                <div class="article-details">
+
+                    <span>
+                        Published August 15, 2026
+                    </span>
+
+                    <span>
+                        Updated August 15, 2026
+                    </span>
+
+                    <span>
+                        By ThreatHawk
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ARTICLE BODY
+        ====================================================== -->
+
+        <div class="article-layout">
+
+
+            <aside class="article-sidebar">
+
+                <div class="toc-card">
+
+                    <span class="toc-label">
+                        On this page
+                    </span>
+
+                    <nav aria-label="Table of contents">
+
+                        <a href="#quick-answer">
+                            Quick answer
+                        </a>
+
+                        <a href="#what-is-phishing">
+                            1. What is phishing?
+                        </a>
+
+                        <a href="#how-phishing-works">
+                            2. How phishing works
+                        </a>
+
+                        <a href="#why-phishing-works">
+                            3. Why phishing works
+                        </a>
+
+                        <a href="#phishing-types">
+                            4. Types of phishing
+                        </a>
+
+                        <a href="#warning-signs">
+                            5. Warning signs
+                        </a>
+
+                        <a href="#after-clicking">
+                            6. What happens after clicking?
+                        </a>
+
+                        <a href="#fake-pages">
+                            7. Fake phishing pages
+                        </a>
+
+                        <a href="#protection">
+                            8. How to protect yourself
+                        </a>
+
+                        <a href="#clicked-link">
+                            9. If you clicked a phishing link
+                        </a>
+
+                        <a href="#analyze-url">
+                            10. Analyze suspicious URLs
+                        </a>
+
+                        <a href="#threathawk-tool">
+                            ThreatHawk tool
+                        </a>
+
+                        <a href="#faq">
+                            FAQ
+                        </a>
+
+                    </nav>
+
+                </div>
+
+            </aside>
+
+
+            <article class="article-content">
+
+
+                <!-- Quick Answer -->
+
+                <section
+                    class="article-section"
+                    id="quick-answer"
+                >
+
+                    <div class="quick-answer-box">
+
+                        <span class="box-label">
+                            Quick Answer
+                        </span>
+
+                        <h2>
+                            What is phishing?
+                        </h2>
+
+                        <p>
+                            Phishing is an attack that uses deceptive messages,
+                            websites or communications to trick people into trusting
+                            something controlled by an attacker.
+                        </p>
+
+                        <p>
+                            The goal may be to steal passwords, payment information
+                            or personal data, distribute malware, gain access to an
+                            account or persuade the victim to perform another action
+                            that benefits the attacker.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 1 -->
+
+                <section
+                    class="article-section"
+                    id="what-is-phishing"
+                >
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <h2>
+                        What is phishing?
+                    </h2>
+
+                    <p>
+                        Phishing is primarily a form of
+                        <strong>social engineering</strong>.
+                        Instead of attacking a system directly, an attacker attempts
+                        to manipulate the person using that system.
+                    </p>
+
+                    <p>
+                        A phishing message may appear to come from a bank, delivery
+                        company, employer, social network, cloud service, government
+                        organization or even someone the recipient already knows.
+                    </p>
+
+                    <p>
+                        The attacker wants the victim to believe there is a legitimate
+                        reason to act quickly. The message might claim that an account
+                        has been locked, a payment failed, a package cannot be delivered
+                        or an important document needs immediate review.
+                    </p>
+
+                    <div class="info-box">
+
+                        <strong>
+                            Phishing attacks depend on trust.
+                        </strong>
+
+                        <p>
+                            The technical link or website matters, but the attack often
+                            succeeds because the message creates enough urgency,
+                            curiosity, fear or familiarity to make the victim act
+                            before carefully checking it.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 2 -->
+
+                <section
+                    class="article-section"
+                    id="how-phishing-works"
+                >
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <h2>
+                        How a phishing attack works
+                    </h2>
+
+                    <p>
+                        A phishing campaign can vary greatly, but many attacks follow
+                        the same basic sequence.
+                    </p>
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            The attacker chooses a target or group of targets.
+                        </li>
+
+                        <li>
+                            A believable message or scenario is created.
+                        </li>
+
+                        <li>
+                            The attacker sends an email, text message, social-media
+                            message or another form of communication.
+                        </li>
+
+                        <li>
+                            The message encourages the victim to click a link,
+                            download a file, enter credentials or perform another action.
+                        </li>
+
+                        <li>
+                            The attacker collects information, delivers malicious
+                            content or attempts to access the victim's account.
+                        </li>
+
+                        <li>
+                            Stolen access may then be used for account takeover,
+                            fraud, further phishing or movement into other systems.
+                        </li>
+
+                    </ol>
+
+                    <div class="url-breakdown">
+
+                        <code>
+                            Typical phishing flow
+                        </code>
+
+                        <div class="url-parts">
+
+                            <span>
+                                Message
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                            <span>
+                                Malicious link
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                            <span>
+                                Fake login page
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                            <span>
+                                Stolen credentials
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 3 -->
+
+                <section
+                    class="article-section"
+                    id="why-phishing-works"
+                >
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <h2>
+                        Why phishing attacks are effective
+                    </h2>
+
+                    <p>
+                        Phishing works because attackers exploit normal human
+                        behavior. People receive large numbers of messages, use many
+                        online accounts and often make decisions quickly.
+                    </p>
+
+                    <p>
+                        Attackers commonly build phishing messages around emotional
+                        triggers that encourage immediate action.
+                    </p>
+
+                    <ul class="article-list">
+
+                        <li>
+                            <strong>Urgency:</strong>
+                            “Your account will be suspended today.”
+                        </li>
+
+                        <li>
+                            <strong>Fear:</strong>
+                            “A suspicious login was detected.”
+                        </li>
+
+                        <li>
+                            <strong>Curiosity:</strong>
+                            “Someone shared a confidential document with you.”
+                        </li>
+
+                        <li>
+                            <strong>Authority:</strong>
+                            A message appears to come from a manager, bank or official service.
+                        </li>
+
+                        <li>
+                            <strong>Reward:</strong>
+                            The recipient is promised a refund, prize or unexpected payment.
+                        </li>
+
+                    </ul>
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            ThreatHawk Tip
+                        </span>
+
+                        <p>
+                            Any message that creates pressure to act immediately deserves
+                            additional scrutiny. Legitimate organizations may send urgent
+                            notices, but urgency should never replace verification.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 4 -->
+
+                <section
+                    class="article-section"
+                    id="phishing-types"
+                >
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h2>
+                        Common types of phishing attacks
+                    </h2>
+
+                    <p>
+                        Phishing is not limited to ordinary email. Attackers adapt the
+                        same deception techniques to different platforms and targets.
+                    </p>
+
+                    <div class="comparison-grid">
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Email Phishing
+                            </span>
+
+                            <code>
+                                Email
+                            </code>
+
+                            <p>
+                                Mass messages pretending to come from trusted organizations.
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Spear Phishing
+                            </span>
+
+                            <code>
+                                Targeted
+                            </code>
+
+                            <p>
+                                Personalized attacks aimed at a specific individual or organization.
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Smishing
+                            </span>
+
+                            <code>
+                                SMS
+                            </code>
+
+                            <p>
+                                Phishing delivered through text messages or mobile messaging.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Other forms include voice phishing, often called
+                        <strong>vishing</strong>, social-media phishing, fake support
+                        messages, business email compromise and QR-code phishing.
+                    </p>
+
+                    <p>
+                        The delivery method changes, but the central idea remains the
+                        same: convince the victim that an attacker-controlled request
+                        is legitimate.
+                    </p>
+
+                </section>
+
+
+                <!-- 5 -->
+
+                <section
+                    class="article-section"
+                    id="warning-signs"
+                >
+
+                    <span class="section-number">
+                        05
+                    </span>
+
+                    <h2>
+                        How to recognize a phishing attempt
+                    </h2>
+
+                    <p>
+                        Modern phishing can look convincing, so there is rarely one
+                        universal sign. Instead, look for several indicators that do
+                        not fit the expected context.
+                    </p>
+
+                    <ul class="article-list">
+
+                        <li>
+                            The sender address does not match the organization it claims to represent.
+                        </li>
+
+                        <li>
+                            The message creates unusual urgency or pressure.
+                        </li>
+
+                        <li>
+                            You are asked to sign in through an unexpected link.
+                        </li>
+
+                        <li>
+                            The visible link text and actual destination do not match.
+                        </li>
+
+                        <li>
+                            The domain contains misspellings or extra words.
+                        </li>
+
+                        <li>
+                            An unexpected attachment is included.
+                        </li>
+
+                        <li>
+                            The message asks for passwords, verification codes or sensitive data.
+                        </li>
+
+                        <li>
+                            The request is unusual for the person or company supposedly sending it.
+                        </li>
+
+                    </ul>
+
+                    <div class="url-example danger-example">
+
+                        <span class="example-label">
+                            Suspicious example
+                        </span>
+
+                        <code>
+                            secure-account-example-login.com
+                        </code>
+
+                    </div>
+
+                    <p>
+                        A domain can contain familiar brand words without belonging to
+                        that brand. Always identify the actual registered domain rather
+                        than trusting words placed elsewhere in the URL.
+                    </p>
+
+                </section>
+
+
+                <!-- 6 -->
+
+                <section
+                    class="article-section"
+                    id="after-clicking"
+                >
+
+                    <span class="section-number">
+                        06
+                    </span>
+
+                    <h2>
+                        What happens when you click a phishing link?
+                    </h2>
+
+                    <p>
+                        Clicking a phishing link does not always produce the same
+                        outcome. The result depends on what the attacker has configured.
+                    </p>
+
+                    <p>
+                        A link may lead to a fake login page designed to capture
+                        credentials. It might redirect through several domains, display
+                        a fraudulent payment form, encourage a software download or
+                        simply confirm that the recipient interacted with the message.
+                    </p>
+
+                    <ul class="article-list">
+
+                        <li>
+                            Credentials may be submitted to an attacker-controlled server.
+                        </li>
+
+                        <li>
+                            Personal or payment information may be collected.
+                        </li>
+
+                        <li>
+                            The victim may be encouraged to download malicious software.
+                        </li>
+
+                        <li>
+                            The attacker may attempt to capture authentication codes.
+                        </li>
+
+                        <li>
+                            The phishing infrastructure may redirect to a legitimate
+                            website afterward to reduce suspicion.
+                        </li>
+
+                    </ul>
+
+                    <div class="info-box">
+
+                        <strong>
+                            Clicking and submitting information are different events.
+                        </strong>
+
+                        <p>
+                            Simply visiting a suspicious page does not necessarily mean
+                            an account has been compromised, but it should still be
+                            treated seriously. Risk increases significantly when
+                            credentials, files or sensitive information are submitted
+                            or downloaded.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 7 -->
+
+                <section
+                    class="article-section"
+                    id="fake-pages"
+                >
+
+                    <span class="section-number">
+                        07
+                    </span>
+
+                    <h2>
+                        How attackers create convincing phishing pages
+                    </h2>
+
+                    <p>
+                        A phishing page may visually imitate a real login portal almost
+                        perfectly. Logos, colors, buttons and page layouts are easy to
+                        reproduce, which means appearance alone is a weak security signal.
+                    </p>
+
+                    <p>
+                        The important difference is usually the infrastructure behind
+                        the page: the domain, hosting location, scripts, network requests
+                        and destination receiving the submitted information.
+                    </p>
+
+                    <div class="comparison-grid">
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Appearance
+                            </span>
+
+                            <code>
+                                Easy to copy
+                            </code>
+
+                            <p>
+                                Logos and page layouts can closely resemble the real service.
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="comparison-title">
+                                Domain
+                            </span>
+
+                            <code>
+                                Harder to fake
+                            </code>
+
+                            <p>
+                                The actual domain often reveals that the page is unrelated to the real service.
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="comparison-title">
+                                HTTPS
+                            </span>
+
+                            <code>
+                                Not proof
+                            </code>
+
+                            <p>
+                                A phishing website can also use HTTPS and display a padlock.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        This is why inspecting the address bar is more important than
+                        judging a page based only on how professional it looks.
+                    </p>
+
+                </section>
+
+
+                <!-- 8 -->
+
+                <section
+                    class="article-section"
+                    id="protection"
+                >
+
+                    <span class="section-number">
+                        08
+                    </span>
+
+                    <h2>
+                        How to protect yourself from phishing
+                    </h2>
+
+                    <p>
+                        Phishing defense is strongest when several habits and technical
+                        protections work together.
+                    </p>
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            Avoid signing in through unexpected links in messages.
+                        </li>
+
+                        <li>
+                            Navigate directly to important websites when possible.
+                        </li>
+
+                        <li>
+                            Inspect sender addresses and domains carefully.
+                        </li>
+
+                        <li>
+                            Use unique passwords for different accounts.
+                        </li>
+
+                        <li>
+                            Enable multi-factor authentication where available.
+                        </li>
+
+                        <li>
+                            Keep browsers, operating systems and security software updated.
+                        </li>
+
+                        <li>
+                            Verify unusual requests through a separate trusted communication channel.
+                        </li>
+
+                        <li>
+                            Treat unexpected attachments and downloads cautiously.
+                        </li>
+
+                    </ol>
+
+                    <p>
+                        A password manager can also reduce some phishing risk because it
+                        may refuse to autofill credentials on a domain that does not
+                        match the legitimate saved website.
+                    </p>
+
+                </section>
+
+
+                <!-- 9 -->
+
+                <section
+                    class="article-section"
+                    id="clicked-link"
+                >
+
+                    <span class="section-number">
+                        09
+                    </span>
+
+                    <h2>
+                        What to do if you clicked a phishing link
+                    </h2>
+
+                    <p>
+                        Your response should depend on what happened after the click.
+                        Do not assume the worst, but do not ignore it either.
+                    </p>
+
+                    <ol class="article-list numbered-list">
+
+                        <li>
+                            Close the suspicious page.
+                        </li>
+
+                        <li>
+                            Do not submit any additional information.
+                        </li>
+
+                        <li>
+                            If you entered a password, change it through the legitimate
+                            website or application.
+                        </li>
+
+                        <li>
+                            Change the same password anywhere else it was reused.
+                        </li>
+
+                        <li>
+                            Review recent account activity and active sessions.
+                        </li>
+
+                        <li>
+                            Enable or review multi-factor authentication.
+                        </li>
+
+                        <li>
+                            If a file was downloaded or executed, perform appropriate
+                            security checks on the device.
+                        </li>
+
+                        <li>
+                            Report the incident to the relevant organization or security
+                            team when appropriate.
+                        </li>
+
+                    </ol>
+
+                    <div class="tip-box">
+
+                        <span class="box-label">
+                            Important
+                        </span>
+
+                        <p>
+                            If the affected account belongs to your employer or another
+                            organization, contact its security or IT team promptly.
+                            Early reporting can help prevent a single phishing event
+                            from becoming a larger incident.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 10 -->
+
+                <section
+                    class="article-section"
+                    id="analyze-url"
+                >
+
+                    <span class="section-number">
+                        10
+                    </span>
+
+                    <h2>
+                        How to analyze a suspicious URL
+                    </h2>
+
+                    <p>
+                        Before opening an unknown link, inspect the URL itself.
+                    </p>
+
+                    <ul class="article-list">
+
+                        <li>
+                            Identify the actual domain.
+                        </li>
+
+                        <li>
+                            Look for misspellings and deceptive brand names.
+                        </li>
+
+                        <li>
+                            Inspect subdomains carefully.
+                        </li>
+
+                        <li>
+                            Be cautious with shortened URLs.
+                        </li>
+
+                        <li>
+                            Look for misleading characters or unusual formatting.
+                        </li>
+
+                        <li>
+                            Consider why and how you received the link.
+                        </li>
+
+                    </ul>
+
+                    <p>
+                        For a deeper breakdown of URL inspection techniques, read
+                        ThreatHawk's
+                        <a href="../how-to-check-if-a-url-is-safe/index.html">
+                            guide to checking whether a URL is safe
+                        </a>.
+                    </p>
+
+                </section>
+
+
+                <!-- ThreatHawk Tool -->
+
+                <section
+                    class="article-section"
+                    id="threathawk-tool"
+                >
+
+                    <span class="section-number">
+                        Tool
+                    </span>
+
+                    <h2>
+                        Inspect suspicious links with ThreatHawk
+                    </h2>
+
+                    <p>
+                        ThreatHawk URL Analyzer can help inspect suspicious URLs before
+                        you decide whether to trust them.
+                    </p>
+
+                    <div class="tool-cta-card">
+
+                        <div>
+
+                            <span class="section-label">
+                                URL Security
+                            </span>
+
+                            <h3>
+                                Analyze a suspicious URL before opening it.
+                            </h3>
+
+                            <p>
+                                Inspect URL structure, suspicious keywords, deceptive
+                                brand patterns and available reputation information
+                                using ThreatHawk's browser-based URL Analyzer.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="../../tools/url-analyzer/index.html"
+                            class="primary-button"
+                        >
+                            Open URL Analyzer
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Final -->
+
+                <section class="article-section">
+
+                    <h2>
+                        Final takeaway
+                    </h2>
+
+                    <p>
+                        Phishing succeeds when an attacker convinces someone to trust
+                        the wrong message, website or request.
+                    </p>
+
+                    <p>
+                        The most effective defense is not memorizing one visual warning
+                        sign. It is learning to verify the sender, inspect the actual
+                        domain, question unexpected urgency and avoid providing sensitive
+                        information through links you did not expect.
+                    </p>
+
+                    <p>
+                        When something feels unusual, verify it through a trusted path
+                        before acting. A few seconds of inspection can prevent a much
+                        longer incident-response exercise later.
+                    </p>
+
+                </section>
+
+
+                <!-- FAQ -->
+
+                <section
+                    class="article-section faq-section"
+                    id="faq"
+                >
+
+                    <span class="section-label">
+                        Frequently Asked Questions
+                    </span>
+
+                    <h2>
+                        Phishing FAQ
+                    </h2>
+
+
+                    <details>
+
+                        <summary>
+                            Is phishing a type of malware?
+                        </summary>
+
+                        <p>
+                            Not necessarily. Phishing is primarily a social-engineering
+                            technique. Some phishing attacks deliver malware, while
+                            others focus on stealing credentials, payment information
+                            or other sensitive data.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Can you get hacked just by opening a phishing email?
+                        </summary>
+
+                        <p>
+                            Simply reading an ordinary phishing email usually does not
+                            mean an account or device has been compromised. The greater
+                            risk typically comes from clicking malicious links,
+                            downloading or executing files, or submitting information.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Does HTTPS mean a website is safe?
+                        </summary>
+
+                        <p>
+                            No. HTTPS protects the connection between your browser and
+                            the website, but a malicious website can also use HTTPS.
+                            Always verify the actual domain and context of the page.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            Can phishing happen through SMS?
+                        </summary>
+
+                        <p>
+                            Yes. Phishing delivered through SMS or text messages is
+                            commonly called smishing. The message may contain malicious
+                            links, fake delivery notices, payment requests or account
+                            warnings.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            What is spear phishing?
+                        </summary>
+
+                        <p>
+                            Spear phishing is a more targeted form of phishing in which
+                            attackers customize the message for a specific person,
+                            organization or role using information that makes the request
+                            appear more believable.
+                        </p>
+
+                    </details>
+
+
+                    <details>
+
+                        <summary>
+                            How can I check whether a link is safe?
+                        </summary>
+
+                        <p>
+                            Inspect the real domain, spelling, subdomains and context
+                            before opening it. ThreatHawk's URL Analyzer can also help
+                            identify suspicious URL characteristics and available
+                            reputation information.
+                        </p>
+
+                    </details>
+
+                </section>
+
+
+                <!-- Related Guides -->
+
+                <section class="related-guides">
+
+                    <span class="section-label">
+                        Continue Learning
+                    </span>
+
+                    <h2>
+                        Related ThreatHawk guides
+                    </h2>
+
+                    <div class="related-grid">
+
+                        <article>
+
+                            <span>
+                                URL Security
+                            </span>
+
+                            <h3>
+                                How to Check if a URL Is Safe
+                            </h3>
+
+                            <a
+                                href="../how-to-check-if-a-url-is-safe/index.html"
+                                class="guide-link"
+                            >
+                                Read guide →
+                            </a>
+
+                        </article>
+
+
+                        <article>
+
+                            <span>
+                                Password Security
+                            </span>
+
+                            <h3>
+                                What Makes a Password Strong?
+                            </h3>
+
+                            <a
+                                href="../what-makes-a-password-strong/index.html"
+                                class="guide-link"
+                            >
+                                Read guide →
+                            </a>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-brand">
+
+            <h2>
+                ThreatHawk
+            </h2>
+
+            <p>
+                Free Browser-Based Cybersecurity Tools
+            </p>
+
+        </div>
+
+
+        <nav
+            class="footer-links"
+            aria-label="Footer navigation"
+        >
+
+            <a href="../../about/index.html">
+                About
+            </a>
+
+            <a href="../../contact/index.html">
+                Contact
+            </a>
+
+            <a href="../../privacy-policy/index.html">
+                Privacy Policy
+            </a>
+
+            <a href="../../terms/index.html">
+                Terms
+            </a>
+
+            <a href="../../disclaimer/index.html">
+                Disclaimer
+            </a>
+
+            <a
+                href="https://github.com/DileepKumar52/ThreatHawk"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+            </a>
+
+        </nav>
+
+
+        <p class="footer-version">
+            Knowledge Hub
+        </p>
+
+
+        <p class="footer-copyright">
+            © 2026 ThreatHawk. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script
+        src="../js/app.js"
+        defer
+    ></script>
+
+</body>
+
+</html>
