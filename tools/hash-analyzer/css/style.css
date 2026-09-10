@@ -4775,3 +4775,115 @@ body.light-mode .related-tool-card:hover {
         white-space: normal;
     }
 }
+
+/* =========================================================
+   HASH ANALYSIS GUIDE
+========================================================= */
+
+.hash-analysis-guide {
+    padding: 80px 0 20px;
+}
+
+.hash-analysis-guide .section-heading {
+    margin-bottom: 40px;
+}
+
+.hash-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.hash-guide-card {
+    min-height: 210px;
+    padding: 26px;
+
+    background: var(--surface-transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-small);
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.hash-guide-card:hover {
+    background: var(--surface-secondary);
+    border-color: var(--border-accent);
+
+    box-shadow:
+        0 18px 44px rgba(0, 0, 0, 0.18),
+        0 0 24px rgba(139, 92, 246, 0.06);
+
+    transform: translateY(-4px);
+}
+
+.hash-guide-card h3 {
+    margin: 0 0 12px;
+
+    color: var(--text-primary);
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.hash-guide-card p {
+    margin: 0;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.78;
+}
+
+.hash-guide-note {
+    margin-top: 24px;
+    padding: 20px 24px;
+
+    color: var(--text-secondary);
+    line-height: 1.75;
+
+    background: var(--surface-transparent);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+
+    border-radius: var(--radius-medium);
+}
+
+.hash-guide-note strong {
+    color: var(--text-primary);
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .hash-guide-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .hash-analysis-guide {
+        padding-top: 60px;
+    }
+
+    .hash-guide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hash-guide-card {
+        min-height: 0;
+        padding: 23px;
+    }
+
+    .hash-guide-note {
+        padding: 18px 20px;
+    }
+
+}

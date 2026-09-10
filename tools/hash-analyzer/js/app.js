@@ -612,8 +612,8 @@ function buildAnalysisResults(hashes) {
             type: detection.type,
             valid: detection.valid,
             status: detection.valid
-                ? "Valid"
-                : "Invalid",
+                ? "Format Match"
+                : "Invalid Format",
             occurrences,
             duplicate:
                 occurrences > 1

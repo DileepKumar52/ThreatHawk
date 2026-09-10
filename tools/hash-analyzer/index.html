@@ -159,10 +159,34 @@
             },
             {
                 "@type": "Question",
+                "name": "Why can multiple algorithms have similar hash lengths?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Some hashing algorithms produce outputs with identical lengths. Because of this, length alone cannot always confirm the exact algorithm. Hash Analyzer provides the most likely identification based on supported formats, but contextual information may still be required."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What does duplicate detection mean?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Duplicate detection counts identical hash values appearing multiple times within the uploaded files or pasted input. This helps identify repeated entries and reduce unnecessary review."
+                }
+            },
+            {
+                "@type": "Question",
                 "name": "Can I analyze multiple files and hashes together?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Hash Analyzer supports batch processing for multiple files and large collections of hashes in one session."
+                    "text": "Yes. Hash Analyzer supports batch processing, allowing you to analyze multiple files or large collections of hashes in a single session. Results are combined into one structured report for easier review and export."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is Hash Analyzer suitable for digital forensics?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Hash Analyzer is designed as an investigation and analysis aid for cybersecurity professionals, SOC analysts, incident responders and digital forensic workflows. It helps identify and organize cryptographic hashes but should be used alongside other forensic tools for comprehensive analysis."
                 }
             }
         ]
@@ -656,7 +680,7 @@
                         </div>
 
                         <div class="stat-content">
-                            <span>Valid Hashes</span>
+                            <span>Format Matches</span>
 
                             <strong
                                 id="validHashes"
@@ -675,7 +699,7 @@
                         </div>
 
                         <div class="stat-content">
-                            <span>Invalid Hashes</span>
+                            <span>Invalid Formats</span>
 
                             <strong
                                 id="invalidHashes"
@@ -759,7 +783,7 @@
                                     <th>Hash Value</th>
                                     <th>Length</th>
                                     <th>Algorithm</th>
-                                    <th>Status</th>
+                                    <th>Format Status</th>
                                     <th>Occurrences</th>
                                     <th>Action</th>
                                 </tr>
@@ -894,6 +918,153 @@
                     </div>
 
                 </section>
+
+            </div>
+
+        </section>
+
+         <!-- ==============================
+                Hash Analysis Guide
+        =============================== -->
+
+        <section class="hash-analysis-guide">
+
+            <div class="module-container">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="panel-label">
+                            Understanding Hashes
+                        </span>
+
+                        <h2>
+                            What Hash Analysis Can Tell You
+                        </h2>
+                    </div>
+
+                    <p>
+                        Hash values are commonly used in cybersecurity, digital
+                        forensics and software integrity checks. Understanding
+                        their structure helps you interpret what a hash identifier
+                        can and cannot tell you.
+                    </p>
+
+                </div>
+
+
+                <div class="hash-guide-grid">
+
+                    <article class="hash-guide-card">
+
+                        <h3>What is a cryptographic hash?</h3>
+
+                        <p>
+                            A cryptographic hash is a fixed-length value generated
+                            from input data by a hashing algorithm. Even though the
+                            original input can be much larger or have a different
+                            format, the resulting digest has a defined length for
+                            that algorithm. Hashes are commonly used to identify
+                            files, verify data integrity and support forensic
+                            investigations.
+                        </p>
+
+                    </article>
+
+
+                    <article class="hash-guide-card">
+
+                        <h3>Why hash length matters</h3>
+
+                        <p>
+                            Hash length provides an important clue when identifying
+                            a digest. MD5 produces a 128-bit digest represented by
+                            32 hexadecimal characters, SHA-1 produces 40 characters,
+                            SHA-256 produces 64 characters and SHA-512 produces
+                            128 characters. ThreatHawk uses these expected lengths
+                            together with hexadecimal validation to classify the
+                            supported formats.
+                        </p>
+
+                    </article>
+
+
+                    <article class="hash-guide-card">
+
+                        <h3>Identification is not proof</h3>
+
+                        <p>
+                            A hexadecimal value with a particular length does not
+                            uniquely prove which hashing algorithm produced it.
+                            Different algorithms can produce digests with the same
+                            length. Hash Analyzer therefore reports a likely
+                            supported format rather than claiming that the algorithm
+                            can be proven from the hash value alone.
+                        </p>
+
+                    </article>
+
+
+                    <article class="hash-guide-card">
+
+                        <h3>MD5 and SHA-1 have security limitations</h3>
+
+                        <p>
+                            MD5 and SHA-1 are no longer recommended for security
+                            applications that depend on collision resistance.
+                            They can still appear in legacy systems, file metadata
+                            and forensic evidence, so recognizing these formats
+                            remains useful. Modern applications should generally
+                            use stronger algorithms such as SHA-256 or SHA-512
+                            when appropriate.
+                        </p>
+
+                    </article>
+
+
+                    <article class="hash-guide-card">
+
+                        <h3>What duplicate detection means</h3>
+
+                        <p>
+                            Duplicate detection compares normalized hash values
+                            and counts repeated entries in the submitted data.
+                            This can help investigators spot repeated indicators,
+                            reduce duplicate review and understand how frequently
+                            a particular hash appears across a collection.
+                        </p>
+
+                    </article>
+
+
+                    <article class="hash-guide-card">
+
+                        <h3>What Hash Analyzer does not do</h3>
+
+                        <p>
+                            Hash Analyzer identifies supported hash formats and
+                            organizes submitted values. It does not decrypt hashes,
+                            recover the original input, determine whether a file is
+                            malicious or prove that a hash is associated with a
+                            particular threat. Those tasks require additional
+                            analysis and, where appropriate, external threat
+                            intelligence or forensic evidence.
+                        </p>
+
+                    </article>
+
+                </div>
+
+
+                <div class="hash-guide-note">
+
+                    <strong>Important:</strong>
+                    Hash identification is based primarily on structure and expected
+                    digest length. Treat the reported algorithm as an identification
+                    aid and use additional context when making forensic or security
+                    decisions.
+
+                </div>
 
             </div>
 
