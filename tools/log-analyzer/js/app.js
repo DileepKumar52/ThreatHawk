@@ -697,6 +697,15 @@ function isFailedLogin(line) {
     );
 }
 
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 function analyzeLogs(logLines) {
     let failedCount = 0;
     let criticalCount = 0;
@@ -797,10 +806,10 @@ function analyzeLogs(logLines) {
         row.className = rowClass;
 
         row.innerHTML = `
-            <td>${time}</td>
-            <td class="${severity === "Warning" ? "warning-text" : "info-text"}">${severity}</td>
-            <td>${line}</td>
-            <td class="${knownMaliciousIPs.includes(ip) ? "malicious-ip" : ""}">${ip}</td>
+            <td>${escapeHTML(time)}</td>
+            <td class="${severity === "Warning" ? "warning-text" : "info-text"}">${escapeHTML(severity)}</td>
+            <td>${escapeHTML(line)}</td>
+            <td class="${knownMaliciousIPs.includes(ip) ? "malicious-ip" : ""}">${escapeHTML(ip)}</td>
         `;
 
         eventTable.appendChild(row);
@@ -963,7 +972,7 @@ function analyzeLogs(logLines) {
 
                         <div>
                             <strong>
-                                ${ioc.type}: ${ioc.value}
+                                ${escapeHTML(ioc.type)}: ${escapeHTML(ioc.value)}
                             </strong>
 
                             <p>
@@ -1013,17 +1022,17 @@ function analyzeLogs(logLines) {
                         <div class="timeline-item-header">
 
                             <strong>
-                                ${event.title}
+                                ${escapeHTML(event.title)}
                             </strong>
 
                             <time>
-                                ${event.time}
+                                ${escapeHTML(event.time)}
                             </time>
 
                         </div>
 
                         <p>
-                            ${event.description}
+                            ${escapeHTML(event.description)}
                         </p>
 
                     </article>

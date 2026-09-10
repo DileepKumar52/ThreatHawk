@@ -122,47 +122,87 @@
 
     <script type="application/ld+json">
     {
-        "@context":"https://schema.org",
-        "@type":"FAQPage",
-        "mainEntity":[
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
             {
-                "@type":"Question",
-                "name":"Are my log files uploaded to ThreatHawk?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"No. Security Log Analyzer processes uploaded log files locally inside your browser. Log contents are not stored or transmitted to ThreatHawk servers."
+                "@type": "Question",
+                "name": "Are uploaded log files sent to ThreatHawk?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Log Analysis processes supported files directly in your browser. ThreatHawk does not intentionally upload, store or maintain a personal history of the log files you analyze. Avoid using confidential production logs on shared or untrusted devices."
                 }
             },
             {
-                "@type":"Question",
-                "name":"Which log formats are supported?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"ThreatHawk supports common structured log formats used for authentication and security event analysis, including CSV and JSON files."
+                "@type": "Question",
+                "name": "Which log file types are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The current Log Analysis module accepts TXT, LOG and CSV files. The parser is designed for common authentication and security-event formats, but highly customized or unusual log structures may not be interpreted perfectly."
                 }
             },
             {
-                "@type":"Question",
-                "name":"What are Indicators of Compromise (IOCs)?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"Indicators of Compromise are observable artifacts such as suspicious IP addresses, domains, file hashes or unusual activity that may indicate malicious behavior."
+                "@type": "Question",
+                "name": "How is the threat score calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The threat score is based on detected security signals such as repeated failed logins, suspicious source activity, alert patterns, extracted indicators and other notable events. These signals are combined into an overall severity score."
                 }
             },
             {
-                "@type":"Question",
-                "name":"Can Log Analyzer detect brute-force attacks?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"The analyzer highlights repeated failed login attempts, suspicious IP addresses and abnormal authentication patterns that may indicate brute-force activity."
+                "@type": "Question",
+                "name": "How does ThreatHawk detect brute-force activity?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ThreatHawk looks for repeated authentication failures and groups suspicious patterns by source, event type and occurrence frequency. A large number of failed attempts from the same source may indicate password guessing or automated brute-force activity."
                 }
             },
             {
-                "@type":"Question",
-                "name":"Is the Security Log Analyzer free?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"Yes. ThreatHawk's Security Log Analyzer is free to use and performs analysis directly in your browser."
+                "@type": "Question",
+                "name": "What are indicators of compromise?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Indicators of compromise, commonly called IOCs, are values that may be associated with suspicious or malicious activity. In the current module, these primarily include IP addresses, URLs, domains, hashes, CVEs and other artifacts extracted from submitted logs."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can Log Analysis confirm that an incident occurred?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The module identifies suspicious patterns and produces an explainable assessment, but it cannot independently prove that a security incident occurred. Results should be reviewed alongside system context and other investigative sources."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why might legitimate activity be flagged as suspicious?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Legitimate systems can generate repeated failures, unusual IP activity or noisy alerts during testing, configuration changes, user mistakes or automated processes. The analyzer reports suspicious characteristics rather than definitive conclusions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I search and filter the analyzed events?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. After analysis, you can search parsed events by message, IP address or event details and filter the table by severity."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I export the incident analysis?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The Export Analysis Report feature generates a report from the current incident summary, threat score, findings, indicators and parsed events."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is Log Analysis a replacement for a SIEM?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. ThreatHawk Log Analysis is a lightweight browser-based investigation tool. It does not replace a full SIEM, continuous monitoring platform, endpoint detection system or professional incident-response workflow."
                 }
             }
         ]
@@ -652,8 +692,8 @@
 
                             <p>
                                 A combined severity score calculated from
-                                authentication failures, suspicious sources,
-                                IOC matches and alert patterns.
+                                authentication failures, suspicious source activity,
+                                extracted indicators and alert patterns.
                             </p>
 
                         </div>
@@ -1241,6 +1281,132 @@
 
         </section>
 
+        <!-- ==========================================
+                Security Log Analysis Guide
+        ========================================== -->
+
+    <section class="information-section">
+        <div class="module-container">
+
+            <div class="section-heading">
+                <div>
+                    <span class="panel-label">
+                        Security Log Analysis Guide
+                    </span>
+
+                    <h2>How to Interpret Security Logs</h2>
+                </div>
+
+                <p>
+                    Understand what the analyzer looks for, how common security
+                    signals should be interpreted and why automated findings
+                    require investigation context.
+                </p>
+            </div>
+
+            <div class="information-grid">
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <h3>What Security Logs Contain</h3>
+
+                    <p>
+                        Security and authentication logs record events such as
+                        login attempts, authentication failures, source addresses,
+                        timestamps and system messages. Analysts use these records
+                        to reconstruct activity and identify patterns that deserve
+                        further investigation.
+                    </p>
+                </article>
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-user-lock"></i>
+                    </div>
+
+                    <h3>Failed Login Patterns</h3>
+
+                    <p>
+                        A single failed login is usually not enough to indicate an
+                        attack. Repeated authentication failures, especially when
+                        they originate from the same source, can provide evidence
+                        of password guessing or automated brute-force activity.
+                    </p>
+                </article>
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+
+                    <h3>Indicators of Compromise</h3>
+
+                    <p>
+                        Logs can contain artifacts that are useful during an
+                        investigation, including IP addresses, URLs, domains,
+                        hashes and CVE references. An extracted indicator is not
+                        automatically malicious. Its meaning depends on the
+                        surrounding event and investigative context.
+                    </p>
+                </article>
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <h3>Understanding the Threat Score</h3>
+
+                    <p>
+                        ThreatHawk combines several detected signals into a
+                        severity score to help prioritize review. The score is a
+                        triage aid rather than a definitive measurement of an
+                        attack. Higher scores indicate that more suspicious
+                        characteristics were detected in the submitted log.
+                    </p>
+                </article>
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+
+                    <h3>Why Timelines Matter</h3>
+
+                    <p>
+                        Chronological event ordering helps analysts understand
+                        how suspicious activity developed. Comparing authentication
+                        failures, source addresses and notable events over time
+                        can reveal patterns that are difficult to recognize from
+                        individual log entries alone.
+                    </p>
+                </article>
+
+                <article class="information-card">
+                    <div class="information-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <h3>Automated Analysis Has Limits</h3>
+
+                    <p>
+                        Log analysis tools can identify patterns and reduce manual
+                        triage, but they cannot independently establish that a
+                        security incident occurred. Parser limitations, incomplete
+                        logs and legitimate administrative activity can all affect
+                        the result. Findings should be validated against other
+                        evidence.
+                    </p>
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
 
         <!-- ==========================================
                         Knowledge Center
@@ -1416,7 +1582,7 @@
                         <p>
                             The threat score is based on detected security signals such
                             as repeated failed logins, suspicious IP addresses, alert
-                            patterns, IOC matches and other notable events. These
+                            patterns, extracted indicators and other notable events. These
                             indicators are combined into an overall severity score so
                             investigators can quickly understand the apparent level of
                             risk.
