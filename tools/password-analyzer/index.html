@@ -120,47 +120,71 @@
 
     <script type="application/ld+json">
     {
-        "@context":"https://schema.org",
-        "@type":"FAQPage",
-        "mainEntity":[
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
             {
-                "@type":"Question",
-                "name":"Is my password uploaded to ThreatHawk?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"No. Password analysis runs locally inside your browser. Passwords are not uploaded, stored or transmitted to ThreatHawk servers."
+                "@type": "Question",
+                "name": "Is my password uploaded to ThreatHawk?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Password Intelligence performs all analysis locally within your browser. Your password is never uploaded, stored, or transmitted to ThreatHawk or any third-party server."
                 }
             },
             {
-                "@type":"Question",
-                "name":"How is password strength calculated?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"The Password Strength Checker evaluates password length, character variety, predictable patterns and other security factors to estimate overall strength and offline crack time."
+                "@type": "Question",
+                "name": "Is Password Intelligence free to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Password Intelligence is completely free to use with no subscriptions, hidden charges, or usage limits. You can analyze password strength, estimate crack time, identify security weaknesses, and generate strong passwords directly in your browser without creating an account."
                 }
             },
             {
-                "@type":"Question",
-                "name":"Does ThreatHawk store my passwords?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"No. ThreatHawk does not store, save or transmit passwords entered into the Password Strength Checker."
-            }
-            },
-            {
-                "@type":"Question",
-                "name":"What is an offline crack time estimate?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"An offline crack time estimate approximates how long a password could resist guessing attacks when an attacker already possesses the password hash and is testing guesses without online rate limits."
+                "@type": "Question",
+                "name": "How is password strength calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Password Intelligence evaluates multiple security factors, including password length, uppercase and lowercase letters, numbers, special characters, character diversity, and common attack patterns. These checks are combined to generate an overall strength score, helping you understand how resistant your password is to brute-force and dictionary attacks."
                 }
             },
             {
-                "@type":"Question",
-                "name":"Is the Password Strength Checker free?",
-                "acceptedAnswer":{
-                    "@type":"Answer",
-                    "text":"Yes. ThreatHawk's Password Strength Checker is completely free to use and works directly in your browser."
+                "@type": "Question",
+                "name": "What makes a password strong?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A strong password is long, unique, and difficult to guess. It should contain a mix of uppercase and lowercase letters, numbers, and special characters while avoiding common words, personal information, or predictable patterns. Using a unique password for every account significantly improves your overall security."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is the crack-time estimate?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The crack-time estimate is a simplified offline attack estimate, not a prediction of exactly how long a real attack would take. It assumes an attacker can test approximately one billion guesses per second and adjusts the theoretical search space when predictable patterns are detected. Actual resistance depends on the password hashing algorithm, configuration, attacker hardware, and attack strategy."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Password Intelligence work on mobile devices?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Password Intelligence is fully responsive and works on desktops, laptops, tablets, and smartphones. The interface automatically adapts to different screen sizes, allowing you to analyze password strength, generate secure passwords, and review security recommendations from any modern web browser."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can this tool detect compromised passwords?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Password Intelligence evaluates password strength and security based on its complexity and common attack patterns, but it does not currently check whether a password has appeared in known data breaches."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why should I use a password manager?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A password manager helps you create, store, and autofill strong, unique passwords for every account without having to remember them all. This reduces the risk of password reuse, protects your online accounts from credential-stuffing attacks, and makes it much easier to maintain good security practices."
                 }
             }
         ]
@@ -670,6 +694,11 @@
 
                                     </div>
 
+                                    <p class="requirements-note">
+                                        These checks validate basic password composition. A strong password
+                                        should also be long, unique, and difficult to predict.
+                                    </p>
+
                                 </article>
 
 
@@ -763,6 +792,143 @@
 
         </section>
 
+         <!-- ==============================
+             Password Strength Explained
+        =============================== -->
+        <section class="password-guide-section" id="password-strength-explained">
+            <div class="module-container">
+
+                <div class="section-heading">
+                    <span class="section-label">Password Security Explained</span>
+
+                    <h2>How to Understand Your Password Strength Results</h2>
+
+                    <p>
+                        A password strength score is more useful when you understand
+                        what the individual measurements mean. ThreatHawk combines
+                        several characteristics to give you a practical view of
+                        password security.
+                    </p>
+                </div>
+
+                <div class="password-guide-grid">
+
+                    <article class="password-guide-card">
+                        <h3>Length Matters</h3>
+
+                        <p>
+                            Password length has a major effect on the number of possible
+                            combinations an attacker may need to test. In general, a
+                            longer password or passphrase provides a larger search space
+                            than a short password, even when both use several character
+                            types.
+                        </p>
+
+                        <p>
+                            This is why adding meaningful length is important when
+                            creating a new password. However, length alone does not make
+                            a password strong if the password follows an obvious pattern,
+                            contains a common word, or is reused across accounts.
+                        </p>
+                    </article>
+
+                    <article class="password-guide-card">
+                        <h3>Complexity Is Not the Same as Unpredictability</h3>
+
+                        <p>
+                            Using uppercase letters, numbers, and special characters can
+                            increase the theoretical search space, but attackers do not
+                            always guess passwords as random combinations. They commonly
+                            prioritize words, patterns, sequences, substitutions, and
+                            other structures that people frequently use.
+                        </p>
+
+                        <p>
+                            For example, replacing a letter with a number or adding a
+                            predictable sequence does not necessarily make a password
+                            difficult to guess. A password should be both sufficiently
+                            long and difficult to predict.
+                        </p>
+                    </article>
+
+                    <article class="password-guide-card">
+                        <h3>What Theoretical Entropy Means</h3>
+
+                        <p>
+                            Theoretical entropy represents the size of the possible
+                            character combinations under an assumed character set.
+                            ThreatHawk calculates it from the password length and the
+                            character-set size detected in the password.
+                        </p>
+
+                        <p>
+                            This value is a theoretical measurement, not a guarantee of
+                            real-world password security. Human-created passwords are
+                            often less random than a mathematical model assumes, which
+                            is why predictable patterns are considered separately.
+                        </p>
+                    </article>
+
+                    <article class="password-guide-card">
+                        <h3>Understanding Offline Crack Time</h3>
+
+                        <p>
+                            The offline crack-time result is a simplified estimate of
+                            how long password guessing could take when an attacker can
+                            test guesses against a password hash without the rate limits
+                            normally present on a login form.
+                        </p>
+
+                        <p>
+                            ThreatHawk uses an assumed rate of one billion guesses per
+                            second and adjusts the theoretical search space when
+                            predictable patterns are detected. The result is an estimate,
+                            not a prediction of an actual attack.
+                        </p>
+                    </article>
+
+                    <article class="password-guide-card">
+                        <h3>Why Predictable Patterns Matter</h3>
+
+                        <p>
+                            Passwords can appear complicated while still following
+                            patterns that make them easier to guess. Common words,
+                            number sequences, repeated characters, keyboard patterns,
+                            years, and repeated blocks can reduce the effective
+                            difficulty of a password.
+                        </p>
+
+                        <p>
+                            A password that looks complicated at a glance should
+                            therefore not be judged only by the number of character
+                            types it contains. Predictability is an important part of
+                            password security.
+                        </p>
+                    </article>
+
+                    <article class="password-guide-card">
+                        <h3>What This Analyzer Does Not Check</h3>
+
+                        <p>
+                            A password-strength analysis cannot determine whether a
+                            password has already appeared in a data breach unless the
+                            tool specifically checks a known compromised-password
+                            database. ThreatHawk's Password Intelligence does not
+                            perform that type of breach lookup.
+                        </p>
+
+                        <p>
+                            You should also avoid using the same password across
+                            multiple accounts. Even a strong password can create
+                            significant risk when it is reused and later exposed by
+                            another service.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
         <!-- ==============================
                 Knowledge Center
         =============================== -->
@@ -788,7 +954,9 @@
                         </div>
 
                         <p>
-                            Learn how Password Intelligence evaluates password security while keeping your credentials private.
+                            Password intelligence combines password length, character
+                            diversity, uniqueness, and predictable-pattern detection to
+                            provide a practical estimate of password strength.
                         </p>
 
                     </article>
@@ -808,7 +976,9 @@
                         </div>
 
                         <p>
-                            Explore the security capabilities available within Password Intelligence.
+                            Analyze password strength in real time, review theoretical
+                            entropy, estimate offline crack time, detect common patterns,
+                            and generate stronger passwords locally.
                         </p>
 
                     </article>
@@ -828,7 +998,9 @@
                         </div>
 
                         <p>
-                            Understand how your password is evaluated in real time directly within your browser.
+                            The analyzer checks your password locally in the browser,
+                            scores its characteristics, detects predictable structures,
+                            and turns the results into clear security recommendations.
                         </p>
 
                     </article>
@@ -925,7 +1097,13 @@
                         </summary>
 
                         <p>
-                            The crack-time estimate is an educated approximation based on password complexity, length, and modern password-cracking techniques. While actual times can vary depending on an attacker's hardware and methods, the estimate provides a realistic indication of how resistant your password is to brute-force attacks and helps you compare the strength of different passwords.
+                            The crack-time estimate is a simplified offline attack estimate,
+                            not a prediction of exactly how long a real attack would take.
+                            It assumes an attacker can test approximately one billion guesses
+                            per second and adjusts the theoretical search space when predictable
+                            patterns are detected. Actual resistance depends on the password
+                            hashing algorithm, configuration, attacker hardware, and attack
+                            strategy.
                         </p>
 
                     </details>

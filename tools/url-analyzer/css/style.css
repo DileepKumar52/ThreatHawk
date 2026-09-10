@@ -3030,6 +3030,118 @@ textarea:focus-visible {
     }
 }
 
+/* ============================
+   URL Analysis Guide
+============================ */
+
+.url-analysis-guide {
+    padding: 100px 0;
+}
+
+.url-analysis-guide .section-header {
+    max-width: 850px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+.url-analysis-guide .section-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--accent-light);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.url-analysis-guide .section-header h2 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.25;
+    color: var(--text-primary);
+}
+
+.url-analysis-guide .section-header p {
+    margin: 18px auto 0;
+    max-width: 760px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+}
+
+.url-analysis-guide .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.url-analysis-guide .content-card {
+    padding: 28px;
+    background: rgba(13, 22, 37, 0.72);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.url-analysis-guide .content-card:hover {
+    border-color: rgba(0, 212, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.url-analysis-guide .content-card h3 {
+    margin: 0 0 12px;
+    color: var(--accent-light);
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+.url-analysis-guide .content-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.url-analysis-guide .content-note {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: rgba(13, 22, 37, 0.72);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-color);
+    border-radius: var(--radius-medium);
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.url-analysis-guide .content-note strong {
+    color: var(--text-primary);
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+    .url-analysis-guide .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .url-analysis-guide {
+        padding: 70px 14px;
+    }
+
+    .url-analysis-guide .section-header h2 {
+        font-size: 27px;
+    }
+
+    .url-analysis-guide .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .url-analysis-guide .content-card {
+        padding: 24px;
+    }
+}
+
 /* =========================================================
    FAQ SECTION
 ========================================================= */

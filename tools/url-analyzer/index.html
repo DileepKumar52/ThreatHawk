@@ -130,7 +130,7 @@
                 "name": "Is the URL I enter uploaded or stored by ThreatHawk?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "ThreatHawk does not intentionally store submitted URLs in a personal history or user profile. Structural checks run through the browser workflow, while selected external reputation checks may send the submitted URL to a clearly identified security provider."
+                    "text": "The URL Analyzer performs its structural and heuristic checks as part of the analysis workflow. ThreatHawk does not require an account and does not intentionally save URLs in a personal history or user profile. The analyzer also uses an external reputation service for threat checking, so the submitted URL may be sent to that security provider. Avoid entering private dashboard links, password-reset links, authentication tokens or other confidential addresses."
                 }
             },
             {
@@ -159,10 +159,42 @@
             },
             {
                 "@type": "Question",
+                "name": "Why can a legitimate URL receive a medium or high risk score?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A legitimate URL can receive a higher risk score when it contains patterns that are also commonly found in suspicious links, such as long URLs, redirect parameters, many subdomains, encoded characters or security-related keywords. The score represents detected signals and is not a definitive verdict."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the analyzer check SSL certificates and HTTPS?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The URL Analyzer checks whether a URL uses HTTP or HTTPS, but it does not inspect certificate ownership, expiration, issuer details or the complete TLS configuration of the destination website."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I analyze shortened or redirected URLs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The analyzer can inspect shortened URLs and identify redirect-related parameters or other suspicious URL patterns. It does not automatically follow every redirect in a chain."
+                }
+            },
+            {
+                "@type": "Question",
                 "name": "Is the ThreatHawk URL Analyzer free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "Yes. The ThreatHawk URL Analyzer is free to use and does not require account registration or a paid subscription."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the URL Analyzer work on mobile devices?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The ThreatHawk URL Analyzer is designed to work on modern mobile browsers as well as desktop browsers. The interface is responsive so URLs can be analyzed on smaller screens."
                 }
             }
         ]
@@ -987,6 +1019,93 @@
 
         </section>
 
+        <section class="content-section url-analysis-guide">
+            <div class="section-header">
+                <span class="section-label">Understanding URL Security</span>
+                <h2>How URL Analysis Helps Identify Suspicious Links</h2>
+                <p>
+                    A URL contains more security information than the website name alone.
+                    Examining its structure can reveal patterns that are commonly associated
+                    with phishing, impersonation and other suspicious links.
+                </p>
+            </div>
+
+            <div class="content-grid">
+                <article class="content-card">
+                    <h3>Start with the domain and hostname</h3>
+                    <p>
+                        The hostname is one of the most important parts of a URL to inspect.
+                        Attackers may use misleading subdomains, unusual domain names,
+                        excessive hyphens or large numbers of characters to make a link
+                        appear trustworthy. Always identify the actual domain rather than
+                        relying only on a familiar word appearing somewhere in the URL.
+                    </p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Look beyond HTTPS</h3>
+                    <p>
+                        HTTPS encrypts the connection between a browser and a website, but
+                        HTTPS alone does not prove that a website is legitimate. A phishing
+                        website can also use HTTPS. URL analysis therefore considers the
+                        protocol together with other structural signals instead of treating
+                        the padlock or HTTPS as a complete safety verdict.
+                    </p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Watch for suspicious URL patterns</h3>
+                    <p>
+                        Long URLs, unusual ports, encoded characters, IP-based hosts,
+                        suspicious file extensions and redirect parameters can provide
+                        additional context. None of these indicators automatically means
+                        that a URL is malicious, but several signals appearing together
+                        can justify closer investigation.
+                    </p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Be careful with brand impersonation</h3>
+                    <p>
+                        Phishing links often attempt to resemble well-known services by
+                        using misspelled names, extra characters or deceptive subdomains.
+                        For example, seeing a familiar brand name inside a URL does not mean
+                        that the domain actually belongs to that organization. The important
+                        question is which domain controls the website address.
+                    </p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Understand what the risk score means</h3>
+                    <p>
+                        The risk score summarizes suspicious signals detected during the
+                        analysis. A higher score means that more or stronger indicators were
+                        identified. It is not a statement that a website is definitely
+                        malicious, and a low score cannot guarantee that a website is safe.
+                        Use the individual findings to understand why a score was assigned.
+                    </p>
+                </article>
+
+                <article class="content-card">
+                    <h3>Use reputation checks as another signal</h3>
+                    <p>
+                        ThreatHawk can also use an external reputation check to identify
+                        known threats. Reputation results complement the URL's structural
+                        analysis rather than replacing it. A URL that has no known reputation
+                        warning can still require caution, especially when other suspicious
+                        indicators are present.
+                    </p>
+                </article>
+            </div>
+
+            <div class="content-note">
+                <strong>Important:</strong>
+                URL analysis is a security aid, not a guarantee of safety. Before opening
+                an unfamiliar link, consider the sender, expected destination and context
+                in which the URL was received.
+            </div>
+        </section>
+
 
         <!-- ==============================
              Knowledge Center
@@ -1126,16 +1245,14 @@
 
                         <p>
                             The URL Analyzer performs its structural and
-                            heuristic checks directly through the analysis
-                            workflow in your browser. ThreatHawk does not require
-                            an account and does not intentionally save URLs in a
-                            personal history or user profile. However, if an
-                            external reputation service is enabled in the
-                            analyzer, the submitted URL may be sent to that
-                            security provider for reputation checking. Avoid
-                            entering private dashboard links, password-reset
-                            links, authentication tokens or other confidential
-                            addresses.
+                            heuristic checks as part of the analysis workflow.
+                            ThreatHawk does not require an account and does not
+                            intentionally save URLs in a personal history or user
+                            profile. The analyzer also uses an external reputation
+                            service for threat checking, so the submitted URL may
+                            be sent to that security provider. Avoid entering
+                            private dashboard links, password-reset links,
+                            authentication tokens or other confidential addresses.
                         </p>
 
                     </details>

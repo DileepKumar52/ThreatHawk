@@ -2033,6 +2033,15 @@ body.light-mode .requirement-item.valid {
         #166534;
 }
 
+.requirements-note {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
 
 /* =========================================================
    16. ANALYSIS RESULT PANEL
@@ -2188,6 +2197,26 @@ body.light-mode .requirement-item.valid {
 
     color:
         var(--warning);
+}
+
+.result-explanation {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.result-explanation i {
+    margin-top: 2px;
+    flex-shrink: 0;
+    color: var(--accent-bright);
 }
 
 
@@ -3357,6 +3386,53 @@ body.light-mode .placeholder-icon {
 #popupContent li{
 
     margin-bottom:10px;
+}
+
+/* ==========================================
+   Password Strength Explained
+   ========================================== */
+
+.password-guide-section {
+    padding: 4rem 0;
+}
+
+.password-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.password-guide-card {
+    padding: 1.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+}
+
+.password-guide-card h3 {
+    margin: 0 0 0.9rem;
+    font-size: 1.15rem;
+}
+
+.password-guide-card p {
+    margin: 0 0 0.9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+}
+
+.password-guide-card p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .password-guide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .password-guide-section {
+        padding: 4rem 0;
+    }
 }
 
 /* =========================================================

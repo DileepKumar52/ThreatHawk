@@ -75,33 +75,46 @@ const requirementElements = {
 const OFFLINE_GUESSES_PER_SECOND = 1_000_000_000;
 
 const COMMON_PASSWORDS = new Set([
-    "123456",
-    "12345678",
-    "123456789",
-    "1234567890",
-    "111111",
-    "000000",
-    "abc123",
-    "admin",
-    "admin123",
-    "letmein",
-    "login",
-    "master",
-    "password",
-    "password1",
-    "password12",
-    "password123",
-    "passw0rd",
-    "qwerty",
-    "qwerty123",
-    "welcome",
-    "welcome123",
-    "iloveyou",
-    "monkey",
-    "dragon",
-    "football",
-    "princess",
-    "sunshine"
+ "123456789",
+ "1234567890",
+ "qwerty123",
+ "qwertyuiop",
+ "password1",
+ "password123",
+ "admin123",
+ "administrator",
+ "welcome123",
+ "letmein",
+ "letmein123",
+ "monkey",
+ "dragon",
+ "football",
+ "baseball",
+ "iloveyou",
+ "princess",
+ "sunshine",
+ "shadow",
+ "master",
+ "superman",
+ "trustno1",
+ "passw0rd",
+ "p@ssword",
+ "p@ssw0rd",
+ "qwerty",
+ "asdfgh",
+ "zxcvbn",
+ "1q2w3e",
+ "1q2w3e4r",
+ "1qaz2wsx",
+ "654321",
+ "987654321",
+ "000000",
+ "111111",
+ "121212",
+ "696969",
+ "666666",
+ "123123",
+ "112233"
 ]);
 
 const PREDICTABLE_WORDS = [
@@ -216,20 +229,27 @@ function updateRequirements(requirements) {
 function getCharacterSetSize(password) {
     let characterSetSize = 0;
 
+    const CHARACTER_SETS = {
+        lowercase: 26,
+        uppercase: 26,
+        numbers: 10,
+        special: 33
+    };
+
     if (/[a-z]/.test(password)) {
-        characterSetSize += 26;
+        characterSetSize += CHARACTER_SETS.lowercase;
     }
 
     if (/[A-Z]/.test(password)) {
-        characterSetSize += 26;
+        characterSetSize += CHARACTER_SETS.uppercase;
     }
 
     if (/[0-9]/.test(password)) {
-        characterSetSize += 10;
+        characterSetSize += CHARACTER_SETS.numbers;
     }
 
     if (/[^A-Za-z0-9]/.test(password)) {
-        characterSetSize += 33;
+        characterSetSize += CHARACTER_SETS.special;
     }
 
     return characterSetSize;
@@ -270,6 +290,11 @@ function detectPatterns(password) {
                 normalizedPassword
             ),
 
+        yearPattern:
+            /(?:19[5-9]\d|20[0-3]\d)/.test(
+                normalizedPassword
+            ),
+
         reverseNumberSequence:
             /(?:9876|8765|7654|6543|5432|4321|3210)/.test(
                 normalizedPassword
@@ -285,6 +310,9 @@ function detectPatterns(password) {
 
         repeatedBlock:
             /(.{2,4})\1{1,}/i.test(password),
+
+        repeatedNumbers:
+            /(?:\d{2,4})\1/.test(password),
 
         onlyLetters:
             /^[a-z]+$/i.test(password),
@@ -327,76 +355,81 @@ function calculateStrengthScore(
     let score = 0;
 
     /*
-     * Length contribution: maximum 40 points.
+     * Length is the primary factor.
      */
     if (password.length >= 8) {
-        score += 12;
-    }
-
-    if (password.length >= 10) {
-        score += 6;
+        score += 15;
     }
 
     if (password.length >= 12) {
-        score += 8;
+        score += 15;
     }
 
     if (password.length >= 16) {
-        score += 8;
+        score += 15;
     }
 
     if (password.length >= 20) {
-        score += 6;
+        score += 10;
     }
 
     /*
-     * Character diversity: maximum 40 points.
+     * Character diversity provides additional resistance,
+     * but does not dominate the score.
      */
-    if (requirements.upper) {
-        score += 10;
-    }
+    let characterTypes = 0;
 
     if (requirements.lower) {
-        score += 10;
+        characterTypes++;
+    }
+
+    if (requirements.upper) {
+        characterTypes++;
     }
 
     if (requirements.number) {
-        score += 10;
+        characterTypes++;
     }
 
     if (requirements.special) {
-        score += 10;
+        characterTypes++;
     }
 
+    score += characterTypes * 5;
+
     /*
-     * Character uniqueness: maximum 20 points.
+     * Reward character uniqueness.
      */
-    const uniqueCharacterCount =
+    const uniqueCharacters =
         new Set(password).size;
 
     const uniquenessRatio =
-        uniqueCharacterCount / password.length;
+        uniqueCharacters / password.length;
 
     score += Math.round(
-        Math.min(uniquenessRatio, 1) * 20
+        uniquenessRatio * 20
     );
 
     /*
-     * Pattern penalties.
+     * Penalize predictable structures.
      */
     if (patterns.predictableWord) {
-        score -= 20;
+        score -= 15;
     }
 
     if (
         patterns.numberSequence ||
         patterns.reverseNumberSequence
     ) {
-        score -= 12;
+        score -= 15;
+    }
+
+    if (patterns.yearPattern) {
+        score -= 10;
     }
 
     if (patterns.keyboardSequence) {
-        score -= 18;
+        score -= 15;
     }
 
     if (patterns.repeatedCharacters) {
@@ -407,12 +440,16 @@ function calculateStrengthScore(
         score -= 10;
     }
 
-    if (patterns.onlyLetters) {
-        score -= 12;
+    if (patterns.repeatedNumbers) {
+        score -= 10;
     }
 
     if (patterns.onlyNumbers) {
-        score -= 25;
+        score -= 15;
+    }
+
+    if (patterns.onlyLetters) {
+        score -= 5;
     }
 
     if (patterns.lowUniqueness) {
@@ -421,7 +458,7 @@ function calculateStrengthScore(
 
     return Math.max(
         0,
-        Math.min(Math.round(score), 100)
+        Math.min(100, score)
     );
 }
 
@@ -445,8 +482,7 @@ function calculateCrackTimeLogSeconds(
     password,
     patterns
 ) {
-    const characterSetSize =
-        getCharacterSetSize(password);
+    const characterSetSize = getCharacterSetSize(password);
 
     if (
         password.length === 0 ||
@@ -456,53 +492,71 @@ function calculateCrackTimeLogSeconds(
     }
 
     /*
-     * Work in logarithms to avoid JavaScript numeric overflow
-     * with extremely large password combinations.
+     * Common passwords and highly predictable patterns
+     * should not be treated as full random search-space passwords.
      */
+    if (patterns.commonPassword) {
+        return Math.log10(1);
+    }
+
     let log10Guesses =
         password.length *
         Math.log10(characterSetSize);
 
     /*
-     * Assume an attacker finds the password halfway
-     * through the search space on average.
+     * Average-case estimate:
+     * an attacker finds the password after searching
+     * roughly half of the effective search space.
      */
     log10Guesses -= Math.log10(2);
 
     /*
-     * Reduce estimated resistance when predictable
-     * patterns are detected.
+     * Pattern adjustments represent reduced effective
+     * search space rather than arbitrary time penalties.
      */
-    if (patterns.commonPassword) {
-        return Number.NEGATIVE_INFINITY;
-    }
-
     if (patterns.predictableWord) {
-        log10Guesses -= 5;
+        log10Guesses -= 3;
     }
 
     if (
         patterns.numberSequence ||
         patterns.reverseNumberSequence
     ) {
-        log10Guesses -= 4;
+        log10Guesses -= 3;
+    }
+
+    if (patterns.yearPattern) {
+        log10Guesses -= 2;
     }
 
     if (patterns.keyboardSequence) {
-        log10Guesses -= 5;
+        log10Guesses -= 3;
     }
 
     if (patterns.repeatedCharacters) {
-        log10Guesses -= 4;
+        log10Guesses -= 3;
     }
 
     if (patterns.repeatedBlock) {
-        log10Guesses -= 3;
+        log10Guesses -= 2;
+    }
+
+    if (patterns.repeatedNumbers) {
+        log10Guesses -= 2;
     }
 
     if (patterns.lowUniqueness) {
         log10Guesses -= 2;
     }
+
+    /*
+     * Prevent the adjusted search space from becoming
+     * unrealistically smaller than a single guess.
+     */
+    log10Guesses = Math.max(
+        0,
+        log10Guesses
+    );
 
     return (
         log10Guesses -
@@ -680,6 +734,12 @@ function buildSuggestions(
         );
     }
 
+    if (patterns.yearPattern) {
+        suggestions.push(
+            "Avoid using a four-digit year as part of your password."
+        );
+    }
+
     if (patterns.keyboardSequence) {
         suggestions.push(
             "Avoid keyboard patterns such as qwerty, asdf or zxcv."
@@ -695,6 +755,12 @@ function buildSuggestions(
     if (patterns.repeatedBlock) {
         suggestions.push(
             "Avoid repeating the same group of characters."
+        );
+    }
+
+    if (patterns.repeatedNumbers) {
+        suggestions.push(
+            "Avoid repeating the same number pattern in your password."
         );
     }
 
@@ -838,7 +904,7 @@ function renderResult({
             </div>
 
             <div class="result-metric">
-                <span>Estimated entropy</span>
+                <span>Theoretical entropy</span>
                 <strong>${entropy.toFixed(1)} bits</strong>
             </div>
 
@@ -856,9 +922,19 @@ function renderResult({
 
             <span>
                 Crack time is a simplified estimate based on
-                one billion offline guesses per second. Real
-                results vary by hashing algorithm and attacker
-                hardware.
+                one billion offline guesses per second. Actual resistance depends on the hashing
+                algorithm, password-hashing configuration,
+                and attacker hardware.
+            </span>
+        </div>
+
+        <div class="result-explanation">
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <span>
+                Your score reflects password length, character
+                diversity, uniqueness, and detected predictable
+                patterns.
             </span>
         </div>
     `;
@@ -972,7 +1048,7 @@ function resetAnalysis() {
 
         <p>
             Enter a password to view its security score,
-            entropy and estimated offline crack time.
+            theoretical entropy and estimated offline crack time.
         </p>
     `;
 
