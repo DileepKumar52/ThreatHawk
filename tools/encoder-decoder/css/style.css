@@ -1983,8 +1983,8 @@ body.light-theme .dropdown-menu {
     white-space: nowrap;
 
     transition:
-        color var(--transition),
-        transform var(--transition);
+        color var(--transition-normal),
+        transform var(--transition-normal);
 }
 
 .footer-links a:hover {
@@ -3517,7 +3517,7 @@ body.light-theme .related-guide-card {
     color: inherit;
     text-decoration: none;
     background: var(--surface-transparent);
-    border: 1px solid var(--border);
+    bvar(--border-primary)
     border-radius: var(--radius-large);
     box-shadow: var(--shadow-small);
     overflow: hidden;
@@ -3535,7 +3535,7 @@ body.light-theme .related-guide-card {
     left: 0;
     width: 100%;
     height: 3px;
-    background: var(--accent);
+    var(--accent-primary)
     opacity: 0;
     transform: scaleX(0.4);
     transform-origin: center;
@@ -3565,7 +3565,7 @@ body.light-theme .related-guide-card {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--accent-bright);
+    var(--accent-light)
     background: rgba(59, 130, 246, 0.10);
     border: 1px solid var(--border-accent);
     border-radius: 14px;
@@ -3579,7 +3579,7 @@ body.light-theme .related-guide-card {
 
 .related-tool-card:hover .related-tool-icon {
     color: #ffffff;
-    background: var(--accent);
+    var(--accent-primary)
     border-color: var(--accent);
     transform: rotate(-4deg) scale(1.06);
 }
@@ -3606,7 +3606,7 @@ body.light-theme .related-guide-card {
 .related-link {
     display: inline-flex;
     align-items: center;
-    color: var(--accent-bright);
+    var(--accent-light)
     font-size: 14px;
     font-weight: 700;
     transition:
@@ -3619,11 +3619,11 @@ body.light-theme .related-guide-card {
     transform: translateX(4px);
 }
 
-body.light-mode .related-tool-card {
+body.light-theme .related-tool-card {
     background: rgba(255, 255, 255, 0.96);
 }
 
-body.light-mode .related-tool-card:hover {
+body.light-theme .related-tool-card:hover {
     background: #ffffff;
 }
 

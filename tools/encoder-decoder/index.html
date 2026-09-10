@@ -153,7 +153,7 @@
                 "name": "Is my input uploaded to ThreatHawk?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "No. Encoder and Decoder processes input and output locally inside your browser. ThreatHawk does not intentionally upload, store or transmit the data you convert."
+                    "text": "No. Encoder & Decoder processes input and output locally inside your browser. ThreatHawk does not intentionally upload, store or transmit the data you convert."
                 }
             },
             {
@@ -161,31 +161,7 @@
                 "name": "Which formats are supported?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The tool supports Base64, Base64 URL, URL encoding, HTML entities, hexadecimal, binary and ROT13."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the difference between encoding and encryption?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Encoding changes data into another representation and is normally reversible without a secret key. Encryption protects confidentiality and requires the correct cryptographic key to recover the original data."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does the tool support UTF-8 characters?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The converter supports UTF-8 text, including standard characters, symbols and international characters."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I copy or download the converted result?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. After conversion, the result can be copied to the clipboard or downloaded as a local file."
+                    "text": "The module currently supports Base64, Base64 URL, URL encoding, HTML entities, hexadecimal, binary and ROT13. Each format can be selected from the format menu before running the conversion."
                 }
             },
             {
@@ -193,7 +169,7 @@
                 "name": "How do I encode text to Base64?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Base64 from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk generates the Base64 representation locally inside your browser."
+                    "text": "Select Base64 from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk will generate the Base64 representation locally inside your browser without uploading the input."
                 }
             },
             {
@@ -201,7 +177,7 @@
                 "name": "How do I decode Base64 into readable text?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Base64 as the format, choose Decode, paste the Base64 value into the Source Data field and click Convert Data. Valid Base64 input is decoded locally and displayed in the output panel."
+                    "text": "Select Base64 as the format, choose Decode, paste the Base64 value into the Source Data field and click Convert Data. If the submitted value is valid Base64, the decoded text will appear in the output panel."
                 }
             },
             {
@@ -209,15 +185,15 @@
                 "name": "How do I convert hexadecimal to text?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Hexadecimal from the format menu, choose Decode, paste the hexadecimal value into the Source Data field and click Convert Data. Valid hexadecimal byte values are converted back into readable text."
+                    "text": "Select Hexadecimal from the format menu, choose Decode, paste the hexadecimal value into the Source Data field and click Convert Data. Valid hexadecimal byte values will be converted back into readable text."
                 }
-            },
+            },  
             {
                 "@type": "Question",
                 "name": "How do I convert text to hexadecimal?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Hexadecimal from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk converts the text into hexadecimal byte values locally inside your browser."
+                    "text": "Select Hexadecimal from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk will convert the text into hexadecimal byte values locally inside your browser."
                 }
             },
             {
@@ -225,7 +201,7 @@
                 "name": "How do I convert binary to text?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Binary from the format menu, choose Decode, paste the binary value into the Source Data field and click Convert Data. Valid binary byte values are converted back into readable text."
+                    "text": "Select Binary from the format menu, choose Decode, paste the binary value into the Source Data field and click Convert Data. Valid binary byte values will be converted back into readable text."
                 }
             },
             {
@@ -233,7 +209,71 @@
                 "name": "How do I convert text to binary?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Select Binary from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk converts the text into binary byte values locally inside your browser."
+                    "text": "Select Binary from the format menu, choose Encode, enter or paste your text into the Source Data field and click Convert Data. ThreatHawk will convert the text into binary byte values locally inside your browser."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between encoding and encryption?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Encoding changes data into another representation so it can be transmitted, stored or interpreted correctly. It is normally reversible without a secret key. Encryption is designed to protect confidentiality and requires the proper cryptographic key to recover the original data."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the tool support UTF-8 characters?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The converter is designed to handle UTF-8 text, including ordinary letters, symbols and international characters. Some malformed encoded input may still produce an error if it cannot be decoded into valid text."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Base64 URL encoding?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Base64 URL is a URL-safe variation of Base64. It replaces characters that may cause problems inside URLs and often removes trailing padding characters, making the output more suitable for web tokens, parameters and identifiers."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does decoded output sometimes fail?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Decoding may fail when the submitted value contains invalid characters, incorrect spacing, missing data, malformed byte groups or content that does not match the selected format. Check that the chosen operation and format match the input."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I swap the output back into the input?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The Swap button moves the current output into the input panel and changes the operation where appropriate, allowing you to reverse or continue a transformation without copying the value manually."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I copy or download the converted result?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. After a successful conversion, you can copy the result to your clipboard or download it as a local file for later use."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is ROT13 secure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. ROT13 is a simple letter-substitution transformation and can be reversed by applying the same operation again. It is useful for obscuring text casually, not for protecting passwords, confidential files or sensitive communications."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can this tool detect whether encoded data is malicious?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Encoder & Decoder only transforms data between supported representations. It does not determine whether decoded content is safe, trustworthy or malicious. Review unknown output carefully before opening links, scripts or files derived from it."
                 }
             }
         ]
