@@ -280,17 +280,39 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/DileepKumar52/ThreatHawk.git
-```
-
-Move into the project directory:
-
-```bash
 cd ThreatHawk
 ```
 
-Open the project locally using a local development server or open the required HTML page in your browser.
+### Run Locally
 
-The core frontend is built with HTML, CSS and JavaScript and does not require a complex build process.
+Start the local development server (includes static file serving + `/api/safe-browsing` serverless execution with zero external dependencies):
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` in your browser.
+
+### Run Automated Tests
+
+Execute the built-in test suite:
+
+```bash
+npm test
+```
+
+### Environment Configuration (Optional)
+
+To enable live Google Safe Browsing reputation lookups locally, copy `.env.example` to `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+Add your API key:
+```env
+SAFE_BROWSING_API_KEY=your_key_here
+```
 
 ---
 

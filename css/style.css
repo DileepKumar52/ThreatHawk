@@ -2,6 +2,9 @@
    ThreatHawk Landing Page Styles (Extends design-system.css & layout.css)
    ========================================================================== */
 
+@import url("design-system.css");
+@import url("layout.css");
+
 /* --------------------------------------------------------------------------
    HERO SECTION
    -------------------------------------------------------------------------- */
@@ -402,17 +405,396 @@
 }
 
 /* --------------------------------------------------------------------------
+   SHARED NAVIGATION COMPATIBILITY (.navbar, .logo, .site-header)
+   -------------------------------------------------------------------------- */
+.site-header,
+header.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.site-header .navbar,
+header.navbar {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header .logo,
+header.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-ink);
+}
+
+.site-header .logo h2,
+header.navbar .logo h2 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: var(--color-ink);
+    margin: 0;
+}
+
+.site-header nav ul,
+header.navbar nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.site-header nav a,
+header.navbar nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    color: var(--color-body);
+    font-size: var(--type-body-md-size);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.site-header nav a:hover,
+.site-header nav a.active,
+header.navbar nav a:hover,
+header.navbar nav a.active {
+    color: var(--color-ink);
+    background-color: var(--color-hairline-soft);
+}
+
+.site-header .nav-dropdown,
+header.navbar .nav-dropdown {
+    position: relative;
+}
+
+.site-header .dropdown-toggle,
+header.navbar .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    color: var(--color-body);
+    font-size: var(--type-body-md-size);
+    border-radius: var(--radius-full);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.site-header .dropdown-toggle:hover,
+.site-header .nav-dropdown.active .dropdown-toggle,
+header.navbar .dropdown-toggle:hover,
+header.navbar .nav-dropdown.active .dropdown-toggle {
+    color: var(--color-ink);
+    background-color: var(--color-hairline-soft);
+}
+
+.site-header .dropdown-arrow,
+header.navbar .dropdown-arrow {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    transition: transform var(--transition-fast);
+}
+
+.site-header .nav-dropdown.active .dropdown-arrow,
+header.navbar .nav-dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.site-header .dropdown-menu,
+header.navbar .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 260px;
+    background-color: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-dropdown);
+    padding: 6px;
+    list-style: none;
+    z-index: 1050;
+    flex-direction: column;
+}
+
+.site-header .nav-dropdown.active .dropdown-menu,
+header.navbar .nav-dropdown.active .dropdown-menu {
+    display: flex;
+}
+
+.site-header .dropdown-menu li,
+header.navbar .dropdown-menu li {
+    list-style: none;
+    margin: 0;
+}
+
+.site-header .dropdown-menu a,
+header.navbar .dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    font-size: var(--type-body-md-size);
+    text-decoration: none;
+    width: 100%;
+}
+
+.site-header .dropdown-menu a:hover,
+header.navbar .dropdown-menu a:hover {
+    background-color: var(--color-hairline-soft);
+}
+
+.site-header .dropdown-icon,
+header.navbar .dropdown-icon {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-hairline-soft);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    flex-shrink: 0;
+}
+
+.site-header .dropdown-icon svg,
+header.navbar .dropdown-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.site-header .nav-actions,
+header.navbar .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.site-header .version,
+header.navbar .version {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    background-color: var(--color-hairline-soft);
+    color: var(--color-mute);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   SHARED FOOTER COMPATIBILITY (.site-footer)
+   -------------------------------------------------------------------------- */
+.site-footer {
+    background-color: var(--color-canvas);
+    border-top: 1px solid var(--color-hairline);
+    padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-xl);
+    margin-top: var(--spacing-4xl);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.site-footer .footer-brand h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+}
+
+.site-footer .footer-brand p {
+    font-size: var(--type-body-sm-size);
+    color: var(--color-mute);
+    margin: 0;
+}
+
+.site-footer .footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin: var(--spacing-xs) 0;
+}
+
+.site-footer .footer-links a {
+    font-size: var(--type-body-sm-size);
+    color: var(--color-mute);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.site-footer .footer-links a:hover {
+    color: var(--color-ink);
+}
+
+.site-footer .footer-version {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-mute);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.site-footer .footer-copyright {
+    font-size: 12px;
+    color: var(--color-mute);
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
    STATIC PAGES (About, Contact, Privacy, Terms, Disclaimer)
    -------------------------------------------------------------------------- */
 .about-hero,
 .policy-hero,
 .contact-hero {
-    padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    padding: var(--spacing-4xl) var(--spacing-lg) var(--spacing-2xl);
     text-align: center;
     background-color: var(--color-canvas);
     border-bottom: 1px solid var(--color-hairline);
 }
 
+.hero-content {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-mute);
+    background-color: var(--color-hairline-soft);
+    border: 1px solid var(--color-hairline);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: var(--spacing-xs);
+}
+
+.about-hero h1,
+.policy-hero h1,
+.contact-hero h1 {
+    font-size: var(--type-display-xl-size);
+    font-weight: var(--type-display-xl-weight);
+    line-height: var(--type-display-xl-line);
+    letter-spacing: var(--type-display-xl-tracking);
+    color: var(--color-ink);
+    text-wrap: balance;
+    margin: 0;
+}
+
+.hero-description {
+    font-size: var(--type-body-lg-size);
+    line-height: var(--type-body-lg-line);
+    color: var(--color-body);
+    text-wrap: pretty;
+    margin: 0;
+}
+
+.policy-updated {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-mute);
+    margin: var(--spacing-xs) 0 0;
+}
+
+.hero-buttons,
+.about-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 40px;
+    padding: 0 18px;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    font-size: var(--type-body-md-size);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.primary-btn:hover {
+    opacity: 0.9;
+    color: var(--color-on-primary);
+}
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 40px;
+    padding: 0 18px;
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    font-size: var(--type-body-md-size);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.secondary-btn:hover {
+    background-color: var(--color-hairline-soft);
+    border-color: var(--color-faint);
+    color: var(--color-ink);
+}
+
+/* Sections */
 .about-section,
 .policy-section,
 .contact-section {
@@ -422,16 +804,22 @@
     color: var(--color-body);
     font-size: var(--type-body-md-size);
     line-height: 1.7;
+    border-bottom: 1px solid var(--color-hairline-soft);
 }
 
-.about-section h2,
-.policy-section h2,
-.contact-section h2 {
+.about-section:last-of-type,
+.policy-section:last-of-type,
+.contact-section:last-of-type {
+    border-bottom: none;
+}
+
+.section-heading h2 {
     font-size: var(--type-heading-lg-size);
-    font-weight: 600;
+    font-weight: var(--type-heading-lg-weight);
     color: var(--color-ink);
+    letter-spacing: var(--type-heading-lg-tracking);
+    line-height: var(--type-heading-lg-line);
     margin-bottom: var(--spacing-md);
-    letter-spacing: -0.8px;
 }
 
 .about-section h3,
@@ -440,7 +828,8 @@
     font-size: var(--type-heading-md-size);
     font-weight: 600;
     color: var(--color-ink);
-    margin: var(--spacing-lg) 0 var(--spacing-xs);
+    margin: var(--spacing-xl) 0 var(--spacing-xs);
+    letter-spacing: -0.4px;
 }
 
 .about-section p + p,
@@ -451,22 +840,120 @@
 
 .about-section ul,
 .policy-section ul,
-.contact-section ul {
+.contact-section ul,
+.about-list,
+.service-list {
     margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-xl);
+    list-style: disc;
 }
 
 .about-section li,
 .policy-section li,
-.contact-section li {
+.contact-section li,
+.about-list li,
+.service-list li {
     margin-bottom: var(--spacing-xs);
+    color: var(--color-body);
 }
 
-.mission-box,
-.contact-info-card {
+.about-section a,
+.policy-section a,
+.contact-section a {
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+.about-section a:hover,
+.policy-section a:hover,
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Cards Grid */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.contact-card {
     background-color: var(--color-canvas-elevated);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);
     padding: var(--spacing-xl);
-    margin: var(--spacing-xl) 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     box-shadow: var(--shadow-whisper);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.contact-card:hover {
+    border-color: var(--color-faint);
+    box-shadow: var(--shadow-floating);
+}
+
+.contact-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-top: 0;
+    margin-bottom: var(--spacing-xs);
+}
+
+.contact-card p {
+    font-size: var(--type-body-md-size);
+    color: var(--color-body);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+    flex-grow: 1;
+}
+
+.contact-actions,
+.policy-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.contact-cta {
+    background-color: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2xl);
+    margin-top: var(--spacing-2xl);
+    box-shadow: var(--shadow-whisper);
+}
+
+.service-note {
+    font-size: var(--type-body-sm-size);
+    color: var(--color-mute);
+    margin-top: var(--spacing-sm);
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .site-header nav ul,
+    header.navbar nav ul {
+        display: none;
+    }
+
+    .about-hero,
+    .policy-hero,
+    .contact-hero {
+        padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-lg);
+    }
+
+    .about-section,
+    .policy-section,
+    .contact-section {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
 }

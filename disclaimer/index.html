@@ -84,6 +84,8 @@
     <link rel="manifest"
           href="../site.webmanifest">
 
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
 
     <script type="application/ld+json">
@@ -128,11 +130,9 @@
 
     <header class="navbar">
 
-        <div class="logo">
-
+        <a href="../" class="logo" aria-label="ThreatHawk Home">
             <h2>ThreatHawk</h2>
-
-        </div>
+        </a>
 
         <nav>
 
@@ -239,6 +239,8 @@
                     </ul>
                 </li>
 
+                <li><a href="../guides/">Guides</a></li>
+
                 <li><a href="../about/">About</a></li>
 
                 <li>
@@ -253,10 +255,11 @@
 
         </nav>
 
-        <div class="version">
-
-            Version 1.0
-
+        <div class="nav-actions">
+            <button type="button" class="th-theme-btn" id="themeToggle" aria-label="Switch theme">
+                <i class="fa-solid fa-moon" aria-hidden="true"></i>
+            </button>
+            <span class="version">v1.0</span>
         </div>
 
     </header>
