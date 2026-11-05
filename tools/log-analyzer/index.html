@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329858525106937"
             crossorigin="anonymous"></script>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9595S5GKM8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-9595S5GKM8');
     </script>
 
-    <!-- Microsoft Clarity tag -->
+    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -27,1964 +24,322 @@
     </script>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Log Analyzer &amp; IOC Extraction Engine | ThreatHawk</title>
 
     <meta
         name="description"
-        content="Use ThreatHawk's free Security Log Analyzer to inspect authentication logs, detect failed logins, identify IOCs, suspicious IP addresses and potential brute-force activity."
+        content="Analyze server logs, extract indicators of compromise (IOCs), detect SQL injection, XSS, brute-force attacks, and generate structured incident reports locally in your browser."
     >
 
-    <link rel="canonical"
-          href="https://threathawk.net/tools/log-analyzer/">
-
+    <link rel="canonical" href="https://threathawk.net/tools/log-analyzer/">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ThreatHawk">
-    <meta
-        property="og:title"
-        content="Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk">
-    <meta
-        property="og:description"
-        content="Analyze authentication logs, detect failed login attempts, suspicious IPs and indicators of compromise."
-    >
-    <meta property="og:url"
-          content="https://threathawk.net/tools/log-analyzer/">
+    <meta property="og:title" content="Security Log Analyzer &amp; IOC Extraction Engine | ThreatHawk">
+    <meta property="og:description" content="Parse SSH, Apache, Nginx, and Syslog logs, extract IOCs, and identify attacks locally with ThreatHawk.">
+    <meta property="og:url" content="https://threathawk.net/tools/log-analyzer/">
     <meta property="og:image" content="https://threathawk.net/assets/og-image.png">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta
-        name="twitter:title"
-        content="Free Security Log Analyzer for Failed Logins & IOCs | ThreatHawk">
-    <meta
-        name="twitter:description"
-        content="Inspect authentication logs, detect failed logins, suspicious IPs and indicators of compromise locally."
-    >
-    <meta name="twitter:image" content="https://threathawk.net/assets/og-image.png">
-
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../favicon-96x96.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="manifest" href="../../site.webmanifest">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "ThreatHawk Log Analyzer",
+        "name": "ThreatHawk Security Log Analyzer",
         "applicationCategory": "SecurityApplication",
-        "applicationSubCategory": "SOC Log Analysis Tool",
         "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript and a modern web browser",
         "url": "https://threathawk.net/tools/log-analyzer/",
         "image": "https://threathawk.net/assets/logo.svg",
-        "description": "Use ThreatHawk's free Security Log Analyzer to inspect authentication logs, detect failed logins, identify indicators of compromise, suspicious IP addresses and potential brute-force activity locally in your browser.",
+        "description": "Analyze security logs, extract IOCs, and identify attack patterns locally with ThreatHawk.",
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
         },
         "isAccessibleForFree": true,
-        "license": "https://opensource.org/licenses/MIT",
-        "creator": {
-            "@type": "Person",
-            "name": "Dileep Kumar"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "ThreatHawk",
-            "url": "https://threathawk.net/"
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Are uploaded log files sent to ThreatHawk?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No. Log Analysis processes supported files directly in your browser. ThreatHawk does not intentionally upload, store or maintain a personal history of the log files you analyze. Avoid using confidential production logs on shared or untrusted devices."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Which log file types are supported?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The current Log Analysis module accepts TXT, LOG and CSV files. The parser is designed for common authentication and security-event formats, but highly customized or unusual log structures may not be interpreted perfectly."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How is the threat score calculated?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The threat score is based on detected security signals such as repeated failed logins, suspicious source activity, alert patterns, extracted indicators and other notable events. These signals are combined into an overall severity score."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How does ThreatHawk detect brute-force activity?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "ThreatHawk looks for repeated authentication failures and groups suspicious patterns by source, event type and occurrence frequency. A large number of failed attempts from the same source may indicate password guessing or automated brute-force activity."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What are indicators of compromise?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Indicators of compromise, commonly called IOCs, are values that may be associated with suspicious or malicious activity. In the current module, these primarily include IP addresses, URLs, domains, hashes, CVEs and other artifacts extracted from submitted logs."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can Log Analysis confirm that an incident occurred?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No. The module identifies suspicious patterns and produces an explainable assessment, but it cannot independently prove that a security incident occurred. Results should be reviewed alongside system context and other investigative sources."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Why might legitimate activity be flagged as suspicious?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Legitimate systems can generate repeated failures, unusual IP activity or noisy alerts during testing, configuration changes, user mistakes or automated processes. The analyzer reports suspicious characteristics rather than definitive conclusions."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I search and filter the analyzed events?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. After analysis, you can search parsed events by message, IP address or event details and filter the table by severity."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I export the incident analysis?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The Export Analysis Report feature generates a report from the current incident summary, threat score, findings, indicators and parsed events."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is Log Analysis a replacement for a SIEM?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No. ThreatHawk Log Analysis is a lightweight browser-based investigation tool. It does not replace a full SIEM, continuous monitoring platform, endpoint detection system or professional incident-response workflow."
-                }
-            }
-        ]
+        "license": "https://opensource.org/licenses/MIT"
     }
     </script>
 </head>
 
 <body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- ThreatHawk Navigation -->
-
-    <header class="site-header">
-
-        <div class="navbar">
-
-            <a
-                href="../../"
-                class="logo"
-                aria-label="Return to ThreatHawk homepage"
-            >
-                <h2>ThreatHawk</h2>
+    <!-- Top Navigation -->
+    <header class="th-navbar">
+        <div class="th-navbar-inner">
+            <a href="../../" class="th-brand" aria-label="ThreatHawk Home">
+                <span class="th-brand-logo">TH</span>
+                <span>ThreatHawk</span>
             </a>
 
-            <nav aria-label="Primary navigation">
-
-                <ul>
-
-                    <li>
-                        <a href="../../">
-                            Home
-                        </a>
-                    </li>
-
-                    <li class="nav-dropdown">
-
-                        <button
-                            class="dropdown-toggle active"
-                            type="button"
-                            aria-expanded="false"
-                            aria-controls="modulesDropdown"
-                        >
-                        <span>Modules</span>
-
-                            <svg
-                                class="dropdown-arrow"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+            <nav aria-label="Main Navigation">
+                <ul class="th-nav-links">
+                    <li><a href="../../" class="th-nav-link">Home</a></li>
+                    <li class="th-dropdown active">
+                        <button class="th-dropdown-toggle" type="button" aria-expanded="false" aria-controls="modulesDropdown">
+                            <span>Modules</span>
+                            <svg class="th-dropdown-arrow" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
                         </button>
-
-                        <ul
-                            class="dropdown-menu"
-                            id="modulesDropdown"
-                            aria-label="ThreatHawk modules"
-                        >
-
+                        <ul class="th-dropdown-menu" id="modulesDropdown" aria-label="ThreatHawk modules">
                             <li>
-                                <a href="../password-analyzer/">
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <rect
-                                                x="4"
-                                                y="10"
-                                                width="16"
-                                                height="10"
-                                                rx="2"
-                                            ></rect>
-
-                                            <path
-                                                d="M8 10V7a4 4 0 0 1 8 0v3"
-                                            ></path>
-
-                                            <path d="M12 14v2"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../password-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span>
                                     <span>Password Intelligence</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../url-analyzer/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <circle
-                                                cx="12"
-                                                cy="12"
-                                                r="9"
-                                            ></circle>
-
-                                            <path d="M3 12h18"></path>
-
-                                            <path
-                                                d="M12 3a14 14 0 0 1 0 18"
-                                            ></path>
-
-                                            <path
-                                                d="M12 3a14 14 0 0 0 0 18"
-                                            ></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../url-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span>
                                     <span>URL Analyzer</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../hash-analyzer/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M10 3 8 21"></path>
-                                            <path d="m16 3-2 18"></path>
-                                            <path d="M4 9h16"></path>
-                                            <path d="M3 15h16"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../hash-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-fingerprint" aria-hidden="true"></i></span>
                                     <span>Hash Analyzer</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a
-                                    href="./"
-                                    class="current-module"
-                                    aria-current="page"
-                                >
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M6 3h9l3 3v15H6z"></path>
-                                            <path d="M14 3v4h4"></path>
-                                            <path d="M9 12h6"></path>
-                                            <path d="M9 16h6"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="./" class="th-dropdown-item active" style="font-weight: 600;">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i></span>
                                     <span>Log Analysis</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../encoder-decoder/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="m8 9-4 3 4 3"></path>
-                                            <path d="m16 9 4 3-4 3"></path>
-                                            <path d="m14 5-4 14"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../encoder-decoder/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></span>
                                     <span>Encoder &amp; Decoder</span>
                                 </a>
                             </li>
-
                         </ul>
-
                     </li>
-
-                    <li>
-                        <a href="../../guides/">
-                            Guides
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="../../about/">About</a>
-                    </li>
-
-                    <li>
-                        <a href="../../contact/">
-                            Contact
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#faq">
-                            FAQ
-                        </a>
-                    </li>
-
+                    <li><a href="../../guides/" class="th-nav-link">Guides</a></li>
+                    <li><a href="../../about/" class="th-nav-link">About</a></li>
+                    <li><a href="../../contact/" class="th-nav-link">Contact</a></li>
                 </ul>
-
             </nav>
 
-            <div class="nav-actions">
-
-                <span class="version">
-                    Version 1.0
-                </span>
-
-                <button
-                    id="themeToggle"
-                    class="theme-toggle"
-                    type="button"
-                    aria-label="Switch to light mode"
-                >
-                    <i class="fa-regular fa-sun"></i>
-
-                    <span>Light Mode</span>
+            <div class="th-nav-actions">
+                <button type="button" class="th-theme-btn" id="themeToggle" aria-label="Switch theme">
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
                 </button>
-
+                <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" rel="noopener noreferrer" class="btn-app-ghost" aria-label="GitHub Repository">
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
+                </a>
             </div>
-
         </div>
-
     </header>
 
-
-    <main>
-
-        <!-- ==========================================
-             Module Header
-        =========================================== -->
-
-        <section class="module-header">
-
-            <div class="module-container">
-
-                <div class="breadcrumb">
-
-                    <a href="../../">
-                        ThreatHawk
-                    </a>
-
-                    <span>/</span>
-
-                    <span>Log Analysis</span>
-
-                </div>
-
-                <div class="module-heading">
-
-                    <div class="module-heading-content">
-
-                        <p class="eyebrow">
-                            Security Operations Module
-                        </p>
-
-                        <h1>Free Security Log Analyzer</h1>
-
-                        <p class="module-description">
-                            Use the free Security Log Analyzer to inspect authentication logs, detect failed login attempts, identify suspicious IP addresses, extract indicators of compromise (IOCs) and investigate security events directly in your browser.
-                        </p>
-
-                    </div>
-
-                    <div class="module-status">
-
-                        <span class="status-dot"></span>
-
-                        <div>
-                            <small>Module Status</small>
-                            <strong>Active</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
+    <!-- Page Header -->
+    <section class="th-page-header">
+        <div class="container th-page-header-inner">
+            <div class="th-breadcrumb">
+                <a href="../../">ThreatHawk</a>
+                <span>/</span>
+                <span>Tools</span>
+                <span>/</span>
+                <span style="color: var(--color-ink);">Log Analysis</span>
             </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Log Upload Workspace
-        =========================================== -->
-
-        <section
-            id="tool"
-            class="analyzer-section"
-        >
-
-            <div class="module-container">
-
-                <section class="analyzer-workspace">
-
-                    <div class="workspace-heading">
-
-                        <div>
-
-                            <span class="panel-label">
-                                Log Input
-                            </span>
-
-                            <h2>Upload security logs for analysis</h2>
-
-                            <p>
-                                Submit TXT, LOG or CSV files to detect
-                                authentication failures, suspicious IP
-                                activity, possible brute-force attempts and
-                                indicators of compromise.
-                            </p>
-
-                        </div>
-
-                        <span class="analysis-badge">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Local analysis
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        id="dropZone"
-                        class="drop-zone"
-                        role="button"
-                        tabindex="0"
-                        aria-label="Upload a security log file"
-                    >
-
-                        <input
-                            type="file"
-                            id="logFile"
-                            accept=".txt,.log,.csv"
-                            hidden
-                        >
-
-                        <div
-                            class="drop-zone-icon"
-                            aria-hidden="true"
-                        >
-                            <i class="fa-solid fa-file-shield"></i>
-                        </div>
-
-                        <h3>
-                            Drop a log file here
-                        </h3>
-
-                        <p>
-                            Drag and drop a file or click to browse
-                        </p>
-
-                        <span class="supported-files">
-                            TXT · LOG · CSV
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        id="selectedFilePanel"
-                        class="selected-file-panel empty-file"
-                        aria-live="polite"
-                    >
-
-                        <div class="selected-file-icon">
-                            <i class="fa-regular fa-folder-open"></i>
-                        </div>
-
-                        <div class="selected-file-content">
-
-                            <span>Selected file</span>
-
-                            <strong id="fileName">
-                                No file selected
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="workspace-actions">
-
-                        <label
-                            for="logFile"
-                            class="secondary-button file-label"
-                        >
-                            <i class="fa-regular fa-folder-open"></i>
-                            Browse File
-                        </label>
-
-                        <button
-                            id="uploadBtn"
-                            class="primary-button"
-                            type="button"
-                        >
-                            <i class="fa-solid fa-magnifying-glass-chart"></i>
-                            Analyze Log
-                        </button>
-
-                        <button
-                            id="clearBtn"
-                            class="secondary-button"
-                            type="button"
-                        >
-                            <i class="fa-solid fa-rotate-left"></i>
-                            Clear
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        id="processingPanel"
-                        class="processing-panel"
-                        aria-live="polite"
-                    >
-
-                        <div class="processing-heading">
-
-                            <div>
-
-                                <span class="panel-label">
-                                    Analysis Progress
-                                </span>
-
-                                <strong id="processingStage">
-                                    Waiting for a file
-                                </strong>
-
-                            </div>
-
-                            <span id="processingPercent">
-                                0%
-                            </span>
-
-                        </div>
-
-                        <div class="processing-track">
-
-                            <div
-                                id="processingFill"
-                                class="processing-fill"
-                            ></div>
-
-                        </div>
-
-                        <p
-                            id="loadingMessage"
-                            class="loading-message"
-                        ></p>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Threat Overview
-        =========================================== -->
-
-        <section class="threat-overview-section">
-
-            <div class="module-container">
-
-                <div class="threat-overview-grid">
-
-                    <!-- Threat Score Sphere -->
-
-                    <section class="threat-score-panel">
-
-                        <div class="panel-heading">
-
-                            <span class="panel-label">
-                                Incident Severity
-                            </span>
-
-                            <h2>Threat Score</h2>
-
-                            <p>
-                                A combined severity score calculated from
-                                authentication failures, suspicious source activity,
-                                extracted indicators and alert patterns.
-                            </p>
-
-                        </div>
-
-                        <div
-                            id="threatSphere"
-                            class="threat-sphere threat-low-state"
-                            aria-label="Threat score"
-                        >
-
-                            <div class="sphere-orbit orbit-one"></div>
-                            <div class="sphere-orbit orbit-two"></div>
-
-                            <div class="sphere-core">
-
-                                <span
-                                    id="threatScore"
-                                    class="sphere-score"
-                                >
-                                    0
-                                </span>
-
-                                <small>/ 100</small>
-
-                                <strong id="threatLevel">
-                                    Low Risk
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                        <p class="threat-score-caption">
-                            Active Threat Score
-                        </p>
-
-                    </section>
-
-
-                    <!-- Incident Summary -->
-
-                    <section
-                        id="incidentSummaryPanel"
-                        class="incident-summary-panel"
-                    >
-
-                        <div class="panel-heading">
-
-                            <span class="panel-label">
-                                Executive Assessment
-                            </span>
-
-                            <h2>Incident Summary</h2>
-
-                        </div>
-
-                        <div
-                            id="incidentSummary"
-                            class="incident-summary-content"
-                        >
-                            No incident summary generated.
-                        </div>
-
-                        <div
-                            id="recommendations"
-                            class="recommendations-content"
-                        ></div>
-
-                    </section>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Statistics
-        =========================================== -->
-
-        <section class="statistics-section">
-
-            <div class="module-container">
-
-                <div class="section-heading compact-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Analysis Overview
-                        </span>
-
-                        <h2>Security statistics</h2>
-
-                    </div>
-
-                    <p>
-                        Key event counts extracted from the submitted log
-                        file.
-                    </p>
-
-                </div>
-
-
-                <div class="statistics-grid">
-
-                    <article class="stat-card stat-events">
-
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-list"></i>
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>Total Events</span>
-
-                            <strong
-                                id="totalEvents"
-                                class="stat-value"
-                            >
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card stat-critical">
-
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>Critical Alerts</span>
-
-                            <strong
-                                id="criticalAlerts"
-                                class="stat-value"
-                            >
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card stat-ip">
-
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>Suspicious IPs</span>
-
-                            <strong
-                                id="suspiciousIPs"
-                                class="stat-value"
-                            >
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="stat-card stat-login">
-
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-user-lock"></i>
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>Failed Logins</span>
-
-                            <strong
-                                id="failedLogins"
-                                class="stat-value"
-                            >
-                                0
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Event Activity and Alerts
-        =========================================== -->
-
-        <section class="activity-section">
-
-            <div class="module-container">
-
-                <div class="activity-grid">
-
-                    <section class="chart-panel">
-
-                        <div class="panel-heading">
-
-                            <span class="panel-label">
-                                Event Distribution
-                            </span>
-
-                            <h2>Log Activity</h2>
-
-                            <p>
-                                Distribution of detected event and severity
-                                categories.
-                            </p>
-
-                        </div>
-
-                        <div class="chart-wrapper">
-
-                            <canvas id="eventChart"></canvas>
-
-                        </div>
-
-                    </section>
-
-
-                    <section class="alert-panel-wrapper">
-
-                        <div class="panel-heading">
-
-                            <span class="panel-label">
-                                Detection Results
-                            </span>
-
-                            <h2>Security Alerts</h2>
-
-                            <p>
-                                High-priority findings generated during log
-                                analysis.
-                            </p>
-
-                        </div>
-
-                        <div
-                            id="alertPanel"
-                            class="alert-panel"
-                            aria-live="polite"
-                        >
-
-                            <div class="empty-state">
-
-                                <div class="empty-state-icon">
-                                    <i class="fa-solid fa-bell"></i>
-                                </div>
-
-                                <strong>
-                                    No alerts detected
-                                </strong>
-
-                                <p>
-                                    Upload and analyze a log file to view
-                                    security alerts.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Attack Timeline
-        =========================================== -->
-
-        <section class="timeline-section">
-
-            <div class="module-container">
-
-                <section class="timeline-panel">
-
-                    <div class="panel-heading">
-
-                        <span class="panel-label">
-                            Incident Reconstruction
-                        </span>
-
-                        <h2>Attack Timeline</h2>
-
-                        <p>
-                            A chronological view of notable authentication and
-                            security events found in the log.
-                        </p>
-
-                    </div>
-
-                    <div
-                        id="attackTimeline"
-                        class="attack-timeline"
-                    >
-
-                        <div class="timeline-empty-state">
-
-                            <div class="empty-state-icon">
-                                <i class="fa-solid fa-clock-rotate-left"></i>
-                            </div>
-
-                            <strong>
-                                No timeline generated
-                            </strong>
-
-                            <p>
-                                Notable events will appear here after the log
-                                has been analyzed.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             IOC Intelligence
-        =========================================== -->
-
-        <section class="ioc-section">
-
-            <div class="module-container">
-
-                <section class="ioc-panel">
-
-                    <div class="ioc-heading">
-
-                        <div>
-
-                            <span class="panel-label">
-                                Indicator Intelligence
-                            </span>
-
-                            <h2>Detected IOCs</h2>
-
-                            <p>
-                                Suspicious IP addresses and other indicators
-                                extracted from the submitted log.
-                            </p>
-
-                        </div>
-
-                        <span
-                            id="iocCount"
-                            class="ioc-count-badge"
-                        >
-                            0 indicators
-                        </span>
-
-                    </div>
-
-                    <div
-                        id="iocList"
-                        class="ioc-list"
-                    >
-
-                        <div class="empty-state">
-
-                            <div class="empty-state-icon">
-                                <i class="fa-solid fa-crosshairs"></i>
-                            </div>
-
-                            <strong>
-                                No IOCs detected
-                            </strong>
-
-                            <p>
-                                Extracted indicators will appear here after
-                                analysis.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Event Table
-        =========================================== -->
-
-        <section class="events-section">
-
-            <div class="module-container">
-
-                <section class="table-panel">
-
-                    <div class="table-heading">
-
-                        <div>
-
-                            <span class="panel-label">
-                                Event Investigation
-                            </span>
-
-                            <h2>Parsed Log Events</h2>
-
-                            <p>
-                                Search and filter the events extracted from the
-                                uploaded log.
-                            </p>
-
-                        </div>
-
-                        <span
-                            id="eventCountBadge"
-                            class="event-count-badge"
-                        >
-                            0 events
-                        </span>
-
-                    </div>
-
-
-                    <div class="table-controls">
-
-                        <div class="search-wrapper">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                            <input
-                                type="text"
-                                id="searchInput"
-                                placeholder="Search events, IPs or messages..."
-                                aria-label="Search parsed log events"
-                            >
-
-                        </div>
-
-                        <select
-                            id="severityFilter"
-                            aria-label="Filter events by severity"
-                        >
-                            <option value="All">
-                                All Severities
-                            </option>
-
-                            <option value="Info">
-                                Info
-                            </option>
-
-                            <option value="Warning">
-                                Warning
-                            </option>
-                        </select>
-
-                    </div>
-
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Severity</th>
-                                    <th>Event</th>
-                                    <th>IP Address</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="eventTable">
-
-                                <tr class="empty-row">
-
-                                    <td colspan="4">
-
-                                        <div class="table-empty-state">
-
-                                            <div class="empty-state-icon">
-                                                <i class="fa-solid fa-table-list"></i>
-                                            </div>
-
-                                            <strong>
-                                                No events available
-                                            </strong>
-
-                                            <p>
-                                                Upload and analyze a log file
-                                                to populate this table.
-                                            </p>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==========================================
-             Reporting
-        =========================================== -->
-
-        <section class="report-section">
-
-            <div class="module-container">
-
-                <section class="report-panel">
-
-                    <div class="report-content">
-
-                        <div class="report-icon">
-                            <i class="fa-solid fa-file-shield"></i>
-                        </div>
-
-                        <div>
-
-                            <span class="panel-label">
-                                Incident Reporting
-                            </span>
-
-                            <h2>Export Analysis Report</h2>
-
-                            <p>
-                                Download the current incident assessment for
-                                documentation, evidence collection or further
-                                investigation.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <button
-                        id="exportReportBtn"
-                        class="export-button"
-                        type="button"
-                    >
-                        <i class="fa-solid fa-file-export"></i>
-                        Export Report
-                    </button>
-
-                </section>
-
-            </div>
-
-        </section>
-
-        <!-- ==========================================
-                Security Log Analysis Guide
-        ========================================== -->
-
-    <section class="information-section">
-        <div class="module-container">
-
-            <div class="section-heading">
+            <div class="th-header-title-row">
                 <div>
-                    <span class="panel-label">
-                        Security Log Analysis Guide
-                    </span>
-
-                    <h2>How to Interpret Security Logs</h2>
+                    <span class="mono-eyebrow">Security Information &amp; Event Parser</span>
+                    <h1 class="heading-lg" style="margin-top: 4px;">Security Log Analysis &amp; IOC Extractor</h1>
+                    <p style="margin-top: 6px; max-width: 680px;">
+                        Parse SSH auth, Syslog, Apache, and Nginx logs locally. Automatically identify brute force attempts, SQLi, XSS, and command injection, and extract indicators of compromise (IOCs).
+                    </p>
                 </div>
-
-                <p>
-                    Understand what the analyzer looks for, how common security
-                    signals should be interpreted and why automated findings
-                    require investigation context.
-                </p>
+                <div class="th-header-actions">
+                    <button type="button" id="sampleBtn" class="btn-app-ghost">
+                        <i class="fa-solid fa-flask" aria-hidden="true"></i>
+                        <span>Load Sample SSH &amp; Web Log</span>
+                    </button>
+                </div>
             </div>
-
-            <div class="information-grid">
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-file-lines"></i>
-                    </div>
-
-                    <h3>What Security Logs Contain</h3>
-
-                    <p>
-                        Security and authentication logs record events such as
-                        login attempts, authentication failures, source addresses,
-                        timestamps and system messages. Analysts use these records
-                        to reconstruct activity and identify patterns that deserve
-                        further investigation.
-                    </p>
-                </article>
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-user-lock"></i>
-                    </div>
-
-                    <h3>Failed Login Patterns</h3>
-
-                    <p>
-                        A single failed login is usually not enough to indicate an
-                        attack. Repeated authentication failures, especially when
-                        they originate from the same source, can provide evidence
-                        of password guessing or automated brute-force activity.
-                    </p>
-                </article>
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-crosshairs"></i>
-                    </div>
-
-                    <h3>Indicators of Compromise</h3>
-
-                    <p>
-                        Logs can contain artifacts that are useful during an
-                        investigation, including IP addresses, URLs, domains,
-                        hashes and CVE references. An extracted indicator is not
-                        automatically malicious. Its meaning depends on the
-                        surrounding event and investigative context.
-                    </p>
-                </article>
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-
-                    <h3>Understanding the Threat Score</h3>
-
-                    <p>
-                        ThreatHawk combines several detected signals into a
-                        severity score to help prioritize review. The score is a
-                        triage aid rather than a definitive measurement of an
-                        attack. Higher scores indicate that more suspicious
-                        characteristics were detected in the submitted log.
-                    </p>
-                </article>
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </div>
-
-                    <h3>Why Timelines Matter</h3>
-
-                    <p>
-                        Chronological event ordering helps analysts understand
-                        how suspicious activity developed. Comparing authentication
-                        failures, source addresses and notable events over time
-                        can reveal patterns that are difficult to recognize from
-                        individual log entries alone.
-                    </p>
-                </article>
-
-                <article class="information-card">
-                    <div class="information-icon">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-
-                    <h3>Automated Analysis Has Limits</h3>
-
-                    <p>
-                        Log analysis tools can identify patterns and reduce manual
-                        triage, but they cannot independently establish that a
-                        security incident occurred. Parser limitations, incomplete
-                        logs and legitimate administrative activity can all affect
-                        the result. Findings should be validated against other
-                        evidence.
-                    </p>
-                </article>
-
-            </div>
-
         </div>
     </section>
 
-
-        <!-- ==========================================
-                        Knowledge Center
-        =========================================== -->
-
-        <section id="about" class="knowledge-section">
-
-            <div class="module-container">
-
-                <div class="knowledge-grid">
-
-                    <!-- About Log Analysis -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>About Log Analysis</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="aboutPopup"
-                                aria-label="Learn more about Log Analysis"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Learn how ThreatHawk examines security logs, identifies
-                            suspicious activity and supports incident investigation
-                            directly within your browser.
-                        </p>
-
-                    </article>
-
-
-                    <!-- Key Features -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>Key Features</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="featuresPopup"
-                                aria-label="View Log Analysis features"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Explore threat scoring, brute-force detection, IOC
-                            extraction, attack timelines, event filtering and
-                            incident reporting.
-                        </p>
-
-                    </article>
-
-
-                    <!-- How It Works -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>How Log Analysis Works</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="workflowPopup"
-                                aria-label="Learn how log analysis works"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Understand how uploaded log events are parsed, classified,
-                            scored and converted into alerts, indicators and an
-                            explainable incident assessment.
-                        </p>
-
-                    </article>
-
+    <!-- Main Workspace -->
+    <main id="main-content" class="log-workspace">
+        <div class="container">
+            <!-- Upload & Action Bar -->
+            <div class="log-upload-card">
+                <div class="log-drop-zone" id="dropZone">
+                    <input type="file" id="logFile" accept=".txt,.log,.csv" aria-label="Upload security log file">
+                    <i class="fa-regular fa-file-lines" style="font-size: 32px; color: var(--color-link); margin-bottom: 8px;" aria-hidden="true"></i>
+                    <h3 class="heading-md" style="font-size: 15px;" id="logFileLabel">Drop Log File (TXT, LOG, CSV) or Click to Browse</h3>
+                    <p style="font-size: 12px; color: var(--color-mute); margin-top: 4px;">Files are parsed entirely in local browser memory. No logs are ever uploaded to remote servers.</p>
                 </div>
-
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                    <button type="button" id="uploadBtn" class="btn-primary" style="height: 38px; border-radius: var(--radius-sm); font-size: 13px;">
+                        <i class="fa-solid fa-play" aria-hidden="true"></i>
+                        <span>Analyze Log Stream</span>
+                    </button>
+                    <button type="button" id="clearBtn" class="btn-app-ghost" style="height: 38px; font-size: 13px;">
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                        <span>Reset</span>
+                    </button>
+                </div>
             </div>
 
-        </section>
-
-        <!-- ==========================================
-                Frequently Asked Questions
-        =========================================== -->
-
-        <section class="faq-section" id="faq">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Common Questions
-                        </span>
-
-                        <h2>Frequently Asked Questions</h2>
-
-                    </div>
-
-                    <p>
-                        Find answers about log privacy, supported file types,
-                        threat scoring, brute-force detection, IOC extraction
-                        and the limitations of automated security analysis.
-                    </p>
-
+            <!-- Overview Metrics Grid -->
+            <div class="log-metrics-grid" aria-label="Log Stream Metrics">
+                <div class="log-metric-card">
+                    <span class="metric-label">Total Events</span>
+                    <span class="metric-val" id="totalEvents">0</span>
                 </div>
-
-
-                <div class="faq-list">
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Are uploaded log files sent to ThreatHawk?
-                        </summary>
-
-                        <p>
-                            No. Log Analysis processes supported files directly in
-                            your browser. ThreatHawk does not intentionally upload,
-                            store or maintain a personal history of the log files you
-                            analyze. Even so, avoid using confidential production logs
-                            on shared or untrusted devices because the browser and local
-                            system still handle the data.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Which log file types are supported?
-                        </summary>
-
-                        <p>
-                            The current Log Analysis module accepts TXT, LOG and CSV
-                            files. The parser is designed for common authentication and
-                            security-event formats, but highly customized or unusual
-                            log structures may not be interpreted perfectly without
-                            additional formatting support.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            How is the threat score calculated?
-                        </summary>
-
-                        <p>
-                            The threat score is based on detected security signals such
-                            as repeated failed logins, suspicious IP addresses, alert
-                            patterns, extracted indicators and other notable events. These
-                            indicators are combined into an overall severity score so
-                            investigators can quickly understand the apparent level of
-                            risk.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            How does ThreatHawk detect brute-force activity?
-                        </summary>
-
-                        <p>
-                            ThreatHawk looks for repeated authentication failures and
-                            groups suspicious patterns by source, event type and
-                            occurrence frequency. A large number of failed attempts from
-                            the same source may indicate password guessing or automated
-                            brute-force activity.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            What are indicators of compromise?
-                        </summary>
-
-                        <p>
-                            Indicators of compromise, commonly called IOCs, are values
-                            that may be associated with suspicious or malicious
-                            activity. In the current module, these primarily include IP
-                            addresses extracted from the submitted log and counted
-                            across repeated events.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Can Log Analysis confirm that an incident occurred?
-                        </summary>
-
-                        <p>
-                            No. The module identifies suspicious patterns and produces
-                            an explainable assessment, but it cannot independently prove
-                            that a security incident occurred. Results should be
-                            reviewed alongside system context, endpoint evidence,
-                            network data and other investigative sources.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Why might legitimate activity be flagged as suspicious?
-                        </summary>
-
-                        <p>
-                            Legitimate systems can generate repeated failures, unusual
-                            IP activity or noisy alerts during testing, configuration
-                            changes, user mistakes or automated processes. The analyzer
-                            reports suspicious characteristics, not final guilt
-                            verdicts, despite software occasionally behaving as if it
-                            has joined a courtroom drama.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Can I search and filter the analyzed events?
-                        </summary>
-
-                        <p>
-                            Yes. After analysis, you can search parsed events by message,
-                            IP address or event details and filter the table by severity.
-                            This helps narrow large datasets to the events most relevant
-                            to an investigation.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Can I export the incident analysis?
-                        </summary>
-
-                        <p>
-                            Yes. The Export Analysis Report feature generates a report
-                            from the current incident summary, threat score, findings,
-                            indicators and parsed events for documentation or further
-                            investigation.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Is Log Analysis a replacement for a SIEM?
-                        </summary>
-
-                        <p>
-                            No. ThreatHawk Log Analysis is a lightweight browser-based
-                            investigation tool. It does not replace a full SIEM,
-                            continuous monitoring platform, endpoint detection system
-                            or professional incident-response workflow.
-                        </p>
-
-                    </details>
-
+                <div class="log-metric-card">
+                    <span class="metric-label">Failed Logins</span>
+                    <span class="metric-val" id="failedLogins" style="color: var(--color-warning-deep);">0</span>
                 </div>
-
+                <div class="log-metric-card">
+                    <span class="metric-label">Suspicious IPs</span>
+                    <span class="metric-val" id="suspiciousIPs" style="color: #dc2626;">0</span>
+                </div>
+                <div class="log-metric-card">
+                    <span class="metric-label">Critical Attack Events</span>
+                    <span class="metric-val" id="criticalAlerts" style="color: var(--color-error);">0</span>
+                </div>
             </div>
 
-        </section>
+            <!-- Incident Dashboard Layout -->
+            <div class="log-dashboard-grid">
+                <!-- Left: Threat Score & Active Alerts -->
+                <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+                    <aside class="threat-score-card">
+                        <span class="panel-label">Incident Threat Rating</span>
+                        <div class="threat-dial-wrap">
+                            <svg class="threat-dial-svg" viewBox="0 0 140 140" aria-hidden="true">
+                                <circle class="threat-dial-bg" cx="70" cy="70" r="60"></circle>
+                                <circle class="threat-dial-fill" id="threatDial" cx="70" cy="70" r="60"></circle>
+                            </svg>
+                            <div class="threat-dial-text">
+                                <div id="threatScore">0</div>
+                                <div id="threatLevel">Not Analyzed</div>
+                            </div>
+                        </div>
+                    </aside>
 
-        <!-- ==========================================
-                        Related Guide
-        =========================================== -->
-
-        <section class="related-guide-section">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Learn More
-                        </span>
-
-                        <h2>
-                            Understand Indicators of Compromise
-                        </h2>
-
-                    </div>
-
-                    <p>
-                        Learn what IOCs are, the common types analysts investigate,
-                        how they appear in security data and why context matters
-                        during incident response.
-                    </p>
-
-                </div>
-
-
-                <a
-                    href="../../guides/what-are-indicators-of-compromise/"
-                    class="related-guide-card"
-                >
-
-                    <div class="related-guide-icon">
-                        <i class="fa-solid fa-crosshairs"></i>
-                    </div>
-
-
-                    <div class="related-guide-content">
-
-                        <span class="related-guide-label">
-                            SOC &amp; Incident Response Guide
-                        </span>
-
-                        <h3>
-                            What Are Indicators of Compromise (IOCs)?
+                    <div class="alerts-card">
+                        <h3 class="heading-md" style="font-size: 15px; display:flex; align-items:center; gap:6px;">
+                            <i class="fa-solid fa-bell" style="color: var(--color-error);" aria-hidden="true"></i>
+                            <span>Security Alerts</span>
                         </h3>
-
-                        <p>
-                            Learn how suspicious IP addresses, domains, URLs,
-                            file hashes and other artifacts are used during
-                            SOC investigations and threat hunting.
-                        </p>
-
-                        <span class="related-guide-link">
-                            Read the full guide →
-                        </span>
-
+                        <div id="alertPanel">
+                            <p style="color: var(--color-mute); font-size: 13px;">No events loaded.</p>
+                        </div>
                     </div>
-
-                </a>
-
-            </div>
-
-        </section>
-
-        <!-- ==========================================
-                        Related Tools
-        =========================================== -->
-
-        <section class="related-tools-section">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Related Tools
-                        </span>
-
-                        <h2>Continue Your Incident Investigation</h2>
-
-                    </div>
-
-                    <p>
-                        Explore ThreatHawk tools that help inspect suspicious URLs
-                        and identify cryptographic hashes discovered during log analysis.
-                    </p>
-
                 </div>
 
-
-                <div class="related-tools-grid">
-
-                    <a
-                        href="../url-analyzer/"
-                        class="related-tool-card"
-                    >
-
-                        <div class="related-tool-icon">
-                            <i class="fa-solid fa-link"></i>
+                <!-- Right: Extracted IOCs & Event Log Table -->
+                <div>
+                    <!-- Extracted IOCs -->
+                    <div class="ioc-card">
+                        <div class="ioc-header">
+                            <h3 class="heading-md" style="font-size: 15px;">Extracted Indicators of Compromise (IOCs)</h3>
+                            <span id="iocCount" class="mono-eyebrow" style="font-size: 11px;">0 indicators</span>
                         </div>
+                        <div class="ioc-list" id="iocList"></div>
+                    </div>
 
-                        <div class="related-tool-content">
-
-                            <h3>URL Analyzer</h3>
-
-                            <p>
-                                Analyze suspicious links extracted from security logs,
-                                inspect phishing indicators and review possible brand
-                                impersonation.
-                            </p>
-
-                            <span class="related-link">
-                                Analyze suspicious URLs →
-                            </span>
-
+                    <!-- Event Log Table -->
+                    <div class="log-table-container">
+                        <div class="log-table-controls">
+                            <div style="display:flex; align-items:center; gap:8px; flex:1; max-width:400px;">
+                                <input type="text" id="searchInput" class="text-input" placeholder="Search events, IPs, rules…" style="height:34px;">
+                                <select id="severityFilter" class="select-input" style="height:34px; width:120px;">
+                                    <option value="All">All Severities</option>
+                                    <option value="Critical">Critical</option>
+                                    <option value="Warning">Warning</option>
+                                    <option value="Info">Info</option>
+                                </select>
+                            </div>
+                            <button type="button" id="exportReportBtn" class="btn-app-ghost" style="height:34px; font-size:12px;">
+                                <i class="fa-solid fa-download" aria-hidden="true"></i>
+                                <span>Export CSV Report</span>
+                            </button>
                         </div>
-
-                    </a>
-
-
-                    <a
-                        href="../hash-analyzer/"
-                        class="related-tool-card"
-                    >
-
-                        <div class="related-tool-icon">
-                            <i class="fa-solid fa-hashtag"></i>
-                        </div>
-
-                        <div class="related-tool-content">
-
-                            <h3>Hash Analyzer</h3>
-
-                            <p>
-                                Identify MD5, SHA-1, SHA-256 and SHA-512 values found
-                                in security events, malware alerts or investigation data.
-                            </p>
-
-                            <span class="related-link">
-                                Identify cryptographic hashes →
-                            </span>
-
-                        </div>
-
-                    </a>
-
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Time</th>
+                                    <th style="width: 80px;">Severity</th>
+                                    <th style="width: 140px;">Rule Match</th>
+                                    <th style="width: 130px;">Source IP</th>
+                                    <th>Raw Event Log</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eventTable"></tbody>
+                        </table>
+                    </div>
                 </div>
-
             </div>
-
-        </section>
-
+        </div>
     </main>
 
-    <!-- ==========================================
-                 Knowledge Popup
-    =========================================== -->
-
-    <div
-        class="knowledge-popup-overlay"
-        id="knowledgeOverlay"
-        aria-hidden="true"
-    >
-
-        <div
-            class="knowledge-popup"
-            id="knowledgePopup"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="popupTitle"
-        >
-
-            <button
-                class="popup-close"
-                id="popupClose"
-                type="button"
-                aria-label="Close information popup"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 id="popupTitle"></h3>
-
-            <div id="popupContent"></div>
-
+    <!-- Footer -->
+    <footer class="th-footer">
+        <div class="container">
+            <div class="th-footer-grid">
+                <div class="th-footer-brand">
+                    <div class="th-brand">
+                        <span class="th-brand-logo">TH</span>
+                        <span>ThreatHawk</span>
+                    </div>
+                    <p class="body-sm">
+                        Free browser-based cybersecurity tools engineered for students, analysts, and security practitioners.
+                    </p>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Security Modules</h4>
+                    <a href="../password-analyzer/" class="th-footer-link">Password Intelligence</a>
+                    <a href="../url-analyzer/" class="th-footer-link">URL Analyzer</a>
+                    <a href="../hash-analyzer/" class="th-footer-link">Hash Analyzer</a>
+                    <a href="./" class="th-footer-link">Security Log Analysis</a>
+                    <a href="../encoder-decoder/" class="th-footer-link">Encoder &amp; Decoder</a>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Knowledge Hub</h4>
+                    <a href="../../guides/" class="th-footer-link">All Security Guides</a>
+                    <a href="../../guides/how-to-read-security-logs/" class="th-footer-link">How to Read Security Logs</a>
+                    <a href="../../guides/what-are-indicators-of-compromise/" class="th-footer-link">Indicators of Compromise</a>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Platform</h4>
+                    <a href="../../about/" class="th-footer-link">About ThreatHawk</a>
+                    <a href="../../contact/" class="th-footer-link">Contact &amp; Disclosure</a>
+                    <a href="../../privacy-policy/" class="th-footer-link">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="th-footer-bottom">
+                <span>© 2026 ThreatHawk. Released under the MIT License.</span>
+            </div>
         </div>
-
-    </div>
-
-
-    <!-- ==========================================
-         Footer
-    =========================================== -->
-
-    <footer class="site-footer">
-
-        <div class="footer-brand">
-
-            <h2>ThreatHawk</h2>
-
-            <p>
-                Free Browser-Based Cybersecurity Tools
-            </p>
-
-        </div>
-
-        <nav class="footer-links" aria-label="Footer navigation">
-
-            <a href="../../about/">About</a>
-
-            <a href="../../contact/">Contact</a>
-
-            <a href="../../privacy-policy/">Privacy Policy</a>
-
-            <a href="../../terms/">Terms</a>
-
-            <a href="../../disclaimer/">Disclaimer</a>
-
-            <a href="../../contact/#security-disclosure">
-                Security Disclosure
-            </a>
-            
-            <a
-                href="https://github.com/DileepKumar52/ThreatHawk"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                GitHub
-            </a>
-
-        </nav>
-
-        <p class="footer-version">
-            Version 1.0
-        </p>
-
-        <p class="footer-copyright">
-            © 2026 ThreatHawk. All rights reserved.
-        </p>
-
     </footer>
 
-
-    <!-- ==========================================
-         Toast Notification
-    =========================================== -->
-
-    <div
-        id="toast"
-        class="toast"
-        role="status"
-        aria-live="polite"
-    >
-
-        <i class="fa-solid fa-check"></i>
-
-        <span id="toastMessage">
-            Action completed
-        </span>
-
-    </div>
-
-
+    <!-- Core Scripts -->
+    <script src="../../js/core.js"></script>
     <script src="js/app.js"></script>
-
 </body>
-
 </html>

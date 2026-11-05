@@ -1,1791 +1,321 @@
+/**
+ * ThreatHawk Data Encoder, Decoder & JWT Inspector
+ * 100% crash-free UTF-8 conversions, format auto-detection, and JWT payload decoding.
+ */
+
 "use strict";
 
-/* =========================================================
-   ThreatHawk Encoder & Decoder
-   Part 1: Application State, DOM and UI Helpers
-========================================================= */
-
-
-/* =========================================================
-   DOM Elements
-========================================================= */
-
-const themeToggle = document.getElementById("themeToggle");
-
-const formatSelect = document.getElementById("formatSelect");
-
-const encodeOperation = document.getElementById("encodeOperation");
-const decodeOperation = document.getElementById("decodeOperation");
-
-const operationOptions = document.querySelectorAll(
-    ".operation-option"
-);
-
-const inputText = document.getElementById("inputText");
-const outputText = document.getElementById("outputText");
-
-const inputPanelTitle = document.getElementById(
-    "inputPanelTitle"
-);
-
-const outputPanelTitle = document.getElementById(
-    "outputPanelTitle"
-);
-
-const inputCharacterCount = document.getElementById(
-    "inputCharacterCount"
-);
-
-const inputByteCount = document.getElementById(
-    "inputByteCount"
-);
-
-const outputCharacterCount = document.getElementById(
-    "outputCharacterCount"
-);
-
-const outputByteCount = document.getElementById(
-    "outputByteCount"
-);
-
-const pasteBtn = document.getElementById("pasteBtn");
-const clearInputBtn = document.getElementById(
-    "clearInputBtn"
-);
-
-const copyOutputBtn = document.getElementById(
-    "copyOutputBtn"
-);
-
-const downloadOutputBtn = document.getElementById(
-    "downloadOutputBtn"
-);
-
-const convertBtn = document.getElementById("convertBtn");
-const swapBtn = document.getElementById("swapBtn");
-const clearAllBtn = document.getElementById("clearAllBtn");
-
-const conversionStatus = document.getElementById(
-    "conversionStatus"
-);
-
-const statusIcon = document.getElementById("statusIcon");
-const statusText = document.getElementById("statusText");
-
-const selectedFormatStatus = document.getElementById(
-    "selectedFormatStatus"
-);
-
-const selectedOperationStatus = document.getElementById(
-    "selectedOperationStatus"
-);
-
-const conversionTime = document.getElementById(
-    "conversionTime"
-);
-
-const toast = document.getElementById("toast");
-const toastIcon = document.getElementById("toastIcon");
-const toastMessage = document.getElementById(
-    "toastMessage"
-);
-
-
-/* =========================================================
-   Application State
-========================================================= */
-
-const appState = {
-    format: "base64",
-    operation: "encode",
-    lastConversionTime: 0,
-    toastTimer: null
-};
-
-
-/* =========================================================
-   Format Configuration
-========================================================= */
-
-const formatConfig = {
-    base64: {
-        name: "Base64",
-        encodeInputTitle: "Plain Text",
-        encodeOutputTitle: "Base64 Encoded Text",
-        decodeInputTitle: "Base64 Encoded Text",
-        decodeOutputTitle: "Decoded Text",
-        encodePlaceholder: "Enter or paste plain text here...",
-        decodePlaceholder: "Enter or paste Base64 data here...",
-        supportsDecode: true
-    },
-
-    base64url: {
-        name: "Base64 URL",
-        encodeInputTitle: "Plain Text",
-        encodeOutputTitle: "Base64 URL Encoded Text",
-        decodeInputTitle: "Base64 URL Encoded Text",
-        decodeOutputTitle: "Decoded Text",
-        encodePlaceholder: "Enter or paste plain text here...",
-        decodePlaceholder: "Enter Base64 URL-safe data here...",
-        supportsDecode: true
-    },
-
-    url: {
-        name: "URL Encoding",
-        encodeInputTitle: "Plain Text or URL Data",
-        encodeOutputTitle: "URL Encoded Text",
-        decodeInputTitle: "URL Encoded Text",
-        decodeOutputTitle: "Decoded Text",
-        encodePlaceholder: "Enter text, a URL or query value...",
-        decodePlaceholder: "Enter URL-encoded data here...",
-        supportsDecode: true
-    },
-
-    html: {
-        name: "HTML Entities",
-        encodeInputTitle: "HTML or Plain Text",
-        encodeOutputTitle: "HTML Entity Encoded Text",
-        decodeInputTitle: "HTML Entity Encoded Text",
-        decodeOutputTitle: "Decoded HTML Text",
-        encodePlaceholder: "Enter HTML or plain text here...",
-        decodePlaceholder: "Enter HTML entities here...",
-        supportsDecode: true
-    },
-
-    hex: {
-        name: "Hexadecimal",
-        encodeInputTitle: "Plain Text",
-        encodeOutputTitle: "Hexadecimal Data",
-        decodeInputTitle: "Hexadecimal Data",
-        decodeOutputTitle: "Decoded Text",
-        encodePlaceholder: "Enter or paste plain text here...",
-        decodePlaceholder: "Enter hexadecimal values here...",
-        supportsDecode: true
-    },
-
-    binary: {
-        name: "Binary",
-        encodeInputTitle: "Plain Text",
-        encodeOutputTitle: "Binary Data",
-        decodeInputTitle: "Binary Data",
-        decodeOutputTitle: "Decoded Text",
-        encodePlaceholder: "Enter or paste plain text here...",
-        decodePlaceholder: "Enter binary byte values here...",
-        supportsDecode: true
-    },
-
-    rot13: {
-        name: "ROT13",
-        encodeInputTitle: "Original Text",
-        encodeOutputTitle: "ROT13 Transformed Text",
-        decodeInputTitle: "ROT13 Text",
-        decodeOutputTitle: "Original Text",
-        encodePlaceholder: "Enter text to transform with ROT13...",
-        decodePlaceholder: "Enter ROT13 text to reverse...",
-        supportsDecode: true
-    }
-};
-
-
-/* =========================================================
-   General Helpers
-========================================================= */
-
-function getByteCount(value) {
-    return new TextEncoder().encode(value).length;
-}
-
-
-function getCurrentOperation() {
-    return decodeOperation.checked
-        ? "decode"
-        : "encode";
-}
-
-
-function getCurrentFormat() {
-    return formatSelect.value;
-}
-
-
-function capitalize(value) {
-    if (!value) {
-        return "";
-    }
-
-    return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-
-/* =========================================================
-   Counter Helpers
-========================================================= */
-
-function updateInputCounters() {
-    const value = inputText.value;
-
-    inputCharacterCount.textContent = value.length;
-    inputByteCount.textContent = getByteCount(value);
-}
-
-
-function updateOutputCounters() {
-    const value = outputText.value;
-
-    outputCharacterCount.textContent = value.length;
-    outputByteCount.textContent = getByteCount(value);
-}
-
-
-function updateAllCounters() {
-    updateInputCounters();
-    updateOutputCounters();
-}
-
-
-/* =========================================================
-   Toast Notifications
-========================================================= */
-
-function showToast(
-    message,
-    type = "success"
-) {
-    if (!toast || !toastMessage || !toastIcon) {
-        return;
-    }
-
-    if (appState.toastTimer) {
-        window.clearTimeout(appState.toastTimer);
-    }
-
-    toastMessage.textContent = message;
-
-    toastIcon.className = "";
-
-    const iconClasses = {
-        success: "fa-solid fa-check",
-        error: "fa-solid fa-triangle-exclamation",
-        warning: "fa-solid fa-circle-exclamation",
-        info: "fa-solid fa-circle-info"
-    };
-
-    toastIcon.className =
-        iconClasses[type] || iconClasses.info;
-
-    toast.dataset.type = type;
-    toast.classList.add("show");
-
-    appState.toastTimer = window.setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2800);
-}
-
-
-/* =========================================================
-   Status Helpers
-========================================================= */
-
-function updateStatus({
-    message,
-    type = "info",
-    time = null
-}) {
-    const statusIcons = {
-        info: "fa-solid fa-circle-info",
-        success: "fa-solid fa-circle-check",
-        error: "fa-solid fa-triangle-exclamation",
-        warning: "fa-solid fa-circle-exclamation",
-        processing: "fa-solid fa-spinner fa-spin"
-    };
-
-    statusText.textContent = message;
-
-    statusIcon.className =
-        statusIcons[type] || statusIcons.info;
-
-    conversionStatus.dataset.status = type;
-
-    selectedFormatStatus.textContent =
-        formatConfig[appState.format]?.name ||
-        capitalize(appState.format);
-
-    selectedOperationStatus.textContent =
-        capitalize(appState.operation);
-
-    if (typeof time === "number") {
-        conversionTime.textContent =
-            `${time.toFixed(2)} ms`;
-    }
-}
-
-
-function setWaitingStatus() {
-    appState.lastConversionTime = 0;
-
-    conversionTime.textContent = "0 ms";
-
-    updateStatus({
-        message: "Waiting for input",
-        type: "info"
-    });
-}
-
-
-function setProcessingStatus() {
-    updateStatus({
-        message: "Converting data...",
-        type: "processing"
-    });
-}
-
-
-function setSuccessStatus(time) {
-    appState.lastConversionTime = time;
-
-    updateStatus({
-        message: "Conversion completed successfully",
-        type: "success",
-        time
-    });
-}
-
-
-function setErrorStatus(message) {
-    appState.lastConversionTime = 0;
-    conversionTime.textContent = "0 ms";
-
-    updateStatus({
-        message,
-        type: "error"
-    });
-}
-
-
-/* =========================================================
-   Output Button State
-========================================================= */
-
-function updateOutputButtons() {
-    const hasOutput = outputText.value.length > 0;
-
-    copyOutputBtn.disabled = !hasOutput;
-    downloadOutputBtn.disabled = !hasOutput;
-}
-
-
-/* =========================================================
-   Dynamic Panel Labels
-========================================================= */
-
-function updatePanelLabels() {
-    appState.format = getCurrentFormat();
-    appState.operation = getCurrentOperation();
-
-    const config = formatConfig[appState.format];
-
-    if (!config) {
-        return;
-    }
-
-    const isDecode = appState.operation === "decode";
-
-    inputPanelTitle.textContent = isDecode
-        ? config.decodeInputTitle
-        : config.encodeInputTitle;
-
-    outputPanelTitle.textContent = isDecode
-        ? config.decodeOutputTitle
-        : config.encodeOutputTitle;
-
-    inputText.placeholder = isDecode
-        ? config.decodePlaceholder
-        : config.encodePlaceholder;
-
-    selectedFormatStatus.textContent = config.name;
-
-    selectedOperationStatus.textContent =
-        capitalize(appState.operation);
-
-    operationOptions.forEach((option) => {
-        const radio = option.querySelector(
-            'input[type="radio"]'
-        );
-
-        option.classList.toggle(
-            "active",
-            Boolean(radio?.checked)
-        );
-    });
-}
-
-
-/* =========================================================
-   Theme Management
-========================================================= */
-
-function updateThemeButton(isLightTheme) {
-    if (!themeToggle) {
-        return;
-    }
-
-    const icon = themeToggle.querySelector("i");
-    const label = themeToggle.querySelector("span");
-
-    if (isLightTheme) {
-        icon.className = "fa-regular fa-moon";
-        label.textContent = "Dark Mode";
-
-        themeToggle.setAttribute(
-            "aria-label",
-            "Switch to dark mode"
-        );
-    } else {
-        icon.className = "fa-regular fa-sun";
-        label.textContent = "Light Mode";
-
-        themeToggle.setAttribute(
-            "aria-label",
-            "Switch to light mode"
-        );
-    }
-}
-
-
-function initializeTheme() {
-    const savedTheme =
-        localStorage.getItem("threathawk-theme");
-
-    const prefersLight =
-        window.matchMedia &&
-        window.matchMedia(
-            "(prefers-color-scheme: light)"
-        ).matches;
-
-    const shouldUseLightTheme =
-        savedTheme === "light" ||
-        (!savedTheme && prefersLight);
-
-    document.body.classList.toggle(
-        "light-theme",
-        shouldUseLightTheme
-    );
-
-    updateThemeButton(shouldUseLightTheme);
-}
-
-
-function toggleTheme() {
-    const isLightTheme =
-        document.body.classList.toggle(
-            "light-theme"
-        );
-
-    localStorage.setItem(
-        "threathawk-theme",
-        isLightTheme ? "light" : "dark"
-    );
-
-    updateThemeButton(isLightTheme);
-
-    showToast(
-        `${isLightTheme ? "Light" : "Dark"} mode enabled`,
-        "info"
-    );
-}
-
-
-/* =========================================================
-   Reset Output
-========================================================= */
-
-function resetOutput({
-    preserveStatus = false
-} = {}) {
-    outputText.value = "";
-
-    updateOutputCounters();
-    updateOutputButtons();
-
-    if (!preserveStatus) {
-        setWaitingStatus();
-    }
-}
-
-/* =========================================================
-   Part 2: Conversion Engine
-========================================================= */
-
-
-/* =========================================================
-   UTF-8 Helpers
-========================================================= */
-
-function utf8ToBase64(text) {
-    const bytes = new TextEncoder().encode(text);
-
-    let binary = "";
-
-    bytes.forEach(byte => {
-        binary += String.fromCharCode(byte);
-    });
-
-    return btoa(binary);
-}
-
-
-function base64ToUtf8(base64) {
-    const binary = atob(base64);
-
-    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
-
-    return new TextDecoder().decode(bytes);
-}
-
-
-/* =========================================================
-   Base64
-========================================================= */
-
-function encodeBase64(text) {
-    return utf8ToBase64(text);
-}
-
-
-function decodeBase64(text) {
-
-    const clean = text.trim();
-
-    if (!clean) {
-        throw new Error("Please enter Base64 data.");
-    }
-
-    return base64ToUtf8(clean);
-}
-
-
-/* =========================================================
-   Base64 URL
-========================================================= */
-
-function encodeBase64URL(text) {
-
-    return encodeBase64(text)
-        .replace(/\+/g, "-")
-        .replace(/\//g, "_")
-        .replace(/=+$/, "");
-}
-
-
-function decodeBase64URL(text) {
-
-    let value = text.trim()
-        .replace(/-/g, "+")
-        .replace(/_/g, "/");
-
-    while (value.length % 4 !== 0) {
-        value += "=";
-    }
-
-    return decodeBase64(value);
-}
-
-
-/* =========================================================
-   URL Encoding
-========================================================= */
-
-function encodeURL(text) {
-    return encodeURIComponent(text);
-}
-
-
-function decodeURL(text) {
-    return decodeURIComponent(text);
-}
-
-
-/* =========================================================
-   HTML Entities
-========================================================= */
-
-function encodeHTML(text) {
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-
-function decodeHTML(text) {
-
-    const textarea = document.createElement("textarea");
-
-    textarea.innerHTML = text;
-
-    return textarea.value;
-}
-
-
-/* =========================================================
-   Hex
-========================================================= */
-
-function encodeHex(text) {
-
-    return Array.from(
-        new TextEncoder().encode(text)
-    )
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join(" ");
-}
-
-
-function decodeHex(text) {
-
-    const clean = text
-        .trim()
-        .replace(/\s+/g, " ");
-
-    if (!clean.length) {
-        throw new Error("Please enter hexadecimal data.");
-    }
-
-    const bytes = clean
-        .split(" ")
-        .map(hex => {
-
-            if (!/^[0-9a-fA-F]{2}$/.test(hex)) {
-                throw new Error("Invalid hexadecimal value.");
+(function () {
+    const inputText = document.getElementById("inputText");
+    const outputText = document.getElementById("outputText");
+    const swapBtn = document.getElementById("swapBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const copyOutputBtn = document.getElementById("copyOutputBtn");
+    const downloadOutputBtn = document.getElementById("downloadOutputBtn");
+
+    const inputCharCount = document.getElementById("inputCharCount");
+    const inputByteCount = document.getElementById("inputByteCount");
+    const outputCharCount = document.getElementById("outputCharCount");
+    const outputByteCount = document.getElementById("outputByteCount");
+
+    const jwtInspectorCard = document.getElementById("jwtInspectorCard");
+    const jwtHeaderBox = document.getElementById("jwtHeaderBox");
+    const jwtPayloadBox = document.getElementById("jwtPayloadBox");
+    const jwtMetaBox = document.getElementById("jwtMetaBox");
+
+    let currentFormat = "base64";
+    let currentOperation = "encode"; // "encode" or "decode"
+
+    // --------------------------------------------------------------------------
+    // 1. ROBUST UTF-8 SAFE ENCODING & DECODING
+    // --------------------------------------------------------------------------
+    const UTF8 = {
+        // Base64 & Base64URL
+        encodeBase64(str, urlSafe = false) {
+            const bytes = new TextEncoder().encode(str);
+            let bin = "";
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            let b64 = btoa(bin);
+            if (urlSafe) {
+                b64 = b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
             }
+            return b64;
+        },
 
-            return parseInt(hex, 16);
-        });
+        decodeBase64(b64) {
+            let clean = b64.trim().replace(/-/g, "+").replace(/_/g, "/");
+            while (clean.length % 4 !== 0) clean += "=";
+            const bin = atob(clean);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder().decode(bytes);
+        },
 
-    return new TextDecoder().decode(
-        new Uint8Array(bytes)
-    );
-}
+        // Hexadecimal
+        encodeHex(str) {
+            const bytes = new TextEncoder().encode(str);
+            return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join(" ");
+        },
 
-
-/* =========================================================
-   Binary
-========================================================= */
-
-function encodeBinary(text) {
-
-    return Array.from(
-        new TextEncoder().encode(text)
-    )
-        .map(byte => byte.toString(2).padStart(8, "0"))
-        .join(" ");
-}
-
-
-function decodeBinary(text) {
-
-    const clean = text
-        .trim()
-        .replace(/\s+/g, " ");
-
-    if (!clean.length) {
-        throw new Error("Please enter binary data.");
-    }
-
-    const bytes = clean
-        .split(" ")
-        .map(binary => {
-
-            if (!/^[01]{8}$/.test(binary)) {
-                throw new Error("Invalid binary byte.");
+        decodeHex(hex) {
+            const clean = hex.replace(/[\s0x\\,]/g, "");
+            if (clean.length % 2 !== 0) throw new Error("Invalid hex string (uneven length)");
+            const bytes = new Uint8Array(clean.length / 2);
+            for (let i = 0; i < clean.length; i += 2) {
+                const b = parseInt(clean.substring(i, i + 2), 16);
+                if (isNaN(b)) throw new Error("Invalid hex character detected");
+                bytes[i / 2] = b;
             }
+            return new TextDecoder().decode(bytes);
+        },
 
-            return parseInt(binary, 2);
-        });
+        // URL / Percent Encoding
+        encodeURL(str) {
+            return encodeURIComponent(str);
+        },
 
-    return new TextDecoder().decode(
-        new Uint8Array(bytes)
-    );
-}
+        decodeURL(str) {
+            return decodeURIComponent(str);
+        },
 
+        // HTML Entities
+        encodeHTML(str) {
+            return str.replace(/[\u00A0-\u9999<>\&"']/gim, i => '&#' + i.charCodeAt(0) + ';');
+        },
 
-/* =========================================================
-   ROT13
-========================================================= */
+        decodeHTML(str) {
+            const doc = new DOMParser().parseFromString(str, "text/html");
+            return doc.documentElement.textContent || "";
+        },
 
-function rot13(text) {
+        // Binary (8-bit)
+        encodeBinary(str) {
+            const bytes = new TextEncoder().encode(str);
+            return Array.from(bytes).map(b => b.toString(2).padStart(8, "0")).join(" ");
+        },
 
-    return text.replace(/[a-zA-Z]/g, character => {
+        decodeBinary(bin) {
+            const clean = bin.replace(/[\s]/g, "");
+            if (clean.length % 8 !== 0) throw new Error("Binary string length must be a multiple of 8");
+            const bytes = new Uint8Array(clean.length / 8);
+            for (let i = 0; i < clean.length; i += 8) {
+                const byteVal = parseInt(clean.substring(i, i + 8), 2);
+                if (isNaN(byteVal)) throw new Error("Invalid binary character");
+                bytes[i / 8] = byteVal;
+            }
+            return new TextDecoder().decode(bytes);
+        },
 
-        const base =
-            character <= "Z"
-                ? 65
-                : 97;
-
-        return String.fromCharCode(
-            ((character.charCodeAt(0) - base + 13) % 26) + base
-        );
-
-    });
-
-}
-
-
-/* =========================================================
-   Conversion Dispatcher
-========================================================= */
-
-function performConversion() {
-
-    const format = appState.format;
-
-    const operation = appState.operation;
-
-    const value = inputText.value;
-
-    switch (format) {
-
-        case "base64":
-
-            return operation === "encode"
-                ? encodeBase64(value)
-                : decodeBase64(value);
-
-        case "base64url":
-
-            return operation === "encode"
-                ? encodeBase64URL(value)
-                : decodeBase64URL(value);
-
-        case "url":
-
-            return operation === "encode"
-                ? encodeURL(value)
-                : decodeURL(value);
-
-        case "html":
-
-            return operation === "encode"
-                ? encodeHTML(value)
-                : decodeHTML(value);
-
-        case "hex":
-
-            return operation === "encode"
-                ? encodeHex(value)
-                : decodeHex(value);
-
-        case "binary":
-
-            return operation === "encode"
-                ? encodeBinary(value)
-                : decodeBinary(value);
-
-        case "rot13":
-
-            return rot13(value);
-
-        default:
-
-            throw new Error("Unsupported conversion format.");
-
-    }
-
-}
-
-
-/* =========================================================
-   Validation
-========================================================= */
-
-function validateInput() {
-
-    if (!inputText.value.trim()) {
-
-        throw new Error(
-            "Please enter some text before converting."
-        );
-
-    }
-
-}
-
-/* =========================================================
-   Part 3A: Application Actions and Event Handlers
-========================================================= */
-
-
-/* =========================================================
-   Convert Handler
-========================================================= */
-
-function handleConvert() {
-    try {
-        validateInput();
-
-        appState.format = getCurrentFormat();
-        appState.operation = getCurrentOperation();
-
-        setProcessingStatus();
-
-        const startTime = performance.now();
-
-        const result = performConversion();
-
-        const endTime = performance.now();
-        const elapsedTime = endTime - startTime;
-
-        outputText.value = result;
-
-        updateOutputCounters();
-        updateOutputButtons();
-
-        setSuccessStatus(elapsedTime);
-
-        showToast(
-            `${formatConfig[appState.format].name} conversion completed`,
-            "success"
-        );
-    } catch (error) {
-        outputText.value = "";
-
-        updateOutputCounters();
-        updateOutputButtons();
-
-        const message =
-            error instanceof Error
-                ? error.message
-                : "Conversion failed.";
-
-        setErrorStatus(message);
-        showToast(message, "error");
-    }
-}
-
-
-/* =========================================================
-   Paste Handler
-========================================================= */
-
-async function handlePaste() {
-    try {
-        if (!navigator.clipboard) {
-            throw new Error(
-                "Clipboard access is not supported in this browser."
-            );
+        // ROT13
+        rot13(str) {
+            return str.replace(/[a-zA-Z]/g, c => {
+                const code = c.charCodeAt(0);
+                const base = code >= 97 ? 97 : 65;
+                return String.fromCharCode(((code - base + 13) % 26) + base);
+            });
         }
+    };
 
-        const clipboardText =
-            await navigator.clipboard.readText();
+    // --------------------------------------------------------------------------
+    // 2. JWT INSPECTION ENGINE
+    // --------------------------------------------------------------------------
+    function inspectJWT(str) {
+        const parts = str.trim().split(".");
+        if (parts.length !== 3) return null;
 
-        if (!clipboardText) {
-            showToast(
-                "Your clipboard is empty.",
-                "warning"
-            );
+        try {
+            const headerJson = UTF8.decodeBase64(parts[0]);
+            const payloadJson = UTF8.decodeBase64(parts[1]);
 
+            const header = JSON.parse(headerJson);
+            const payload = JSON.parse(payloadJson);
+
+            // Decode dates in payload
+            const meta = [];
+            if (payload.iat) meta.push(`Issued At (iat): ${new Date(payload.iat * 1000).toUTCString()}`);
+            if (payload.exp) {
+                const expDate = new Date(payload.exp * 1000);
+                const isExpired = Date.now() > expDate.getTime();
+                meta.push(`Expires (exp): ${expDate.toUTCString()} ${isExpired ? "(EXPIRED)" : "(ACTIVE)"}`);
+            }
+            if (payload.nbf) meta.push(`Not Before (nbf): ${new Date(payload.nbf * 1000).toUTCString()}`);
+
+            return {
+                header: JSON.stringify(header, null, 2),
+                payload: JSON.stringify(payload, null, 2),
+                meta: meta.join("\n") || "No standard exp/iat timestamps found."
+            };
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // --------------------------------------------------------------------------
+    // 3. TRANSFORMATION CONTROLLER
+    // --------------------------------------------------------------------------
+    function performTransformation() {
+        const input = inputText.value;
+
+        // Update input counters
+        if (inputCharCount) inputCharCount.textContent = `${input.length} chars`;
+        if (inputByteCount) inputByteCount.textContent = `${new TextEncoder().encode(input).length} bytes`;
+
+        if (!input) {
+            outputText.value = "";
+            if (outputCharCount) outputCharCount.textContent = "0 chars";
+            if (outputByteCount) outputByteCount.textContent = "0 bytes";
+            if (jwtInspectorCard) jwtInspectorCard.style.display = "none";
             return;
         }
 
-        inputText.value = clipboardText;
-
-        updateInputCounters();
-
-        resetOutput();
-
-        showToast(
-            "Clipboard content pasted.",
-            "success"
-        );
-
-        inputText.focus();
-    } catch (error) {
-        const message =
-            error instanceof Error
-                ? error.message
-                : "Unable to read clipboard.";
-
-        showToast(message, "error");
-    }
-}
-
-
-/* =========================================================
-   Copy Output Handler
-========================================================= */
-
-async function handleCopyOutput() {
-    const value = outputText.value;
-
-    if (!value) {
-        showToast(
-            "There is no output to copy.",
-            "warning"
-        );
-
-        return;
-    }
-
-    try {
-        if (navigator.clipboard) {
-            await navigator.clipboard.writeText(value);
+        // Check if JWT token is provided
+        const jwtData = inspectJWT(input);
+        if (jwtData && (currentFormat === "jwt" || currentFormat === "base64url" || currentFormat === "base64")) {
+            if (jwtInspectorCard) {
+                jwtInspectorCard.style.display = "flex";
+                if (jwtHeaderBox) jwtHeaderBox.textContent = jwtData.header;
+                if (jwtPayloadBox) jwtPayloadBox.textContent = jwtData.payload;
+                if (jwtMetaBox) jwtMetaBox.textContent = jwtData.meta;
+            }
         } else {
-            outputText.select();
-
-            const successful =
-                document.execCommand("copy");
-
-            if (!successful) {
-                throw new Error(
-                    "Copy command was unsuccessful."
-                );
-            }
-
-            window.getSelection()?.removeAllRanges();
+            if (jwtInspectorCard) jwtInspectorCard.style.display = "none";
         }
 
-        showToast(
-            "Output copied to clipboard.",
-            "success"
-        );
-    } catch (error) {
-        const message =
-            error instanceof Error
-                ? error.message
-                : "Unable to copy output.";
+        try {
+            let result = "";
 
-        showToast(message, "error");
-    }
-}
-
-
-/* =========================================================
-   Download Handler
-========================================================= */
-
-function handleDownloadOutput() {
-    const value = outputText.value;
-
-    if (!value) {
-        showToast(
-            "There is no output to download.",
-            "warning"
-        );
-
-        return;
-    }
-
-    try {
-        const formatName =
-            appState.format || "converted";
-
-        const operationName =
-            appState.operation || "output";
-
-        const fileName =
-            `threathawk-${formatName}-${operationName}.txt`;
-
-        const blob = new Blob(
-            [value],
-            {
-                type: "text/plain;charset=utf-8"
+            if (currentFormat === "jwt") {
+                if (jwtData) {
+                    result = `// HEADER:\n${jwtData.header}\n\n// PAYLOAD:\n${jwtData.payload}\n\n// TIMESTAMPS:\n${jwtData.meta}`;
+                } else {
+                    result = "Invalid JWT token structure (must have 3 base64url segments separated by dots).";
+                }
+            } else if (currentOperation === "encode") {
+                switch (currentFormat) {
+                    case "base64": result = UTF8.encodeBase64(input, false); break;
+                    case "base64url": result = UTF8.encodeBase64(input, true); break;
+                    case "hex": result = UTF8.encodeHex(input); break;
+                    case "url": result = UTF8.encodeURL(input); break;
+                    case "html": result = UTF8.encodeHTML(input); break;
+                    case "binary": result = UTF8.encodeBinary(input); break;
+                    case "rot13": result = UTF8.rot13(input); break;
+                    default: result = input;
+                }
+            } else {
+                switch (currentFormat) {
+                    case "base64": result = UTF8.decodeBase64(input); break;
+                    case "base64url": result = UTF8.decodeBase64(input); break;
+                    case "hex": result = UTF8.decodeHex(input); break;
+                    case "url": result = UTF8.decodeURL(input); break;
+                    case "html": result = UTF8.decodeHTML(input); break;
+                    case "binary": result = UTF8.decodeBinary(input); break;
+                    case "rot13": result = UTF8.rot13(input); break;
+                    default: result = input;
+                }
             }
-        );
 
-        const objectUrl =
-            URL.createObjectURL(blob);
-
-        const downloadLink =
-            document.createElement("a");
-
-        downloadLink.href = objectUrl;
-        downloadLink.download = fileName;
-
-        document.body.appendChild(downloadLink);
-
-        downloadLink.click();
-        downloadLink.remove();
-
-        URL.revokeObjectURL(objectUrl);
-
-        showToast(
-            "Output downloaded successfully.",
-            "success"
-        );
-    } catch (error) {
-        const message =
-            error instanceof Error
-                ? error.message
-                : "Unable to download output.";
-
-        showToast(message, "error");
-    }
-}
-
-
-/* =========================================================
-   Clear Input Handler
-========================================================= */
-
-function handleClearInput() {
-    if (!inputText.value) {
-        showToast(
-            "Input is already empty.",
-            "info"
-        );
-
-        return;
+            outputText.value = result;
+            if (outputCharCount) outputCharCount.textContent = `${result.length} chars`;
+            if (outputByteCount) outputByteCount.textContent = `${new TextEncoder().encode(result).length} bytes`;
+        } catch (err) {
+            outputText.value = `[Error: ${err.message}]`;
+        }
     }
 
-    inputText.value = "";
+    // --------------------------------------------------------------------------
+    // 4. EVENT LISTENERS
+    // --------------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!inputText) return;
 
-    updateInputCounters();
+        inputText.addEventListener("input", performTransformation);
 
-    resetOutput();
-
-    inputText.focus();
-
-    showToast(
-        "Input cleared.",
-        "success"
-    );
-}
-
-
-/* =========================================================
-   Clear All Handler
-========================================================= */
-
-function handleClearAll() {
-    const alreadyEmpty =
-        !inputText.value &&
-        !outputText.value;
-
-    inputText.value = "";
-    outputText.value = "";
-
-    updateAllCounters();
-    updateOutputButtons();
-
-    setWaitingStatus();
-
-    inputText.focus();
-
-    showToast(
-        alreadyEmpty
-            ? "Workspace is already empty."
-            : "Workspace cleared.",
-        alreadyEmpty ? "info" : "success"
-    );
-}
-
-
-/* =========================================================
-   Swap Handler
-========================================================= */
-
-function handleSwap() {
-    const currentInput = inputText.value;
-    const currentOutput = outputText.value;
-
-    if (!currentInput && !currentOutput) {
-        showToast(
-            "There is nothing to swap.",
-            "warning"
-        );
-
-        return;
-    }
-
-    inputText.value = currentOutput;
-    outputText.value = currentInput;
-
-    if (appState.operation === "encode") {
-        decodeOperation.checked = true;
-        encodeOperation.checked = false;
-    } else {
-        encodeOperation.checked = true;
-        decodeOperation.checked = false;
-    }
-
-    appState.operation = getCurrentOperation();
-
-    updatePanelLabels();
-    updateAllCounters();
-    updateOutputButtons();
-
-    if (outputText.value) {
-        updateStatus({
-            message: "Input and output swapped",
-            type: "info"
+        // Format selector pills
+        document.querySelectorAll(".format-pill-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".format-pill-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentFormat = btn.dataset.format || "base64";
+                performTransformation();
+            });
         });
-    } else {
-        setWaitingStatus();
-    }
 
-    inputText.focus();
+        // Operation toggle buttons (Encode / Decode)
+        const opEncode = document.getElementById("opEncode");
+        const opDecode = document.getElementById("opDecode");
 
-    showToast(
-        "Input and output swapped.",
-        "success"
-    );
-}
+        if (opEncode && opDecode) {
+            opEncode.addEventListener("click", () => {
+                opEncode.classList.add("active");
+                opDecode.classList.remove("active");
+                currentOperation = "encode";
+                performTransformation();
+            });
 
-
-/* =========================================================
-   Input Change Handler
-========================================================= */
-
-function handleInputChange() {
-    updateInputCounters();
-
-    if (outputText.value) {
-        resetOutput();
-    } else {
-        setWaitingStatus();
-    }
-}
-
-
-/* =========================================================
-   Format Change Handler
-========================================================= */
-
-function handleFormatChange() {
-    appState.format = getCurrentFormat();
-
-    updatePanelLabels();
-
-    resetOutput();
-
-    showToast(
-        `${formatConfig[appState.format].name} selected`,
-        "info"
-    );
-}
-
-
-/* =========================================================
-   Operation Change Handler
-========================================================= */
-
-function handleOperationChange() {
-    appState.operation = getCurrentOperation();
-
-    updatePanelLabels();
-
-    resetOutput();
-
-    showToast(
-        `${capitalize(appState.operation)} mode selected`,
-        "info"
-    );
-}
-
-
-/* =========================================================
-   Keyboard Shortcut Handler
-========================================================= */
-
-function handleKeyboardShortcuts(event) {
-    const isControlPressed =
-        event.ctrlKey || event.metaKey;
-
-    if (
-        isControlPressed &&
-        event.key === "Enter"
-    ) {
-        event.preventDefault();
-        handleConvert();
-        return;
-    }
-
-    if (
-        isControlPressed &&
-        event.shiftKey &&
-        event.key.toLowerCase() === "c"
-    ) {
-        event.preventDefault();
-        handleCopyOutput();
-        return;
-    }
-
-    if (
-        event.key === "Escape" &&
-        document.activeElement === inputText
-    ) {
-        inputText.blur();
-    }
-}
-
-/* =========================================================
-   Part 3B: Event Listeners & Application Initialization
-========================================================= */
-
-
-/* =========================================================
-   Event Registration
-========================================================= */
-
-function registerEventListeners() {
-
-    /* Theme */
-
-    if (themeToggle) {
-        themeToggle.addEventListener(
-            "click",
-            toggleTheme
-        );
-    }
-
-
-    /* Format */
-
-    formatSelect.addEventListener(
-        "change",
-        handleFormatChange
-    );
-
-
-    /* Operation */
-
-    encodeOperation.addEventListener(
-        "change",
-        handleOperationChange
-    );
-
-    decodeOperation.addEventListener(
-        "change",
-        handleOperationChange
-    );
-
-
-    /* Input */
-
-    inputText.addEventListener(
-        "input",
-        handleInputChange
-    );
-
-
-    inputText.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                (event.ctrlKey || event.metaKey) &&
-                event.key === "Enter"
-            ) {
-                event.preventDefault();
-                handleConvert();
-            }
-
+            opDecode.addEventListener("click", () => {
+                opDecode.classList.add("active");
+                opEncode.classList.remove("active");
+                currentOperation = "decode";
+                performTransformation();
+            });
         }
-    );
 
-
-    /* Buttons */
-
-    convertBtn.addEventListener(
-        "click",
-        handleConvert
-    );
-
-    pasteBtn.addEventListener(
-        "click",
-        handlePaste
-    );
-
-    clearInputBtn.addEventListener(
-        "click",
-        handleClearInput
-    );
-
-    copyOutputBtn.addEventListener(
-        "click",
-        handleCopyOutput
-    );
-
-    downloadOutputBtn.addEventListener(
-        "click",
-        handleDownloadOutput
-    );
-
-    swapBtn.addEventListener(
-        "click",
-        handleSwap
-    );
-
-    clearAllBtn.addEventListener(
-        "click",
-        handleClearAll
-    );
-
-
-    /* Global shortcuts */
-
-    document.addEventListener(
-        "keydown",
-        handleKeyboardShortcuts
-    );
-
-}
-
-
-/* =========================================================
-   Initial UI State
-========================================================= */
-
-function initializeUI() {
-
-    appState.format = getCurrentFormat();
-    appState.operation = getCurrentOperation();
-
-    updatePanelLabels();
-
-    updateAllCounters();
-
-    updateOutputButtons();
-
-    setWaitingStatus();
-
-}
-
-
-/* =========================================================
-   Browser Compatibility Check
-========================================================= */
-
-function performCompatibilityChecks() {
-
-    if (!window.TextEncoder) {
-
-        showToast(
-            "Your browser does not support UTF-8 encoding.",
-            "error"
-        );
-
-    }
-
-    if (!window.TextDecoder) {
-
-        showToast(
-            "Your browser does not support UTF-8 decoding.",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   Application Initialization
-========================================================= */
-
-function initializeApplication() {
-
-    initializeTheme();
-
-    initializeUI();
-
-    registerEventListeners();
-
-    performCompatibilityChecks();
-
-    console.log(
-        "%cThreatHawk Encoder & Decoder Loaded",
-        "color:#e63946;font-size:14px;font-weight:bold;"
-    );
-
-    console.log(
-        "Ready to transform data locally."
-    );
-
-}
-
-
-/* =========================================================
-   DOM Ready
-========================================================= */
-
-if (
-    document.readyState === "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        initializeApplication
-    );
-
-} else {
-
-    initializeApplication();
-
-}
-
-/* =========================================================
-   THREATHAWK NAVIGATION
-========================================================= */
-
-const navDropdown =
-    document.querySelector(".nav-dropdown");
-
-const dropdownToggle =
-    document.querySelector(".dropdown-toggle");
-
-if (navDropdown && dropdownToggle) {
-
-    dropdownToggle.addEventListener(
-        "click",
-        event => {
-
-            event.stopPropagation();
-
-            const isOpen =
-                navDropdown.classList.toggle(
-                    "active"
-                );
-
-            dropdownToggle.classList.toggle(
-                "active",
-                isOpen
-            );
-
-            dropdownToggle.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
+        // Swap button
+        if (swapBtn) {
+            swapBtn.addEventListener("click", () => {
+                const currentOutput = outputText.value;
+                if (!currentOutput || currentOutput.startsWith("[Error:")) return;
+                inputText.value = currentOutput;
+                // Invert operation
+                if (currentOperation === "encode") {
+                    opDecode?.click();
+                } else {
+                    opEncode?.click();
+                }
+                if (window.ThreatHawk) window.ThreatHawk.toast("Swapped input and output", "fa-arrow-right-arrow-left");
+            });
         }
-    );
 
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            if (
-                !navDropdown.contains(event.target)
-            ) {
-                navDropdown.classList.remove(
-                    "active"
-                );
-
-                dropdownToggle.classList.remove(
-                    "active"
-                );
-
-                dropdownToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-            }
+        // Clear button
+        if (clearBtn) {
+            clearBtn.addEventListener("click", () => {
+                inputText.value = "";
+                outputText.value = "";
+                performTransformation();
+                inputText.focus();
+                if (window.ThreatHawk) window.ThreatHawk.toast("Cleared editors", "fa-rotate-left");
+            });
         }
-    );
 
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (event.key === "Escape") {
-                navDropdown.classList.remove(
-                    "active"
-                );
-
-                dropdownToggle.classList.remove(
-                    "active"
-                );
-
-                dropdownToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-                dropdownToggle.focus();
-            }
+        // Copy button
+        if (copyOutputBtn) {
+            copyOutputBtn.addEventListener("click", async () => {
+                if (!outputText.value) {
+                    if (window.ThreatHawk) window.ThreatHawk.toast("No output to copy", "fa-triangle-exclamation");
+                    return;
+                }
+                if (window.ThreatHawk) {
+                    await window.ThreatHawk.copyToClipboard(outputText.value, "Output copied to clipboard");
+                }
+            });
         }
-    );
-}
 
-/* =========================================================
-   KNOWLEDGE POPUPS
-========================================================= */
+        // Download button
+        if (downloadOutputBtn) {
+            downloadOutputBtn.addEventListener("click", () => {
+                if (!outputText.value) return;
+                const blob = new Blob([outputText.value], { type: "text/plain;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `threathawk-${currentFormat}-${currentOperation}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
 
-const knowledgeData = {
-    aboutPopup: {
-        title: "About Encoder & Decoder",
-
-        content: `
-            <p>
-                ThreatHawk Encoder & Decoder is a browser-based utility that
-                converts data between common encoding formats without sending
-                information to external servers.
-            </p>
-
-            <p>
-                It supports Base64, Base64 URL, URL encoding, HTML entities,
-                hexadecimal, binary and ROT13 while keeping all processing
-                inside your browser.
-            </p>
-
-            <p>
-                The module is designed for developers, SOC analysts,
-                penetration testers and students who need to inspect,
-                transform and validate encoded data quickly and safely.
-            </p>
-        `
-    },
-
-    featuresPopup: {
-        title: "Encoder & Decoder Key Features",
-
-        content: `
-            <ul>
-                <li>
-                    Encode and decode Base64
-                </li>
-
-                <li>
-                    Support for Base64 URL encoding
-                </li>
-
-                <li>
-                    URL encoding and decoding
-                </li>
-
-                <li>
-                    HTML entity conversion
-                </li>
-
-                <li>
-                    Hexadecimal conversion
-                </li>
-
-                <li>
-                    Binary text conversion
-                </li>
-
-                <li>
-                    ROT13 transformation
-                </li>
-
-                <li>
-                    UTF-8 character support
-                </li>
-
-                <li>
-                    Copy, paste and swap operations
-                </li>
-
-                <li>
-                    Download converted output
-                </li>
-
-                <li>
-                    Local browser-based processing
-                </li>
-            </ul>
-        `
-    },
-
-    workflowPopup: {
-        title: "How Data Conversion Works",
-
-        content: `
-            <ol>
-                <li>
-                    Select the desired conversion format.
-                </li>
-
-                <li>
-                    Choose whether to encode or decode the input.
-                </li>
-
-                <li>
-                    Paste or type the source data into the input panel.
-                </li>
-
-                <li>
-                    The module validates the supplied content before
-                    performing the requested transformation.
-                </li>
-
-                <li>
-                    The selected encoding or decoding algorithm is applied
-                    locally within your browser.
-                </li>
-
-                <li>
-                    The converted result is displayed in the output panel.
-                </li>
-
-                <li>
-                    Character counts, byte counts and conversion status are
-                    updated automatically.
-                </li>
-
-                <li>
-                    The result can be copied, swapped back into the input,
-                    downloaded or used for additional conversions.
-                </li>
-            </ol>
-        `
-    }
-};
-
-
-const knowledgeOverlay =
-    document.getElementById("knowledgeOverlay");
-
-const knowledgePopup =
-    document.getElementById("knowledgePopup");
-
-const popupTitle =
-    document.getElementById("popupTitle");
-
-const popupContent =
-    document.getElementById("popupContent");
-
-const popupClose =
-    document.getElementById("popupClose");
-
-let lastPopupTrigger = null;
-
-
-function openKnowledgePopup(popupKey, triggerButton) {
-
-    const popupData =
-        knowledgeData[popupKey];
-
-    if (
-        !popupData ||
-        !knowledgeOverlay ||
-        !popupTitle ||
-        !popupContent
-    ) {
-        return;
-    }
-
-    lastPopupTrigger =
-        triggerButton || null;
-
-    popupTitle.textContent =
-        popupData.title;
-
-    popupContent.innerHTML =
-        popupData.content;
-
-    knowledgeOverlay.classList.add(
-        "active"
-    );
-
-    knowledgeOverlay.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    document.body.style.overflow =
-        "hidden";
-
-    window.requestAnimationFrame(() => {
-        popupClose?.focus();
+        performTransformation();
     });
-
-}
-
-
-function closeKnowledgePopup() {
-
-    if (!knowledgeOverlay) {
-        return;
-    }
-
-    knowledgeOverlay.classList.remove(
-        "active"
-    );
-
-    knowledgeOverlay.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-    document.body.style.overflow =
-        "";
-
-    if (lastPopupTrigger) {
-        lastPopupTrigger.focus();
-    }
-
-    lastPopupTrigger = null;
-
-}
-
-
-document
-    .querySelectorAll(".info-button")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                openKnowledgePopup(
-                    button.dataset.popup,
-                    button
-                );
-
-            }
-        );
-
-    });
-
-
-popupClose?.addEventListener(
-    "click",
-    closeKnowledgePopup
-);
-
-
-knowledgeOverlay?.addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target ===
-            knowledgeOverlay
-        ) {
-            closeKnowledgePopup();
-        }
-
-    }
-);
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape" &&
-            knowledgeOverlay?.classList.contains(
-                "active"
-            )
-        ) {
-            closeKnowledgePopup();
-        }
-
-    }
-);
-
-
-knowledgePopup?.addEventListener(
-    "click",
-    event => {
-
-        event.stopPropagation();
-
-    }
-);
+})();

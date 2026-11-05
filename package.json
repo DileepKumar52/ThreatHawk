@@ -1,0 +1,28 @@
+{
+  "name": "threathawk",
+  "version": "1.1.0",
+  "description": "Free, open-source, browser-based cybersecurity platform providing high-precision tools for password auditing, URL inspection, hash identification, security log analysis, and data encoding.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DileepKumar52/ThreatHawk.git"
+  },
+  "keywords": [
+    "cybersecurity",
+    "security-tools",
+    "password-entropy",
+    "url-analyzer",
+    "hash-identifier",
+    "log-analysis",
+    "ioc-extraction",
+    "base64",
+    "jwt",
+    "privacy-first"
+  ],
+  "author": "Dileep Kumar",
+  "license": "MIT"
+}
+

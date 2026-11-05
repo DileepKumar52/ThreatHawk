@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329858525106937"
             crossorigin="anonymous"></script>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9595S5GKM8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-9595S5GKM8');
     </script>
 
-    <!-- Microsoft Clarity tag -->
+    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -27,67 +24,39 @@
     </script>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Free URL Analyzer and Phishing Link Checker | ThreatHawk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suspicious URL Inspector &amp; Phishing Detector | ThreatHawk</title>
 
     <meta
         name="description"
-        content="Use ThreatHawk's free URL Analyzer to inspect suspicious links, detect phishing indicators, identify brand impersonation and review URL security risks in your browser."
+        content="Inspect suspicious links, detect phishing indicators, analyze homograph attacks, examine domain structure, and verify URL reputation with ThreatHawk."
     >
 
-    <link rel="canonical"
-          href="https://threathawk.net/tools/url-analyzer/">
-
+    <link rel="canonical" href="https://threathawk.net/tools/url-analyzer/">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ThreatHawk">
-    <meta
-        property="og:title"
-        content="Free URL Analyzer and Phishing Link Checker | ThreatHawk"
-    >
-    <meta
-        property="og:description"
-        content="Analyze suspicious URLs, inspect domain structure, detect phishing indicators and review possible brand impersonation."
-    >
-    <meta property="og:url"
-          content="https://threathawk.net/tools/url-analyzer/">
+    <meta property="og:title" content="Suspicious URL Inspector &amp; Phishing Detector | ThreatHawk">
+    <meta property="og:description" content="Inspect suspicious links, detect phishing indicators, review URL structure and check reputation intelligence.">
+    <meta property="og:url" content="https://threathawk.net/tools/url-analyzer/">
     <meta property="og:image" content="https://threathawk.net/assets/og-image.png">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta
-        name="twitter:title"
-        content="Free URL Analyzer and Phishing Link Checker | ThreatHawk"
-    >
-    <meta
-        name="twitter:description"
-        content="Analyze suspicious URLs, detect phishing indicators and inspect possible brand impersonation directly in your browser."
-    >
-    <meta name="twitter:image" content="https://threathawk.net/assets/og-image.png">
-
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../favicon-96x96.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="manifest" href="../../site.webmanifest">
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script type="application/ld+json">
     {
@@ -95,1614 +64,291 @@
         "@type": "SoftwareApplication",
         "name": "ThreatHawk URL Analyzer",
         "applicationCategory": "SecurityApplication",
-        "applicationSubCategory": "URL Security Analyzer",
         "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript and a modern web browser",
         "url": "https://threathawk.net/tools/url-analyzer/",
         "image": "https://threathawk.net/assets/logo.svg",
-        "description": "Use ThreatHawk's free URL Analyzer to inspect suspicious links, detect phishing indicators, identify possible brand impersonation and review URL security risks in your browser.",
+        "description": "Inspect suspicious links, detect phishing indicators, review URL structure and check reputation intelligence with ThreatHawk's free URL Analyzer.",
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
         },
         "isAccessibleForFree": true,
-        "license": "https://opensource.org/licenses/MIT",
-        "creator": {
-            "@type": "Person",
-            "name": "Dileep Kumar"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "ThreatHawk",
-            "url": "https://threathawk.net/"
-        }
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Is the URL I enter uploaded or stored by ThreatHawk?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The URL Analyzer performs its structural and heuristic checks as part of the analysis workflow. ThreatHawk does not require an account and does not intentionally save URLs in a personal history or user profile. The analyzer also uses an external reputation service for threat checking, so the submitted URL may be sent to that security provider. Avoid entering private dashboard links, password-reset links, authentication tokens or other confidential addresses."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How does ThreatHawk detect a possible phishing URL?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "ThreatHawk examines indicators such as insecure protocols, suspicious words, misleading subdomains, encoded characters, redirect parameters, IP-based hosts and possible brand impersonation."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can the URL Analyzer guarantee that a website is safe?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No. The URL Analyzer identifies suspicious signals and possible risks, but it cannot guarantee that a website is safe or malicious."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What does brand impersonation mean?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Brand impersonation occurs when a domain or URL is designed to resemble a trusted company or service using misspellings, extra characters, deceptive subdomains or similar-looking names."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Why can a legitimate URL receive a medium or high risk score?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "A legitimate URL can receive a higher risk score when it contains patterns that are also commonly found in suspicious links, such as long URLs, redirect parameters, many subdomains, encoded characters or security-related keywords. The score represents detected signals and is not a definitive verdict."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does the analyzer check SSL certificates and HTTPS?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The URL Analyzer checks whether a URL uses HTTP or HTTPS, but it does not inspect certificate ownership, expiration, issuer details or the complete TLS configuration of the destination website."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I analyze shortened or redirected URLs?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The analyzer can inspect shortened URLs and identify redirect-related parameters or other suspicious URL patterns. It does not automatically follow every redirect in a chain."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is the ThreatHawk URL Analyzer free to use?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The ThreatHawk URL Analyzer is free to use and does not require account registration or a paid subscription."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does the URL Analyzer work on mobile devices?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The ThreatHawk URL Analyzer is designed to work on modern mobile browsers as well as desktop browsers. The interface is responsive so URLs can be analyzed on smaller screens."
-                }
-            }
-        ]
+        "license": "https://opensource.org/licenses/MIT"
     }
     </script>
 </head>
 
 <body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- ==============================
-         ThreatHawk Navigation
-    ================================ -->
-
-    <header class="site-header">
-
-        <div class="navbar">
-
-            <a
-                href="../../"
-                class="logo"
-                aria-label="Return to ThreatHawk homepage"
-            >
-                <h2>ThreatHawk</h2>
+    <!-- Top Navigation -->
+    <header class="th-navbar">
+        <div class="th-navbar-inner">
+            <a href="../../" class="th-brand" aria-label="ThreatHawk Home">
+                <span class="th-brand-logo">TH</span>
+                <span>ThreatHawk</span>
             </a>
 
-            <nav aria-label="Primary navigation">
-
-                <ul>
-
-                    <li>
-                        <a href="../../">
-                            Home
-                        </a>
-                    </li>
-
-                    <li class="nav-dropdown">
-
-                        <button
-                            class="dropdown-toggle active"
-                            type="button"
-                            aria-expanded="false"
-                            aria-controls="modulesDropdown"
-                        >
+            <nav aria-label="Main Navigation">
+                <ul class="th-nav-links">
+                    <li><a href="../../" class="th-nav-link">Home</a></li>
+                    <li class="th-dropdown active">
+                        <button class="th-dropdown-toggle" type="button" aria-expanded="false" aria-controls="modulesDropdown">
                             <span>Modules</span>
-
-                            <svg
-                                class="dropdown-arrow"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
+                            <svg class="th-dropdown-arrow" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
                         </button>
-
-                        <ul
-                            class="dropdown-menu"
-                            id="modulesDropdown"
-                            aria-label="ThreatHawk modules"
-                        >
-
+                        <ul class="th-dropdown-menu" id="modulesDropdown" aria-label="ThreatHawk modules">
                             <li>
-                                <a href="../password-analyzer/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <rect
-                                                x="4"
-                                                y="10"
-                                                width="16"
-                                                height="10"
-                                                rx="2"
-                                            ></rect>
-
-                                            <path
-                                                d="M8 10V7a4 4 0 0 1 8 0v3"
-                                            ></path>
-
-                                            <path d="M12 14v2"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../password-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span>
                                     <span>Password Intelligence</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a
-                                    href="./"
-                                    class="current-module"
-                                    aria-current="page"
-                                >
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <circle
-                                                cx="12"
-                                                cy="12"
-                                                r="9"
-                                            ></circle>
-
-                                            <path d="M3 12h18"></path>
-
-                                            <path
-                                                d="M12 3a14 14 0 0 1 0 18"
-                                            ></path>
-
-                                            <path
-                                                d="M12 3a14 14 0 0 0 0 18"
-                                            ></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="./" class="th-dropdown-item active" style="font-weight: 600;">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span>
                                     <span>URL Analyzer</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../hash-analyzer/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M10 3 8 21"></path>
-                                            <path d="m16 3-2 18"></path>
-                                            <path d="M4 9h16"></path>
-                                            <path d="M3 15h16"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../hash-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-fingerprint" aria-hidden="true"></i></span>
                                     <span>Hash Analyzer</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../log-analyzer/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M6 3h9l3 3v15H6z"></path>
-                                            <path d="M14 3v4h4"></path>
-                                            <path d="M9 12h6"></path>
-                                            <path d="M9 16h6"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../log-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i></span>
                                     <span>Log Analysis</span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="../encoder-decoder/">
-
-                                    <span
-                                        class="dropdown-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="m8 9-4 3 4 3"></path>
-                                            <path d="m16 9 4 3-4 3"></path>
-                                            <path d="m14 5-4 14"></path>
-                                        </svg>
-                                    </span>
-
+                                <a href="../encoder-decoder/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></span>
                                     <span>Encoder &amp; Decoder</span>
                                 </a>
                             </li>
-
                         </ul>
-
                     </li>
-
-                    <li>
-                        <a href="../../guides/">
-                            Guides
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="../../about/">About</a>
-                    </li>
-
-                    <li>
-                        <a href="../../contact/">
-                            Contact
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#faq">
-                            FAQ
-                        </a>
-                    </li>
-
+                    <li><a href="../../guides/" class="th-nav-link">Guides</a></li>
+                    <li><a href="../../about/" class="th-nav-link">About</a></li>
+                    <li><a href="../../contact/" class="th-nav-link">Contact</a></li>
                 </ul>
-
             </nav>
 
-            <div class="nav-actions">
-
-                <span class="version">
-                    Version 1.0
-                </span>
-
-                <button
-                    id="themeToggle"
-                    class="theme-toggle"
-                    type="button"
-                    aria-label="Switch to light mode"
-                >
-                    <i class="fa-regular fa-sun"></i>
-
-                    <span>Light Mode</span>
+            <div class="th-nav-actions">
+                <button type="button" class="th-theme-btn" id="themeToggle" aria-label="Switch theme">
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
                 </button>
-
+                <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" rel="noopener noreferrer" class="btn-app-ghost" aria-label="GitHub Repository">
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
+                </a>
             </div>
-
         </div>
-
     </header>
 
-
-    <main>
-
-        <!-- ==============================
-             Module Header
-        =============================== -->
-
-        <section class="module-header">
-
-            <div class="module-container">
-
-                <div class="breadcrumb">
-
-                    <a href="../../">
-                        ThreatHawk
-                    </a>
-
-                    <span>/</span>
-
-                    <span>URL Analyzer</span>
-
-                </div>
-
-                <div class="module-heading">
-
-                    <div class="module-heading-content">
-
-                        <p class="eyebrow">
-                            Threat Detection Module
-                        </p>
-
-                        <h1>Free URL Analyzer</h1>
-
-                        <p class="module-description">
-                            Use the free URL Analyzer to inspect website addresses,
-                            detect phishing indicators, identify suspicious domain
-                            patterns, review possible brand impersonation and assess
-                            URL security risks in your browser.
-                        </p>
-
-                    </div>
-
-                    <div class="module-status">
-
-                        <span class="status-dot"></span>
-
-                        <div>
-                            <small>Module Status</small>
-                            <strong>Active</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
+    <!-- Page Header -->
+    <section class="th-page-header">
+        <div class="container th-page-header-inner">
+            <div class="th-breadcrumb">
+                <a href="../../">ThreatHawk</a>
+                <span>/</span>
+                <span>Tools</span>
+                <span>/</span>
+                <span style="color: var(--color-ink);">URL Analyzer</span>
             </div>
-
-        </section>
-
-
-        <!-- ==============================
-             URL Input Workspace
-        =============================== -->
-
-        <section class="analyzer-section">
-
-            <div class="module-container">
-
-                <section class="analyzer-workspace">
-
-                    <div class="workspace-heading">
-
-                        <div>
-
-                            <span class="panel-label">
-                                URL Input
-                            </span>
-
-                            <h2>Analyze a website address</h2>
-
-                            <p>
-                                Enter a complete website address or domain to
-                                inspect its structure and identify suspicious
-                                phishing indicators.
-                            </p>
-
-                        </div>
-
-                        <span class="analysis-badge">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Security analysis
-                        </span>
-
-                    </div>
-
-
-                    <div class="url-input-group">
-
-                        <label for="urlInput">
-                            Website URL
-                        </label>
-
-                        <div class="url-input-wrapper">
-
-                            <div
-                                class="input-icon"
-                                aria-hidden="true"
-                            >
-                                <i class="fa-solid fa-link"></i>
-                            </div>
-
-                            <textarea
-                                id="urlInput"
-                                rows="4"
-                                placeholder="https://example.com/login"
-                                spellcheck="false"
-                                aria-label="URL to analyze"
-                            ></textarea>
-
-                        </div>
-
-                        <p class="input-helper">
-                            You may enter a URL with or without
-                            <strong>https://</strong>. Press Enter or use the
-                            Analyze URL button to begin.
-                        </p>
-
-                    </div>
-
-
-                    <div class="workspace-actions">
-
-                        <button
-                            id="analyzeBtn"
-                            class="primary-button"
-                            type="button"
-                        >
-                            <i class="fa-solid fa-magnifying-glass-chart"></i>
-                            Analyze URL
-                        </button>
-
-                        <button
-                            id="clearBtn"
-                            class="secondary-button"
-                            type="button"
-                        >
-                            <i class="fa-solid fa-rotate-left"></i>
-                            Clear
-                        </button>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==============================
-             Quick URL Information
-        =============================== -->
-
-        <section class="summary-section">
-
-            <div class="module-container">
-
-                <div class="section-heading compact-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            URL Overview
-                        </span>
-
-                        <h2>Quick information</h2>
-
-                    </div>
-
-                    <p>
-                        The primary components extracted from the submitted
-                        website address.
+            <div class="th-header-title-row">
+                <div>
+                    <span class="mono-eyebrow">Link Inspection &amp; Phishing Detection</span>
+                    <h1 class="heading-lg" style="margin-top: 4px;">Suspicious URL Inspector</h1>
+                    <p style="margin-top: 6px; max-width: 680px;">
+                        Dissect URL components, detect IDN homograph lookalikes, IP address hosts, obfuscated redirects, and query reputation intelligence.
                     </p>
-
                 </div>
-
-
-                <div class="summary-grid">
-
-                    <article class="summary-card">
-
-                        <div class="summary-icon">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-
-                        <div class="summary-content">
-
-                            <span>Protocol</span>
-
-                            <strong id="protocol">
-                                -
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="summary-card">
-
-                        <div class="summary-icon">
-                            <i class="fa-solid fa-server"></i>
-                        </div>
-
-                        <div class="summary-content">
-
-                            <span>Hostname</span>
-
-                            <strong
-                                id="hostname"
-                                title="-"
-                            >
-                                -
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="summary-card">
-
-                        <div class="summary-icon">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-
-                        <div class="summary-content">
-
-                            <span>Domain</span>
-
-                            <strong
-                                id="domain"
-                                title="-"
-                            >
-                                -
-                            </strong>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="summary-card">
-
-                        <div class="summary-icon">
-                            <i class="fa-solid fa-earth-americas"></i>
-                        </div>
-
-                        <div class="summary-content">
-
-                            <span>Top-Level Domain</span>
-
-                            <strong id="tld">
-                                -
-                            </strong>
-
-                        </div>
-
-                    </article>
-
+                <div class="th-header-actions">
+                    <button type="button" class="btn-app-ghost info-button" data-popup="aboutPopup">
+                        <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+                        <span>How It Works</span>
+                    </button>
                 </div>
-
             </div>
+        </div>
+    </section>
 
-        </section>
-
-        <!-- ==============================
-             Risk Assessment
-        =============================== -->
-
-        <section class="risk-section">
-
-            <div class="module-container">
-
-                <section class="risk-panel">
-
-                    <div class="risk-overview">
-
-                        <div class="risk-heading">
-
-                            <span class="panel-label">
-                                Risk Assessment
-                            </span>
-
-                            <h2>Overall Risk</h2>
-
-                            <p id="riskLabel">
-                                Not analyzed
-                            </p>
-
-                        </div>
-
-
-                        <div class="risk-score-wrapper">
-
-                            <div
-                                class="risk-score-ring"
-                                aria-label="URL risk score"
-                            >
-                                <span id="riskScore">0</span>
-                                <small>/ 100</small>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="risk-meter">
-
-                        <div class="risk-scale">
-
-                            <span>Low</span>
-                            <span>Medium</span>
-                            <span>High</span>
-                            <span>Critical</span>
-
-                        </div>
-
-                        <div class="risk-track">
-
-                            <div
-                                id="riskFill"
-                                class="risk-fill"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="risk-note">
-
-                        <i class="fa-solid fa-circle-info"></i>
-
-                        <p>
-                            The score is based on structural heuristics such
-                            as protocol security, suspicious keywords,
-                            redirects, encoding, hostname patterns and
-                            possible brand impersonation.
-                        </p>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==============================
-             Security Findings
-        =============================== -->
-
-        <section class="findings-section">
-
-            <div class="module-container">
-
-                <section class="findings-panel">
-
-                    <div class="findings-header">
-
-                        <div>
-
-                            <span class="panel-label">
-                                Detection Results
-                            </span>
-
-                            <h2>Security Findings</h2>
-
-                            <p>
-                                Review the signals that contributed to the
-                                calculated URL risk score.
-                            </p>
-
-                        </div>
-
-                        <span
-                            id="findingCount"
-                            class="finding-count"
-                        >
-                            0 findings
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        id="findingsList"
-                        class="findings-list"
-                        aria-live="polite"
+    <!-- Main Workspace -->
+    <main id="main-content" class="analyzer-workspace">
+        <div class="container">
+            <!-- URL Input Card -->
+            <div class="url-input-card">
+                <label for="urlInput" style="font-weight: 600; font-size: 14px;">Enter URL to Analyze</label>
+                <div class="url-input-row">
+                    <input
+                        type="url"
+                        id="urlInput"
+                        class="url-input-field"
+                        placeholder="https://example.com/login?redirect=secure…"
+                        autocomplete="off"
+                        spellcheck="false"
                     >
-
-                        <div class="findings-empty-state">
-
-                            <div class="empty-state-icon">
-                                <i class="fa-solid fa-shield"></i>
-                            </div>
-
-                            <strong>
-                                No URL analyzed
-                            </strong>
-
-                            <p class="empty-findings">
-                                Enter a website address and run the analyzer
-                                to view structural security findings.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==============================
-             Technical URL Details
-        =============================== -->
-
-        <section class="details-section">
-
-            <div class="module-container">
-
-                <section class="details-panel">
-
-                    <div class="details-heading">
-
-                        <div>
-
-                            <span class="panel-label">
-                                Parsed Components
-                            </span>
-
-                            <h2>Technical URL Details</h2>
-
-                            <p>
-                                Additional values extracted from the parsed
-                                website address.
-                            </p>
-
-                        </div>
-
-                        <div class="details-heading-icon">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-
-                    </div>
-
-
-                    <div class="details-grid">
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-sitemap"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>Subdomain</span>
-
-                                <strong id="subdomain">
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-network-wired"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>Port</span>
-
-                                <strong id="port">
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-route"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>Path</span>
-
-                                <strong
-                                    id="path"
-                                    title="-"
-                                >
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-list"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>Query Parameters</span>
-
-                                <strong id="query">
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-hashtag"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>Fragment</span>
-
-                                <strong
-                                    id="fragment"
-                                    title="-"
-                                >
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-
-                        <article class="detail-card">
-
-                            <div class="detail-icon">
-                                <i class="fa-solid fa-ruler-horizontal"></i>
-                            </div>
-
-                            <div class="detail-content">
-
-                                <span>URL Length</span>
-
-                                <strong id="length">
-                                    -
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-        <section class="content-section url-analysis-guide">
-            <div class="section-header">
-                <span class="section-label">Understanding URL Security</span>
-                <h2>How URL Analysis Helps Identify Suspicious Links</h2>
-                <p>
-                    A URL contains more security information than the website name alone.
-                    Examining its structure can reveal patterns that are commonly associated
-                    with phishing, impersonation and other suspicious links.
-                </p>
-            </div>
-
-            <div class="content-grid">
-                <article class="content-card">
-                    <h3>Start with the domain and hostname</h3>
-                    <p>
-                        The hostname is one of the most important parts of a URL to inspect.
-                        Attackers may use misleading subdomains, unusual domain names,
-                        excessive hyphens or large numbers of characters to make a link
-                        appear trustworthy. Always identify the actual domain rather than
-                        relying only on a familiar word appearing somewhere in the URL.
-                    </p>
-                </article>
-
-                <article class="content-card">
-                    <h3>Look beyond HTTPS</h3>
-                    <p>
-                        HTTPS encrypts the connection between a browser and a website, but
-                        HTTPS alone does not prove that a website is legitimate. A phishing
-                        website can also use HTTPS. URL analysis therefore considers the
-                        protocol together with other structural signals instead of treating
-                        the padlock or HTTPS as a complete safety verdict.
-                    </p>
-                </article>
-
-                <article class="content-card">
-                    <h3>Watch for suspicious URL patterns</h3>
-                    <p>
-                        Long URLs, unusual ports, encoded characters, IP-based hosts,
-                        suspicious file extensions and redirect parameters can provide
-                        additional context. None of these indicators automatically means
-                        that a URL is malicious, but several signals appearing together
-                        can justify closer investigation.
-                    </p>
-                </article>
-
-                <article class="content-card">
-                    <h3>Be careful with brand impersonation</h3>
-                    <p>
-                        Phishing links often attempt to resemble well-known services by
-                        using misspelled names, extra characters or deceptive subdomains.
-                        For example, seeing a familiar brand name inside a URL does not mean
-                        that the domain actually belongs to that organization. The important
-                        question is which domain controls the website address.
-                    </p>
-                </article>
-
-                <article class="content-card">
-                    <h3>Understand what the risk score means</h3>
-                    <p>
-                        The risk score summarizes suspicious signals detected during the
-                        analysis. A higher score means that more or stronger indicators were
-                        identified. It is not a statement that a website is definitely
-                        malicious, and a low score cannot guarantee that a website is safe.
-                        Use the individual findings to understand why a score was assigned.
-                    </p>
-                </article>
-
-                <article class="content-card">
-                    <h3>Use reputation checks as another signal</h3>
-                    <p>
-                        ThreatHawk can also use an external reputation check to identify
-                        known threats. Reputation results complement the URL's structural
-                        analysis rather than replacing it. A URL that has no known reputation
-                        warning can still require caution, especially when other suspicious
-                        indicators are present.
-                    </p>
-                </article>
-            </div>
-
-            <div class="content-note">
-                <strong>Important:</strong>
-                URL analysis is a security aid, not a guarantee of safety. Before opening
-                an unfamiliar link, consider the sender, expected destination and context
-                in which the URL was received.
-            </div>
-        </section>
-
-
-        <!-- ==============================
-             Knowledge Center
-        =============================== -->
-
-        <section id="about" class="knowledge-section">
-
-            <div class="module-container">
-
-                <div class="knowledge-grid">
-
-                    <!-- About URL Analyzer -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>About URL Analyzer</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="aboutPopup"
-                                aria-label="Learn more about URL Analyzer"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Learn how ThreatHawk examines website addresses,
-                            identifies suspicious patterns and helps you
-                            investigate potentially dangerous links.
-                        </p>
-
-                    </article>
-
-
-                    <!-- Key Features -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>Key Features</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="featuresPopup"
-                                aria-label="View URL Analyzer features"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Explore the structural checks, phishing indicators,
-                            impersonation detection and explainable risk scoring
-                            available within URL Analyzer.
-                        </p>
-
-                    </article>
-
-
-                    <!-- How It Works -->
-
-                    <article class="knowledge-card">
-
-                        <div class="knowledge-header">
-
-                            <h3>How URL Analysis Works</h3>
-
-                            <button
-                                class="info-button"
-                                type="button"
-                                data-popup="howItWorksPopup"
-                                aria-label="Learn how URL analysis works"
-                            >
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
-
-                        </div>
-
-                        <p>
-                            Understand how a submitted URL is parsed, inspected
-                            and converted into detailed security findings and an
-                            overall risk assessment.
-                        </p>
-
-                    </article>
-
+                    <button type="button" id="analyzeBtn" class="btn-primary" style="height: 48px; border-radius: var(--radius-sm);">
+                        <i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i>
+                        <span>Analyze URL</span>
+                    </button>
+                    <button type="button" id="clearBtn" class="btn-app-ghost" style="height: 48px;">
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                        <span>Clear</span>
+                    </button>
                 </div>
-
             </div>
 
-        </section>
+            <!-- Analysis Results Layout -->
+            <div class="url-results-layout">
+                <!-- Left Column: Risk Score Dial -->
+                <aside class="risk-score-card" aria-label="Risk Score">
+                    <span class="panel-label">Composite Risk Rating</span>
+                    <div class="risk-dial-wrap">
+                        <svg class="risk-dial-svg" viewBox="0 0 140 140" aria-hidden="true">
+                            <circle class="risk-dial-bg" cx="70" cy="70" r="60"></circle>
+                            <circle class="risk-dial-fill" id="riskDial" cx="70" cy="70" r="60"></circle>
+                        </svg>
+                        <div class="risk-dial-text">
+                            <div id="riskScore">0</div>
+                            <div id="riskLabel">Not Analyzed</div>
+                        </div>
+                    </div>
+                    <span style="font-size: 12px; color: var(--color-mute); max-width: 240px;">
+                        Evaluated across 10 structural heuristics and threat intelligence feeds.
+                    </span>
+                </aside>
 
-                <!-- ==============================
-                    Frequently Asked Questions
-                =============================== -->
-
-        <section class="faq-section" id="faq">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Common Questions
-                        </span>
-
-                        <h2>Frequently Asked Questions</h2>
-
+                <!-- Right Column: Component Breakdown & Findings -->
+                <div class="url-details-column">
+                    <!-- Parsed Components Card -->
+                    <div class="parsed-components-card">
+                        <h3 class="heading-md" style="font-size: 16px;">Parsed URL Architecture</h3>
+                        <div class="components-grid">
+                            <div class="component-pill">
+                                <span class="comp-name">Protocol</span>
+                                <span class="comp-val" id="protocol">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Hostname</span>
+                                <span class="comp-val" id="hostname">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Domain</span>
+                                <span class="comp-val" id="domain">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">TLD</span>
+                                <span class="comp-val" id="tld">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Subdomain</span>
+                                <span class="comp-val" id="subdomain">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Port</span>
+                                <span class="comp-val" id="port">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Path</span>
+                                <span class="comp-val" id="path">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Query Params</span>
+                                <span class="comp-val" id="query">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Fragment</span>
+                                <span class="comp-val" id="fragment">—</span>
+                            </div>
+                            <div class="component-pill">
+                                <span class="comp-name">Length</span>
+                                <span class="comp-val" id="length">—</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <p>
-                        Find answers about URL privacy, phishing detection,
-                        risk scoring, security limitations and how the
-                        ThreatHawk URL Analyzer works.
-                    </p>
-
+                    <!-- Findings Card -->
+                    <div class="findings-card">
+                        <div class="findings-header">
+                            <h3 class="heading-md" style="font-size: 16px;">Security Findings &amp; Heuristics</h3>
+                            <span id="findingCount" class="mono-eyebrow" style="font-size: 11px;">0 findings</span>
+                        </div>
+                        <div id="findingsList" aria-live="polite"></div>
+                    </div>
                 </div>
-
-
-                <div class="faq-list">
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Is the URL I enter uploaded or stored by ThreatHawk?
-                        </summary>
-
-                        <p>
-                            The URL Analyzer performs its structural and
-                            heuristic checks as part of the analysis workflow.
-                            ThreatHawk does not require an account and does not
-                            intentionally save URLs in a personal history or user
-                            profile. The analyzer also uses an external reputation
-                            service for threat checking, so the submitted URL may
-                            be sent to that security provider. Avoid entering
-                            private dashboard links, password-reset links,
-                            authentication tokens or other confidential addresses.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            How does ThreatHawk detect a possible phishing URL?
-                        </summary>
-
-                        <p>
-                            ThreatHawk examines multiple signals inside the
-                            submitted address. These can include insecure
-                            protocols, suspicious words, misleading subdomains,
-                            excessive URL length, unusual symbols, encoded
-                            characters, redirect parameters, IP-based hosts and
-                            possible brand impersonation. Each detected signal
-                            contributes to the final risk score and appears in
-                            the Security Findings section so the result remains
-                            understandable rather than behaving like a mysterious
-                            black box.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Can the URL Analyzer guarantee that a website is safe?
-                        </summary>
-
-                        <p>
-                            No security analyzer can guarantee that a website is
-                            completely safe. A malicious page may be newly
-                            created, temporarily inactive, carefully disguised
-                            or not yet included in public threat databases.
-                            ThreatHawk should be treated as an investigation and
-                            awareness tool, not as a replacement for browser
-                            protection, antivirus software, safe-browsing
-                            services or professional security analysis. A low
-                            score means fewer suspicious indicators were found,
-                            not that the website has received permanent approval
-                            from the internet safety council, which thankfully
-                            does not exist.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            What does brand impersonation mean?
-                        </summary>
-
-                        <p>
-                            Brand impersonation occurs when an attacker creates a
-                            domain or URL that resembles a trusted company,
-                            service or financial institution. The attacker may
-                            use misspelled names, extra characters, deceptive
-                            subdomains or visually similar letters. For example,
-                            a suspicious domain may contain the name of a known
-                            service without actually belonging to that company.
-                            ThreatHawk checks for these patterns and reports them
-                            when the URL appears designed to create false trust.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Why can a legitimate URL receive a medium or high risk score?
-                        </summary>
-
-                        <p>
-                            Risk scoring is based on suspicious characteristics,
-                            not on a declaration that the website is malicious.
-                            Legitimate websites sometimes use long tracking
-                            links, multiple redirect parameters, unusual
-                            subdomains, encoded values or brand names inside
-                            their paths. These patterns are also commonly used in
-                            phishing campaigns, so the analyzer may flag them
-                            for review. Always examine the listed findings and
-                            confirm the real domain owner before deciding whether
-                            a result is a false positive.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Does the analyzer check SSL certificates and HTTPS?
-                        </summary>
-
-                        <p>
-                            ThreatHawk checks whether the submitted address uses
-                            HTTP or HTTPS and treats HTTPS as a positive security
-                            signal. However, HTTPS alone does not prove that a
-                            website is trustworthy because attackers can also
-                            obtain valid SSL certificates. Unless a dedicated
-                            certificate-inspection feature is shown in the
-                            results, the analyzer does not verify certificate
-                            ownership, expiration dates, issuing authorities or
-                            the complete TLS configuration of the remote server.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Can I analyze shortened or redirected URLs?
-                        </summary>
-
-                        <p>
-                            You can submit shortened URLs, but the visible
-                            shortened address may not reveal the final
-                            destination. ThreatHawk can inspect the structure of
-                            the URL you enter and identify suspicious patterns
-                            within it. If redirect-chain inspection is not
-                            available in the current version, the analyzer may
-                            not automatically follow every redirect to examine
-                            the final landing page. Treat unknown shortened links
-                            carefully, especially when they arrive through
-                            unsolicited messages, emails or social-media posts.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Is the ThreatHawk URL Analyzer free to use?
-                        </summary>
-
-                        <p>
-                            Yes. The URL Analyzer is free to use and does not
-                            require account registration, a subscription or a
-                            payment. You can inspect website addresses, review
-                            URL components, examine security findings and view
-                            the generated risk score directly in a modern web
-                            browser. Some future external reputation features
-                            may depend on third-party service limits, but the
-                            core ThreatHawk analyzer remains available without a
-                            paid account.
-                        </p>
-
-                    </details>
-
-
-                    <details class="faq-item">
-
-                        <summary>
-                            Does the URL Analyzer work on mobile devices?
-                        </summary>
-
-                        <p>
-                            Yes. The interface is designed to work on desktop
-                            computers, laptops, tablets and smartphones. The
-                            navigation, input workspace, risk assessment,
-                            findings and FAQ section automatically adapt to
-                            smaller screens. For easier inspection of very long
-                            URLs and technical details, a larger screen may still
-                            be more comfortable because apparently URLs were
-                            designed with no concern for human eyesight.
-                        </p>
-
-                    </details>
-
-                </div>
-
             </div>
-
-        </section>
-
-        <!-- ==============================
-                Related Guide
-        =============================== -->
-
-        <section class="related-guide-section">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Learn More
-                        </span>
-
-                        <h2>
-                            Learn How to Check if a URL Is Safe
-                        </h2>
-
-                    </div>
-
-                    <p>
-                        Understand suspicious domains, misleading subdomains,
-                        HTTPS misconceptions, shortened links and other signs
-                        that may indicate a phishing or malicious URL.
-                    </p>
-
-                </div>
-
-
-                <a
-                    href="../../guides/how-to-check-if-a-url-is-safe/"
-                    class="related-guide-card"
-                >
-
-                    <div class="related-guide-icon">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-
-
-                    <div class="related-guide-content">
-
-                        <span class="related-guide-label">
-                            URL &amp; Phishing Security Guide
-                        </span>
-
-                        <h3>
-                            How to Check if a URL Is Safe
-                        </h3>
-
-                        <p>
-                            Learn 10 practical signs of malicious or phishing links,
-                            including domain impersonation, suspicious subdomains,
-                            deceptive characters and shortened URLs.
-                        </p>
-
-                        <span class="related-guide-link">
-                            Read the full guide →
-                        </span>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-        </section>
-
-        <!-- Related Tools -->
-        <section class="related-tools-section">
-
-            <div class="module-container">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <span class="panel-label">
-                            Related Tools
-                        </span>
-
-                        <h2>Continue Your URL Investigation</h2>
-
-                    </div>
-
-                    <p>
-                        Explore ThreatHawk tools that help decode suspicious URL data
-                        and identify cryptographic hashes found during security analysis.
-                    </p>
-
-                </div>
-
-
-                <div class="related-tools-grid">
-
-                    <a
-                        href="../encoder-decoder/#base64-guide"
-                        class="related-tool-card"
-                    >
-
-                        <div class="related-tool-icon">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-
-                        <div class="related-tool-content">
-
-                            <h3>Encoder &amp; Decoder</h3>
-
-                            <p>
-                                Decode Base64, Base64 URL, URL-encoded values,
-                                hexadecimal, binary and other data found inside
-                                suspicious links.
-                            </p>
-
-                            <span class="related-link">
-                                Decode Base64 and URL data →
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                    <a
-                        href="../hash-analyzer/"
-                        class="related-tool-card"
-                    >
-
-                        <div class="related-tool-icon">
-                            <i class="fa-solid fa-hashtag"></i>
-                        </div>
-
-                        <div class="related-tool-content">
-
-                            <h3>Hash Analyzer</h3>
-
-                            <p>
-                                Identify MD5, SHA-1, SHA-256 and SHA-512 hashes
-                                discovered during phishing or malware investigations.
-                            </p>
-
-                            <span class="related-link">
-                                Identify cryptographic hashes →
-                            </span>
-
-                        </div>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
+        </div>
     </main>
 
-        <!-- ==============================
-                 Knowledge Popup
-        =============================== -->
-
-    <div
-        class="knowledge-popup-overlay"
-        id="knowledgeOverlay"
-        aria-hidden="true"
-    >
-
-        <div
-            class="knowledge-popup"
-            id="knowledgePopup"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="popupTitle"
-        >
-
-            <button
-                class="popup-close"
-                id="popupClose"
-                type="button"
-                aria-label="Close information popup"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 id="popupTitle"></h3>
-
-            <div id="popupContent"></div>
-
+    <!-- Footer -->
+    <footer class="th-footer">
+        <div class="container">
+            <div class="th-footer-grid">
+                <div class="th-footer-brand">
+                    <div class="th-brand">
+                        <span class="th-brand-logo">TH</span>
+                        <span>ThreatHawk</span>
+                    </div>
+                    <p class="body-sm">
+                        Free browser-based cybersecurity tools engineered for students, analysts, and security practitioners.
+                    </p>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Security Modules</h4>
+                    <a href="../password-analyzer/" class="th-footer-link">Password Intelligence</a>
+                    <a href="./" class="th-footer-link">URL Analyzer</a>
+                    <a href="../hash-analyzer/" class="th-footer-link">Hash Analyzer</a>
+                    <a href="../log-analyzer/" class="th-footer-link">Security Log Analysis</a>
+                    <a href="../encoder-decoder/" class="th-footer-link">Encoder &amp; Decoder</a>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Knowledge Hub</h4>
+                    <a href="../../guides/" class="th-footer-link">All Security Guides</a>
+                    <a href="../../guides/how-to-check-if-a-url-is-safe/" class="th-footer-link">URL Safety Signs</a>
+                    <a href="../../guides/what-is-phishing/" class="th-footer-link">Phishing Guide</a>
+                </div>
+                <div class="th-footer-col">
+                    <h4 class="th-footer-col-title">Platform</h4>
+                    <a href="../../about/" class="th-footer-link">About ThreatHawk</a>
+                    <a href="../../contact/" class="th-footer-link">Contact &amp; Disclosure</a>
+                    <a href="../../privacy-policy/" class="th-footer-link">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="th-footer-bottom">
+                <span>© 2026 ThreatHawk. Released under the MIT License.</span>
+            </div>
         </div>
-
-    </div>
-
-
-    <!-- ==============================
-         Footer
-    =============================== -->
-
-    <footer class="site-footer">
-
-        <div class="footer-brand">
-
-            <h2>ThreatHawk</h2>
-
-            <p>
-                Free Browser-Based Cybersecurity Tools
-            </p>
-
-        </div>
-
-        <nav class="footer-links" aria-label="Footer navigation">
-
-            <a href="../../about/">About</a>
-
-            <a href="../../contact/">Contact</a>
-
-            <a href="../../privacy-policy/">Privacy Policy</a>
-
-            <a href="../../terms/">Terms</a>
-
-            <a href="../../disclaimer/">Disclaimer</a>
-
-            <a href="../../contact/#security-disclosure">
-                Security Disclosure
-            </a>
-
-            <a
-                href="https://github.com/DileepKumar52/ThreatHawk"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                GitHub
-            </a>
-
-        </nav>
-
-        <p class="footer-version">
-            Version 1.0
-        </p>
-
-        <p class="footer-copyright">
-            © 2026 ThreatHawk. All rights reserved.
-        </p>
-
     </footer>
 
+    <!-- Knowledge Data -->
+    <script>
+        window.knowledgeData = {
+            aboutPopup: {
+                title: "URL Inspection Heuristics",
+                content: `
+                    <p>The URL Analyzer evaluates link structures against ten cybersecurity heuristic vectors:</p>
+                    <ul>
+                        <li><strong>IDN Homograph Attacks:</strong> Flags Punycode (<code>xn--</code>) or Cyrillic/Greek Unicode characters mimicking Latin brand names.</li>
+                        <li><strong>Numerical IP Hostnames:</strong> Detects direct IPv4, IPv6, or obfuscated integer addresses.</li>
+                        <li><strong>Credential Stuffing:</strong> Detects <code>user:password@host</code> formats used to deceive visual inspection.</li>
+                        <li><strong>High-Risk TLDs:</strong> Evaluates top-level domains frequently abused for disposable spam or phishing.</li>
+                        <li><strong>Double Encoding:</strong> Identifies traversal sequences (%2e%2e) or double percent encoding (%25).</li>
+                    </ul>
+                `
+            }
+        };
+    </script>
 
-    <!-- ==============================
-         Toast Notification
-    =============================== -->
-
-    <div
-        id="toast"
-        class="toast"
-        role="status"
-        aria-live="polite"
-    >
-        <i class="fa-solid fa-check"></i>
-
-        <span id="toastMessage">
-            Action completed
-        </span>
-    </div>
-
-
+    <!-- Core Scripts -->
+    <script src="../../js/core.js"></script>
     <script src="js/app.js"></script>
-
 </body>
-
 </html>

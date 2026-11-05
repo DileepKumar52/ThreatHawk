@@ -1,1550 +1,377 @@
-const urlInput = document.getElementById("urlInput");
+/**
+ * ThreatHawk URL Analyzer & Heuristic Reputation Engine
+ * Inspects URLs for phishing indicators, homograph spoofing, IP hosts, suspicious TLDs, and queries Google Safe Browsing.
+ */
 
-const analyzeBtn = document.getElementById("analyzeBtn");
-const clearBtn = document.getElementById("clearBtn");
+"use strict";
 
-const protocol = document.getElementById("protocol");
-const hostname = document.getElementById("hostname");
-const domain = document.getElementById("domain");
-const tld = document.getElementById("tld");
+(function () {
+    const urlInput = document.getElementById("urlInput");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const clearBtn = document.getElementById("clearBtn");
 
-const subdomain = document.getElementById("subdomain");
-const port = document.getElementById("port");
-const path = document.getElementById("path");
-const query = document.getElementById("query");
-const fragment = document.getElementById("fragment");
-const length = document.getElementById("length");
+    const protocol = document.getElementById("protocol");
+    const hostname = document.getElementById("hostname");
+    const domain = document.getElementById("domain");
+    const tld = document.getElementById("tld");
+    const subdomain = document.getElementById("subdomain");
+    const port = document.getElementById("port");
+    const path = document.getElementById("path");
+    const query = document.getElementById("query");
+    const fragment = document.getElementById("fragment");
+    const length = document.getElementById("length");
 
-const riskScore = document.getElementById("riskScore");
-const riskLabel = document.getElementById("riskLabel");
-const riskFill = document.getElementById("riskFill");
-const findingsList = document.getElementById("findingsList");
-const findingCount = document.getElementById("findingCount");
+    const riskScore = document.getElementById("riskScore");
+    const riskLabel = document.getElementById("riskLabel");
+    const riskDial = document.getElementById("riskDial");
+    const findingsList = document.getElementById("findingsList");
+    const findingCount = document.getElementById("findingCount");
 
-const riskScoreRing =
-    document.querySelector(".risk-score-ring");
+    const SUSPICIOUS_TLDS = new Set([
+        ".zip", ".mov", ".top", ".tk", ".ml", ".ga", ".cf", ".gq",
+        ".country", ".buzz", ".work", ".click", ".link", ".rest", ".fit"
+    ]);
 
-const themeToggle =
-    document.getElementById("themeToggle");
+    const URL_SHORTENERS = new Set([
+        "bit.ly", "tinyurl.com", "t.co", "goo.gl", "ow.ly", "buff.ly",
+        "is.gd", "cutt.ly", "rebrand.ly", "shorturl.at", "tiny.cc"
+    ]);
 
-const toast =
-    document.getElementById("toast");
+    const TRUSTED_BRANDS = [
+        "google", "microsoft", "apple", "amazon", "paypal", "netflix",
+        "facebook", "instagram", "whatsapp", "linkedin", "github", "dropbox",
+        "adobe", "coinbase", "binance", "chase", "wellsfargo", "bankofamerica"
+    ];
 
-const toastMessage =
-    document.getElementById("toastMessage");
+    const EXECUTABLE_EXTENSIONS = [
+        ".exe", ".scr", ".bat", ".cmd", ".vbs", ".ps1", ".msi", ".jar",
+        ".apk", ".dmg", ".iso", ".dll"
+    ];
 
-let toastTimer = null;
-let currentRiskScore = 0;
-
-function showToast(
-    message,
-    iconClass = "fa-check"
-) {
-    if (!toast || !toastMessage) {
-        return;
+    function isIPAddress(host) {
+        // Dotted IPv4
+        if (/^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(host)) return true;
+        // IPv6
+        if (host.includes(":") && /^[a-fA-F0-9:\[\]]+$/.test(host)) return true;
+        // Decimal/Hex obfuscated IP (pure integer)
+        if (/^\d{8,11}$/.test(host)) return true;
+        return false;
     }
 
-    toastMessage.textContent = message;
-
-    const icon = toast.querySelector("i");
-
-    if (icon) {
-        icon.className =
-            `fa-solid ${iconClass}`;
+    function detectHomograph(host) {
+        if (host.toLowerCase().startsWith("xn--")) return true;
+        // Non-ASCII characters in host
+        return /[^\u0000-\u007F]/.test(host);
     }
 
-    toast.classList.add("show");
+    function detectBrandImpersonation(host) {
+        const cleanHost = host.toLowerCase().replace(/^www\./, "");
+        const labels = cleanHost.split(".");
+        const domainLabel = labels.length >= 2 ? labels[labels.length - 2] : labels[0];
 
-    clearTimeout(toastTimer);
+        // Replace common leetspeak
+        const normalized = domainLabel
+            .replace(/0/g, "o")
+            .replace(/1/g, "l")
+            .replace(/3/g, "e")
+            .replace(/5/g, "s")
+            .replace(/7/g, "t")
+            .replace(/@/g, "a");
 
-    toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2300);
-}
-
-function updateThemeButton(lightModeEnabled) {
-    if (!themeToggle) {
-        return;
+        for (const brand of TRUSTED_BRANDS) {
+            if (domainLabel === brand) continue; // Genuine exact domain
+            if (normalized.includes(brand) || cleanHost.includes(`${brand}-`) || cleanHost.includes(`-${brand}`)) {
+                return { brand, suspicious: domainLabel };
+            }
+        }
+        return null;
     }
 
-    const icon =
-        themeToggle.querySelector("i");
+    function evaluateHeuristics(urlObj, rawInput) {
+        const findings = [];
+        let score = 0;
 
-    const text =
-        themeToggle.querySelector("span");
+        const host = urlObj.hostname;
+        const lowerHost = host.toLowerCase();
 
-    if (icon) {
-        icon.className =
-            lightModeEnabled
-                ? "fa-regular fa-moon"
-                : "fa-regular fa-sun";
+        // 1. Insecure HTTP Protocol
+        if (urlObj.protocol === "http:") {
+            score += 15;
+            findings.push({
+                severity: "medium",
+                title: "Unencrypted Connection (HTTP)",
+                description: "Traffic is transmitted in cleartext without TLS encryption, susceptible to interception and tampering."
+            });
+        }
+
+        // 2. Direct IP Address Host
+        if (isIPAddress(host)) {
+            score += 35;
+            findings.push({
+                severity: "high",
+                title: "Direct IP Address Hostname",
+                description: "The URL connects directly to a numerical IP rather than a registered domain name, common in malicious C2 infrastructure and phishing campaigns."
+            });
+        }
+
+        // 3. IDN / Punycode Homograph Spoofing
+        if (detectHomograph(host)) {
+            score += 45;
+            findings.push({
+                severity: "critical",
+                title: "Punycode / IDN Homograph Detected",
+                description: "Hostname contains Punycode ('xn--') or Unicode lookalike characters designed to spoof legitimate brand identities."
+            });
+        }
+
+        // 4. Embedded Credentials
+        if (urlObj.username || urlObj.password || rawInput.includes("@")) {
+            score += 40;
+            findings.push({
+                severity: "critical",
+                title: "Embedded Credentials in URL (@)",
+                description: "The URL contains an '@' character or embedded credentials, frequently used to obscure the actual destination domain in phishing links."
+            });
+        }
+
+        // 5. Brand Impersonation (Typosquatting)
+        const brandMatch = detectBrandImpersonation(host);
+        if (brandMatch) {
+            score += 35;
+            findings.push({
+                severity: "high",
+                title: `Potential Brand Impersonation (${brandMatch.brand})`,
+                description: `Domain contains lookalike pattern mimicking '${brandMatch.brand}', indicating possible typosquatting or phishing intent.`
+            });
+        }
+
+        // 6. Suspicious TLD
+        const parts = lowerHost.split(".");
+        const tldStr = parts.length > 1 ? `.${parts[parts.length - 1]}` : "";
+        if (SUSPICIOUS_TLDS.has(tldStr)) {
+            score += 20;
+            findings.push({
+                severity: "medium",
+                title: `High-Risk Top-Level Domain (${tldStr})`,
+                description: `The top-level domain '${tldStr}' has a disproportionate prevalence of spam, malicious redirection, and disposable domains.`
+            });
+        }
+
+        // 7. URL Shortener
+        if (URL_SHORTENERS.has(lowerHost)) {
+            score += 15;
+            findings.push({
+                severity: "info",
+                title: "URL Shortener Service",
+                description: "URL destination is masked behind a redirection service, hiding the true endpoint from immediate inspection."
+            });
+        }
+
+        // 8. Deep Subdomain Nesting
+        if (parts.length > 4) {
+            score += 20;
+            findings.push({
+                severity: "medium",
+                title: "Excessive Subdomain Depth",
+                description: `URL contains ${parts.length - 2} subdomain levels, often used to bypass reputation filters or simulate legitimate multi-tenant subdomains.`
+            });
+        }
+
+        // 9. Dangerous Executable Download Path
+        const lowerPath = urlObj.pathname.toLowerCase();
+        for (const ext of EXECUTABLE_EXTENSIONS) {
+            if (lowerPath.endsWith(ext)) {
+                score += 35;
+                findings.push({
+                    severity: "high",
+                    title: `Direct Executable Payload (${ext})`,
+                    description: `URL path terminates with an executable payload extension (${ext}), presenting direct binary execution hazard.`
+                });
+                break;
+            }
+        }
+
+        // 10. Obfuscated / Double Encoding
+        if (/%25|%2e%2e/i.test(urlObj.pathname) || /%25/i.test(urlObj.search)) {
+            score += 30;
+            findings.push({
+                severity: "high",
+                title: "Path Traversal / Double Percent Encoding",
+                description: "URL contains double-encoded characters (%25) or encoded directory traversal indicators (%2e%2e) designed to evade WAF filters."
+            });
+        }
+
+        return {
+            score: Math.min(100, score),
+            findings: findings
+        };
     }
 
-    if (text) {
-        text.textContent =
-            lightModeEnabled
-                ? "Dark Mode"
-                : "Light Mode";
+    async function checkSafeBrowsing(url) {
+        try {
+            const res = await fetch("/api/safe-browsing", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url })
+            });
+            if (!res.ok) return { available: false };
+            return await res.json();
+        } catch (e) {
+            return { available: false };
+        }
     }
 
-    themeToggle.setAttribute(
-        "aria-label",
-        lightModeEnabled
-            ? "Switch to dark mode"
-            : "Switch to light mode"
-    );
-}
-
-function applySavedTheme() {
-    let savedTheme = null;
-
-    try {
-        savedTheme =
-            localStorage.getItem(
-                "threathawk-url-theme"
-            );
-    } catch (error) {
-        console.warn(
-            "Theme preference could not be read:",
-            error
-        );
-    }
-
-    const lightModeEnabled =
-        savedTheme === "light";
-
-    document.body.classList.toggle(
-        "light-mode",
-        lightModeEnabled
-    );
-
-    updateThemeButton(lightModeEnabled);
-}
-
-function toggleTheme() {
-    const lightModeEnabled =
-        !document.body.classList.contains(
-            "light-mode"
-        );
-
-    document.body.classList.toggle(
-        "light-mode",
-        lightModeEnabled
-    );
-
-    updateThemeButton(lightModeEnabled);
-
-    try {
-        localStorage.setItem(
-            "threathawk-url-theme",
-            lightModeEnabled
-                ? "light"
-                : "dark"
-        );
-    } catch (error) {
-        console.warn(
-            "Theme preference could not be saved:",
-            error
-        );
-    }
-}
-
-function resetResults() {
-    protocol.textContent = "-";
-    hostname.textContent = "-";
-    domain.textContent = "-";
-    tld.textContent = "-";
-
-    subdomain.textContent = "-";
-    port.textContent = "-";
-    path.textContent = "-";
-    query.textContent = "-";
-    fragment.textContent = "-";
-    length.textContent = "-";
-
-    hostname.title = "-";
-    domain.title = "-";
-    path.title = "-";
-    fragment.title = "-";
-
-    updateRiskMeter(0, true);
-
-    findingCount.textContent =
-        "0 findings";
-
-    findingsList.innerHTML = `
-        <div class="findings-empty-state">
-
-            <div class="empty-state-icon">
-                <i class="fa-solid fa-shield"></i>
-            </div>
-
-            <strong>
-                No URL analyzed
-            </strong>
-
-            <p class="empty-findings">
-                Enter a website address and run the analyzer
-                to view structural security findings.
-            </p>
-
-        </div>
-    `;
-}
-
-function updateRiskMeter(
-    score,
-    forceNotAnalyzed = false
-) {
-    const safeScore =
-        Math.max(
-            0,
-            Math.min(
-                Math.round(score),
-                100
-            )
-        );
-
-    riskFill.classList.remove(
-        "risk-low",
-        "risk-medium",
-        "risk-high",
-        "risk-critical"
-    );
-
-    riskScoreRing.classList.remove(
-        "risk-low-state",
-        "risk-medium-state",
-        "risk-high-state",
-        "risk-critical-state"
-    );
-
-    let label;
-    let fillClass;
-    let ringClass;
-
-    if (safeScore <= 24) {
-        label = "Low Risk";
-        fillClass = "risk-low";
-        ringClass = "risk-low-state";
-    } else if (safeScore <= 49) {
-        label = "Medium Risk";
-        fillClass = "risk-medium";
-        ringClass = "risk-medium-state";
-    } else if (safeScore <= 74) {
-        label = "High Risk";
-        fillClass = "risk-high";
-        ringClass = "risk-high-state";
-    } else {
-        label = "Critical Risk";
-        fillClass = "risk-critical";
-        ringClass = "risk-critical-state";
-    }
-
-    riskFill.classList.add(fillClass);
-    riskScoreRing.classList.add(ringClass);
-
-    riskFill.style.width =
-        `${safeScore}%`;
-
-    if (forceNotAnalyzed) {
-        riskLabel.textContent =
-            "Not analyzed";
+    function resetUI() {
+        protocol.textContent = "—";
+        hostname.textContent = "—";
+        domain.textContent = "—";
+        tld.textContent = "—";
+        subdomain.textContent = "—";
+        port.textContent = "—";
+        path.textContent = "—";
+        query.textContent = "—";
+        fragment.textContent = "—";
+        length.textContent = "—";
 
         riskScore.textContent = "0";
-        currentRiskScore = 0;
-
-        return;
-    }
-
-    riskLabel.textContent = label;
-
-    const startScore =
-        currentRiskScore;
-
-    const difference =
-        safeScore - startScore;
-
-    const duration = 600;
-    const startTime = performance.now();
-
-    riskScore.classList.remove("updated");
-
-    function animate(currentTime) {
-        const elapsed =
-            currentTime - startTime;
-
-        const progress =
-            Math.min(
-                elapsed / duration,
-                1
-            );
-
-        const eased =
-            1 - Math.pow(1 - progress, 3);
-
-        const displayedScore =
-            Math.round(
-                startScore +
-                difference * eased
-            );
-
-        riskScore.textContent =
-            displayedScore;
-
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        } else {
-            riskScore.textContent =
-                safeScore;
-
-            riskScore.classList.add(
-                "updated"
-            );
+        riskLabel.textContent = "Not Analyzed";
+        if (riskDial) {
+            riskDial.style.strokeDashoffset = 377;
+            riskDial.style.stroke = "var(--color-mute)";
         }
-    }
-
-    requestAnimationFrame(animate);
-
-    currentRiskScore = safeScore;
-}
-
-const suspiciousKeywords = [
-    "login",
-    "signin",
-    "verify",
-    "verification",
-    "secure",
-    "security",
-    "account",
-    "update",
-    "confirm",
-    "password",
-    "credential",
-    "banking",
-    "payment",
-    "invoice",
-    "wallet",
-    "recover",
-    "reset",
-    "support",
-    "authenticate",
-    "unlock"
-];
-
-const urlShorteners = [
-    "bit.ly",
-    "tinyurl.com",
-    "t.co",
-    "goo.gl",
-    "ow.ly",
-    "buff.ly",
-    "is.gd",
-    "cutt.ly",
-    "rebrand.ly",
-    "shorturl.at",
-    "tiny.cc"
-];
-
-const trustedBrands = [
-    "google",
-    "microsoft",
-    "apple",
-    "amazon",
-    "paypal",
-    "netflix",
-    "facebook",
-    "instagram",
-    "whatsapp",
-    "linkedin",
-    "github",
-    "dropbox",
-    "adobe",
-    "coinbase",
-    "binance"
-];
-
-const redirectParameterNames = [
-    "url",
-    "uri",
-    "redirect",
-    "redirect_url",
-    "redirect_uri",
-    "return",
-    "returnurl",
-    "return_url",
-    "next",
-    "continue",
-    "destination",
-    "dest",
-    "target",
-    "to"
-];
-
-const suspiciousExtensions = [
-    ".exe",
-    ".msi",
-    ".scr",
-    ".bat",
-    ".cmd",
-    ".com",
-    ".jar",
-    ".ps1",
-    ".vbs",
-    ".js",
-    ".apk",
-    ".dmg",
-    ".iso",
-    ".zip",
-    ".rar"
-];
-
-function isIPv4(hostname) {
-    const ipv4Pattern =
-        /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/;
-
-    return ipv4Pattern.test(hostname);
-}
-
-function isIPv6(hostname) {
-    const cleanHostname = hostname.replace(/^\[|\]$/g, "");
-
-    return (
-        cleanHostname.includes(":") &&
-        /^[a-fA-F0-9:]+$/.test(cleanHostname)
-    );
-}
-
-function addFinding(findings, points, title, description) {
-    findings.push({
-        points,
-        title,
-        description
-    });
-}
-
-function levenshteinDistance(first, second) {
-    first = first.toLowerCase();
-    second = second.toLowerCase();
-
-    const matrix = Array.from(
-        { length: first.length + 1 },
-        () => Array(second.length + 1).fill(0)
-    );
-
-    for (let row = 0; row <= first.length; row++) {
-        matrix[row][0] = row;
-    }
-
-    for (let column = 0; column <= second.length; column++) {
-        matrix[0][column] = column;
-    }
-
-    for (let row = 1; row <= first.length; row++) {
-        for (let column = 1; column <= second.length; column++) {
-            const cost =
-                first[row - 1] === second[column - 1] ? 0 : 1;
-
-            matrix[row][column] = Math.min(
-                matrix[row - 1][column] + 1,
-                matrix[row][column - 1] + 1,
-                matrix[row - 1][column - 1] + cost
-            );
-        }
-    }
-
-    return matrix[first.length][second.length];
-}
-
-function calculateSimilarity(first, second) {
-    const longestLength = Math.max(
-        first.length,
-        second.length
-    );
-
-    if (longestLength === 0) {
-        return 100;
-    }
-
-    const distance = levenshteinDistance(first, second);
-
-    return Math.round(
-        (1 - distance / longestLength) * 100
-    );
-}
-
-function normalizeLookalikes(value) {
-    return value
-        .toLowerCase()
-        .replaceAll("0", "o")
-        .replaceAll("1", "l")
-        .replaceAll("3", "e")
-        .replaceAll("5", "s")
-        .replaceAll("7", "t")
-        .replaceAll("@", "a");
-}
-
-function detectBrandImpersonation(hostname) {
-    const lowerHostname = hostname
-        .toLowerCase()
-        .replace(/^www\./, "");
-
-    const labels = lowerHostname.split(".");
-
-    /*
-     * This uses the label before the TLD as the main domain.
-     * Example: micr0soft-support.net -> micr0soft-support
-     */
-    const domainLabel =
-        labels.length >= 2
-            ? labels[labels.length - 2]
-            : labels[0];
-
-    const normalizedDomain =
-        normalizeLookalikes(domainLabel);
-
-    const domainTokens = domainLabel
-        .split(/[-_.]+/)
-        .map(normalizeLookalikes)
-        .filter(Boolean);
-
-    let strongestMatch = null;
-
-    for (const brand of trustedBrands) {
-        const normalizedBrand =
-            normalizeLookalikes(brand);
-
-        /*
-         * Do not report a genuine exact brand label.
-         * microsoft.com -> no warning
-         */
-        if (normalizedDomain === normalizedBrand) {
-            continue;
-        }
-
-        const candidates = [
-            normalizedDomain,
-            ...domainTokens
-        ];
-
-        for (const candidate of candidates) {
-            const similarity = calculateSimilarity(
-                candidate,
-                normalizedBrand
-            );
-
-            const containsBrand =
-                normalizedDomain.includes(normalizedBrand);
-
-            if (
-                similarity >= 75 ||
-                containsBrand
-            ) {
-                if (
-                    !strongestMatch ||
-                    similarity > strongestMatch.similarity
-                ) {
-                    strongestMatch = {
-                        brand,
-                        similarity
-                    };
-                }
-            }
-        }
-    }
-
-    return strongestMatch;
-}
-
-function analyzeURLRisk(parsed, originalURL) {
-    const findings = [];
-
-    const hostname = parsed.hostname.toLowerCase();
-    const pathname = parsed.pathname.toLowerCase();
-    const completeURL = originalURL.toLowerCase();
-
-    /*
-     * 1. Insecure protocol
-     */
-    if (parsed.protocol === "http:") {
-        addFinding(
-            findings,
-            20,
-            "Insecure HTTP connection",
-            "The URL does not use HTTPS encryption."
-        );
-    } else if (
-        parsed.protocol !== "https:" &&
-        parsed.protocol !== "http:"
-    ) {
-        addFinding(
-            findings,
-            12,
-            "Unusual URL protocol",
-            `The URL uses the ${parsed.protocol.replace(":", "").toUpperCase()} protocol.`
-        );
-    }
-
-    /*
-     * 2. IP address instead of domain name
-     */
-    if (isIPv4(hostname) || isIPv6(hostname)) {
-        addFinding(
-            findings,
-            25,
-            "IP address used as hostname",
-            "The URL uses an IP address instead of a recognizable domain."
-        );
-    }
-
-    /*
-     * 3. Embedded username/password or @ abuse
-     */
-    if (
-        parsed.username ||
-        parsed.password ||
-        originalURL.includes("@")
-    ) {
-        addFinding(
-            findings,
-            25,
-            "User-information or @ symbol detected",
-            "The URL may hide its actual destination using user-information syntax."
-        );
-    }
-
-    /*
-     * 4. Punycode
-     */
-    if (hostname.includes("xn--")) {
-        addFinding(
-            findings,
-            25,
-            "Punycode domain detected",
-            "The domain uses an internationalized representation that may imitate another domain."
-        );
-    }
-
-    /*
-     * 5. Known URL-shortening service
-     */
-    if (
-        urlShorteners.some(shortener =>
-            hostname === shortener ||
-            hostname.endsWith(`.${shortener}`)
-        )
-    ) {
-        addFinding(
-            findings,
-            18,
-            "URL-shortening service detected",
-            "The final destination is hidden behind a shortened URL."
-        );
-    }
-
-    /*
-     * 6. Suspicious words
-     */
-    const matchedKeywords = suspiciousKeywords.filter(keyword =>
-        completeURL.includes(keyword)
-    );
-
-    if (matchedKeywords.length > 0) {
-        const uniqueKeywords = [...new Set(matchedKeywords)];
-
-        const keywordScore = Math.min(
-            6 + uniqueKeywords.length * 3,
-            18
-        );
-
-        addFinding(
-            findings,
-            keywordScore,
-            "Suspicious keywords detected",
-            `Matched: ${uniqueKeywords.join(", ")}.`
-        );
-    }
-
-    /*
-     * 7. Percent-encoded characters
-     */
-    const encodedMatches =
-        originalURL.match(/%[a-fA-F0-9]{2}/g) || [];
-
-    if (encodedMatches.length >= 3) {
-        addFinding(
-            findings,
-            12,
-            "Heavy URL encoding detected",
-            `${encodedMatches.length} encoded sequences were found.`
-        );
-    } else if (encodedMatches.length > 0) {
-        addFinding(
-            findings,
-            5,
-            "Encoded characters detected",
-            `${encodedMatches.length} encoded sequence(s) were found.`
-        );
-    }
-
-    /*
-     * 8. Excessive subdomains
-     *
-     * This is a heuristic. Accurate registrable-domain handling
-     * will later use the Public Suffix List.
-     */
-    const hostnameParts = hostname
-        .split(".")
-        .filter(Boolean);
-
-    const estimatedSubdomainCount = Math.max(
-        hostnameParts.length - 2,
-        0
-    );
-
-    if (estimatedSubdomainCount >= 4) {
-        addFinding(
-            findings,
-            15,
-            "Excessive subdomains",
-            `${estimatedSubdomainCount} possible subdomain levels were detected.`
-        );
-    } else if (estimatedSubdomainCount >= 2) {
-        addFinding(
-            findings,
-            7,
-            "Multiple subdomains",
-            `${estimatedSubdomainCount} possible subdomain levels were detected.`
-        );
-    }
-
-    /*
-     * 9. Unusual port
-     */
-    if (
-        parsed.port &&
-        !["80", "443", "21", "22"].includes(parsed.port)
-    ) {
-        addFinding(
-            findings,
-            10,
-            "Unusual port detected",
-            `The URL explicitly uses port ${parsed.port}.`
-        );
-    }
-
-    /*
-     * 10. Suspicious downloadable file
-     */
-    const matchedExtension = suspiciousExtensions.find(extension =>
-        pathname.endsWith(extension)
-    );
-
-    if (matchedExtension) {
-        addFinding(
-            findings,
-            20,
-            "Potentially dangerous file extension",
-            `The path ends with ${matchedExtension}.`
-        );
-    }
-
-    /*
-     * 11. Redirect or nested URL parameter
-     */
-    for (const [parameterName, parameterValue] of parsed.searchParams) {
-        const normalizedName = parameterName.toLowerCase();
-        const normalizedValue = parameterValue.toLowerCase();
-
-        const isRedirectParameter =
-            redirectParameterNames.includes(normalizedName);
-
-        const containsNestedURL =
-            /^https?:\/\//i.test(parameterValue) ||
-            normalizedValue.includes("http%3a") ||
-            normalizedValue.includes("https%3a");
-
-        if (isRedirectParameter || containsNestedURL) {
-            addFinding(
-                findings,
-                18,
-                "Redirect or nested URL detected",
-                `The "${parameterName}" parameter may redirect to another destination.`
-            );
-
-            break;
-        }
-    }
-
-    /*
-     * 12. Excessive URL length
-     */
-    if (originalURL.length > 200) {
-        addFinding(
-            findings,
-            15,
-            "Very long URL",
-            `The URL contains ${originalURL.length} characters.`
-        );
-    } else if (originalURL.length > 100) {
-        addFinding(
-            findings,
-            7,
-            "Long URL",
-            `The URL contains ${originalURL.length} characters.`
-        );
-    }
-
-    /*
-     * 13. Domain contains many digits
-     */
-    const digitCount =
-        (hostname.match(/\d/g) || []).length;
-
-    if (digitCount >= 6) {
-        addFinding(
-            findings,
-            10,
-            "Many digits in hostname",
-            `${digitCount} numeric characters were found in the hostname.`
-        );
-    }
-
-    /*
-     * 14. Excessive hyphens
-     */
-    const hyphenCount =
-        (hostname.match(/-/g) || []).length;
-
-    if (hyphenCount >= 4) {
-        addFinding(
-            findings,
-            8,
-            "Excessive hyphens in hostname",
-            `${hyphenCount} hyphens were found in the hostname.`
-        );
-    }
-
-    const brandMatch =
-    detectBrandImpersonation(hostname);
-
-    if (brandMatch) {
-        const brandName =
-            brandMatch.brand.charAt(0).toUpperCase() +
-            brandMatch.brand.slice(1);
-
-        addFinding(
-            findings,
-            25,
-            "Possible brand impersonation",
-            `The hostname resembles ${brandName}. Similarity: ${brandMatch.similarity}%.`
-        );
-    }
-
-    const rawScore = findings.reduce(
-        (total, finding) => total + finding.points,
-        0
-    );
-
-    return {
-        score: Math.min(rawScore, 100),
-        findings
-    };
-}
-
-function escapeHTML(value) {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function getFindingSeverity(points) {
-    if (points <= 0) {
-        return {
-            className: "finding-low",
-            label: "Info",
-            icon: "fa-circle-info"
-        };
-    }
-
-    if (points <= 7) {
-        return {
-            className: "finding-low",
-            label: "Low",
-            icon: "fa-shield-check"
-        };
-    }
-
-    if (points <= 15) {
-        return {
-            className: "finding-medium",
-            label: "Medium",
-            icon: "fa-triangle-exclamation"
-        };
-    }
-
-    if (points <= 24) {
-        return {
-            className: "finding-high",
-            label: "High",
-            icon: "fa-circle-exclamation"
-        };
-    }
-
-    return {
-        className: "finding-critical",
-        label: "Critical",
-        icon: "fa-skull-crossbones"
-    };
-}
-
-function renderFindings(findings) {
-    findingCount.textContent =
-        `${findings.length} ${
-            findings.length === 1
-                ? "finding"
-                : "findings"
-        }`;
-
-    if (findings.length === 0) {
+        findingCount.textContent = "0 findings";
         findingsList.innerHTML = `
-            <div class="finding-card finding-safe">
-
-                <div class="finding-icon">
-                    <i class="fa-solid fa-shield-check"></i>
-                </div>
-
-                <div class="finding-content">
-
-                    <div class="finding-title-row">
-
-                        <h3>
-                            No obvious structural risks detected
-                        </h3>
-
-                        <span>Low</span>
-
-                    </div>
-
-                    <p>
-                        The URL passed the current heuristic
-                        and reputation checks. This does not
-                        guarantee that the destination is safe.
-                    </p>
-
-                </div>
-
+            <div style="padding: 24px; text-align: center; color: var(--color-mute);">
+                <i class="fa-solid fa-shield-halved" style="font-size: 24px; margin-bottom: 8px; opacity: 0.5;" aria-hidden="true"></i>
+                <p>Enter a URL and click Analyze to inspect security indicators.</p>
             </div>
         `;
-
-        return;
     }
 
-    findingsList.innerHTML =
-        findings
-            .map(finding => {
-                const severity =
-                    getFindingSeverity(
-                        finding.points
-                    );
+    async function analyzeURL() {
+        let input = urlInput.value.trim();
+        if (!input) {
+            if (window.ThreatHawk) window.ThreatHawk.toast("Please enter a URL first", "fa-triangle-exclamation");
+            urlInput.focus();
+            return;
+        }
 
-                return `
-                    <div class="finding-card ${severity.className}">
+        if (!/^https?:\/\//i.test(input) && !/^ftp:\/\//i.test(input)) {
+            input = "https://" + input;
+        }
 
-                        <div class="finding-icon">
-                            <i class="fa-solid ${severity.icon}"></i>
-                        </div>
+        try {
+            const parsed = new URL(input);
 
-                        <div class="finding-content">
+            // Populate Parsed Components
+            protocol.textContent = parsed.protocol.replace(":", "").toUpperCase();
+            hostname.textContent = parsed.hostname;
+            const parts = parsed.hostname.split(".");
 
-                            <div class="finding-title-row">
-
-                                <h3>
-                                    ${escapeHTML(finding.title)}
-                                </h3>
-
-                                <span>
-                                    ${
-                                        finding.points > 0
-                                            ? `+${finding.points}`
-                                            : severity.label
-                                    }
-                                </span>
-
-                            </div>
-
-                            <p>
-                                ${escapeHTML(finding.description)}
-                            </p>
-
-                        </div>
-
-                    </div>
-                `;
-            })
-            .join("");
-}
-
-async function checkSafeBrowsing(url) {
-    const response = await fetch("/api/safe-browsing", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ url })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.error || "Safe Browsing request failed."
-        );
-    }
-
-    return data;
-}
-
-async function analyzeURL() {
-
-    let input = urlInput.value.trim();
-
-    if (!input) {
-        showToast(
-            "Please enter a URL first",
-            "fa-circle-exclamation"
-        );
-
-        urlInput.focus();
-        return;
-    }
-
-    if (!/^https?:\/\//i.test(input) &&
-        !/^ftp:\/\//i.test(input)) {
-
-        input = "https://" + input;
-    }
-
-    try {
-
-        const parsed = new URL(input);
-
-        protocol.textContent =
-            parsed.protocol.replace(":", "").toUpperCase();
-
-        hostname.textContent = parsed.hostname;
-        hostname.title = parsed.hostname;
-
-        const parts = parsed.hostname.split(".");
-
-        if (parts.length >= 2) {
-
-            domain.textContent = parts[parts.length - 2];
-            domain.title = domain.textContent;
-
-            tld.textContent =
-                "." + parts[parts.length - 1];
-
-            if (parts.length > 2) {
-
-                subdomain.textContent =
-                    parts.slice(0, -2).join(".");
-
-            }
-            else {
-
+            if (parts.length >= 2) {
+                domain.textContent = parts[parts.length - 2];
+                tld.textContent = "." + parts[parts.length - 1];
+                subdomain.textContent = parts.length > 2 ? parts.slice(0, -2).join(".") : "None";
+            } else {
+                domain.textContent = parsed.hostname;
+                tld.textContent = "Unknown";
                 subdomain.textContent = "None";
-
             }
 
-        }
-        else {
+            port.textContent = parsed.port || (parsed.protocol === "https:" ? "443 (Default)" : "80 (Default)");
+            path.textContent = parsed.pathname || "/";
+            query.textContent = parsed.search ? new URLSearchParams(parsed.search).size.toString() : "0";
+            fragment.textContent = parsed.hash ? parsed.hash.substring(1) : "None";
+            length.textContent = `${input.length} chars`;
 
-            domain.textContent = parsed.hostname;
-            tld.textContent = "Unknown";
-            subdomain.textContent = "None";
-
-        }
-
-        port.textContent =
-            parsed.port ||
-            (
-                parsed.protocol === "https:"
-                    ? "443 (Default)"
-                    : parsed.protocol === "http:"
-                        ? "80 (Default)"
-                        : "Default"
-            );
-
-        path.textContent =
-            parsed.pathname || "/";
-
-        path.title = path.textContent;
-
-        query.textContent =
-            parsed.search
-                ? new URLSearchParams(parsed.search).size
-                : "0";
-
-        fragment.textContent =
-            parsed.hash
-                ? parsed.hash.substring(1)
-                : "None";
-        fragment.title =
-            fragment.textContent;
-            
-        length.textContent =
-            input.length + " Characters";
-
-        
-            const riskAnalysis = analyzeURLRisk(
-                parsed,
-                input
-            );
-
-            let finalScore = riskAnalysis.score;
-            const finalFindings = [...riskAnalysis.findings];
+            // Run Heuristic Analysis
+            const heuristics = evaluateHeuristics(parsed, input);
+            let finalScore = heuristics.score;
+            const finalFindings = [...heuristics.findings];
 
             analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Checking…`;
 
-            analyzeBtn.innerHTML = `
-                <i class="fa-solid fa-spinner fa-spin"></i>
-                Checking Reputation...
-            `;
+            // Query Safe Browsing
+            const rep = await checkSafeBrowsing(input);
+            if (rep && rep.checked && rep.safe === false) {
+                finalScore = 100;
+                finalFindings.unshift({
+                    severity: "critical",
+                    title: "Google Safe Browsing Threat Match",
+                    description: `Flagged as malicious threat: ${rep.threats?.map(t => t.threatType).join(", ") || "Known Malicious Site"}.`
+                });
+            }
 
-            document
-                .querySelector(".analyzer-workspace")
-                ?.classList.add("is-loading");
+            // Update Risk Dial
+            riskScore.textContent = finalScore;
+            let label = "Low Risk";
+            let color = "var(--color-success-alt)";
 
-            try {
-                const reputationResult =
-                await checkSafeBrowsing(input);
+            if (finalScore >= 75) { label = "Critical Risk"; color = "var(--color-error)"; }
+            else if (finalScore >= 50) { label = "High Risk"; color = "#dc2626"; }
+            else if (finalScore >= 25) { label = "Medium Risk"; color = "var(--color-warning)"; }
 
-                if (
-                    reputationResult.checked &&
-                    reputationResult.safe === false
-                ) {
-                    const threatNames =
-                    reputationResult.threats
-                    ?.map(item => item.threatType)
-                    .filter(Boolean) || [];
+            riskLabel.textContent = label;
+            riskLabel.style.color = color;
 
-                    const uniqueThreats =
-                    [...new Set(threatNames)];
+            if (riskDial) {
+                const circumference = 377;
+                const offset = circumference - (finalScore / 100) * circumference;
+                riskDial.style.strokeDashoffset = offset;
+                riskDial.style.stroke = color;
+            }
 
-                    addFinding(
-                        finalFindings,
-                        100,
-                        "Google Safe Browsing threat detected",
-                        uniqueThreats.length
-                        ? `Google classified this URL as: ${uniqueThreats.join(", ")}.`
-                        : "Google Safe Browsing identified this URL as unsafe."
-                    );
-
-                    finalScore = 100;
-                }
-            } catch (error) {
-                console.error(
-                        "Safe Browsing check failed:",
-                    error
-                );
-
-                addFinding(
-                    finalFindings,
-                    0,
-                        "Reputation check unavailable",
-                        "The local analysis completed, but Google Safe Browsing could not be reached."
-                );
-            } finally {
-
-                document
-                    .querySelector(".analyzer-workspace")
-                    ?.classList.remove("is-loading");
-                
-                analyzeBtn.disabled = false;
-
-                analyzeBtn.innerHTML = `
-                    <i class="fa-solid fa-magnifying-glass-chart"></i>
-                    Analyze URL
+            // Render Findings
+            findingCount.textContent = `${finalFindings.length} finding${finalFindings.length === 1 ? "" : "s"}`;
+            if (finalFindings.length === 0) {
+                findingsList.innerHTML = `
+                    <div style="padding: 16px; display: flex; align-items: center; gap: 10px; color: var(--color-success-alt);">
+                        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                        <span>No suspicious heuristic patterns or known threat signatures detected.</span>
+                    </div>
                 `;
+            } else {
+                findingsList.innerHTML = finalFindings.map(f => `
+                    <div class="finding-item">
+                        <span class="finding-badge ${f.severity}">${f.severity}</span>
+                        <div class="finding-content">
+                            <h4>${f.title}</h4>
+                            <p>${f.description}</p>
+                        </div>
+                    </div>
+                `).join("");
             }
 
-            updateRiskMeter(finalScore);
-            renderFindings(finalFindings);
-
-            showToast(
-                "URL analysis completed",
-                "fa-shield-halved"
-            );
-
+            if (window.ThreatHawk) window.ThreatHawk.toast("URL analysis complete", "fa-shield-halved");
+        } catch (err) {
+            console.error("Invalid URL format:", err);
+            if (window.ThreatHawk) window.ThreatHawk.toast("Please enter a valid URL", "fa-xmark");
+            resetUI();
+            urlInput.focus();
+        } finally {
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i> Analyze URL`;
         }
-
-    catch (error) {
-        console.error(
-            "URL analysis failed:",
-            error
-        );
-
-        showToast(
-            "Please enter a valid URL",
-            "fa-xmark"
-        );
-
-        resetResults();
-        urlInput.focus();
     }
 
-}
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!urlInput) return;
+        analyzeBtn.addEventListener("click", analyzeURL);
+        clearBtn.addEventListener("click", () => {
+            urlInput.value = "";
+            resetUI();
+            urlInput.focus();
+            if (window.ThreatHawk) window.ThreatHawk.toast("Cleared", "fa-rotate-left");
+        });
 
-analyzeBtn.addEventListener("click", analyzeURL);
-
-clearBtn.addEventListener(
-    "click",
-    () => {
-        urlInput.value = "";
-
-        resetResults();
-
-        showToast(
-            "URL Analyzer cleared",
-            "fa-rotate-left"
-        );
-
-        urlInput.focus();
-    }
-);
-
-urlInput.addEventListener("keydown", event => {
-
-    if (event.key === "Enter" && !event.shiftKey) {
-
-        event.preventDefault();
-
-        analyzeURL();
-
-    }
-
-});
-
-themeToggle.addEventListener(
-    "click",
-    toggleTheme
-);
-
-function initializeURLAnalyzer() {
-    applySavedTheme();
-    resetResults();
-}
-
-initializeURLAnalyzer();
-
-/* =========================================================
-   KNOWLEDGE POPUPS
-========================================================= */
-
-const knowledgeData = {
-    aboutPopup: {
-        title: "About URL Analyzer",
-
-        content: `
-            <p>
-                ThreatHawk URL Analyzer is a browser-based security tool
-                designed to help inspect website addresses before they are
-                opened.
-            </p>
-
-            <p>
-                It examines the visible structure of a URL, detects suspicious
-                patterns and presents the results as understandable security
-                findings with an overall risk score.
-            </p>
-
-            <p>
-                The analyzer is intended to support investigation and security
-                awareness. A low risk score means fewer suspicious indicators
-                were detected, but it does not guarantee that a website is safe.
-            </p>
-        `
-    },
-
-    featuresPopup: {
-        title: "URL Analyzer Key Features",
-
-        content: `
-            <ul>
-                <li>
-                    URL structure and protocol inspection
-                </li>
-
-                <li>
-                    Suspicious keyword and phishing-pattern detection
-                </li>
-
-                <li>
-                    Brand impersonation and deceptive-domain checks
-                </li>
-
-                <li>
-                    Subdomain, path, query and fragment analysis
-                </li>
-
-                <li>
-                    Encoded character and unusual-symbol detection
-                </li>
-
-                <li>
-                    IP-address hostname identification
-                </li>
-
-                <li>
-                    Explainable security findings and risk scoring
-                </li>
-
-                <li>
-                    Google Safe Browsing reputation checking
-                </li>
-            </ul>
-        `
-    },
-
-    howItWorksPopup: {
-        title: "How URL Analysis Works",
-
-        content: `
-            <ol>
-                <li>
-                    The submitted website address is normalized and converted
-                    into a valid URL format.
-                </li>
-
-                <li>
-                    The analyzer extracts components such as the protocol,
-                    hostname, domain, subdomain, path, query parameters and
-                    fragment.
-                </li>
-
-                <li>
-                    Structural heuristics inspect the URL for suspicious
-                    keywords, unusual characters, deceptive redirects,
-                    excessive length and possible brand impersonation.
-                </li>
-
-                <li>
-                    When available, Google Safe Browsing checks the URL against
-                    known threat information.
-                </li>
-
-                <li>
-                    The detected signals are combined into an overall risk
-                    score.
-                </li>
-
-                <li>
-                    Each contributing signal is displayed in Security Findings
-                    so the result can be reviewed instead of accepted blindly.
-                </li>
-            </ol>
-        `
-    }
-};
-
-
-const knowledgeOverlay =
-    document.getElementById("knowledgeOverlay");
-
-const knowledgePopup =
-    document.getElementById("knowledgePopup");
-
-const popupTitle =
-    document.getElementById("popupTitle");
-
-const popupContent =
-    document.getElementById("popupContent");
-
-const popupClose =
-    document.getElementById("popupClose");
-
-let lastPopupTrigger = null;
-
-
-function openKnowledgePopup(popupKey, triggerButton) {
-    const popupData =
-        knowledgeData[popupKey];
-
-    if (
-        !popupData ||
-        !knowledgeOverlay ||
-        !popupTitle ||
-        !popupContent
-    ) {
-        return;
-    }
-
-    lastPopupTrigger =
-        triggerButton || null;
-
-    popupTitle.textContent =
-        popupData.title;
-
-    popupContent.innerHTML =
-        popupData.content;
-
-    knowledgeOverlay.classList.add(
-        "active"
-    );
-
-    knowledgeOverlay.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    document.body.style.overflow =
-        "hidden";
-
-    window.requestAnimationFrame(() => {
-        popupClose?.focus();
-    });
-}
-
-
-function closeKnowledgePopup() {
-    if (!knowledgeOverlay) {
-        return;
-    }
-
-    knowledgeOverlay.classList.remove(
-        "active"
-    );
-
-    knowledgeOverlay.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-    document.body.style.overflow =
-        "";
-
-    if (lastPopupTrigger) {
-        lastPopupTrigger.focus();
-    }
-
-    lastPopupTrigger = null;
-}
-
-
-document
-    .querySelectorAll(".info-button")
-    .forEach(button => {
-        button.addEventListener(
-            "click",
-            () => {
-                openKnowledgePopup(
-                    button.dataset.popup,
-                    button
-                );
+        urlInput.addEventListener("keydown", e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                analyzeURL();
             }
-        );
+        });
+
+        resetUI();
     });
-
-
-popupClose?.addEventListener(
-    "click",
-    closeKnowledgePopup
-);
-
-
-knowledgeOverlay?.addEventListener(
-    "click",
-    event => {
-        if (
-            event.target ===
-            knowledgeOverlay
-        ) {
-            closeKnowledgePopup();
-        }
-    }
-);
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-        if (
-            event.key === "Escape" &&
-            knowledgeOverlay?.classList.contains(
-                "active"
-            )
-        ) {
-            closeKnowledgePopup();
-        }
-    }
-);
-
-
-knowledgePopup?.addEventListener(
-    "click",
-    event => {
-        event.stopPropagation();
-    }
-);
-
-/* =========================================================
-   THREATHAWK NAVIGATION
-========================================================= */
-
-const navDropdown =
-    document.querySelector(".nav-dropdown");
-
-const dropdownToggle =
-    document.querySelector(".dropdown-toggle");
-
-if (navDropdown && dropdownToggle) {
-
-    dropdownToggle.addEventListener("click", (event) => {
-
-        event.stopPropagation();
-
-        const isOpen =
-            navDropdown.classList.toggle("active");
-
-        dropdownToggle.setAttribute(
-            "aria-expanded",
-            isOpen
-        );
-
-    });
-
-    document.addEventListener("click", (event) => {
-
-        if (!navDropdown.contains(event.target)) {
-
-            navDropdown.classList.remove("active");
-
-            dropdownToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    });
-
-    document.addEventListener("keydown", (event) => {
-
-        if (event.key === "Escape") {
-
-            navDropdown.classList.remove("active");
-
-            dropdownToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    });
-
-}
+})();

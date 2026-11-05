@@ -1,0 +1,558 @@
+/* ==========================================================================
+   ThreatHawk Design System — Geist Specification (DESIGN.md)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap');
+
+:root {
+    /* ----------------------------------------------------------------------
+       1. COLOR SYSTEM (Light Mode Default)
+       ---------------------------------------------------------------------- */
+    --color-primary: #171717;
+    --color-on-primary: #ffffff;
+    --color-ink: #171717;
+    --color-body: #4d4d4d;
+    --color-mute: #8f8f8f;
+    --color-faint: #a1a1a1;
+    --color-hairline: #ebebeb;
+    --color-hairline-soft: #f2f2f2;
+    --color-canvas: #fafafa;
+    --color-canvas-elevated: #ffffff;
+
+    /* Accents & States */
+    --color-link: #0070f3;
+    --color-link-deep: #0761d1;
+    --color-link-soft: #d3e5ff;
+    --color-error: #ee0000;
+    --color-error-deep: #c50000;
+    --color-error-soft: #fde8e8;
+    --color-warning: #f5a623;
+    --color-warning-deep: #ab570a;
+    --color-warning-soft: #ffefcf;
+    --color-success: #0070f3;
+    --color-success-alt: #00875a;
+    --color-success-soft: #e3fcef;
+
+    /* Chromatic Accents (Used selectively for data/identity) */
+    --color-violet: #7928ca;
+    --color-violet-soft: #d8ccf1;
+    --color-cyan: #50e3c2;
+    --color-cyan-soft: #aaffec;
+    --color-pink: #ff0080;
+    --color-magenta: #eb367f;
+
+    /* Mesh Gradient Stops */
+    --gradient-develop-start: #007cf0;
+    --gradient-develop-end: #00dfd8;
+    --gradient-preview-start: #7928ca;
+    --gradient-preview-end: #ff0080;
+    --gradient-ship-start: #ff4d4d;
+    --gradient-ship-end: #f9cb28;
+
+    /* ----------------------------------------------------------------------
+       2. TYPOGRAPHY
+       ---------------------------------------------------------------------- */
+    --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+    /* Hierarchy */
+    --type-display-xl-size: 48px;
+    --type-display-xl-weight: 600;
+    --type-display-xl-line: 48px;
+    --type-display-xl-tracking: -2.4px;
+
+    --type-heading-lg-size: 32px;
+    --type-heading-lg-weight: 600;
+    --type-heading-lg-line: 40px;
+    --type-heading-lg-tracking: -1.28px;
+
+    --type-heading-md-size: 20px;
+    --type-heading-md-weight: 600;
+    --type-heading-md-line: 28px;
+    --type-heading-md-tracking: -0.4px;
+
+    --type-label-sm-size: 14px;
+    --type-label-sm-weight: 500;
+    --type-label-sm-line: 20px;
+    --type-label-sm-tracking: -0.28px;
+
+    --type-mono-eyebrow-size: 12px;
+    --type-mono-eyebrow-weight: 500;
+    --type-mono-eyebrow-line: 16px;
+    --type-mono-eyebrow-tracking: 0.05em;
+
+    --type-body-lg-size: 16px;
+    --type-body-lg-weight: 400;
+    --type-body-lg-line: 24px;
+    --type-body-lg-tracking: 0;
+
+    --type-body-md-size: 14px;
+    --type-body-md-weight: 400;
+    --type-body-md-line: 20px;
+    --type-body-md-tracking: 0;
+
+    --type-body-sm-size: 12px;
+    --type-body-sm-weight: 400;
+    --type-body-sm-line: 16px;
+    --type-body-sm-tracking: 0;
+
+    --type-button-lg-size: 16px;
+    --type-button-lg-weight: 500;
+    --type-button-lg-line: 20px;
+
+    --type-button-md-size: 14px;
+    --type-button-md-weight: 500;
+    --type-button-md-line: 20px;
+
+    --type-code-size: 14px;
+    --type-code-weight: 400;
+    --type-code-line: 20px;
+
+    /* ----------------------------------------------------------------------
+       3. RADII & SPACING
+       ---------------------------------------------------------------------- */
+    --radius-none: 0px;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill-category: 64px;
+    --radius-pill: 100px;
+    --radius-full: 9999px;
+
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 40px;
+    --spacing-3xl: 64px;
+    --spacing-4xl: 96px;
+    --spacing-section: 128px;
+
+    /* ----------------------------------------------------------------------
+       4. ELEVATION & SHADOWS
+       ---------------------------------------------------------------------- */
+    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.04);
+    --shadow-floating: 0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
+    --shadow-dropdown: 0px 4px 12px rgba(0, 0, 0, 0.08), 0px 0px 0px 1px var(--color-hairline);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-base: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   DARK THEME FOUNDATION (Consistent across all pages)
+   -------------------------------------------------------------------------- */
+[data-theme="dark"],
+body.dark-mode {
+    --color-primary: #ededed;
+    --color-on-primary: #000000;
+    --color-ink: #ededed;
+    --color-body: #a1a1a1;
+    --color-mute: #737373;
+    --color-faint: #525252;
+    --color-hairline: #222222;
+    --color-hairline-soft: #171717;
+    --color-canvas: #000000;
+    --color-canvas-elevated: #0a0a0a;
+
+    --color-link: #3291ff;
+    --color-link-deep: #0070f3;
+    --color-link-soft: rgba(0, 112, 243, 0.18);
+    --color-error: #ff3333;
+    --color-error-deep: #c50000;
+    --color-error-soft: rgba(238, 0, 0, 0.18);
+    --color-warning: #f5a623;
+    --color-warning-deep: #ab570a;
+    --color-warning-soft: rgba(245, 166, 35, 0.18);
+    --color-success: #3291ff;
+    --color-success-alt: #00dfa2;
+    --color-success-soft: rgba(0, 223, 162, 0.15);
+
+    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.4);
+    --shadow-floating: 0px 4px 12px rgba(0, 0, 0, 0.5), 0px 0px 0px 1px var(--color-hairline);
+    --shadow-dropdown: 0px 8px 24px rgba(0, 0, 0, 0.6), 0px 0px 0px 1px var(--color-hairline);
+}
+
+/* --------------------------------------------------------------------------
+   BASE RESETS & DEFAULTS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* WCAG Focus Visible: Never remove outline without replacement */
+:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+p {
+    color: var(--color-body);
+    font-size: var(--type-body-md-size);
+    line-height: var(--type-body-md-line);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+code, kbd, samp, pre {
+    font-family: var(--font-mono);
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   TYPOGRAPHY CLASSES
+   -------------------------------------------------------------------------- */
+.display-xl {
+    font-size: var(--type-display-xl-size);
+    font-weight: var(--type-display-xl-weight);
+    line-height: var(--type-display-xl-line);
+    letter-spacing: var(--type-display-xl-tracking);
+    color: var(--color-ink);
+    text-wrap: balance;
+}
+
+.heading-lg {
+    font-size: var(--type-heading-lg-size);
+    font-weight: var(--type-heading-lg-weight);
+    line-height: var(--type-heading-lg-line);
+    letter-spacing: var(--type-heading-lg-tracking);
+    color: var(--color-ink);
+    text-wrap: balance;
+}
+
+.heading-md {
+    font-size: var(--type-heading-md-size);
+    font-weight: var(--type-heading-md-weight);
+    line-height: var(--type-heading-md-line);
+    letter-spacing: var(--type-heading-md-tracking);
+    color: var(--color-ink);
+}
+
+.label-sm {
+    font-size: var(--type-label-sm-size);
+    font-weight: var(--type-label-sm-weight);
+    line-height: var(--type-label-sm-line);
+    letter-spacing: var(--type-label-sm-tracking);
+}
+
+.mono-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--type-mono-eyebrow-size);
+    font-weight: var(--type-mono-eyebrow-weight);
+    line-height: var(--type-mono-eyebrow-line);
+    letter-spacing: var(--type-mono-eyebrow-tracking);
+    text-transform: uppercase;
+    color: var(--color-mute);
+}
+
+.body-lg {
+    font-size: var(--type-body-lg-size);
+    font-weight: var(--type-body-lg-weight);
+    line-height: var(--type-body-lg-line);
+    color: var(--color-body);
+}
+
+.body-md {
+    font-size: var(--type-body-md-size);
+    font-weight: var(--type-body-md-weight);
+    line-height: var(--type-body-md-line);
+    color: var(--color-body);
+}
+
+.body-sm {
+    font-size: var(--type-body-sm-size);
+    font-weight: var(--type-body-sm-weight);
+    line-height: var(--type-body-sm-line);
+    color: var(--color-mute);
+}
+
+/* --------------------------------------------------------------------------
+   STANDARD BUTTON PRIMITIVES (DESIGN.md)
+   -------------------------------------------------------------------------- */
+/* Marketing Pill (Primary) */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 44px;
+    padding: 0 20px;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: var(--type-button-lg-size);
+    font-weight: var(--type-button-lg-weight);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-primary);
+    transition: background-color var(--transition-fast), opacity var(--transition-fast), transform var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-primary:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Marketing Pill (Secondary / Inverted) */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 44px;
+    padding: 0 20px;
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    font-size: var(--type-button-lg-size);
+    font-weight: var(--type-button-lg-weight);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-hairline);
+    box-shadow: var(--shadow-whisper);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-hairline-soft);
+    border-color: var(--color-faint);
+    transform: translateY(-1px);
+}
+
+/* App Chrome & Action Button (6px square radius) */
+.btn-app {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 36px;
+    padding: 0 var(--spacing-md);
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: var(--type-button-md-size);
+    font-weight: var(--type-button-md-weight);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-primary);
+    transition: opacity var(--transition-fast);
+}
+
+.btn-app:hover {
+    opacity: 0.9;
+}
+
+.btn-app-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    height: 36px;
+    padding: 0 var(--spacing-md);
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    font-size: var(--type-button-md-size);
+    font-weight: var(--type-button-md-weight);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-hairline);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-app-ghost:hover {
+    background-color: var(--color-hairline-soft);
+    border-color: var(--color-faint);
+}
+
+/* Category Pill */
+.btn-category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    height: 32px;
+    padding: 0 var(--spacing-md);
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-body);
+    font-size: var(--type-button-md-size);
+    font-weight: var(--type-button-md-weight);
+    border-radius: var(--radius-pill-category);
+    border: 1px solid var(--color-hairline);
+    transition: all var(--transition-fast);
+}
+
+.btn-category-pill.active,
+.btn-category-pill:hover {
+    color: var(--color-ink);
+    border-color: var(--color-primary);
+    background-color: var(--color-canvas);
+}
+
+/* Icon Button (Circular or 6px square) */
+.btn-icon-circular {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-icon-circular:hover {
+    background-color: var(--color-hairline-soft);
+}
+
+/* --------------------------------------------------------------------------
+   FORM FIELDS & INPUTS (DESIGN.md)
+   -------------------------------------------------------------------------- */
+.text-input,
+.select-input,
+.textarea-input {
+    width: 100%;
+    background-color: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--type-body-md-size);
+    line-height: var(--type-body-md-line);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.text-input:focus,
+.select-input:focus,
+.textarea-input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.text-input::placeholder,
+.textarea-input::placeholder {
+    color: var(--color-faint);
+}
+
+/* --------------------------------------------------------------------------
+   CARDS & CONTAINERS (DESIGN.md)
+   -------------------------------------------------------------------------- */
+.card {
+    background-color: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-whisper);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+    border-color: var(--color-faint);
+}
+
+.card-elevated {
+    background-color: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-floating);
+}
+
+.code-surface {
+    background-color: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    font-family: var(--font-mono);
+    font-size: var(--type-code-size);
+    color: var(--color-ink);
+    overflow-x: auto;
+}
+
+/* --------------------------------------------------------------------------
+   HERO MESH GRADIENT (DESIGN.md - The single controlled flourish)
+   -------------------------------------------------------------------------- */
+.hero-mesh {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 480px;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(0, 124, 240, 0.12) 0%, 
+        rgba(121, 40, 202, 0.10) 35%, 
+        rgba(255, 0, 128, 0.08) 60%, 
+        rgba(249, 203, 40, 0.04) 80%, 
+        transparent 100%
+    );
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   ACCESSIBILITY & REDUCED MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+

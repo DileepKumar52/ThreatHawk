@@ -1,52 +1,29 @@
+/**
+ * ThreatHawk Guides Support Scripts
+ * Ensures navigation dropdowns and core platform functionality work seamlessly across all guide pages.
+ */
+
+"use strict";
+
 document.addEventListener("DOMContentLoaded", () => {
-    const dropdown = document.querySelector(".nav-dropdown");
-    const toggle = document.querySelector(".dropdown-toggle");
-    const menu = document.querySelector(".dropdown-menu");
+    // If core.js is loaded, dropdown & theme are handled globally.
+    // Fallback dropdown handler:
+    const dropdown = document.querySelector(".nav-dropdown, .th-dropdown");
+    const toggle = document.querySelector(".dropdown-toggle, .th-dropdown-toggle");
 
-    if (!dropdown || !toggle || !menu) {
-        return;
+    if (dropdown && toggle && !dropdown.dataset.initialized) {
+        dropdown.dataset.initialized = "true";
+        toggle.addEventListener("click", e => {
+            e.stopPropagation();
+            const isOpen = dropdown.classList.toggle("active");
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+
+        document.addEventListener("click", e => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove("active");
+                toggle.setAttribute("aria-expanded", "false");
+            }
+        });
     }
-
-    const closeDropdown = () => {
-        dropdown.classList.remove("active");
-        toggle.setAttribute("aria-expanded", "false");
-    };
-
-    const openDropdown = () => {
-        dropdown.classList.add("active");
-        toggle.setAttribute("aria-expanded", "true");
-    };
-
-    toggle.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        const isOpen = dropdown.classList.contains("active");
-
-        if (isOpen) {
-            closeDropdown();
-        } else {
-            openDropdown();
-        }
-    });
-
-    menu.addEventListener("click", (event) => {
-        event.stopPropagation();
-    });
-
-    document.addEventListener("click", (event) => {
-        if (!dropdown.contains(event.target)) {
-            closeDropdown();
-        }
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closeDropdown();
-            toggle.focus();
-        }
-    });
-
-    window.addEventListener("resize", () => {
-        closeDropdown();
-    });
 });

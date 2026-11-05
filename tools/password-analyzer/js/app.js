@@ -1,1746 +1,415 @@
+/**
+ * ThreatHawk Password Intelligence
+ * High-precision entropy analysis, multi-tier offline crack estimation, pattern detection, and secure generator.
+ */
+
 "use strict";
 
-/* =========================================================
-   THREATHAWK PASSWORD INTELLIGENCE
-   Complete JavaScript
+(function () {
+    const passwordInput = document.getElementById("passwordInput");
+    const togglePassword = document.getElementById("togglePassword");
+    const copyPassword = document.getElementById("copyPassword");
+    const generatePassword = document.getElementById("generatePassword");
+    const strengthPercent = document.getElementById("strengthPercent");
+    const strengthText = document.getElementById("strengthText");
+    const resultContent = document.getElementById("resultContent");
+    const suggestionsContent = document.getElementById("suggestionsContent");
+    const meterBar = document.getElementById("meterBar");
 
-   Features:
-   - Automatic live analysis
-   - Requirements validation
-   - Strength score and meter
-   - Entropy estimation
-   - Offline crack-time estimation
-   - Common-password detection
-   - Pattern detection
-   - Guaranteed secure password generator
-   - Copy notification
-   - Show/hide password
-   - Persistent light/dark theme
-========================================================= */
-
-
-/* =========================================================
-   1. DOM ELEMENTS
-========================================================= */
-
-const passwordInput =
-    document.getElementById("passwordInput");
-
-const togglePassword =
-    document.getElementById("togglePassword");
-
-const copyPassword =
-    document.getElementById("copyPassword");
-
-const generatePassword =
-    document.getElementById("generatePassword");
-
-const themeToggle =
-    document.getElementById("themeToggle");
-
-const strengthLevel =
-    document.getElementById("strengthLevel");
-
-const strengthPercent =
-    document.getElementById("strengthPercent");
-
-const strengthText =
-    document.getElementById("strengthText");
-
-const resultContent =
-    document.getElementById("resultContent");
-
-const suggestionsContent =
-    document.getElementById("suggestionsContent");
-
-const toast =
-    document.getElementById("toast");
-
-const toastMessage =
-    document.getElementById("toastMessage");
-
-const requirementElements = {
-    length: document.getElementById("reqLength"),
-    upper: document.getElementById("reqUpper"),
-    lower: document.getElementById("reqLower"),
-    number: document.getElementById("reqNumber"),
-    special: document.getElementById("reqSpecial")
-};
-
-
-/* =========================================================
-   2. CONFIGURATION
-========================================================= */
-
-const OFFLINE_GUESSES_PER_SECOND = 1_000_000_000;
-
-const COMMON_PASSWORDS = new Set([
- "123456789",
- "1234567890",
- "qwerty123",
- "qwertyuiop",
- "password1",
- "password123",
- "admin123",
- "administrator",
- "welcome123",
- "letmein",
- "letmein123",
- "monkey",
- "dragon",
- "football",
- "baseball",
- "iloveyou",
- "princess",
- "sunshine",
- "shadow",
- "master",
- "superman",
- "trustno1",
- "passw0rd",
- "p@ssword",
- "p@ssw0rd",
- "qwerty",
- "asdfgh",
- "zxcvbn",
- "1q2w3e",
- "1q2w3e4r",
- "1qaz2wsx",
- "654321",
- "987654321",
- "000000",
- "111111",
- "121212",
- "696969",
- "666666",
- "123123",
- "112233"
-]);
-
-const PREDICTABLE_WORDS = [
-    "password",
-    "admin",
-    "qwerty",
-    "welcome",
-    "login",
-    "letmein",
-    "user",
-    "guest"
-];
-
-const REQUIREMENT_LABELS = {
-    length: "At least 8 characters",
-    upper: "One uppercase letter",
-    lower: "One lowercase letter",
-    number: "One number",
-    special: "One special character"
-};
-
-const STRENGTH_LEVELS = [
-    {
-        maximum: 19,
-        label: "Very Weak",
-        badgeClass: "very-weak",
-        color: "#ef4444"
-    },
-    {
-        maximum: 39,
-        label: "Weak",
-        badgeClass: "weak",
-        color: "#f97316"
-    },
-    {
-        maximum: 59,
-        label: "Medium",
-        badgeClass: "medium",
-        color: "#eab308"
-    },
-    {
-        maximum: 79,
-        label: "Strong",
-        badgeClass: "strong",
-        color: "#3b82f6"
-    },
-    {
-        maximum: 100,
-        label: "Very Strong",
-        badgeClass: "very-strong",
-        color: "#22c55e"
-    }
-];
-
-let currentScore = 0;
-let toastTimer = null;
-
-
-/* =========================================================
-   3. REQUIREMENT CHECKS
-========================================================= */
-
-function evaluateRequirements(password) {
-    return {
-        length: password.length >= 8,
-        upper: /[A-Z]/.test(password),
-        lower: /[a-z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: /[^A-Za-z0-9]/.test(password)
-    };
-}
-
-function updateRequirementItem(element, passed, label) {
-    if (!element) {
-        return;
-    }
-
-    element.classList.remove("valid", "invalid");
-    element.classList.add(
-        "requirement-item",
-        passed ? "valid" : "invalid"
-    );
-
-    element.innerHTML = `
-        <span class="requirement-icon">
-            <i class="fa-solid ${
-                passed ? "fa-check" : "fa-xmark"
-            }"></i>
-        </span>
-
-        <span>${label}</span>
-    `;
-}
-
-function updateRequirements(requirements) {
-    Object.entries(requirements).forEach(
-        ([requirementName, passed]) => {
-            updateRequirementItem(
-                requirementElements[requirementName],
-                passed,
-                REQUIREMENT_LABELS[requirementName]
-            );
-        }
-    );
-}
-
-
-/* =========================================================
-   4. PASSWORD CHARACTER ANALYSIS
-========================================================= */
-
-function getCharacterSetSize(password) {
-    let characterSetSize = 0;
-
-    const CHARACTER_SETS = {
-        lowercase: 26,
-        uppercase: 26,
-        numbers: 10,
-        special: 33
+    const requirementElements = {
+        length: document.getElementById("reqLength"),
+        upper: document.getElementById("reqUpper"),
+        lower: document.getElementById("reqLower"),
+        number: document.getElementById("reqNumber"),
+        special: document.getElementById("reqSpecial")
     };
 
-    if (/[a-z]/.test(password)) {
-        characterSetSize += CHARACTER_SETS.lowercase;
-    }
-
-    if (/[A-Z]/.test(password)) {
-        characterSetSize += CHARACTER_SETS.uppercase;
-    }
-
-    if (/[0-9]/.test(password)) {
-        characterSetSize += CHARACTER_SETS.numbers;
-    }
-
-    if (/[^A-Za-z0-9]/.test(password)) {
-        characterSetSize += CHARACTER_SETS.special;
-    }
-
-    return characterSetSize;
-}
-
-function calculateEntropy(password) {
-    const characterSetSize =
-        getCharacterSetSize(password);
-
-    if (
-        password.length === 0 ||
-        characterSetSize === 0
-    ) {
-        return 0;
-    }
-
-    return (
-        password.length *
-        Math.log2(characterSetSize)
-    );
-}
-
-function detectPatterns(password) {
-    const normalizedPassword =
-        password.toLowerCase();
-
-    const patterns = {
-        commonPassword:
-            COMMON_PASSWORDS.has(normalizedPassword),
-
-        predictableWord:
-            PREDICTABLE_WORDS.find(word =>
-                normalizedPassword.includes(word)
-            ) || null,
-
-        numberSequence:
-            /(?:0123|1234|2345|3456|4567|5678|6789|7890)/.test(
-                normalizedPassword
-            ),
-
-        yearPattern:
-            /(?:19[5-9]\d|20[0-3]\d)/.test(
-                normalizedPassword
-            ),
-
-        reverseNumberSequence:
-            /(?:9876|8765|7654|6543|5432|4321|3210)/.test(
-                normalizedPassword
-            ),
-
-        keyboardSequence:
-            /(?:qwerty|asdf|zxcv|qazwsx)/.test(
-                normalizedPassword
-            ),
-
-        repeatedCharacters:
-            /(.)\1{2,}/.test(password),
-
-        repeatedBlock:
-            /(.{2,4})\1{1,}/i.test(password),
-
-        repeatedNumbers:
-            /(?:\d{2,4})\1/.test(password),
-
-        onlyLetters:
-            /^[a-z]+$/i.test(password),
-
-        onlyNumbers:
-            /^\d+$/.test(password),
-
-        lowUniqueness: false
+    const REQUIREMENT_LABELS = {
+        length: "At least 8 characters",
+        upper: "One uppercase letter",
+        lower: "One lowercase letter",
+        number: "One number",
+        special: "One special character"
     };
 
-    const uniqueCharacters =
-        new Set(password).size;
+    const COMMON_PASSWORDS = new Set([
+        "123456", "password", "12345678", "qwerty", "123456789", "12345", "1234",
+        "111111", "1234567", "dragon", "123123", "baseball", "football", "iloveyou",
+        "letmein", "monkey", "sunshine", "princess", "shadow", "master", "superman",
+        "welcome", "login", "admin", "admin123", "password123", "passw0rd", "p@ssword",
+        "p@ssw0rd", "asdfgh", "zxcvbn", "1q2w3e", "1qaz2wsx", "trustno1"
+    ]);
 
-    if (password.length >= 8) {
-        patterns.lowUniqueness =
-            uniqueCharacters / password.length < 0.5;
-    }
-
-    return patterns;
-}
-
-
-/* =========================================================
-   5. STRENGTH SCORE
-========================================================= */
-
-function calculateStrengthScore(
-    password,
-    requirements,
-    patterns
-) {
-    if (!password) {
-        return 0;
-    }
-
-    if (patterns.commonPassword) {
-        return 0;
-    }
-
-    let score = 0;
-
-    /*
-     * Length is the primary factor.
-     */
-    if (password.length >= 8) {
-        score += 15;
-    }
-
-    if (password.length >= 12) {
-        score += 15;
-    }
-
-    if (password.length >= 16) {
-        score += 15;
-    }
-
-    if (password.length >= 20) {
-        score += 10;
-    }
-
-    /*
-     * Character diversity provides additional resistance,
-     * but does not dominate the score.
-     */
-    let characterTypes = 0;
-
-    if (requirements.lower) {
-        characterTypes++;
-    }
-
-    if (requirements.upper) {
-        characterTypes++;
-    }
-
-    if (requirements.number) {
-        characterTypes++;
-    }
-
-    if (requirements.special) {
-        characterTypes++;
-    }
-
-    score += characterTypes * 5;
-
-    /*
-     * Reward character uniqueness.
-     */
-    const uniqueCharacters =
-        new Set(password).size;
-
-    const uniquenessRatio =
-        uniqueCharacters / password.length;
-
-    score += Math.round(
-        uniquenessRatio * 20
-    );
-
-    /*
-     * Penalize predictable structures.
-     */
-    if (patterns.predictableWord) {
-        score -= 15;
-    }
-
-    if (
-        patterns.numberSequence ||
-        patterns.reverseNumberSequence
-    ) {
-        score -= 15;
-    }
-
-    if (patterns.yearPattern) {
-        score -= 10;
-    }
-
-    if (patterns.keyboardSequence) {
-        score -= 15;
-    }
-
-    if (patterns.repeatedCharacters) {
-        score -= 15;
-    }
-
-    if (patterns.repeatedBlock) {
-        score -= 10;
-    }
-
-    if (patterns.repeatedNumbers) {
-        score -= 10;
-    }
-
-    if (patterns.onlyNumbers) {
-        score -= 15;
-    }
-
-    if (patterns.onlyLetters) {
-        score -= 5;
-    }
-
-    if (patterns.lowUniqueness) {
-        score -= 10;
-    }
-
-    return Math.max(
-        0,
-        Math.min(100, score)
-    );
-}
-
-function getStrengthLevel(score) {
-    return (
-        STRENGTH_LEVELS.find(
-            level => score <= level.maximum
-        ) ||
-        STRENGTH_LEVELS[
-            STRENGTH_LEVELS.length - 1
-        ]
-    );
-}
-
-
-/* =========================================================
-   6. CRACK-TIME ESTIMATION
-========================================================= */
-
-function calculateCrackTimeLogSeconds(
-    password,
-    patterns
-) {
-    const characterSetSize = getCharacterSetSize(password);
-
-    if (
-        password.length === 0 ||
-        characterSetSize === 0
-    ) {
-        return Number.NEGATIVE_INFINITY;
-    }
-
-    /*
-     * Common passwords and highly predictable patterns
-     * should not be treated as full random search-space passwords.
-     */
-    if (patterns.commonPassword) {
-        return Math.log10(1);
-    }
-
-    let log10Guesses =
-        password.length *
-        Math.log10(characterSetSize);
-
-    /*
-     * Average-case estimate:
-     * an attacker finds the password after searching
-     * roughly half of the effective search space.
-     */
-    log10Guesses -= Math.log10(2);
-
-    /*
-     * Pattern adjustments represent reduced effective
-     * search space rather than arbitrary time penalties.
-     */
-    if (patterns.predictableWord) {
-        log10Guesses -= 3;
-    }
-
-    if (
-        patterns.numberSequence ||
-        patterns.reverseNumberSequence
-    ) {
-        log10Guesses -= 3;
-    }
-
-    if (patterns.yearPattern) {
-        log10Guesses -= 2;
-    }
-
-    if (patterns.keyboardSequence) {
-        log10Guesses -= 3;
-    }
-
-    if (patterns.repeatedCharacters) {
-        log10Guesses -= 3;
-    }
-
-    if (patterns.repeatedBlock) {
-        log10Guesses -= 2;
-    }
-
-    if (patterns.repeatedNumbers) {
-        log10Guesses -= 2;
-    }
-
-    if (patterns.lowUniqueness) {
-        log10Guesses -= 2;
-    }
-
-    /*
-     * Prevent the adjusted search space from becoming
-     * unrealistically smaller than a single guess.
-     */
-    log10Guesses = Math.max(
-        0,
-        log10Guesses
-    );
-
-    return (
-        log10Guesses -
-        Math.log10(OFFLINE_GUESSES_PER_SECOND)
-    );
-}
-
-function formatLargeNumber(value) {
-    if (value < 10) {
-        return value.toFixed(1);
-    }
-
-    return Math.round(value).toLocaleString();
-}
-
-function formatCrackTimeFromLog(log10Seconds) {
-    if (!Number.isFinite(log10Seconds)) {
-        return "Instantly";
-    }
-
-    if (log10Seconds < 0) {
-        return "Less than 1 second";
-    }
-
-    const timeUnits = [
-        {
-            label: "second",
-            seconds: 1
-        },
-        {
-            label: "minute",
-            seconds: 60
-        },
-        {
-            label: "hour",
-            seconds: 60 * 60
-        },
-        {
-            label: "day",
-            seconds: 60 * 60 * 24
-        },
-        {
-            label: "year",
-            seconds: 60 * 60 * 24 * 365
-        }
+    const PREDICTABLE_WORDS = [
+        "password", "admin", "qwerty", "welcome", "login", "letmein", "user",
+        "guest", "default", "system", "service", "summer", "winter", "spring", "autumn"
     ];
 
-    /*
-     * For manageable values, calculate normally.
-     */
-    if (log10Seconds < 15) {
-        const seconds =
-            10 ** log10Seconds;
+    let selectedGeneratorLength = 18;
 
-        let selectedUnit =
-            timeUnits[0];
+    // --------------------------------------------------------------------------
+    // 1. REQUIREMENTS & ENTROPY
+    // --------------------------------------------------------------------------
+    function evaluateRequirements(password) {
+        return {
+            length: password.length >= 8,
+            upper: /[A-Z]/.test(password),
+            lower: /[a-z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[^A-Za-z0-9]/.test(password)
+        };
+    }
 
-        for (const unit of timeUnits) {
-            if (seconds >= unit.seconds) {
-                selectedUnit = unit;
-            }
+    function getCharacterSetPool(password) {
+        let pool = 0;
+        if (/[a-z]/.test(password)) pool += 26;
+        if (/[A-Z]/.test(password)) pool += 26;
+        if (/[0-9]/.test(password)) pool += 10;
+        if (/[^A-Za-z0-9]/.test(password)) pool += 33;
+        return pool;
+    }
+
+    function calculateEntropy(password) {
+        const pool = getCharacterSetPool(password);
+        if (password.length === 0 || pool === 0) return 0;
+        return Math.round(password.length * Math.log2(pool) * 10) / 10;
+    }
+
+    // --------------------------------------------------------------------------
+    // 2. PATTERN DETECTION
+    // --------------------------------------------------------------------------
+    function detectPatterns(password) {
+        const lower = password.toLowerCase();
+        const patterns = {
+            commonPassword: COMMON_PASSWORDS.has(lower),
+            predictableWord: PREDICTABLE_WORDS.find(w => lower.includes(w)) || null,
+            numberSequence: /(?:0123|1234|2345|3456|4567|5678|6789|7890)/.test(lower),
+            reverseNumberSequence: /(?:9876|8765|7654|6543|5432|4321|3210)/.test(lower),
+            yearPattern: /(?:19[5-9]\d|20[0-3]\d)/.test(lower),
+            keyboardSequence: /(?:qwerty|asdf|zxcv|qazwsx)/.test(lower),
+            repeatedCharacters: /(.)\1{2,}/.test(password),
+            repeatedBlock: /(.{2,4})\1{1,}/i.test(password),
+            onlyLetters: /^[a-z]+$/i.test(password),
+            onlyNumbers: /^\d+$/.test(password),
+            lowUniqueness: false
+        };
+
+        if (password.length >= 8) {
+            const uniqueChars = new Set(password).size;
+            patterns.lowUniqueness = (uniqueChars / password.length) < 0.55;
         }
 
-        const amount =
-            seconds / selectedUnit.seconds;
-
-        const roundedAmount =
-            formatLargeNumber(amount);
-
-        return `${roundedAmount} ${
-            Number(roundedAmount.replace(/,/g, "")) === 1
-                ? selectedUnit.label
-                : `${selectedUnit.label}s`
-        }`;
+        return patterns;
     }
 
-    /*
-     * Extremely large values are represented as
-     * powers of ten rather than overflowing.
-     */
-    const secondsPerYear =
-        60 * 60 * 24 * 365;
+    // --------------------------------------------------------------------------
+    // 3. STRENGTH SCORE CALCULATION
+    // --------------------------------------------------------------------------
+    function calculateStrengthScore(password, reqs, patterns) {
+        if (!password) return 0;
+        if (patterns.commonPassword) return 5;
 
-    const log10Years =
-        log10Seconds -
-        Math.log10(secondsPerYear);
+        let score = 0;
 
-    if (log10Years < 3) {
-        return `${Math.round(
-            10 ** log10Years
-        ).toLocaleString()} years`;
+        // Length tiers
+        if (password.length >= 8) score += 15;
+        if (password.length >= 12) score += 15;
+        if (password.length >= 16) score += 15;
+        if (password.length >= 20) score += 10;
+
+        // Character diversity
+        let types = 0;
+        if (reqs.lower) types++;
+        if (reqs.upper) types++;
+        if (reqs.number) types++;
+        if (reqs.special) types++;
+        score += types * 5;
+
+        // Uniqueness ratio
+        const uniqueRatio = new Set(password).size / password.length;
+        score += Math.round(uniqueRatio * 20);
+
+        // Pattern penalties
+        if (patterns.predictableWord) score -= 15;
+        if (patterns.numberSequence || patterns.reverseNumberSequence) score -= 15;
+        if (patterns.yearPattern) score -= 10;
+        if (patterns.keyboardSequence) score -= 15;
+        if (patterns.repeatedCharacters) score -= 15;
+        if (patterns.repeatedBlock) score -= 10;
+        if (patterns.onlyNumbers) score -= 20;
+        if (patterns.onlyLetters) score -= 10;
+        if (patterns.lowUniqueness) score -= 10;
+
+        return Math.max(0, Math.min(100, score));
     }
 
-    if (log10Years < 6) {
-        return `${formatLargeNumber(
-            10 ** (log10Years - 3)
-        )} thousand years`;
+    // --------------------------------------------------------------------------
+    // 4. MULTI-TIER CRACK-TIME ESTIMATIONS
+    // --------------------------------------------------------------------------
+    function estimateCrackTimes(password, patterns) {
+        const pool = getCharacterSetPool(password);
+        if (!password || pool === 0) {
+            return {
+                online: "Instant",
+                gpuFast: "Instant",
+                slowHash: "Instant"
+            };
+        }
+
+        if (patterns.commonPassword) {
+            return {
+                online: "Instant (Wordlist)",
+                gpuFast: "Instant (<1 ms)",
+                slowHash: "Instant (<1 sec)"
+            };
+        }
+
+        let log10Combinations = password.length * Math.log10(pool);
+        // Pattern reduction adjustments
+        if (patterns.predictableWord) log10Combinations -= 3;
+        if (patterns.numberSequence || patterns.reverseNumberSequence) log10Combinations -= 2.5;
+        if (patterns.keyboardSequence) log10Combinations -= 3;
+        if (patterns.repeatedCharacters) log10Combinations -= 2;
+        if (patterns.lowUniqueness) log10Combinations -= 2;
+        log10Combinations = Math.max(0, log10Combinations - Math.log10(2)); // average case
+
+        // Rates:
+        // Online Throttled (e.g. 100 guesses/sec = 10^2)
+        const logSecondsOnline = log10Combinations - 2;
+        // Offline Fast (e.g., 8x GPU rig cracking MD5/NTLM: 100 Billion/sec = 10^11)
+        const logSecondsGPU = log10Combinations - 11;
+        // Offline Slow (e.g., Bcrypt/Argon2: 10,000/sec = 10^4)
+        const logSecondsSlow = log10Combinations - 4;
+
+        return {
+            online: formatSeconds(logSecondsOnline),
+            gpuFast: formatSeconds(logSecondsGPU),
+            slowHash: formatSeconds(logSecondsSlow)
+        };
     }
 
-    if (log10Years < 9) {
-        return `${formatLargeNumber(
-            10 ** (log10Years - 6)
-        )} million years`;
+    function formatSeconds(log10Sec) {
+        if (!Number.isFinite(log10Sec) || log10Sec <= 0) return "Instant (< 1s)";
+        const sec = Math.pow(10, Math.min(log10Sec, 15));
+
+        if (sec < 60) return `${Math.round(sec)} seconds`;
+        if (sec < 3600) return `${Math.round(sec / 60)} minutes`;
+        if (sec < 86400) return `${Math.round(sec / 3600)} hours`;
+        if (sec < 31536000) return `${Math.round(sec / 86400)} days`;
+
+        const years = sec / 31536000;
+        if (years < 1000) return `${Math.round(years)} years`;
+        if (years < 1000000) return `${(years / 1000).toFixed(1)}k years`;
+        if (years < 1000000000) return `${(years / 1000000).toFixed(1)}M years`;
+        return `> ${Math.round(log10Sec - 7.5)} orders of magnitude years`;
     }
 
-    if (log10Years < 12) {
-        return `${formatLargeNumber(
-            10 ** (log10Years - 9)
-        )} billion years`;
-    }
-
-    return `Approximately 10^${Math.floor(
-        log10Years
-    )} years`;
-}
-
-
-/* =========================================================
-   7. SUGGESTIONS
-========================================================= */
-
-function buildSuggestions(
-    password,
-    requirements,
-    patterns
-) {
-    const suggestions = [];
-
-    if (!requirements.length) {
-        suggestions.push(
-            "Increase the password length to at least 8 characters. Twelve or more is preferable."
-        );
-    } else if (password.length < 12) {
-        suggestions.push(
-            "Increase the password to at least 12 characters for stronger resistance."
-        );
-    }
-
-    if (!requirements.upper) {
-        suggestions.push(
-            "Add at least one uppercase letter."
-        );
-    }
-
-    if (!requirements.lower) {
-        suggestions.push(
-            "Add at least one lowercase letter."
-        );
-    }
-
-    if (!requirements.number) {
-        suggestions.push(
-            "Add at least one number."
-        );
-    }
-
-    if (!requirements.special) {
-        suggestions.push(
-            "Add at least one special character."
-        );
-    }
-
-    if (patterns.predictableWord) {
-        suggestions.push(
-            `Avoid predictable words such as "${patterns.predictableWord}".`
-        );
-    }
-
-    if (
-        patterns.numberSequence ||
-        patterns.reverseNumberSequence
-    ) {
-        suggestions.push(
-            "Avoid predictable numeric sequences such as 1234 or 4321."
-        );
-    }
-
-    if (patterns.yearPattern) {
-        suggestions.push(
-            "Avoid using a four-digit year as part of your password."
-        );
-    }
-
-    if (patterns.keyboardSequence) {
-        suggestions.push(
-            "Avoid keyboard patterns such as qwerty, asdf or zxcv."
-        );
-    }
-
-    if (patterns.repeatedCharacters) {
-        suggestions.push(
-            "Avoid repeating the same character three or more times."
-        );
-    }
-
-    if (patterns.repeatedBlock) {
-        suggestions.push(
-            "Avoid repeating the same group of characters."
-        );
-    }
-
-    if (patterns.repeatedNumbers) {
-        suggestions.push(
-            "Avoid repeating the same number pattern in your password."
-        );
-    }
-
-    if (patterns.onlyLetters) {
-        suggestions.push(
-            "Do not rely only on letters. Add numbers and symbols."
-        );
-    }
-
-    if (patterns.onlyNumbers) {
-        suggestions.push(
-            "Numeric-only passwords are highly predictable. Use mixed character types."
-        );
-    }
-
-    if (patterns.lowUniqueness) {
-        suggestions.push(
-            "Use a wider variety of characters instead of repeatedly reusing the same ones."
-        );
-    }
-
-    return [...new Set(suggestions)];
-}
-
-
-/* =========================================================
-   8. METER
-========================================================= */
-
-function updateStrengthMeter(score) {
-    const safeScore = Math.max(
-        0,
-        Math.min(score, 100)
-    );
-
-    currentScore = safeScore;
-
-    const strength =
-        getStrengthLevel(safeScore);
-
-    const mobileHorizontalMeter =
-        window.matchMedia(
-            "(max-width: 860px)"
-        ).matches;
-
-    if (mobileHorizontalMeter) {
-        strengthLevel.style.width =
-            `${safeScore}%`;
-
-        strengthLevel.style.height =
-            "100%";
-    } else {
-        strengthLevel.style.height =
-            `${safeScore}%`;
-
-        strengthLevel.style.width =
-            "100%";
-    }
-
-    strengthLevel.style.background =
-        strength.color;
-
-    strengthLevel.style.color =
-        strength.color;
-
-    strengthLevel.style.boxShadow =
-        `0 0 20px ${strength.color}`;
-
-    strengthPercent.textContent =
-        `${safeScore}%`;
-
-    strengthPercent.style.color =
-        strength.color;
-
-    strengthText.textContent =
-        strength.label;
-
-    strengthText.style.color =
-        strength.color;
-
-    strengthPercent.classList.remove(
-        "updated"
-    );
-
-    void strengthPercent.offsetWidth;
-
-    strengthPercent.classList.add(
-        "updated"
-    );
-}
-
-
-/* =========================================================
-   9. RESULT RENDERING
-========================================================= */
-
-function renderResult({
-    score,
-    strength,
-    entropy,
-    crackTime,
-    passedRequirements,
-    patterns
-}) {
-    const commonPasswordWarning =
-        patterns.commonPassword
-            ? `
-                <div class="common-password-alert">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-
-                    <span>
-                        This value appears in common-password
-                        lists and should not be used.
-                    </span>
-                </div>
-            `
-            : "";
-
-    resultContent.className =
-        "result-state";
-
-    resultContent.innerHTML = `
-        <div class="result-heading-line">
-            <strong>Password assessment</strong>
-
-            <span class="result-badge ${strength.badgeClass}">
-                ${strength.label}
-            </span>
-        </div>
-
-        <div class="result-grid">
-
-            <div class="result-metric highlight">
-                <span>Security score</span>
-                <strong>${score} / 100</strong>
-            </div>
-
-            <div class="result-metric">
-                <span>Requirements met</span>
-                <strong>${passedRequirements} / 5</strong>
-            </div>
-
-            <div class="result-metric">
-                <span>Theoretical entropy</span>
-                <strong>${entropy.toFixed(1)} bits</strong>
-            </div>
-
-            <div class="result-metric highlight">
-                <span>Offline crack time</span>
-                <strong>${crackTime}</strong>
-            </div>
-
-        </div>
-
-        ${commonPasswordWarning}
-
-        <div class="result-warning">
-            <i class="fa-solid fa-circle-info"></i>
-
-            <span>
-                Crack time is a simplified estimate based on
-                one billion offline guesses per second. Actual resistance depends on the hashing
-                algorithm, password-hashing configuration,
-                and attacker hardware.
-            </span>
-        </div>
-
-        <div class="result-explanation">
-            <i class="fa-solid fa-shield-halved"></i>
-
-            <span>
-                Your score reflects password length, character
-                diversity, uniqueness, and detected predictable
-                patterns.
-            </span>
-        </div>
-    `;
-}
-
-function renderSuggestions(
-    suggestions,
-    patterns
-) {
-    if (patterns.commonPassword) {
-        suggestionsContent.className =
-            "suggestion-list";
-
-        suggestionsContent.innerHTML = `
-            <div class="suggestion-item">
-                <i class="fa-solid fa-arrow-rotate-right"></i>
-
-                <span>
-                    Replace this password completely instead of
-                    making minor changes to it.
-                </span>
-            </div>
-
-            <div class="suggestion-item">
-                <i class="fa-solid fa-ruler-horizontal"></i>
-
-                <span>
-                    Use at least 12 to 16 characters.
-                </span>
-            </div>
-
-            <div class="suggestion-item">
-                <i class="fa-solid fa-shuffle"></i>
-
-                <span>
-                    Use a unique password that is not reused on
-                    another account.
-                </span>
-            </div>
-
-            <div class="suggestion-item">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-                <span>
-                    Use the generator above to create a stronger
-                    alternative.
-                </span>
-            </div>
-        `;
-
-        return;
-    }
-
-    if (suggestions.length === 0) {
-        suggestionsContent.className =
-            "suggestion-success";
-
-        suggestionsContent.innerHTML = `
-            <i class="fa-solid fa-circle-check"></i>
-
-            <span>
-                Excellent password structure. Keep it unique
-                and store it in a trusted password manager.
-            </span>
-        `;
-
-        return;
-    }
-
-    suggestionsContent.className =
-        "suggestion-list";
-
-    suggestionsContent.innerHTML =
-        suggestions
-            .map(
-                suggestion => `
-                    <div class="suggestion-item">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-
-                        <span>${suggestion}</span>
-                    </div>
-                `
-            )
-            .join("");
-}
-
-
-/* =========================================================
-   10. EMPTY STATE
-========================================================= */
-
-function resetAnalysis() {
-    const emptyRequirements = {
-        length: false,
-        upper: false,
-        lower: false,
-        number: false,
-        special: false
-    };
-
-    updateRequirements(emptyRequirements);
-    updateStrengthMeter(0);
-
-    resultContent.className =
-        "result-placeholder";
-
-    resultContent.innerHTML = `
-        <div class="placeholder-icon">
-            <i class="fa-solid fa-key"></i>
-        </div>
-
-        <p>
-            Enter a password to view its security score,
-            theoretical entropy and estimated offline crack time.
-        </p>
-    `;
-
-    suggestionsContent.className =
-        "suggestions-placeholder";
-
-    suggestionsContent.textContent =
-        "Suggestions will appear after you enter a password.";
-}
-
-
-/* =========================================================
-   11. LIVE ANALYSIS
-========================================================= */
-
-function analyzePassword() {
-    const password =
-        passwordInput.value;
-
-    if (!password) {
-        resetAnalysis();
-        return;
-    }
-
-    const requirements =
-        evaluateRequirements(password);
-
-    const patterns =
-        detectPatterns(password);
-
-    const score =
-        calculateStrengthScore(
-            password,
-            requirements,
-            patterns
-        );
-
-    const strength =
-        getStrengthLevel(score);
-
-    const entropy =
-        patterns.commonPassword
-            ? 0
-            : calculateEntropy(password);
-
-    const log10Seconds =
-        calculateCrackTimeLogSeconds(
-            password,
-            patterns
-        );
-
-    const crackTime =
-        patterns.commonPassword
-            ? "Instantly"
-            : formatCrackTimeFromLog(
-                log10Seconds
-            );
-
-    const suggestions =
-        buildSuggestions(
-            password,
-            requirements,
-            patterns
-        );
-
-    const passedRequirements =
-        Object.values(requirements)
-            .filter(Boolean)
-            .length;
-
-    updateRequirements(requirements);
-    updateStrengthMeter(score);
-
-    renderResult({
-        score,
-        strength,
-        entropy,
-        crackTime,
-        passedRequirements,
-        patterns
-    });
-
-    renderSuggestions(
-        suggestions,
-        patterns
-    );
-}
-
-
-/* =========================================================
-   12. SECURE RANDOM GENERATOR
-========================================================= */
-
-function getSecureRandomIndex(maximum) {
-    if (
-        !Number.isInteger(maximum) ||
-        maximum <= 0
-    ) {
-        throw new Error(
-            "Invalid random-index maximum."
-        );
-    }
-
-    const randomValues =
-        new Uint32Array(1);
-
-    const maximumValidValue =
-        Math.floor(
-            0x100000000 / maximum
-        ) * maximum;
-
-    let randomValue;
-
-    do {
-        crypto.getRandomValues(
-            randomValues
-        );
-
-        randomValue =
-            randomValues[0];
-    } while (
-        randomValue >= maximumValidValue
-    );
-
-    return randomValue % maximum;
-}
-
-function getRandomCharacter(characters) {
-    return characters[
-        getSecureRandomIndex(
-            characters.length
-        )
-    ];
-}
-
-function secureShuffle(values) {
-    const shuffledValues =
-        [...values];
-
-    for (
-        let index =
-            shuffledValues.length - 1;
-        index > 0;
-        index--
-    ) {
-        const randomIndex =
-            getSecureRandomIndex(index + 1);
-
-        [
-            shuffledValues[index],
-            shuffledValues[randomIndex]
-        ] = [
-            shuffledValues[randomIndex],
-            shuffledValues[index]
+    // --------------------------------------------------------------------------
+    // 5. SECURE GENERATOR (Web Crypto API)
+    // --------------------------------------------------------------------------
+    function generateSecurePassword(length = 18) {
+        const lower = "abcdefghijkmnopqrstuvwxyz";
+        const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+        const nums = "23456789";
+        const syms = "!@#$%^&*()-_=+[]{}";
+        const all = lower + upper + nums + syms;
+
+        const array = new Uint32Array(length);
+        window.crypto.getRandomValues(array);
+
+        const chars = [
+            lower[array[0] % lower.length],
+            upper[array[1] % upper.length],
+            nums[array[2] % nums.length],
+            syms[array[3] % syms.length]
         ];
-    }
 
-    return shuffledValues;
-}
-
-function generateSecurePassword(
-    passwordLength = 18
-) {
-    const uppercaseCharacters =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ";
-
-    const lowercaseCharacters =
-        "abcdefghijkmnopqrstuvwxyz";
-
-    const numberCharacters =
-        "23456789";
-
-    const specialCharacters =
-        "!@#$%^&*()-_=+[]{};:,.?";
-
-    const allCharacters =
-        uppercaseCharacters +
-        lowercaseCharacters +
-        numberCharacters +
-        specialCharacters;
-
-    /*
-     * Guarantee every generated password contains
-     * all required character categories.
-     */
-    const passwordCharacters = [
-        getRandomCharacter(
-            uppercaseCharacters
-        ),
-        getRandomCharacter(
-            lowercaseCharacters
-        ),
-        getRandomCharacter(
-            numberCharacters
-        ),
-        getRandomCharacter(
-            specialCharacters
-        )
-    ];
-
-    while (
-        passwordCharacters.length <
-        passwordLength
-    ) {
-        passwordCharacters.push(
-            getRandomCharacter(
-                allCharacters
-            )
-        );
-    }
-
-    return secureShuffle(
-        passwordCharacters
-    ).join("");
-}
-
-
-/* =========================================================
-   13. CLIPBOARD AND TOAST
-========================================================= */
-
-function showToast(
-    message,
-    iconClass = "fa-check"
-) {
-    if (!toast || !toastMessage) {
-        return;
-    }
-
-    toastMessage.textContent =
-        message;
-
-    const toastIcon =
-        toast.querySelector("i");
-
-    if (toastIcon) {
-        toastIcon.className =
-            `fa-solid ${iconClass}`;
-    }
-
-    toast.classList.add("show");
-
-    window.clearTimeout(
-        toastTimer
-    );
-
-    toastTimer =
-        window.setTimeout(() => {
-            toast.classList.remove(
-                "show"
-            );
-        }, 2200);
-}
-
-async function copyText(text) {
-    if (
-        navigator.clipboard &&
-        window.isSecureContext
-    ) {
-        await navigator.clipboard.writeText(
-            text
-        );
-
-        return;
-    }
-
-    const temporaryTextArea =
-        document.createElement("textarea");
-
-    temporaryTextArea.value = text;
-    temporaryTextArea.setAttribute(
-        "readonly",
-        ""
-    );
-
-    temporaryTextArea.style.position =
-        "fixed";
-
-    temporaryTextArea.style.opacity =
-        "0";
-
-    document.body.appendChild(
-        temporaryTextArea
-    );
-
-    temporaryTextArea.select();
-
-    const copied =
-        document.execCommand("copy");
-
-    temporaryTextArea.remove();
-
-    if (!copied) {
-        throw new Error(
-            "Clipboard operation failed."
-        );
-    }
-}
-
-
-/* =========================================================
-   14. PASSWORD VISIBILITY
-========================================================= */
-
-function updateVisibilityButton(
-    passwordIsVisible
-) {
-    const icon =
-        togglePassword.querySelector("i");
-
-    if (!icon) {
-        return;
-    }
-
-    icon.className =
-        passwordIsVisible
-            ? "fa-regular fa-eye-slash"
-            : "fa-regular fa-eye";
-
-    togglePassword.setAttribute(
-        "aria-label",
-        passwordIsVisible
-            ? "Hide password"
-            : "Show password"
-    );
-
-    togglePassword.title =
-        passwordIsVisible
-            ? "Hide password"
-            : "Show password";
-}
-
-
-/* =========================================================
-   15. THEME
-========================================================= */
-
-function updateThemeButton(
-    lightModeEnabled
-) {
-    const themeIcon =
-        themeToggle.querySelector("i");
-
-    const themeText =
-        themeToggle.querySelector("span");
-
-    if (themeIcon) {
-        themeIcon.className =
-            lightModeEnabled
-                ? "fa-regular fa-moon"
-                : "fa-regular fa-sun";
-    }
-
-    if (themeText) {
-        themeText.textContent =
-            lightModeEnabled
-                ? "Dark Mode"
-                : "Light Mode";
-    }
-
-    themeToggle.setAttribute(
-        "aria-label",
-        lightModeEnabled
-            ? "Switch to dark mode"
-            : "Switch to light mode"
-    );
-}
-
-function applySavedTheme() {
-    let savedTheme = null;
-
-    try {
-        savedTheme =
-            localStorage.getItem(
-                "threathawk-password-theme"
-            );
-    } catch (error) {
-        console.warn(
-            "Theme preference could not be read:",
-            error
-        );
-    }
-
-    const lightModeEnabled =
-        savedTheme === "light";
-
-    document.body.classList.toggle(
-        "light-mode",
-        lightModeEnabled
-    );
-
-    updateThemeButton(
-        lightModeEnabled
-    );
-}
-
-
-/* =========================================================
-   16. EVENT LISTENERS
-========================================================= */
-
-passwordInput.addEventListener(
-    "input",
-    analyzePassword
-);
-
-togglePassword.addEventListener(
-    "click",
-    () => {
-        const showPassword =
-            passwordInput.type ===
-            "password";
-
-        passwordInput.type =
-            showPassword
-                ? "text"
-                : "password";
-
-        updateVisibilityButton(
-            showPassword
-        );
-
-        passwordInput.focus();
-    }
-);
-
-copyPassword.addEventListener(
-    "click",
-    async () => {
-        const password =
-            passwordInput.value;
-
-        if (!password) {
-            showToast(
-                "Enter or generate a password first",
-                "fa-circle-exclamation"
-            );
-
-            passwordInput.focus();
-            return;
+        for (let i = 4; i < length; i++) {
+            chars.push(all[array[i] % all.length]);
         }
 
-        try {
-            await copyText(password);
+        // Shuffle using Fisher-Yates with crypto random
+        for (let i = chars.length - 1; i > 0; i--) {
+            const j = array[i] % (i + 1);
+            const temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+        }
 
-            const copyIcon =
-                copyPassword.querySelector(
-                    "i"
-                );
+        return chars.join("");
+    }
 
-            if (copyIcon) {
-                copyIcon.className =
-                    "fa-solid fa-check";
+    // --------------------------------------------------------------------------
+    // 6. UI UPDATE PIPELINE
+    // --------------------------------------------------------------------------
+    function analyzePassword() {
+        const pwd = passwordInput.value;
+        const reqs = evaluateRequirements(pwd);
+        const patterns = detectPatterns(pwd);
+        const score = calculateStrengthScore(pwd, reqs, patterns);
+        const entropy = calculateEntropy(pwd);
+        const crackTimes = estimateCrackTimes(pwd, patterns);
+
+        // Update requirements chips
+        Object.entries(reqs).forEach(([k, passed]) => {
+            const el = requirementElements[k];
+            if (el) {
+                el.className = `requirement-item ${passed ? "valid" : "invalid"}`;
+                el.innerHTML = `
+                    <span class="requirement-icon" aria-hidden="true">
+                        <i class="fa-solid ${passed ? "fa-check" : "fa-xmark"}"></i>
+                    </span>
+                    <span>${REQUIREMENT_LABELS[k]}</span>
+                `;
             }
+        });
 
-            showToast(
-                "Password copied securely"
-            );
+        // Update strength meter ring
+        if (strengthPercent) strengthPercent.textContent = `${score}%`;
+        let label = "Very Weak";
+        let color = "var(--color-error)";
 
-            window.setTimeout(() => {
-                if (copyIcon) {
-                    copyIcon.className =
-                        "fa-regular fa-copy";
+        if (score >= 80) { label = "Very Strong"; color = "var(--color-success-alt)"; }
+        else if (score >= 60) { label = "Strong"; color = "var(--color-link)"; }
+        else if (score >= 40) { label = "Moderate"; color = "#d97706"; }
+        else if (score >= 20) { label = "Weak"; color = "var(--color-warning)"; }
+
+        if (strengthText) {
+            strengthText.textContent = label;
+            strengthText.style.color = color;
+        }
+
+        if (meterBar) {
+            const circumference = 377; // 2 * pi * 60
+            const offset = circumference - (score / 100) * circumference;
+            meterBar.style.strokeDashoffset = offset;
+            meterBar.style.stroke = color;
+        }
+
+        // Update metrics cards
+        if (resultContent) {
+            resultContent.innerHTML = `
+                <div class="analysis-results-grid">
+                    <div class="metric-card">
+                        <span class="metric-title">Entropy</span>
+                        <span class="metric-value">${entropy} <small style="font-size:12px; font-weight:normal;">bits</small></span>
+                        <span class="metric-caption">${entropy >= 60 ? "Cryptographically resilient" : "Low randomness pool"}</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Offline Fast Hash (8x 4090)</span>
+                        <span class="metric-value">${crackTimes.gpuFast}</span>
+                        <span class="metric-caption">MD5 / NTLM fast hash attacks</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Offline Slow Hash</span>
+                        <span class="metric-value">${crackTimes.slowHash}</span>
+                        <span class="metric-caption">Bcrypt / Argon2 hardened derivation</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Online Throttled</span>
+                        <span class="metric-value">${crackTimes.online}</span>
+                        <span class="metric-caption">Rate-limited web login endpoints</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update suggestions
+        if (suggestionsContent) {
+            const list = [];
+            if (!reqs.length) list.push("Increase length to at least 12–16 characters.");
+            if (!reqs.special) list.push("Add symbols such as !@#$%^&* to expand the character search space.");
+            if (!reqs.upper || !reqs.lower) list.push("Combine mixed casing to avoid predictable character clusters.");
+            if (!reqs.number) list.push("Include numbers non-sequentially.");
+            if (patterns.predictableWord) list.push(`Avoid dictionary words like "${patterns.predictableWord}".`);
+            if (patterns.numberSequence) list.push("Remove predictable numeric sequences like 1234 or 8765.");
+            if (patterns.yearPattern) list.push("Avoid using 4-digit birth or calendar years.");
+            if (patterns.repeatedCharacters) list.push("Avoid repeating identical characters consecutively.");
+
+            if (list.length === 0 && pwd.length >= 14) {
+                suggestionsContent.innerHTML = `
+                    <div class="suggestion-item">
+                        <i class="fa-solid fa-circle-check" style="color:var(--color-success-alt); margin-top:2px;" aria-hidden="true"></i>
+                        <span>Excellent credential structure. High entropy and no predictable dictionary sequences detected.</span>
+                    </div>
+                `;
+            } else {
+                suggestionsContent.innerHTML = `
+                    <ul class="suggestions-list">
+                        ${list.map(s => `
+                            <li class="suggestion-item">
+                                <i class="fa-solid fa-triangle-exclamation suggestion-icon" aria-hidden="true"></i>
+                                <span>${s}</span>
+                            </li>
+                        `).join("")}
+                    </ul>
+                `;
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------------
+    // 7. EVENT LISTENERS & INITIALIZATION
+    // --------------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!passwordInput) return;
+
+        passwordInput.addEventListener("input", analyzePassword);
+
+        // Visibility Toggle
+        if (togglePassword) {
+            togglePassword.addEventListener("click", () => {
+                const isPass = passwordInput.type === "password";
+                passwordInput.type = isPass ? "text" : "password";
+                const icon = togglePassword.querySelector("i");
+                if (icon) {
+                    icon.className = isPass ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
                 }
-            }, 1400);
-        } catch (error) {
-            console.error(
-                "Copy failed:",
-                error
-            );
-
-            showToast(
-                "Password could not be copied",
-                "fa-xmark"
-            );
+                togglePassword.setAttribute("aria-label", isPass ? "Hide password" : "Show password");
+            });
         }
-    }
-);
 
-generatePassword.addEventListener(
-    "click",
-    () => {
-        try {
-            passwordInput.value =
-                generateSecurePassword(18);
-
-            passwordInput.type =
-                "text";
-
-            updateVisibilityButton(true);
-            analyzePassword();
-
-            showToast(
-                "Strong password generated",
-                "fa-wand-magic-sparkles"
-            );
-
-            passwordInput.focus();
-            passwordInput.select();
-        } catch (error) {
-            console.error(
-                "Password generation failed:",
-                error
-            );
-
-            showToast(
-                "Password generation failed",
-                "fa-xmark"
-            );
+        // Copy Password
+        if (copyPassword) {
+            copyPassword.addEventListener("click", async () => {
+                if (!passwordInput.value) {
+                    if (window.ThreatHawk) window.ThreatHawk.toast("No password to copy", "fa-triangle-exclamation");
+                    return;
+                }
+                if (window.ThreatHawk) {
+                    await window.ThreatHawk.copyToClipboard(passwordInput.value, "Password copied securely");
+                }
+            });
         }
-    }
-);
 
-themeToggle.addEventListener(
-    "click",
-    () => {
-        const lightModeEnabled =
-            !document.body.classList.contains(
-                "light-mode"
-            );
-
-        document.body.classList.toggle(
-            "light-mode",
-            lightModeEnabled
-        );
-
-        updateThemeButton(
-            lightModeEnabled
-        );
-
-        try {
-            localStorage.setItem(
-                "threathawk-password-theme",
-                lightModeEnabled
-                    ? "light"
-                    : "dark"
-            );
-        } catch (error) {
-            console.warn(
-                "Theme preference could not be saved:",
-                error
-            );
+        // Generate Password
+        if (generatePassword) {
+            generatePassword.addEventListener("click", () => {
+                passwordInput.value = generateSecurePassword(selectedGeneratorLength);
+                passwordInput.type = "text";
+                if (togglePassword) {
+                    const icon = togglePassword.querySelector("i");
+                    if (icon) icon.className = "fa-regular fa-eye-slash";
+                }
+                analyzePassword();
+                if (window.ThreatHawk) {
+                    window.ThreatHawk.toast(`Generated ${selectedGeneratorLength}-character secure password`, "fa-wand-magic-sparkles");
+                }
+            });
         }
-    }
-);
 
-window.addEventListener(
-    "resize",
-    () => {
-        updateStrengthMeter(
-            currentScore
-        );
-    }
-);
+        // Length Pills
+        document.querySelectorAll(".length-pill-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".length-pill-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                selectedGeneratorLength = parseInt(btn.dataset.len, 10) || 18;
+                passwordInput.value = generateSecurePassword(selectedGeneratorLength);
+                analyzePassword();
+            });
+        });
 
-
-/* =========================================================
-   17. INITIALIZATION
-========================================================= */
-
-function initializePasswordIntelligence() {
-    applySavedTheme();
-    updateVisibilityButton(false);
-    resetAnalysis();
-    passwordInput.focus();
-}
-
-initializePasswordIntelligence();
-
-const knowledgeData = {
-
-    aboutPopup: {
-        title: "About Password Intelligence",
-        content: `
-            <p>
-                Password Intelligence helps you evaluate password strength using modern security principles.
-                Analysis is performed locally in your browser, meaning your password never leaves your device.
-            </p>
-
-            <p>
-                The tool measures password complexity, entropy, predictable patterns, and estimated resistance
-                against offline attacks to help you create stronger credentials.
-            </p>
-        `
-    },
-
-    featuresPopup: {
-        title: "Key Features",
-        content: `
-            <ul>
-                <li>Real-time password strength analysis</li>
-                <li>Entropy calculation</li>
-                <li>Offline crack-time estimation</li>
-                <li>Weak pattern detection</li>
-                <li>Secure password generator</li>
-                <li>100% local browser processing</li>
-            </ul>
-        `
-    },
-
-    workflowPopup: {
-        title: "How Password Analysis Works",
-        content: `
-            <ol>
-                <li>Enter your password.</li>
-                <li>The analyzer evaluates its strength.</li>
-                <li>Entropy and crack time are estimated.</li>
-                <li>Security recommendations are generated instantly.</li>
-            </ol>
-        `
-    }
-
-};
-
-const overlay = document.getElementById("knowledgeOverlay");
-const popupTitle = document.getElementById("popupTitle");
-const popupContent = document.getElementById("popupContent");
-const popupClose = document.getElementById("popupClose");
-
-document.querySelectorAll(".info-button").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const data = knowledgeData[button.dataset.popup];
-
-        popupTitle.innerHTML = data.title;
-        popupContent.innerHTML = data.content;
-
-        overlay.classList.add("active");
-
+        // Initialize state
+        analyzePassword();
     });
-
-});
-
-popupClose.addEventListener("click", () => {
-
-    overlay.classList.remove("active");
-
-});
-
-overlay.addEventListener("click", (e) => {
-
-    if (e.target === overlay) {
-
-        overlay.classList.remove("active");
-
-    }
-
-});
-
-/* ==========================================================
-   ThreatHawk Navigation Dropdown
-========================================================== */
-
-const navDropdown = document.querySelector(".nav-dropdown");
-const dropdownToggle = document.querySelector(".dropdown-toggle");
-
-if (navDropdown && dropdownToggle) {
-
-    dropdownToggle.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        const isOpen = navDropdown.classList.toggle("active");
-
-        dropdownToggle.setAttribute(
-            "aria-expanded",
-            isOpen
-        );
-    });
-
-    document.addEventListener("click", (event) => {
-        if (!navDropdown.contains(event.target)) {
-
-            navDropdown.classList.remove("active");
-
-            dropdownToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-        }
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-
-            navDropdown.classList.remove("active");
-
-            dropdownToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-        }
-    });
-
-}
+})();
