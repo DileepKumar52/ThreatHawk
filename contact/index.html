@@ -122,144 +122,93 @@
     <!-- Navigation -->
     <!-- ===================== -->
 
-    <header class="navbar">
+        <!-- Top Navigation -->
+    <header class="th-navbar">
+        <div class="th-navbar-inner">
+            <a href="../" class="th-brand" aria-label="ThreatHawk Home">
+                <span class="th-brand-logo">TH</span>
+                <span>ThreatHawk</span>
+                <span class="th-brand-tag">v1.0</span>
+            </a>
 
-        <a href="../" class="logo" aria-label="ThreatHawk Home">
-            <h2>ThreatHawk</h2>
-        </a>
+            <nav aria-label="Main Navigation">
+                <ul class="th-nav-links">
+                    <li><a href="../" class="th-nav-link">Home</a></li>
+                    <li class="th-dropdown">
+                        <button class="th-dropdown-toggle" type="button" aria-expanded="false" aria-controls="modulesDropdown">
+                            <span>Modules</span>
+                            <svg class="th-dropdown-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <ul class="th-dropdown-menu" id="modulesDropdown" aria-label="ThreatHawk modules">
+                            <li>
+                                <a href="../tools/password-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span>
+                                    <span>Password Intelligence</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../tools/url-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span>
+                                    <span>URL Analyzer</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../tools/hash-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-fingerprint" aria-hidden="true"></i></span>
+                                    <span>Hash Analyzer</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../tools/log-analyzer/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i></span>
+                                    <span>Log Analysis</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../tools/encoder-decoder/" class="th-dropdown-item">
+                                    <span class="th-dropdown-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></span>
+                                    <span>Encoder &amp; Decoder</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="../guides/" class="th-nav-link">Guides</a></li>
+                    <li><a href="../about/" class="th-nav-link">About</a></li>
+                    <li><a href="./" class="th-nav-link active" aria-current="page">Contact</a></li>
+                    <li><a href="../#faq" class="th-nav-link">FAQ</a></li>
+                </ul>
+            </nav>
 
-        <nav>
-
-            <ul>
-
-                <li><a href="../">Home</a></li>
-
-                <li class="nav-dropdown">
-                    <button
-                        class="dropdown-toggle"
-                        type="button"
-                        aria-expanded="false"
-                        aria-controls="modulesDropdown"
-                    >
-                        <span>Modules</span>
-
-                        <svg
-                            class="dropdown-arrow"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path d="m6 9 6 6 6-6"></path>
-                        </svg>
-                    </button>
-
-                    <ul
-                        class="dropdown-menu"
-                        id="modulesDropdown"
-                        aria-label="ThreatHawk modules"
-                    >
-                        <li>
-                            <a href="../tools/password-analyzer/">
-                                <span class="dropdown-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <rect x="4" y="10" width="16" height="10" rx="2"></rect>
-                                        <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-                                        <path d="M12 14v2"></path>
-                                    </svg>
-                                </span>
-
-                                <span>Password Intelligence</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="../tools/url-analyzer/">
-                                <span class="dropdown-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="9"></circle>
-                                        <path d="M3 12h18"></path>
-                                        <path d="M12 3a14 14 0 0 1 0 18"></path>
-                                        <path d="M12 3a14 14 0 0 0 0 18"></path>
-                                    </svg>
-                                </span>
-
-                                <span>URL Analyzer</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="../tools/hash-analyzer/">
-                                <span class="dropdown-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M10 3 8 21"></path>
-                                        <path d="m16 3-2 18"></path>
-                                        <path d="M4 9h16"></path>
-                                        <path d="M3 15h16"></path>
-                                    </svg>
-                                </span>
-
-                                <span>Hash Analyzer</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="../tools/log-analyzer/">
-                                <span class="dropdown-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M6 3h9l3 3v15H6z"></path>
-                                        <path d="M14 3v4h4"></path>
-                                        <path d="M9 12h6"></path>
-                                        <path d="M9 16h6"></path>
-                                    </svg>
-                                </span>
-
-                                <span>Log Analysis</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="../tools/encoder-decoder/">
-                                <span class="dropdown-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="m8 9-4 3 4 3"></path>
-                                        <path d="m16 9 4 3-4 3"></path>
-                                        <path d="m14 5-4 14"></path>
-                                    </svg>
-                                </span>
-
-                                <span>Encoder &amp; Decoder</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li><a href="../guides/">Guides</a></li>
-
-                <li><a href="../about/">About</a></li>
-
-                <li>
-                    <a
-                        href="./"
-                        class="active"
-                        aria-current="page"
-                    >
-                        Contact
-                    </a>
-                </li>
-
-                <li><a href="../#faq">FAQ</a></li>
-
-            </ul>
-
-        </nav>
-
-        <div class="nav-actions">
-            <button type="button" class="th-theme-btn" id="themeToggle" aria-label="Switch theme">
-                <i class="fa-solid fa-moon" aria-hidden="true"></i>
-            </button>
-            <span class="version">v1.0</span>
+            <div class="th-nav-actions">
+                <button type="button" class="th-theme-btn" id="themeToggle" aria-label="Switch theme">
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                </button>
+                <a href="https://github.com/DileepKumar52/ThreatHawk" target="_blank" rel="noopener noreferrer" class="btn-app-ghost" aria-label="GitHub Repository">
+                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
+                </a>
+                <button type="button" class="th-mobile-toggle" aria-label="Open mobile menu">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
-
     </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="th-mobile-drawer" id="mobileDrawer">
+        <a href="../" class="th-nav-link">Home</a>
+        <a href="../tools/password-analyzer/" class="th-nav-link">Password Intelligence</a>
+        <a href="../tools/url-analyzer/" class="th-nav-link">URL Analyzer</a>
+        <a href="../tools/hash-analyzer/" class="th-nav-link">Hash Analyzer</a>
+        <a href="../tools/log-analyzer/" class="th-nav-link">Log Analysis</a>
+        <a href="../tools/encoder-decoder/" class="th-nav-link">Encoder &amp; Decoder</a>
+        <a href="../guides/" class="th-nav-link">Guides</a>
+        <a href="../about/" class="th-nav-link">About</a>
+        <a href="./" class="th-nav-link active">Contact</a>
+        <a href="../#faq" class="th-nav-link">FAQ</a>
+    </div>
 
     <main id="main-content">
 
@@ -568,8 +517,6 @@
         </p>
 
     </footer>
-
-    <script src="../js/app.js" defer></script>
 
     <!-- Load analytics after the visible page has finished loading -->
     <script>

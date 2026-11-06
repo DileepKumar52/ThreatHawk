@@ -30,27 +30,15 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 const navbar = document.querySelector(".navbar");
 
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 40) {
-
-        navbar.style.boxShadow =
-            "0 12px 30px rgba(0,0,0,.35)";
-
-        navbar.style.borderBottom =
-            "1px solid rgba(255,255,255,.08)";
-
-    }
-
-    else {
-
-        navbar.style.boxShadow = "none";
-
-        navbar.style.borderBottom =
-            "1px solid rgba(255,255,255,.07)";
-    }
-
-});
+if (navbar) {
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 40) {
+            navbar.classList.add("navbar-scrolled");
+        } else {
+            navbar.classList.remove("navbar-scrolled");
+        }
+    });
+}
 
 
 /* ==========================
@@ -216,103 +204,4 @@ document.querySelectorAll(
 
 });
 
-/* ==========================
-   Modules Dropdown
-========================== */
-
-const modulesDropdown =
-    document.querySelector(".nav-dropdown");
-
-const modulesDropdownToggle =
-    document.querySelector(".dropdown-toggle");
-
-function openModulesDropdown() {
-    if (
-        !modulesDropdown ||
-        !modulesDropdownToggle
-    ) {
-        return;
-    }
-
-    modulesDropdown.classList.add("active");
-
-    modulesDropdownToggle.setAttribute(
-        "aria-expanded",
-        "true"
-    );
-}
-
-function closeModulesDropdown() {
-    if (
-        !modulesDropdown ||
-        !modulesDropdownToggle
-    ) {
-        return;
-    }
-
-    modulesDropdown.classList.remove("active");
-
-    modulesDropdownToggle.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-}
-
-function toggleModulesDropdown() {
-    if (!modulesDropdown) {
-        return;
-    }
-
-    const isOpen =
-        modulesDropdown.classList.contains("active");
-
-    if (isOpen) {
-        closeModulesDropdown();
-    } else {
-        openModulesDropdown();
-    }
-}
-
-if (
-    modulesDropdown &&
-    modulesDropdownToggle
-) {
-    modulesDropdownToggle.addEventListener(
-        "click",
-        event => {
-            event.stopPropagation();
-            toggleModulesDropdown();
-        }
-    );
-
-    modulesDropdown.addEventListener(
-        "click",
-        event => {
-            event.stopPropagation();
-        }
-    );
-
-    document.addEventListener(
-        "click",
-        closeModulesDropdown
-    );
-
-    document.addEventListener(
-        "keydown",
-        event => {
-            if (event.key === "Escape") {
-                closeModulesDropdown();
-
-                modulesDropdownToggle.focus();
-            }
-        }
-    );
-
-    window.addEventListener(
-        "scroll",
-        closeModulesDropdown,
-        {
-            passive: true
-        }
-    );
-}
+/* Modules Dropdown & Navigation: Managed globally by js/core.js */
