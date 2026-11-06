@@ -1,2 +1,92 @@
-<?xml version='1.0' encoding='utf-8'?>
-<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" width="512" height="512" viewBox="20 0 472 512"><ns0:path fill="#15803D" d="M242.9 20.46c6.7 19.75 19.7 41.39 4 50.44-38.6 22.04-81.4 41.5-106.2 90.7C103.3 235.7 91.69 412 29.81 451c48.6 3.8 89.69-16.3 108.89-44.2 7.1 34.3 32.6 67 63 84.7-5.2-29-1.8-59.4 19-92.5 16.5 22.9 31.1 59.3 73.8 75.3-16.4-27.5-13.7-52.8-10.7-84.2 8.8 26.9 38.5 50 72.9 58.9-16.8-18.6-23.9-45.5-21-66 14.6 24.9 43.4 38.4 67.1 39.7-153.3-179.6-48.7-291.6 79.4-194.4-.5-49.7-31.4-66.7-67.2-95.7-.9-15.4-9.6-29.3-17.5-43.36-53.7-9.99-121.5-42.01-154.6-68.78zm81.2 74.88c26.1 10.86 46.2 22.56 56.4 35.46-16.6-3.6-39.8-3.5-70-1.1 15-9.7 16.5-21.7 13.6-34.36z" /></ns0:svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="th-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#03060b" />
+    </linearGradient>
+
+    <!-- Border Ring Gradient -->
+    <linearGradient id="th-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#0070f3" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#1e293b" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Radial Cyber Threat Glow -->
+    <radialGradient id="th-glow" cx="50%" cy="45%" r="48%">
+      <stop offset="0%" stop-color="#0070f3" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#00dfd8" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#0070f3" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Primary Wing Gradient (Left) -->
+    <linearGradient id="th-wing-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0070f3" />
+      <stop offset="100%" stop-color="#0751b3" />
+    </linearGradient>
+
+    <!-- Primary Wing Gradient (Right) -->
+    <linearGradient id="th-wing-right" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="50%" stop-color="#0070f3" />
+      <stop offset="100%" stop-color="#033d8c" />
+    </linearGradient>
+
+    <!-- Beak & Crown Crisp Silver/White -->
+    <linearGradient id="th-beak" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+
+    <!-- Core Cyan Accent -->
+    <linearGradient id="th-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00dfd8" />
+      <stop offset="100%" stop-color="#0070f3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#th-bg)" />
+  <rect x="2" y="2" width="508" height="508" rx="110" fill="none" stroke="url(#th-border)" stroke-width="4" />
+
+  <!-- Background Ambience -->
+  <circle cx="256" cy="245" r="170" fill="url(#th-glow)" />
+
+  <!-- Shield & Hawk Graphics -->
+  <g id="threatHawkEmblem">
+    <!-- Outer Wing Blades (Upper Left & Right) -->
+    <path d="M256 128 L170 88 L104 168 L176 220 L234 186 Z" fill="url(#th-wing-left)" opacity="0.95" />
+    <path d="M256 128 L342 88 L408 168 L336 220 L278 186 Z" fill="url(#th-wing-right)" opacity="0.95" />
+
+    <!-- Mid Wing Blades (Armor Segments) -->
+    <path d="M172 228 L84 190 L108 284 L204 298 Z" fill="url(#th-wing-left)" />
+    <path d="M340 228 L428 190 L404 284 L308 298 Z" fill="url(#th-wing-right)" />
+
+    <!-- Lower Wing / Shield Taper Blades -->
+    <path d="M198 306 L124 294 L160 380 L238 376 Z" fill="url(#th-wing-left)" opacity="0.88" />
+    <path d="M314 306 L388 294 L352 380 L274 376 Z" fill="url(#th-wing-right)" opacity="0.88" />
+
+    <!-- Lower Shield Apex Point -->
+    <path d="M256 448 L198 376 L256 398 L314 376 Z" fill="url(#th-cyan)" />
+
+    <!-- Inner Core Telemetry Chevron -->
+    <path d="M256 272 L212 344 L256 372 L300 344 Z" fill="url(#th-cyan)" />
+
+    <!-- Hawk Head Crest (Crisp White #ffffff) -->
+    <path d="M256 100 L236 142 L256 156 L276 142 Z" fill="#ffffff" />
+    
+    <!-- Hawk Brow & Eye Sockets -->
+    <path d="M256 156 L216 168 L236 196 L256 182 L276 196 L296 168 Z" fill="#e2e8f0" />
+
+    <!-- Glowing Cyber Eyes (Dual Vigilant Angled Slits) -->
+    <polygon points="214,174 240,183 234,191 210,183" fill="#00dfd8" />
+    <polygon points="298,174 272,183 278,191 302,183" fill="#00dfd8" />
+
+    <!-- Sharp Predatory Beak (White to Silver Centerpiece) -->
+    <path d="M256 182 L234 216 L256 268 L278 216 Z" fill="url(#th-beak)" />
+    <path d="M256 182 L256 268 L234 216 Z" fill="#000000" opacity="0.12" />
+  </g>
+</svg>
