@@ -14,8 +14,8 @@
     --color-body: #4d4d4d;
     --color-mute: #8f8f8f;
     --color-faint: #a1a1a1;
-    --color-hairline: #ebebeb;
-    --color-hairline-soft: #f2f2f2;
+    --color-hairline: #d4d4d4;
+    --color-hairline-soft: #e5e5e5;
     --color-canvas: #fafafa;
     --color-canvas-elevated: #ffffff;
 
@@ -174,6 +174,40 @@ body.dark-mode {
     --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.4);
     --shadow-floating: 0px 4px 12px rgba(0, 0, 0, 0.5), 0px 0px 0px 1px var(--color-hairline);
     --shadow-dropdown: 0px 8px 24px rgba(0, 0, 0, 0.6), 0px 0px 0px 1px var(--color-hairline);
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT THEME FOUNDATION (Explicit activation via data-theme="light")
+   -------------------------------------------------------------------------- */
+[data-theme="light"],
+body.light-mode {
+    --color-primary: #171717;
+    --color-on-primary: #ffffff;
+    --color-ink: #171717;
+    --color-body: #4d4d4d;
+    --color-mute: #8f8f8f;
+    --color-faint: #a1a1a1;
+    --color-hairline: #d4d4d4;
+    --color-hairline-soft: #e5e5e5;
+    --color-canvas: #fafafa;
+    --color-canvas-elevated: #ffffff;
+
+    --color-link: #0070f3;
+    --color-link-deep: #0761d1;
+    --color-link-soft: #d3e5ff;
+    --color-error: #ee0000;
+    --color-error-deep: #c50000;
+    --color-error-soft: #fde8e8;
+    --color-warning: #f5a623;
+    --color-warning-deep: #ab570a;
+    --color-warning-soft: #ffefcf;
+    --color-success: #0070f3;
+    --color-success-alt: #00875a;
+    --color-success-soft: #e3fcef;
+
+    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.04);
+    --shadow-floating: 0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
+    --shadow-dropdown: 0px 4px 12px rgba(0, 0, 0, 0.08), 0px 0px 0px 1px var(--color-hairline);
 }
 
 /* --------------------------------------------------------------------------
